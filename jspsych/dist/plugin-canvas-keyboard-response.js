@@ -81,6 +81,7 @@ var jsPsychCanvasKeyboardResponse = (function (jspsych) {
           var response = {
               rt: null,
               key: null,
+              nodesOrdering: null
           };
           // function to end trial when it is time
           const end_trial = () => {
@@ -90,10 +91,14 @@ var jsPsychCanvasKeyboardResponse = (function (jspsych) {
               if (typeof keyboardListener !== "undefined") {
                   this.jsPsych.pluginAPI.cancelKeyboardResponse(keyboardListener);
               }
+              // MODIFIED MANUALLY (adding the current ordering to the trial)
+              // console.log(this.jsPsych.data.presentedOrder) //correctly accesses the current ordering
+              let currentTrialOrder = this.jsPsych.data.presentedOrder.slice()
               // gather the data to store for the trial
               var trial_data = {
                   rt: response.rt,
                   response: response.key,
+                  nodesOrdering: currentTrialOrder //array that stores the ordering of the data for the current trial
               };
               // clear the display
               display_element.innerHTML = "";

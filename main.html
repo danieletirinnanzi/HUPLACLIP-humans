@@ -2,8 +2,15 @@
 <html>
   <head>
     <title>New version of HUPLACLIP</title>
+    <!-- 
+    RISISTEMA
+    <script src="graphs_generation.js"></script>
+    <script src="experiment_parameters.js"></script>
+    <script src="drawing_stimuli.js"></script>
+    -->
+    <script src="jspsych/dist/jspsych.js"></script>    
     <script src="jspsych/dist/jspsych.js"></script>
-    <script src="jspsych/dist/plugin-canvas-button-response.js"></script>
+    <script src="jspsych/dist/plugin-canvas-button-response.js"></script> <!-- REMOVE? -->
     <script src="jspsych/dist/plugin-canvas-keyboard-response.js"></script>
     <link href="jspsych/dist/jspsych.css" rel="stylesheet" type="text/css" />
   </head>
@@ -21,309 +28,318 @@
         /* create timeline */
         var timeline = [];
 
-        /*TO ADD: INSTRUCTIONS (with "plugin-instructions.js" or "plugin-html-keyboard-response.js"), recover from ethics committee file */
+        /*TO ADD: 
+        INSTRUCTIONS (with "plugin-instructions.js" or "plugin-html-keyboard-response.js"), recover from ethics committee file */
 
-        // defining canvas dimensions (positioning is defined in the CSS):
-        let canvasHeight = window.innerHeight  //height is the one that regulates the size of the stimuli, width is computed to leave space between the right and the left stimulus
-        let canvasWidth = canvasHeight + 2*(canvasHeight/30)
+        /* GRAPHS GENERATION: */
+            // FUNCTION THAT DEFINES THE CLIQUE SIZE FOR ALL THE TRIALS THAT WILL BE PRESENTED (implementation of "linspace", but stored in reverse order)
+            function createArrayOfCliqueSizes(initialCliqueSize, numberOfTrials) {
+                /* INPUT:
+                - initial clique size (maximum value of the clique, the next values will be lower)
+                - number of trials for the experiment
 
-        // CREATING OBJECT FOR CURRENT EXPERIMENT:
-        const currentExperiment = {
-            // parameters for experiment:
-            numberOfTrials: 22, // number of trials for each experiment (singe trial = single couple of triangular matrices, presented once and reordered through space bar presses)
-            numberOfRandomizations: 3, // maximum number of randomizations allowed for a single couple of matrices 
-            canvasDimensions: [canvasHeight,canvasWidth], // [height,width]
-            // parameters for graphs:
-            numberOfNodes: 200,
-            initialCliqueSize: 100,  // this is the maximum dimension of the clique, it will decrease throughout the experiment, increasing the difficulty of the task                       
-            probabilityOfAssociation: 0.5
-        }
-
-
-        // FUNCTION THAT DEFINES THE CLIQUE SIZE FOR ALL THE TRIALS THAT WILL BE PRESENTED (implementation of "linspace", but stored in reverse order)
-        function createArrayOfCliqueSizes(initialCliqueSize, numberOfTrials) {
-            /* INPUT:
-            - initial clique size (maximum value of the clique, the next values will be lower)
-            - number of trials for the experiment
-
-            OUTPUT:
-            - array where the dimension of the clique for each one of the trials is stored in the order of presentation
-            */            
-            let cliqueSizeArray = [];
-            let step = initialCliqueSize / (numberOfTrials);
-            for (let i = 0; i < numberOfTrials; i++) {
-                cliqueSizeArray.push(Math.round(initialCliqueSize - (step * i)));
-            }
-            return cliqueSizeArray;
-        }
-
-        //creating array that contains the indices of all the nodes of the graph in the standard order
-        let standardOrderArray = new Array();
-        for (let index = 0; index < currentExperiment.numberOfNodes; index++) {
-            standardOrderArray.push(index)
-        }
-        // adding this array as a property to the "currentExperiment" object
-        currentExperiment.standardOrderOfNodes = standardOrderArray
-
-        // creating array that contains the clique sizes and adding it as a property to "currentExperiment" object
-        currentExperiment.arrayOfCliqueSizes = createArrayOfCliqueSizes(currentExperiment.initialCliqueSize,currentExperiment.numberOfTrials)
-
-
-        // FUNCTION THAT ASSOCIATES THE NODES THAT WILL BE PART OF THE CLIQUE (adapted from: https://stackoverflow.com/questions/19269545/how-to-get-a-number-of-random-elements-from-an-array)
-        function createClique(nodesArray, singleCliqueSize) {
-            /* INPUT:
-            - array that contains all the nodes in the graph
-            - size of the clique
-
-            OUTPUT:
-            - array of nodes that will be part of the clique
-            */
-            let result = new Array(singleCliqueSize),
-            len = nodesArray.length,
-            taken = new Array(len);
-            while (singleCliqueSize--) {
-                let x = Math.floor(Math.random() * len);
-                result[singleCliqueSize] = nodesArray[x in taken ? taken[x] : x];
-                taken[x] = --len in taken ? taken[len] : len;
-            }
-            return result;
-        }
-
-        
-        // FUNCTION THAT GENERATES A SINGLE PERMUTATION OF THE NODES GIVEN AS INPUT (RIVEDI E RINOMINA LE VARIABILI) (adapted from: https://stackoverflow.com/questions/9960908/permutations-in-javascript)
-        // RIVEDI E ADATTA PRIMA DI INTEGRARES
-        function permuteNodes(input) {
-        let i, ch;
-        for (i = 0; i < input.length; i++) {
-            ch = input.splice(i, 1)[0];
-            usedChars.push(ch);
-            if (input.length == 0) {
-            permArr.push(usedChars.slice());
-            }
-            permute(input);
-            input.splice(i, 0, ch);
-            usedChars.pop();
-        }
-        return permArr
-        };
-
-
-        //FUNCTION THAT GENERATES ALL THE COUPLES OF GRAPHS (one with clique, one without) THAT WILL BE DISPLAYED
-        function generateGraphs() {            
-            /* INPUT: none ("currentExperiment" is global and can be accessed from inside functions)
-
-            OUTPUT:
-            - array of all the couples of triangular matrices that will be displayed in the experiment (NB: triangular matrices are represented as objects)
-            */
-
-            /* Visual representation of a single triangular matrix object (example: N=5. NB: number of nodes start from zero):
-            0|    -
-            1|   1 -
-            2|   0 1 -
-            3|   1 0 0 -
-            4|   0 0 1 0 -
-                ___________
-                 0 1 2 3 4  
-
-                Corresponding object:
-                { 
-                  1: [1],
-                  2: [0 1],
-                  3: [1 0 0],
-                  4: [0 0 1 0]
+                OUTPUT:
+                - array where the dimension of the clique for each one of the trials is stored in the order of presentation
+                */            
+                let cliqueSizeArray = [];
+                let step = initialCliqueSize / (numberOfTrials);
+                for (let i = 0; i < numberOfTrials; i++) {
+                    cliqueSizeArray.push(Math.round(initialCliqueSize - (step * i)));
                 }
-            */
+                return cliqueSizeArray;
+            }
 
-            // empty array that will contain the couples of triangular matrices (objects) to be displayed
-            let couplesOfGraphsToDisplay = [];
-            for (let index = 0; index < currentExperiment.numberOfTrials; index++) {
-                // for each trail, generate a couple of graphs, one with clique and one without, stored in an array:
-                let singleCoupleOfGraphs = []
 
-                // 1. Generating graph with clique:
-                //empty object (the properties will be the nodes and the values will be the arrays that indicate the existing connections)
-                let graphWithClique = {};
-                // randomly extracting the nodes that will be part of the clique
-                let cliqueArray = [];
-                cliqueArray = createClique(currentExperiment.standardOrderOfNodes,currentExperiment.arrayOfCliqueSizes[index])       
-                // defining the values of the triangular adjacency matrix:
-                for (let rowIndex = 1; rowIndex < currentExperiment.numberOfNodes; rowIndex++) {
-                    //instantiating empty array that will contain the connections for the current row
-                    let currentRowAssociations = [];
-                    for (let columnIndex = 0; columnIndex < rowIndex; columnIndex++) {  
-                        if (cliqueArray.includes(rowIndex) && cliqueArray.includes(columnIndex)) {
-                            //if current two nodes are part of the clique, inserting 1 in the matrix:
-                            currentRowAssociations.push(1)
+            // FUNCTION THAT ASSOCIATES THE NODES THAT WILL BE PART OF THE CLIQUE (adapted from: https://stackoverflow.com/questions/19269545/how-to-get-a-number-of-random-elements-from-an-array)
+            function createClique(nodesArray, singleCliqueSize) {
+                /* INPUT:
+                - array that contains all the nodes in the graph
+                - size of the clique
+
+                OUTPUT:
+                - array of nodes that will be part of the clique
+                */
+                // RIVEDI E CAPISCI UN PO' MEGLIO / RISCRIVI?
+                let result = new Array(singleCliqueSize),
+                len = nodesArray.length,
+                taken = new Array(len);
+                while (singleCliqueSize--) {
+                    let x = Math.floor(Math.random() * len);
+                    result[singleCliqueSize] = nodesArray[x in taken ? taken[x] : x];
+                    taken[x] = --len in taken ? taken[len] : len;
+                }
+                return result;
+            }
+
+
+            // FUNCTION THAT SHUFFLES THE NODES OF THE ARRAY, PASSED IN STANDARD ORDER (from: https://javascript.info/task/shuffle.  Fisher-Yates shuffle (walk the array in the reverse order and swap each element with a random one before it )
+            function shuffleNodes(nodesArray) {
+                /* INPUT:
+                - array that contains all the nodes in the graph
+
+                OUTPUT:
+                - array that contains the nodes but shuffled
+                */        
+                let shuffledArray = nodesArray
+                    for (let i = nodesArray.length - 1; i > 0; i--) {
+                        let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+                        [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];  // same can be written as: let t = nodesArray[i]; nodesArray[i] = nodesArray[j]; nodesArray[j] = t
+                    }
+                    return shuffledArray
+                };
+
+
+            //FUNCTION THAT GENERATES ALL THE COUPLES OF GRAPHS (one with clique, one without) THAT WILL BE DISPLAYED
+            function generateGraphs() {            
+                /* INPUT: none ("currentExperiment" is global and can be accessed from inside functions)
+
+                OUTPUT:
+                - array of all the couples of triangular matrices that will be displayed in the experiment (NB: triangular matrices are represented as objects)
+                */
+
+                /* Visual representation of a single triangular matrix object (example: N=5. NB: number of nodes start from zero):
+                0|    -
+                1|   1 -
+                2|   0 1 -
+                3|   1 0 0 -
+                4|   0 0 1 0 -
+                    ___________
+                        0 1 2 3 4  
+
+                    Corresponding object:
+                    { 
+                        1: [1],
+                        2: [0 1],
+                        3: [1 0 0],
+                        4: [0 0 1 0]
+                    }
+                */
+
+                // empty array that will contain the couples of triangular matrices (objects) to be displayed
+                let couplesOfGraphsToDisplay = [];
+                for (let index = 0; index < currentExperiment.numberOfTrials; index++) {
+                    // for each trail, generate a couple of graphs, one with clique and one without, stored in an array:
+                    let singleCoupleOfGraphs = []
+
+                    // 1. Generating graph with clique:
+                    //empty object (the properties will be the nodes and the values will be the arrays that indicate the existing connections)
+                    let graphWithClique = {};
+                    // randomly extracting the nodes that will be part of the clique
+                    let cliqueArray = [];
+                    cliqueArray = createClique(currentExperiment.standardOrderOfNodes,currentExperiment.arrayOfCliqueSizes[index])       
+                    // defining the values of the triangular adjacency matrix:
+                    for (let rowIndex = 1; rowIndex < currentExperiment.numberOfNodes; rowIndex++) {
+                        //instantiating empty array that will contain the connections for the current row
+                        let currentRowAssociations = [];
+                        for (let columnIndex = 0; columnIndex < rowIndex; columnIndex++) {  
+                            if (cliqueArray.includes(rowIndex) && cliqueArray.includes(columnIndex)) {
+                                //if current two nodes are part of the clique, inserting 1 in the matrix:
+                                currentRowAssociations.push(1)
+                                }
+                            //if the current two nodes are not part of the clique, associating them with probability indicated in "currentExperiment.probabilityOfAssociation"
+                            else {
+                                let randomValue = Math.random();
+                                if(randomValue < currentExperiment.probabilityOfAssociation){
+                                    currentRowAssociations.push(1);
+                                } else {
+                                    currentRowAssociations.push(0);
+                                }
                             }
-                        //if the current two nodes are not part of the clique, associating them with probability indicated in "currentExperiment.probabilityOfAssociation"
-                        else {
+                        } 
+                    //adding to the matrix an indication about the presence of the clique:
+                    graphWithClique[currentExperiment.numberOfNodes] = "clique array for current stimulus is: " + cliqueArray                
+                    //adding to the object the property (the connections of the current node in the triangular matrix)
+                    graphWithClique[rowIndex] = currentRowAssociations;
+                    }
+
+                    // 2. Generating graph without clique:
+                    //empty object (the properties will be the nodes and the values will be the arrays that indicate the existing connections)
+                    let graphWithoutClique = {};     
+                    // defining the values of the triangular adjacency matrix:
+                    for (let rowIndex = 1; rowIndex < currentExperiment.numberOfNodes; rowIndex++) {
+                        //instantiating empty array that will contain the connections for the current row
+                        let currentRowAssociations = [];
+                        for (let columnIndex = 0; columnIndex < rowIndex; columnIndex++) {  
                             let randomValue = Math.random();
                             if(randomValue < currentExperiment.probabilityOfAssociation){
+                                // !! TO DO HERE: MATCHING THE DEGREE DISTRIBUTION OF THE GRAPH WITH THE CLIQUE??
                                 currentRowAssociations.push(1);
                             } else {
                                 currentRowAssociations.push(0);
                             }
                         }
+                    // adding to the matrix an indication about the absence of the clique:
+                    graphWithoutClique[currentExperiment.numberOfNodes] = "clique is absent"
+                    //adding to the object the property (the connections of the current node in the triangular matrix)
+                    graphWithoutClique[rowIndex] = currentRowAssociations;               
                     } 
-                //adding to the matrix an indication about the presence of the clique:
-                graphWithClique[currentExperiment.numberOfNodes] = "clique array for current stimulus is: " + cliqueArray                
-                //adding to the object the property (the connections of the current node in the triangular matrix)
-                graphWithClique[rowIndex] = currentRowAssociations;
-                }
 
-                // 2. Generating graph without clique:
-                //empty object (the properties will be the nodes and the values will be the arrays that indicate the existing connections)
-                let graphWithoutClique = {};     
-                // defining the values of the triangular adjacency matrix:
-                for (let rowIndex = 1; rowIndex < currentExperiment.numberOfNodes; rowIndex++) {
-                    //instantiating empty array that will contain the connections for the current row
-                    let currentRowAssociations = [];
-                    for (let columnIndex = 0; columnIndex < rowIndex; columnIndex++) {  
-                        let randomValue = Math.random();
-                        if(randomValue < currentExperiment.probabilityOfAssociation){
-                            // !! TO DO HERE: MATCHING THE DEGREE DISTRIBUTION OF THE GRAPH WITH THE CLIQUE??
-                            currentRowAssociations.push(1);
-                        } else {
-                            currentRowAssociations.push(0);
-                        }
-                    }
-                // adding to the matrix an indication about the absence of the clique:
-                graphWithoutClique[currentExperiment.numberOfNodes] = "clique is absent"
-                //adding to the object the property (the connections of the current node in the triangular matrix)
-                graphWithoutClique[rowIndex] = currentRowAssociations;               
-                } 
+                    // Adding the two graphs to the array for the current trial (random choice of which one is the first in the couple)
+                    if (Math.round(Math.random())) {
+                        couplesOfGraphsToDisplay.push( [ graphWithClique, graphWithoutClique ] )
+                    } else {
+                        couplesOfGraphsToDisplay.push( [ graphWithoutClique, graphWithClique ] )
+                    } 
+                }              
 
-                // Adding the two graphs to the array for the current trial (the order is chosen randomly)
-                if (Math.round(Math.random())) {
-                    // DEBUG
-                    console.log("putting the array with clique before")
-                    couplesOfGraphsToDisplay.push( [ graphWithClique, graphWithoutClique ] )
-                } else {
-                    console.log("putting the array withOUT clique before")
-                    couplesOfGraphsToDisplay.push( [ graphWithoutClique, graphWithClique ] )
-                } 
-            }              
+            return couplesOfGraphsToDisplay
 
-        return couplesOfGraphsToDisplay
+            }
 
-        }
+        /* DRAWING STIMULI: */
+            // FUNCTION THAT WILL DRAW THE STIMULI GIVEN THE CHOSEN ORDER OF THE NODES:
+            // !!! IMPORTANT TO MAKE THINGS SIMPLER !! -> DRAW STARTING FROM ORDER OF NODES
+            function generateDrawStimuli(presentationIndex) {
+                /* INPUT: 
+                - presentationIndex (the number that identifies the couple of graphs that is being displayed)
+                - orderOfNodes (the order with which the nodes will be displayed)
 
-        
-        // FUNCTION THAT WILL DRAW THE STIMULI GIVEN THE CHOSEN ORDER OF THE NODES:
-        // !!! IMPORTANT TO MAKE THINGS SIMPLER !! -> DRAW STARTING FROM ORDER OF NODES
-        function generateDrawStimuli(trialIndex,orderOfNodes) {
-            /* INPUT: 
-            - trialIndex (the number that identifies the couple of graphs that is being displayed)
-            - orderOfNodes (the order with which the ndoes whould be displayed)
+                OUTPUT:
+                - display of the stimuli on the screen
+                */    
 
-            OUTPUT:
-            - display of the stimuli on the screen
-            */    
+                // function that generates the stimuli:
+                function drawStimuli(c) {
 
-            // function that generates the stimuli:
-            function drawStimuli(c) {
+                    // addressing canvas
+                    let ctx = c.getContext("2d"); 
 
-                // addressing canvas
-                let ctx = c.getContext("2d"); 
+                    // for each presentation, shuffling the standard order of the nodes (adding "slice()" so that the value of "currentExperiment.standardOrderOfNodes" is not modified):
+                    let currentTrialOrder = shuffleNodes(currentExperiment.standardOrderOfNodes.slice())
+                    console.log("printing order of couple of graphs number " + presentationIndex +" from inside draw function: " + currentTrialOrder)
+                    // global variable that temporarily stores the order of the nodes (it keeps changing, and its value is read from plugin to store the order in the corresponding trial)
+                    jsPsych.data.presentedOrder = currentTrialOrder
 
-                // - RIVEDI FUNZIONE permuteNodes() E CONTROLLA CHE FUNZIONI PER BENE
-
-                // calculating step size for the figure (each square contains two "steps", for this reason multiplying the number of nodes by 2):
-                let singleStepSize = c.height/(((Object.keys(currentExperiment.standardOrderOfNodes).length)*2)) // Object.keys(triangularMatrix).length --> number of squares
-                // calculating starting points (for right and left stimulus) on x axis (considering the space to be left in the middle):
-                let xStartingPointLeft = (c.width/2 ) - c.width/30
-                let xStartingPointRight = (c.width/2 ) + c.width/30
-                let yStartingPoint = 0  
-          
-                // Drawing stimulus on LEFT side:
-                for (let firstIndex = 0; firstIndex < ((currentExperiment.standardOrderOfNodes.length)-1); firstIndex++) {
-                    for (let secondIndex = 0; secondIndex < firstIndex+1; secondIndex++) {
-                        // drawing the square
-                        ctx.beginPath();
-                        ctx.moveTo(xStartingPointLeft-singleStepSize*(firstIndex-secondIndex+1),yStartingPoint+singleStepSize*(firstIndex+secondIndex)); //starting point (top angle)
-                        ctx.lineTo(xStartingPointLeft-singleStepSize*(firstIndex-secondIndex),yStartingPoint+singleStepSize*(firstIndex+secondIndex+1)); //going left-right (right angle)
-                        ctx.lineTo(xStartingPointLeft-singleStepSize*(firstIndex-secondIndex+1),yStartingPoint+singleStepSize*(firstIndex+secondIndex+2)); //going down-left (bottom angle)
-                        ctx.lineTo(xStartingPointLeft-singleStepSize*(firstIndex-secondIndex+2),yStartingPoint+singleStepSize*(firstIndex+secondIndex+1)); //going up-left (left angle)
-                        ctx.lineTo(xStartingPointLeft-singleStepSize*(firstIndex-secondIndex+1),yStartingPoint+singleStepSize*(firstIndex+secondIndex)); //closing square (top angle) (same coordinates of starting point)
-
-                        // defining the outline
-                        ctx.lineWidth = .8;
-                        ctx.strokeStyle = '#666666';
-                        ctx.stroke();
-
-                        ctx.fillStyle = "#FFFFFF";
-                        ctx.fill();   
-                        
-                        /*
-                       // - FILLING THE SQUARES WITH APPROPRIATE COLOR BASED ON  currentExperiment.graphsToDisplay[stimulusIndex] -> gives the two graphs to be displayed, with the nodes ordered as in "orderOfNodes" (input)
-                        if (triangularMatrix[firstIndex+1][secondIndex] == 1) {
-                            // black if nodes are associated
-                            ctx.fillStyle = "#000000";
-                            ctx.fill();
-                        } else {
-                            // white if nodes are unassociated
-                            ctx.fillStyle = "#FFFFFF";
-                            ctx.fill();                       
-                        }
-                        */
-                    }
-                }
-
-                // Drawing stimulus on RIGHT side:
-                for (let firstIndex = 0; firstIndex < ((currentExperiment.standardOrderOfNodes.length)-1); firstIndex++) {
-                    for (let secondIndex = 0; secondIndex < firstIndex+1; secondIndex++) {
-                        // drawing the square
-                        ctx.beginPath();
-                        ctx.moveTo(xStartingPointRight+singleStepSize*(firstIndex-secondIndex+1),yStartingPoint+singleStepSize*(firstIndex+secondIndex)); //starting point (top angle)
-                        ctx.lineTo(xStartingPointRight+singleStepSize*(firstIndex-secondIndex),yStartingPoint+singleStepSize*(firstIndex+secondIndex+1)); //going left-right (right angle)
-                        ctx.lineTo(xStartingPointRight+singleStepSize*(firstIndex-secondIndex+1),yStartingPoint+singleStepSize*(firstIndex+secondIndex+2)); //going down-left (bottom angle)
-                        ctx.lineTo(xStartingPointRight+singleStepSize*(firstIndex-secondIndex+2),yStartingPoint+singleStepSize*(firstIndex+secondIndex+1)); //going up-left (left angle)
-                        ctx.lineTo(xStartingPointRight+singleStepSize*(firstIndex-secondIndex+1),yStartingPoint+singleStepSize*(firstIndex+secondIndex)); //closing square (top angle) (same coordinates of starting point)
-
-                        
-                        // defining the outline
-                        ctx.lineWidth = .8;
-                        ctx.strokeStyle = '#666666';
-                        ctx.stroke();
-
-                        ctx.fillStyle = "#FFFFFF";
-                        ctx.fill();  
-                        
-                        /*
-                        // FILLING THE SQUARES WITH APPROPRIATE COLOR BASED ON  currentExperiment.graphsToDisplay[stimulusIndex] -> gives the two graphs to be displayed, with the nodes ordered as in "orderOfNodes" (input)
-                        if (triangularMatrix[firstIndex+1][secondIndex] == 1) {
-                            // black if nodes are associated
-                            ctx.fillStyle = "#000000";
-                            ctx.fill();
-                        } else {
-                            // white if nodes are unassociated
-                            ctx.fillStyle = "#FFFFFF";
-                            ctx.fill();                       
-                        }
-                        */
-                    }
-                }
+                    // calculating step size for the figure (each square contains two "steps", for this reason multiplying the number of nodes by 2):
+                    let singleStepSize = c.height/(((Object.keys(currentExperiment.standardOrderOfNodes).length)*2)) // Object.keys(triangularMatrix).length --> number of squares
+                    // calculating starting points (for right and left stimulus) on x axis (considering the space to be left in the middle):
+                    let xStartingPointLeft = (c.width/2 ) - c.width/15
+                    let xStartingPointRight = (c.width/2 ) + c.width/15
+                    let yStartingPoint = 0  
                 
-                // TO DO: ADDING ACCURACY on the top-right corner of the screen (calculating correct trials/total trials)
+                    // Drawing stimulus on LEFT side:
+                    for (let firstIndex = 0; firstIndex < ((currentExperiment.standardOrderOfNodes.length)-1); firstIndex++) {
+                        for (let secondIndex = 0; secondIndex < firstIndex+1; secondIndex++) {
+                            // drawing the square
+                            ctx.beginPath();
+                            ctx.moveTo(xStartingPointLeft-singleStepSize*(firstIndex-secondIndex+1),yStartingPoint+singleStepSize*(firstIndex+secondIndex)); //starting point (top angle)
+                            ctx.lineTo(xStartingPointLeft-singleStepSize*(firstIndex-secondIndex),yStartingPoint+singleStepSize*(firstIndex+secondIndex+1)); //going left-right (right angle)
+                            ctx.lineTo(xStartingPointLeft-singleStepSize*(firstIndex-secondIndex+1),yStartingPoint+singleStepSize*(firstIndex+secondIndex+2)); //going down-left (bottom angle)
+                            ctx.lineTo(xStartingPointLeft-singleStepSize*(firstIndex-secondIndex+2),yStartingPoint+singleStepSize*(firstIndex+secondIndex+1)); //going up-left (left angle)
+                            ctx.lineTo(xStartingPointLeft-singleStepSize*(firstIndex-secondIndex+1),yStartingPoint+singleStepSize*(firstIndex+secondIndex)); //closing square (top angle) (same coordinates of starting point)
 
-                // adding the coordinates of the buttons to the data, so that they will be accessible:
-                //jsPsych.data.buttonsCoordinates = buttonsCoordinates
+                            // defining the outline
+                            ctx.lineWidth = .8;
+                            ctx.strokeStyle = '#666666';
+                            ctx.stroke();
+
+                            ctx.fillStyle = "#FFFFFF";
+                            ctx.fill();   
+
+                            // accessing the graph that will appear on the left:
+                            let leftGraph = currentExperiment.graphsToDisplay[presentationIndex][0]
+                            // console.log(leftGraph)
+                            // - FILLING THE SQUARES WITH APPROPRIATE COLOR BASED ON  currentExperiment.graphsToDisplay[stimulusIndex] -> gives the two graphs to be displayed, with the nodes ordered as in "orderOfNodes" (input)
+                            /*
+                            if (triangularMatrix[firstIndex+1][secondIndex] == 1) {
+                                // black if nodes are associated
+                                ctx.fillStyle = "#000000";
+                                ctx.fill();
+                            } else {
+                                // white if nodes are unassociated
+                                ctx.fillStyle = "#FFFFFF";
+                                ctx.fill();                       
+                            }
+                            */
+                            
+                        }
+                    }
+
+                    // Drawing stimulus on RIGHT side:
+                    for (let firstIndex = 0; firstIndex < ((currentExperiment.standardOrderOfNodes.length)-1); firstIndex++) {
+                        for (let secondIndex = 0; secondIndex < firstIndex+1; secondIndex++) {
+                            // drawing the square
+                            ctx.beginPath();
+                            ctx.moveTo(xStartingPointRight+singleStepSize*(firstIndex-secondIndex+1),yStartingPoint+singleStepSize*(firstIndex+secondIndex)); //starting point (top angle)
+                            ctx.lineTo(xStartingPointRight+singleStepSize*(firstIndex-secondIndex),yStartingPoint+singleStepSize*(firstIndex+secondIndex+1)); //going left-right (right angle)
+                            ctx.lineTo(xStartingPointRight+singleStepSize*(firstIndex-secondIndex+1),yStartingPoint+singleStepSize*(firstIndex+secondIndex+2)); //going down-left (bottom angle)
+                            ctx.lineTo(xStartingPointRight+singleStepSize*(firstIndex-secondIndex+2),yStartingPoint+singleStepSize*(firstIndex+secondIndex+1)); //going up-left (left angle)
+                            ctx.lineTo(xStartingPointRight+singleStepSize*(firstIndex-secondIndex+1),yStartingPoint+singleStepSize*(firstIndex+secondIndex)); //closing square (top angle) (same coordinates of starting point)
+
+                            
+                            // defining the outline
+                            ctx.lineWidth = .8;
+                            ctx.strokeStyle = '#666666';
+                            ctx.stroke();
+
+                            ctx.fillStyle = "#FFFFFF";
+                            ctx.fill();  
+
+                            // accessing the graph that will appear on the right:
+                            let rightGraph = currentExperiment.graphsToDisplay[presentationIndex][1]    
+                            // console.log(rightGraph)                    
+                            /*
+                            // FILLING THE SQUARES WITH APPROPRIATE COLOR BASED ON  currentExperiment.graphsToDisplay[stimulusIndex] -> gives the two graphs to be displayed, with the nodes ordered as in "orderOfNodes" (input)
+                            if (triangularMatrix[firstIndex+1][secondIndex] == 1) {
+                                // black if nodes are associated
+                                ctx.fillStyle = "#000000";
+                                ctx.fill();
+                            } else {
+                                // white if nodes are unassociated
+                                ctx.fillStyle = "#FFFFFF";
+                                ctx.fill();                       
+                            }
+                            */
+                        }
+                    }
+                    
+                    // TO DO: ADDING ACCURACY on the top-right corner of the screen (calculating correct trials/total trials)
+                    
+
+                    }
                 
-                // after each trial, adding an empty array that will store the swapped buttons (added from the plugin):
-                //jsPsych.data.pressedButtons = []
+                return drawStimuli
 
-                }
+            }
+
+
+        /* EXPERIMENT PARAMETERS: */
+            // defining canvas dimensions (positioning is defined in the CSS):
+            let canvasHeight = window.innerHeight  //height is the one that regulates the size of the stimuli, width is computed to leave space between the right and the left stimulus
+            let canvasWidth = canvasHeight + 4*(canvasHeight/15) // increase this fraction to separate the two stimuli and leave some margin on left and right side
+
+            // CREATING OBJECT FOR CURRENT EXPERIMENT:
+            const currentExperiment = {
+                // parameters for experiment:
+                numberOfTrials: 4, // number of trials for each experiment (singe trial = single couple of triangular matrices, presented once and reordered through space bar presses)
+                maximumNumberOfRandomizations: 3, // maximum number of randomizations allowed for a single couple of matrices 
+                canvasDimensions: [canvasHeight,canvasWidth], // [height,width]
+                // parameters for graphs:
+                numberOfNodes: 9,
+                initialCliqueSize: 8,  // this is the maximum dimension of the clique, it will decrease throughout the experiment, increasing the difficulty of the task                       
+                probabilityOfAssociation: 0.5
+            }
+
+            // ADDING PROPERTIES TO THE currentExperiment OBJECT:
+            //creating array that contains the indices of all the nodes of the graph in the standard order
+            let standardOrderOfNodes = new Array();
+            for (let index = 0; index < currentExperiment.numberOfNodes; index++) {
+                standardOrderOfNodes.push(index)
+            }
+            // adding this array as a property to the "currentExperiment" object
+            currentExperiment.standardOrderOfNodes = standardOrderOfNodes
+            console.log(currentExperiment.standardOrderOfNodes)
+
+            // creating array that contains the clique sizes and adding it as a property to "currentExperiment" object
+            currentExperiment.arrayOfCliqueSizes = createArrayOfCliqueSizes(currentExperiment.initialCliqueSize,currentExperiment.numberOfTrials)
+
+            // adding the graphs to display as a property to the "currentExperiment" object
+            currentExperiment.graphsToDisplay = generateGraphs()
             
-            return drawStimuli
-        
-        }
- 
-        // adding the graphs to display as a property to the "currentExperiment" object
-        currentExperiment.graphsToDisplay = generateGraphs()
-        
 
+    /* ACTUAL JSPSYCH SCRIPT: */
         // creating the trials for the experiment
-        for (let trialIndex = 0; trialIndex < currentExperiment.numberOfTrials; trialIndex++) {
+        for (let presentationIndex = 0; presentationIndex < currentExperiment.numberOfTrials; presentationIndex++) {
             
             // defining the current trial
             let currentTrial = {
@@ -335,13 +351,13 @@
             timeline: [],
             data: {
                 // other parameters for the exp go here
+                presentationNumber: presentationIndex, //NB: one trial is a couple of graphs presented on the screen
                 }   
-            }            
+            }
       
             // adding the stimulus to the timeline of the trial
-            // TO DO: RICONTROLLA E ADATTA permuteNodes()
-            //currentTrial.timeline.push({stimulus: generateDrawStimuli(trialIndex,permuteNodes(currentExperiment.standardOrderOfNodes))})
-            currentTrial.timeline.push({stimulus: generateDrawStimuli(trialIndex,currentExperiment.standardOrderOfNodes)})
+            // NB: shuffling is done inside draw function
+            currentTrial.timeline.push({stimulus: generateDrawStimuli(presentationIndex)})
 
             // repeating the trial until an answer on the buttons is given:
             let loop_node = {
@@ -349,20 +365,27 @@
             loop_function: function(data){
                 // accessing the data stored up to now (it will increase progressively):
                 let currentData = jsPsych.data.get()
-                // NEXT STEPS:
-                // IF PREVIOUS RESPONSE WAS A BUTTON PRESS, PRESENT THE TRIAL AGAIN WITH A DIFFERENT PERMUTATION OF THE NODES, STORE IT IN A TEMPORARY VARIABLE (jsPsych.data...)
-                if (currentData.trials.filter(element => element.stimulusNumber == trialIndex).length == currentExperiment.numberOfTrialsForEachStimulus) {
+
+                //DEBUG:
+                //printing the graphs that are being shown on the screen:
+                let leftGraph = currentExperiment.graphsToDisplay[presentationIndex][0]
+                console.log(leftGraph)
+                let rightGraph = currentExperiment.graphsToDisplay[presentationIndex][1]
+                console.log(rightGraph)
+
+                if (currentData.trials.filter(element => element.presentationNumber == presentationIndex).length == currentExperiment.maximumNumberOfRandomizations) {
                     // if number of repetitions exceeded the limit for the current stimulus, moving to next stimulus:
-                    console.log("maximum number of repetitions for the stimulus, moving on to the next one")
+                    console.log("maximum number of randomizations for this trial, moving on to the next one")
                     return false
-                }  else if(currentData.last(1).values()[0].response == 2){
-                    // if last trial was a reordering, present the next trial
+                }  else if(currentData.last(1).values()[0].response == " "){
+                    // if last response was a spacebar press, repeat the trial
                     return true 
                 } else if(currentData.last(1).values()[0].response == 0 || currentData.last(1).values()[0].response == 1) {
-                    // if click was on a button (0="no"; 1="yes"), go to next stimulus
-                    console.log("click on button, moving to next stimulus")
+                    // if last response was on left/right arrow, moving to next trial
+                    console.log("arrow clicked, moving to next trial")
                     return false 
                 }
+                console.log(currentExperiment)
             }
             } 
             
