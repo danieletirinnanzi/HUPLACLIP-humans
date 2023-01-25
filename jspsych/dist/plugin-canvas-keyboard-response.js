@@ -82,7 +82,8 @@ var jsPsychCanvasKeyboardResponse = (function (jspsych) {
               rt: null,
               key: null,
               nodesOrdering: null,
-              cliqueSize: null
+              cliqueSize: null,
+              correctResponse: null
           };
           // function to end trial when it is time
           const end_trial = () => {
@@ -93,16 +94,24 @@ var jsPsychCanvasKeyboardResponse = (function (jspsych) {
                   this.jsPsych.pluginAPI.cancelKeyboardResponse(keyboardListener);
               }
               // MODIFIED MANUALLY (adding the current ordering to the trial)
-              // console.log(this.jsPsych.data.presentedOrder) //correctly accesses the current ordering
               let currentTrialOrder = this.jsPsych.data.presentedOrder.slice()
               let currentCliqueSize = this.jsPsych.data.cliqueSize
+              let correctResponse = this.jsPsych.data.correctResponse
               // gather the data to store for the trial
               var trial_data = {
                   rt: response.rt,
                   response: response.key,
                   nodesOrdering: currentTrialOrder, //array that stores the ordering of the data for the current trial
-                  cliqueSize: currentCliqueSize
+                  cliqueSize: currentCliqueSize,
+                  correctResponse: correctResponse
               };
+              // if subject gave final answer (right/left arrow), defining correctness of response and adding it to trial_data:
+              if(trial_data.response == "arrowleft" || trial_data.response == "arrowright") {
+                    if(trial_data.response == trial_data.correctResponse)
+                        trial_data.correctnessOfResponse = true
+                    else
+                        trial_data.correctnessOfResponse = false
+                }
               // clear the display
               display_element.innerHTML = "";
               // move on to the next trial

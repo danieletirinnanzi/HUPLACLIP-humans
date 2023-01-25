@@ -120,12 +120,8 @@
             // 2. Generating graph without clique:
             //empty object (the properties will be the nodes and the values will be the arrays that indicate the existing connections)
             let graphWithoutClique = {};
-            // increasing the value of p so that the two graphs will have the same average degree (pCorr = p + K/N)
-            let correctedProbabilityForCurrentGraph = ( currentExperiment.probabilityOfAssociation + (currentExperiment.arrayOfCliqueSizes[index] / currentExperiment.numberOfNodes) )
-            console.log("initial probability of association is: "+currentExperiment.probabilityOfAssociation)
-            console.log("clique size for current graph is: " + currentExperiment.arrayOfCliqueSizes[index])
-            console.log("number of nodes is: " + currentExperiment.numberOfNodes)
-            console.log("corrected probability: " + correctedProbabilityForCurrentGraph)
+            // increasing the value of p so that the two graphs will have the same average degree (pCorr = p + (K*(K-1)/N*(N-1)) * (1-p) )
+            let correctedProbabilityForCurrentGraph = currentExperiment.probabilityOfAssociation + ( ( ( currentExperiment.arrayOfCliqueSizes[index] * ( currentExperiment.arrayOfCliqueSizes[index] - 1 )) / ( currentExperiment.numberOfNodes * ( currentExperiment.numberOfNodes - 1 ))) * ( 1 - currentExperiment.probabilityOfAssociation ) )
                  
             // defining the values of the triangular adjacency matrix:
             for (let rowIndex = 1; rowIndex < currentExperiment.numberOfNodes; rowIndex++) {

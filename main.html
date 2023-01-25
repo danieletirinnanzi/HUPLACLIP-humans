@@ -63,6 +63,13 @@
                     // global variable that temporarily stores the current size of the clique (it keeps changing, and its value is read from plugin to store the order in the corresponding trial)
                     jsPsych.data.cliqueSize = currentExperiment.arrayOfCliqueSizes[presentationIndex]
 
+                    // global variable that temporarily stores the correct answer for the current presentation (it keeps changing, and its value is read from plugin to store the order in the corresponding trial)
+                    if(currentExperiment.graphsToDisplay[presentationIndex][0][currentExperiment.numberOfNodes] == "clique is absent") 
+                        //if first stimulus doesn't have the clique, then the graph with the clique is on the right side
+                        jsPsych.data.correctResponse = "arrowright"
+                     else
+                        jsPsych.data.correctResponse = "arrowleft"
+
                     // calculating step size for the figure (each square contains two "steps", for this reason multiplying the number of nodes by 2):
                     let singleStepSize = c.height/(((Object.keys(currentExperiment.standardOrderOfNodes).length)*2)) // Object.keys(triangularMatrix).length --> number of squares
                     // calculating starting points (for right and left stimulus) on x axis (considering the space to be left in the middle):
@@ -211,8 +218,10 @@
 
                     
                     // TO DO: ADDING ACCURACY on the top-right corner of the screen (calculating correct trials/total trials, accessing data stored up to know and counting the 'correct' responses
+                    // accessing the data stored up to now:
+                    let currentData = jsPsych.data.get()
+                    // JUST NEED TO COUNT RATIO (.correctnessOfResponse == true ) / totale di trial che hanno la proprietà "correctnessOfResponse"
                     
-
                     }
                 
                 return drawStimuli
@@ -240,7 +249,7 @@
                 }
             /*
             on_finish: function(data){
-                    if(jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)){
+                    if(jsPsych.pluginAPI.compareKeys(data.response, data.correctResponse)){
                     data.correct = true;
                     } else {
                     data.correct = false;
