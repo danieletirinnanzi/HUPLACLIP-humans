@@ -1,6 +1,6 @@
 /* GRAPHS GENERATION: */
     // FUNCTION THAT DEFINES THE CLIQUE SIZE FOR ALL THE TRIALS THAT WILL BE PRESENTED (implementation of "linspace", but stored in reverse order)
-    function createArrayOfCliqueSizes(initialCliqueSize, numberOfTrials) {
+    function createArrayOfCliqueSizes(initialCliqueSize, numberOfPresentations) {
         /* INPUT:
         - initial clique size (maximum value of the clique, the next values will be lower)
         - number of trials for the experiment
@@ -9,8 +9,8 @@
         - array where the dimension of the clique for each one of the trials is stored in the order of presentation
         */            
         let cliqueSizeArray = [];
-        let step = initialCliqueSize / (numberOfTrials);
-        for (let i = 0; i < numberOfTrials; i++) {
+        let step = initialCliqueSize / (numberOfPresentations);
+        for (let i = 0; i < numberOfPresentations; i++) {
             cliqueSizeArray.push(Math.round(initialCliqueSize - (step * i)));
         }
         return cliqueSizeArray;
@@ -84,9 +84,7 @@
 
         // empty array that will contain the couples of triangular matrices (objects) to be displayed
         let couplesOfGraphsToDisplay = [];
-        for (let index = 0; index < currentExperiment.numberOfTrials; index++) {
-            // for each trail, generate a couple of graphs, one with clique and one without, stored in an array:
-            let singleCoupleOfGraphs = []
+        for (let index = 0; index < currentExperiment.numberOfPresentations; index++) {
 
             // 1. Generating graph with clique:
             //empty object (the properties will be the nodes and the values will be the arrays that indicate the existing connections)
@@ -96,7 +94,7 @@
             cliqueArray = createClique(currentExperiment.standardOrderOfNodes,currentExperiment.arrayOfCliqueSizes[index])       
             // defining the values of the triangular adjacency matrix:
             for (let rowIndex = 1; rowIndex < currentExperiment.numberOfNodes; rowIndex++) {
-                //instantiating empty array that will contain the connections for the current row
+                //defining empty array that will contain the connections for the current row
                 let currentRowAssociations = [];
                 for (let columnIndex = 0; columnIndex < rowIndex; columnIndex++) {  
                     if (cliqueArray.includes(rowIndex) && cliqueArray.includes(columnIndex)) {
@@ -105,14 +103,14 @@
                         }
                     //if the current two nodes are not part of the clique, associating them with probability indicated in "currentExperiment.probabilityOfAssociation"
                     else {
-                        let randomValue = Math.random();
+                        let randomValue = Math.random(); //MORE CORRECT WAY OF GENERATING? NON-UNIFORM DISTRIBUTION?
                         if(randomValue < currentExperiment.probabilityOfAssociation){
                             currentRowAssociations.push(1);
                         } else {
                             currentRowAssociations.push(0);
                         }
                     }
-                } 
+                }
             //adding to the matrix an indication about the presence of the clique:
             graphWithClique[currentExperiment.numberOfNodes] = "clique array for current stimulus is: " + cliqueArray                
             //adding to the object the property (the connections of the current node in the triangular matrix)
@@ -121,15 +119,21 @@
 
             // 2. Generating graph without clique:
             //empty object (the properties will be the nodes and the values will be the arrays that indicate the existing connections)
-            let graphWithoutClique = {};     
+            let graphWithoutClique = {};
+            // increasing the value of p so that the two graphs will have the same average degree (pCorr = p + K/N)
+            let correctedProbabilityForCurrentGraph = ( currentExperiment.probabilityOfAssociation + (currentExperiment.arrayOfCliqueSizes[index] / currentExperiment.numberOfNodes) )
+            console.log("initial probability of association is: "+currentExperiment.probabilityOfAssociation)
+            console.log("clique size for current graph is: " + currentExperiment.arrayOfCliqueSizes[index])
+            console.log("number of nodes is: " + currentExperiment.numberOfNodes)
+            console.log("corrected probability: " + correctedProbabilityForCurrentGraph)
+                 
             // defining the values of the triangular adjacency matrix:
             for (let rowIndex = 1; rowIndex < currentExperiment.numberOfNodes; rowIndex++) {
-                //instantiating empty array that will contain the connections for the current row
+                //defining empty array that will contain the connections for the current row
                 let currentRowAssociations = [];
                 for (let columnIndex = 0; columnIndex < rowIndex; columnIndex++) {  
-                    let randomValue = Math.random();
-                    if(randomValue < currentExperiment.probabilityOfAssociation){
-                        // !! TO DO HERE: MATCHING THE DEGREE DISTRIBUTION OF THE GRAPH WITH THE CLIQUE??
+                    let randomValue = Math.random(); //MORE CORRECT WAY OF GENERATING? NON-UNIFORM DISTRIBUTION?
+                    if(randomValue < correctedProbabilityForCurrentGraph){
                         currentRowAssociations.push(1);
                     } else {
                         currentRowAssociations.push(0);

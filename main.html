@@ -58,7 +58,6 @@
 
                     // for each presentation, shuffling the standard order of the nodes (adding "slice()" so that the value of "currentExperiment.standardOrderOfNodes" is not modified):
                     let currentTrialOrder = shuffleNodes(currentExperiment.standardOrderOfNodes.slice())
-                    console.log("printing order of graphs for presentation number " + presentationIndex +" from inside draw function: " + currentTrialOrder)
                     // global variable that temporarily stores the order of the nodes (it keeps changing, and its value is read from plugin to store the order in the corresponding trial)
                     jsPsych.data.presentedOrder = currentTrialOrder
                     // global variable that temporarily stores the current size of the clique (it keeps changing, and its value is read from plugin to store the order in the corresponding trial)
@@ -74,8 +73,7 @@
             
                     // Drawing stimulus on LEFT side:
                     // accessing the graph that will appear on the left side of the screen:
-                    let leftGraph = currentExperiment.graphsToDisplay[presentationIndex][0]
-                    console.log(leftGraph)       
+                    let leftGraph = currentExperiment.graphsToDisplay[presentationIndex][0]       
                     //storing the associations for node number 0 in a separate array (to facilitate accessibility):
                     let leftNodeZeroAssociations = []
                     for (let rowIndex = 0; rowIndex < (Object.values(leftGraph).length - 1); rowIndex++) {
@@ -83,8 +81,6 @@
                         leftNodeZeroAssociations.push(Object.values(leftGraph)[rowIndex][0])
                         //NB: first element represents existence of association between node "0" and node "1" and so on
                     } 
-                    console.log("Associations for node number zero in left graph: ")  
-                    console.log(leftNodeZeroAssociations) 
 
                     for (let firstIndex = 0; firstIndex < ((currentExperiment.standardOrderOfNodes.length)-1); firstIndex++) {
                         for (let secondIndex = 0; secondIndex < firstIndex+1; secondIndex++) {
@@ -103,7 +99,6 @@
 
                             ctx.fillStyle = "#FFFFFF";
                             ctx.fill();   
-
 
                             // Determining whether the two nodes are associated:
                             let presentAssociation = false // will be changed to "true" if association is present in the considered instance 
@@ -148,7 +143,7 @@
                     // Drawing stimulus on RIGHT side:
                     // accessing the graph that will appear on the left side of the screen:
                     let rightGraph = currentExperiment.graphsToDisplay[presentationIndex][1]
-                    console.log(rightGraph)       
+                    //console.log(rightGraph)       
                     //storing the associations for node number 0 in a separate array (to facilitate accessibility):
                     let rightNodeZeroAssociations = []
                     for (let rowIndex = 0; rowIndex < (Object.values(rightGraph).length - 1); rowIndex++) {
@@ -156,8 +151,6 @@
                         rightNodeZeroAssociations.push(Object.values(rightGraph)[rowIndex][0])
                         //NB: first element represents existence of association between node "0" and node "1" and so on
                     } 
-                    console.log("Associations for node number zero in left graph: ")  
-                    console.log(rightNodeZeroAssociations) 
                                         
                     for (let firstIndex = 0; firstIndex < ((currentExperiment.standardOrderOfNodes.length)-1); firstIndex++) {
                         for (let secondIndex = 0; secondIndex < firstIndex+1; secondIndex++) {
@@ -176,7 +169,6 @@
 
                             ctx.fillStyle = "#FFFFFF";
                             ctx.fill();   
-
 
                             // Determining whether the two nodes are associated:
                             let presentAssociation = false // will be changed to "true" if association is present in the considered instance 
@@ -218,7 +210,7 @@
                         }
 
                     
-                    // TO DO: ADDING ACCURACY on the top-right corner of the screen (calculating correct trials/total trials)
+                    // TO DO: ADDING ACCURACY on the top-right corner of the screen (calculating correct trials/total trials, accessing data stored up to know and counting the 'correct' responses
                     
 
                     }
@@ -230,7 +222,7 @@
 
     /* ACTUAL JSPSYCH SCRIPT: */
         // creating the trials for the experiment
-        for (let presentationIndex = 0; presentationIndex < currentExperiment.numberOfTrials; presentationIndex++) {
+        for (let presentationIndex = 0; presentationIndex < currentExperiment.numberOfPresentations; presentationIndex++) {
             
             // defining the current trial
             let currentTrial = {
