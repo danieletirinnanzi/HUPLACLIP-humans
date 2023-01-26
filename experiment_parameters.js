@@ -6,12 +6,12 @@
     // CREATING OBJECT FOR CURRENT EXPERIMENT:
     const currentExperiment = {
         // parameters for experiment:
-        numberOfPresentations: 2, // number of presentations for each experiment (single presentation = single couple of triangular matrices, presented once and reordered through space bar presses)
+        numberOfPresentations: 4, // number of presentations for each experiment (single presentation = single couple of triangular matrices, presented once and reordered through space bar presses)
         maximumNumberOfRandomizations: 3, // maximum number of randomizations allowed for a single couple of matrices 
         canvasDimensions: [canvasHeight,canvasWidth], // [height,width]
         // parameters for graphs:
         numberOfNodes: 150,
-        initialCliqueSize: 50,  // this is the maximum dimension of the clique, it will decrease throughout the experiment, increasing the difficulty of the task                       
+        initialCliqueSize: 100,  // this is the maximum dimension of the clique, it will decrease throughout the experiment, increasing the difficulty of the task                       
         probabilityOfAssociation: 0.5
     }
 

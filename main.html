@@ -46,13 +46,6 @@
                 // function that generates the stimuli:
                 function drawStimuli(c) {
 
-
-                    //console.log("right graph for presentation number " + presentationIndex + " is: ")
-                    //let rightGraph = currentExperiment.graphsToDisplay[presentationIndex][1]
-                    //console.log(rightGraph)
-                    //DEBUG
-
-
                     // addressing canvas
                     let ctx = c.getContext("2d"); 
 
@@ -217,11 +210,27 @@
                         }
 
                     
-                    // TO DO: ADDING ACCURACY on the top-right corner of the screen (calculating correct trials/total trials, accessing data stored up to know and counting the 'correct' responses
-                    // accessing the data stored up to now:
-                    let currentData = jsPsych.data.get()
-                    // JUST NEED TO COUNT RATIO (.correctnessOfResponse == true ) / totale di trial che hanno la proprietà "correctnessOfResponse"
-                    
+                    // ADDING ACCURACY on the top-right corner of the screen
+                    // accessing the array of the trials done up to now:
+                    let currentTrialsArray = jsPsych.data.get().trials
+                    let correctResponses = 0
+                    // looping through all the elements to check which trials have a final response (arrow press):
+                    currentTrialsArray.forEach(element => {
+                        // only the trials were arrow press was done have the "correctnessOfResponse" property
+                        if(element.hasOwnProperty('correctnessOfResponse') )
+                            if(element.correctnessOfResponse)
+                                correctResponses += 1 
+                    });
+                    //creating string to be displayed as feedback:
+                    let feedbackString = "Score: " + correctResponses +"/"+ presentationIndex
+                    //rect
+                    ctx.fillStyle = "lightseagreen"; //POSSIBILITY: CHANGING THIS BASED ON PREVIOUS ANSWER (correct -> green / incorrect -> red)
+                    ctx.fillRect((c.width-(c.width/6.5)), (c.height)/16, 200, 80);
+                    // Writing the text on the canvas:
+                    ctx.fillStyle = "black"
+                    ctx.font = "30px serif";
+                    ctx.fillText(feedbackString, (c.width-(c.width/7)), 1*(c.height)/8);
+
                     }
                 
                 return drawStimuli
@@ -244,17 +253,7 @@
             data: {
                 // other parameters for the exp go here
                 presentationNumber: presentationIndex, //NB: one trial is a couple of graphs presented on the screen
-                // TO DO: adding property to determine whether given answer was correct or not (assign value in loop function?)
-                //correct: null
-                }
-            /*
-            on_finish: function(data){
-                    if(jsPsych.pluginAPI.compareKeys(data.response, data.correctResponse)){
-                    data.correct = true;
-                    } else {
-                    data.correct = false;
-                    }
-            */   
+                }  
             }
       
             // adding the stimulus to the timeline of the trial
