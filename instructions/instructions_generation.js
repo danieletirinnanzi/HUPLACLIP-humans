@@ -76,7 +76,7 @@
         - be aware that you can withdraw in any phase of the study.<br><br>`
         introductionPagesArray.push(page6)
 
-        //TUTORIAL?
+        //TUTORIAL? Fare riferimento anche al cambio di colore -> indica se l'ultima risposta fornita era corretta o scorretta
 
             return introductionPagesArray
         
