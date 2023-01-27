@@ -1,7 +1,7 @@
 /* EXPERIMENT PARAMETERS: */
-    // defining canvas dimensions (positioning is defined in the CSS):
-    let canvasHeight = window.innerHeight  //height is the one that regulates the size of the stimuli, width is computed to leave space between the right and the left stimulus
-    let canvasWidth = canvasHeight + 4*(canvasHeight/15) // increase this fraction to separate the two stimuli and leave some margin on left and right side
+    // defining canvas dimensions (sizes of canvas = sizes of whole window):
+    let canvasHeight = window.innerHeight  //height is the dimension that regulates the size of the stimuli
+    let canvasWidth = window.innerWidth
 
     // CREATING OBJECT FOR CURRENT EXPERIMENT:
     const currentExperiment = {

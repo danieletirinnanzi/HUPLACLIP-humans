@@ -64,11 +64,11 @@
                         jsPsych.data.correctResponse = "arrowleft"
 
                     // calculating step size for the figure (each square contains two "steps", for this reason multiplying the number of nodes by 2):
-                    let singleStepSize = c.height/(((Object.keys(currentExperiment.standardOrderOfNodes).length)*2)) // Object.keys(triangularMatrix).length --> number of squares
+                    let singleStepSize = ((9/10)*(c.height))/(((Object.keys(currentExperiment.standardOrderOfNodes).length)*2)) // Object.keys(currentExperiment.standardOrderOfNodes).length --> number of squares
                     // calculating starting points (for right and left stimulus) on x axis (considering the space to be left in the middle):
-                    let xStartingPointLeft = (c.width/2 ) - c.width/15
-                    let xStartingPointRight = (c.width/2 ) + c.width/15
-                    let yStartingPoint = 0  
+                    let xStartingPointLeft = (c.width/2 ) - c.width/20
+                    let xStartingPointRight = (c.width/2 ) + c.width/20
+                    let yStartingPoint = (1/20)*(c.height)  //NB: starting to draw not from top of window, but leaving (1/20*c.height) above (and consequently below). For this reason, the single step size is calculated dividing not (c.height) but (9/10*canvas.height)
                   
             
                     // Drawing stimulus on LEFT side:
@@ -213,23 +213,32 @@
                     // ADDING ACCURACY on the top-right corner of the screen
                     // accessing the array of the trials done up to now:
                     let currentTrialsArray = jsPsych.data.get().trials
-                    let correctResponses = 0
+                    let arrayOfResponses = []
                     // looping through all the elements to check which trials have a final response (arrow press):
                     currentTrialsArray.forEach(element => {
                         // only the trials were arrow press was done have the "correctnessOfResponse" property
                         if(element.hasOwnProperty('correctnessOfResponse') )
-                            if(element.correctnessOfResponse)
-                                correctResponses += 1 
+                            // if(element.correctnessOfResponse)
+                                // correctResponses += 1 
+                            arrayOfResponses.push(element.correctnessOfResponse)
                     });
+                    let numberOfCorrectResponses = arrayOfResponses.reduce((a, b) => a + b, 0)
                     //creating string to be displayed as feedback:
-                    let feedbackString = "Score: " + correctResponses +"/"+ presentationIndex
-                    //rect
-                    ctx.fillStyle = "lightseagreen"; //POSSIBILITY: CHANGING THIS BASED ON PREVIOUS ANSWER (correct -> green / incorrect -> red)
-                    ctx.fillRect((c.width-(c.width/6.5)), (c.height)/16, 200, 80);
-                    // Writing the text on the canvas:
+                    let feedbackString = "SCORE: " + numberOfCorrectResponses +"/"+ presentationIndex
+                    //rect (differentiating color (green / red) based on correctness / incorrectness of last response)
+                    if(arrayOfResponses.length == 0)
+                        // if no response has been given, choosing a "neutral" color
+                        ctx.fillStyle = "orange";
+                    else 
+                        if(arrayOfResponses[arrayOfResponses.length-1] == true)
+                            ctx.fillStyle = "lawngreen";
+                        else
+                            ctx.fillStyle = "red";
+                    ctx.fillRect((c.width-(c.width/6)), (c.height)/16, 200, 80);
+                    // text on the canvas:
                     ctx.fillStyle = "black"
-                    ctx.font = "30px serif";
-                    ctx.fillText(feedbackString, (c.width-(c.width/7)), 1*(c.height)/8);
+                    ctx.font = "bold 1.7em system-ui";
+                    ctx.fillText(feedbackString, (c.width-(c.width/6.5)), (c.height)/7.5);
 
                     }
                 
