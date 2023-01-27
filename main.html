@@ -4,12 +4,14 @@
     <title>New version of HUPLACLIP</title>
     <!-- My scripts -->
     <script src="graphs_generation.js"></script>
+    <script src="instructions/instructions_generation.js"></script>
     <script src="experiment_parameters.js"></script>
     <!-- Standard scripts -->
     <script src="jspsych/dist/jspsych.js"></script>    
     <script src="jspsych/dist/jspsych.js"></script>
-    <!-- <script src="jspsych/dist/plugin-canvas-button-response.js"></script>   REMOVE? -->
+    <!-- Plugins -->
     <script src="jspsych/dist/plugin-canvas-keyboard-response.js"></script>
+    <script src="jspsych/dist/plugin-instructions.js"></script>
     <link href="jspsych/dist/jspsych.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
@@ -26,10 +28,13 @@
         /* create timeline */
         var timeline = [];
 
-
-        /*TO ADD: 
-        INSTRUCTIONS (with "plugin-instructions.js" or "plugin-html-keyboard-response.js"), recover from ethics committee file */
-
+        /* INTRODUCTION (informed consent + instructions + tutorial??) */
+        let introduction = {
+        type: jsPsychInstructions,
+        pages: generateIntroductionPages(),
+        show_clickable_nav: true    //subjects will be able to navigate through the pages
+        }
+        timeline.push(introduction)
         
 
         /* DRAWING STIMULI: create separate js file? */
