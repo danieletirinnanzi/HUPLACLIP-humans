@@ -29,7 +29,7 @@
         /* create timeline */
         var timeline = [];
 
-        /* INTRODUCTION (informed consent + instructions + tutorial??) */
+        /* INTRODUCTION */
         let introduction = {
         type: jsPsychInstructions,
         pages: generateIntroductionPages(),
@@ -68,10 +68,10 @@
                      else
                         jsPsych.data.correctResponse = "arrowleft"
 
-                    // Calling function to draw stimuli:
+                    // Calling function to draw the two stimuli:
                     drawStimuli(ctx,presentationIndex,currentTrialOrder)
                     
-                    // accessing the array of the trials done up to now:
+                    // accessing the array of the trials completed up to now:
                     let currentTrialsArray = jsPsych.data.get().trials
                     // Calling function to draw accuracy:
                     drawAccuracy(ctx,presentationIndex,currentTrialsArray)
@@ -102,7 +102,7 @@
             }
       
             // adding the stimulus to the timeline of the trial
-            // NB: shuffling is done inside draw function
+            // NB: shuffling of nodes is done inside draw function
             currentTrial.timeline.push({stimulus: generateDrawCanvas(presentationIndex)})
 
             // repeating the trial until an answer on the buttons is given:

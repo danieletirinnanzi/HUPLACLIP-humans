@@ -86,7 +86,7 @@
         let couplesOfGraphsToDisplay = [];
         for (let index = 0; index < currentExperiment.numberOfPresentations; index++) {
 
-            // 1. Generating graph with clique:
+            // 1. Generating graph WITH CLIQUE:
             //empty object (the properties will be the nodes and the values will be the arrays that indicate the existing connections)
             let graphWithClique = {};
             // randomly extracting the nodes that will be part of the clique
@@ -117,7 +117,7 @@
             graphWithClique[rowIndex] = currentRowAssociations;
             }
 
-            // 2. Generating graph without clique:
+            // 2. Generating graph WITHOUT CLIQUE:
             //empty object (the properties will be the nodes and the values will be the arrays that indicate the existing connections)
             let graphWithoutClique = {};
             // increasing the value of p so that the two graphs will have the same average degree (pCorr = p + (K*(K-1)/N*(N-1)) * (1-p) )

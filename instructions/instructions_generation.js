@@ -15,39 +15,42 @@
         let introductionPagesArray = []
 
         // page 1: welcome    
-        let page1 = `<b>Welcome to the experiment.</b><br>
+        let page1 = `<font size="+2"><b> Welcome to the experiment. </b></font><br><br>
         Move to the next page to read the informed consent <br>`
         introductionPagesArray.push(page1)
 
         // page 2: informed consent 1 (intro)
-        let page2 = `<strong>Informative page and informed consent form to take part in the study:</strong><br>
-        Before freely deciding whether you want to take part in this sudy, CAREFULLY READ this informed consent form and get in touch with the experimenter (TELEPHONE NUMBER / EMAIL??)
+        let page2 = `<font size="+2"><b> Informative page and informed consent form to take part in the study: </b></font><br>
+        Before freely deciding whether you want to take part in this sudy, CAREFULLY READ this informed consent form and get in touch with the experimenter (<a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a>)
         in case you had questions that you think are useful in order to clarify the aims, the modalities of execution of the experiment and its potential risks.
         We would also like to remind you that this is a research project and that your participation is completely voluntary.<br>
         You will have the possibility to withdraw from the experiment at any moment, without having to provide any reason. <br><br>`
         introductionPagesArray.push(page2)    
         
         // page 3: informed consent 2 (aim + payment)
-        let page3 = `<strong>Aim of the study:</strong> <br>
+        let page3 = `<font size="+2"><b> Aim of the study: </b></font><br>
         The aim of the study is to investigate humans' ability of solving certain statistical inference tasks regarding the presence of hidden structures in graphs and matrices.
         <br><br>
-        <strong> Payment:</strong><br>
+        <font size="+2"><b> Payment: </b></font><br>
         You will receive $5 through the platform Prolific. This is to reward you for the time you spent doing the task. <br><br>`
         introductionPagesArray.push(page3)    
 
         // page 4: informed consent 3 (description + image)
-        let page4 = `<strong>Description of the experimental procedure:</strong><br>
-        In this experiment you will have to choose between two alternatives that will be shown to you. On the screen of your computer you will visualize two triangles made of black and white tiles, similar to the ones of a chessboard , like the ones you are seeing below.
-        By pressing the spacebar, you will be able to visualize the same two triangles but in a different way. This modification may help you in making a choice (this operation will be better explained in a tutorial preceeding the start of the real experiment).<br>
-        Your goal is to guess in which one of the two visualized triangles it is possible to isolate a subset of tiles that are completely black. For each couple of triangles, this operation is possible only for one of the two triangles. Your task is to guess which one of the two triangles has this property.<br>
-        For example, in the two triangles below, the left one is triangle that has this property.
-        The experiment will last approximately 30 minutes. <br><br>     
+        let page4 = `<font size="+2"><b> Description of the experimental procedure: </b></font><br>
+        <b><i>STIMULI:</i></b> On the screen of your computer you will visualize two triangles made of black and white tiles, similar to the ones of a chessboard (see image below).<br>
+        <b><i>GOAL:</i></b> (RIVEDI/RIPENSA??) Your goal is to guess in which one of the two visualized triangles it is possible to isolate a subset of black tiles. For each couple of triangles, this operation is possible only for one of the two triangles. Your task is to indicate which one of the two triangles has this property by pressing the right or the left arrow.<br>
+        <b><i>ACTIONS:</i></b>
+        <i>- LEFT ARROW PRESS:</i> to indicate that the LEFT TRIANGLE is the one having the property <br>
+        <i>- RIGHT ARROW PRESS:</i> to indicate that the RIGHT TRIANGLE is the one having the property <br>
+        <i>- SPACEBAR PRESS:</i> to visualize the same couple of triangles but in a different way. This modification may help you in making a choice (this operation will be better explained in a tutorial preceeding the start of the real experiment).<br>
+        <b><i>EXAMPLE:</i></b> in the two triangles below, it is possible to isolate a subset of 100 black tiles only in the left triangle and not in the right one.<br>
+        <b><i>DURATION:</i></b> the experiment will last approximately 30 minutes. <br><br>     
         <img src="instructions/images/instruction_image_N150_K100.jpg" </img>
         <br><br>`
         introductionPagesArray.push(page4)
 
         // page 5: informed consent 4 (privacy)
-        let page5 = `<strong>Privacy:</strong><br>
+        let page5 = `<font size="+2"><b> Privacy: (RISISTEMA!!) </font></b><br>
         All the data collected through your participation and the one of the other volunteers will be stored in the servers of the Neuroscience Department of SISSA (Trieste)
         and in the ones located inside the European Union. Accessing the data will not be possible for unauthorized people.
         Your personal information will be stored separately from the results of the current research, to which they will be associated only through an arbitrary ID.
@@ -76,8 +79,14 @@
         - be aware that you can withdraw in any phase of the study.<br><br>`
         introductionPagesArray.push(page6)
 
-        //TUTORIAL? Fare riferimento anche al cambio di colore -> indica se l'ultima risposta fornita era corretta o scorretta
+        // page 6: start tutorial (intro)
+        let page7 = `Click the <strong>"Next"</strong> button to start the TUTORIAL of the experiment.`
+        introductionPagesArray.push(page7)  
 
-            return introductionPagesArray
+        //TUTORIAL?
+        // OPZIONI:
+        // - Fare come esempio una presentazione completa con una serie di randomizzazioni, cerchiando e spiegando il quadrato dello score e delle randomizzazioni permesse 
+
+        return introductionPagesArray
         
     }
