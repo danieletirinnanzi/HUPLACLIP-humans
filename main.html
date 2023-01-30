@@ -6,6 +6,7 @@
     <script src="graphs_generation.js"></script>
     <script src="instructions/instructions_generation.js"></script>
     <script src="experiment_parameters.js"></script>
+    <script src="drawing_stimuli.js"></script>
     <!-- Standard scripts -->
     <script src="jspsych/dist/jspsych.js"></script>    
     <script src="jspsych/dist/jspsych.js"></script>
@@ -37,19 +38,18 @@
         timeline.push(introduction)
         
 
-        /* DRAWING STIMULI: create separate js file? */
+        /* DRAWING STIMULI: */
             // FUNCTION THAT WILL DRAW THE STIMULI GIVEN THE CHOSEN ORDER OF THE NODES:
-            function generateDrawStimuli(presentationIndex) {
+            function generateDrawCanvas(presentationIndex) {
                 /* INPUT: 
                 - presentationIndex (the number that identifies the couple of graphs that is being displayed)
-                - orderOfNodes (the order with which the nodes will be displayed)
 
                 OUTPUT:
                 - display of the stimuli on the screen
                 */    
 
                 // function that generates the stimuli:
-                function drawStimuli(c) {
+                function drawCanvas(c) {
 
                     // addressing canvas
                     let ctx = c.getContext("2d"); 
@@ -63,191 +63,22 @@
 
                     // global variable that temporarily stores the correct answer for the current presentation (it keeps changing, and its value is read from plugin to store the order in the corresponding trial)
                     if(currentExperiment.graphsToDisplay[presentationIndex][0][currentExperiment.numberOfNodes] == "clique is absent") 
-                        //if first stimulus doesn't have the clique, then the graph with the clique is on the right side
+                        //if first stimulus doesn't have the clique, then the graph with the clique (correct answer) is on the right side
                         jsPsych.data.correctResponse = "arrowright"
                      else
                         jsPsych.data.correctResponse = "arrowleft"
 
-                    // calculating step size for the figure (each square contains two "steps", for this reason multiplying the number of nodes by 2):
-                    let singleStepSize = ((9/10)*(c.height))/(((Object.keys(currentExperiment.standardOrderOfNodes).length)*2)) // Object.keys(currentExperiment.standardOrderOfNodes).length --> number of squares
-                    // calculating starting points (for right and left stimulus) on x axis (considering the space to be left in the middle):
-                    let xStartingPointLeft = (c.width/2 ) - c.width/20
-                    let xStartingPointRight = (c.width/2 ) + c.width/20
-                    let yStartingPoint = (1/20)*(c.height)  //NB: starting to draw not from top of window, but leaving (1/20*c.height) above (and consequently below). For this reason, the single step size is calculated dividing not (c.height) but (9/10*canvas.height)
-                  
-            
-                    // Drawing stimulus on LEFT side:
-                    // accessing the graph that will appear on the left side of the screen:
-                    let leftGraph = currentExperiment.graphsToDisplay[presentationIndex][0]       
-                    //storing the associations for node number 0 in a separate array (to facilitate accessibility):
-                    let leftNodeZeroAssociations = []
-                    for (let rowIndex = 0; rowIndex < (Object.values(leftGraph).length - 1); rowIndex++) {
-                       //first element of each row of triangular graph represent the associations for node "0"
-                        leftNodeZeroAssociations.push(Object.values(leftGraph)[rowIndex][0])
-                        //NB: first element represents existence of association between node "0" and node "1" and so on
-                    } 
-
-                    for (let firstIndex = 0; firstIndex < ((currentExperiment.standardOrderOfNodes.length)-1); firstIndex++) {
-                        for (let secondIndex = 0; secondIndex < firstIndex+1; secondIndex++) {
-                            // drawing the square
-                            ctx.beginPath();
-                            ctx.moveTo(xStartingPointLeft-singleStepSize*(firstIndex-secondIndex+1),yStartingPoint+singleStepSize*(firstIndex+secondIndex)); //starting point (top angle)
-                            ctx.lineTo(xStartingPointLeft-singleStepSize*(firstIndex-secondIndex),yStartingPoint+singleStepSize*(firstIndex+secondIndex+1)); //going left-right (right angle)
-                            ctx.lineTo(xStartingPointLeft-singleStepSize*(firstIndex-secondIndex+1),yStartingPoint+singleStepSize*(firstIndex+secondIndex+2)); //going down-left (bottom angle)
-                            ctx.lineTo(xStartingPointLeft-singleStepSize*(firstIndex-secondIndex+2),yStartingPoint+singleStepSize*(firstIndex+secondIndex+1)); //going up-left (left angle)
-                            ctx.lineTo(xStartingPointLeft-singleStepSize*(firstIndex-secondIndex+1),yStartingPoint+singleStepSize*(firstIndex+secondIndex)); //closing square (top angle) (same coordinates of starting point)
-
-                            // defining the outline
-                            ctx.lineWidth = .8;
-                            ctx.strokeStyle = '#666666';
-                            ctx.stroke();
-
-                            ctx.fillStyle = "#FFFFFF";
-                            ctx.fill();   
-
-                            // Determining whether the two nodes are associated:
-                            let presentAssociation = false // will be changed to "true" if association is present in the considered instance 
-                            // when dealing with associations for node "0", using the array created at the beginning of the function:
-                            if (currentTrialOrder[firstIndex+1] == 0 ) {
-                                //first node was zero
-                                if(leftNodeZeroAssociations[(currentTrialOrder[secondIndex])-1] == 1 )
-                                    presentAssociation = true
-                            } else if (currentTrialOrder[secondIndex] == 0) {
-                                //second node was zero
-                                if(leftNodeZeroAssociations[(currentTrialOrder[firstIndex+1])-1] == 1 )            
-                                    presentAssociation = true
-                            } else {
-                                // when dealing with non-zero nodes, always reading the value from bigger node (constraint because of triangular matrix)
-                                //console.log("no zeros between the two nodes. Is the association present? ")
-                                if (currentTrialOrder[firstIndex+1] < currentTrialOrder[secondIndex]) {
-                                    //second element is bigger
-                                    if(leftGraph[currentTrialOrder[secondIndex]][currentTrialOrder[firstIndex+1]] == 1)
-                                        presentAssociation = true
-                                } else {
-                                    //second element is smaller
-                                    if(leftGraph[currentTrialOrder[firstIndex+1]][currentTrialOrder[secondIndex]] == 1)
-                                        presentAssociation = true
-                                }
-                            }
-                                
-                            //filling the square according to the choice just made
-                            if (presentAssociation) {
-                                // black if nodes are associated
-                                ctx.fillStyle = "#000000";
-                                ctx.fill();
-                            } else {
-                                // white if nodes are unassociated
-                                ctx.fillStyle = "#FFFFFF";
-                                ctx.fill();                       
-                                }
-                            }
-                            
-                        }
-
-                     
-                    // Drawing stimulus on RIGHT side:
-                    // accessing the graph that will appear on the left side of the screen:
-                    let rightGraph = currentExperiment.graphsToDisplay[presentationIndex][1]
-                    //console.log(rightGraph)       
-                    //storing the associations for node number 0 in a separate array (to facilitate accessibility):
-                    let rightNodeZeroAssociations = []
-                    for (let rowIndex = 0; rowIndex < (Object.values(rightGraph).length - 1); rowIndex++) {
-                       //first element of each row of triangular graph represent the associations for node "0"
-                        rightNodeZeroAssociations.push(Object.values(rightGraph)[rowIndex][0])
-                        //NB: first element represents existence of association between node "0" and node "1" and so on
-                    } 
-                                        
-                    for (let firstIndex = 0; firstIndex < ((currentExperiment.standardOrderOfNodes.length)-1); firstIndex++) {
-                        for (let secondIndex = 0; secondIndex < firstIndex+1; secondIndex++) {
-                            // drawing the square
-                            ctx.beginPath();
-                            ctx.moveTo(xStartingPointRight+singleStepSize*(firstIndex-secondIndex+1),yStartingPoint+singleStepSize*(firstIndex+secondIndex)); //starting point (top angle)
-                            ctx.lineTo(xStartingPointRight+singleStepSize*(firstIndex-secondIndex),yStartingPoint+singleStepSize*(firstIndex+secondIndex+1)); //going left-right (right angle)
-                            ctx.lineTo(xStartingPointRight+singleStepSize*(firstIndex-secondIndex+1),yStartingPoint+singleStepSize*(firstIndex+secondIndex+2)); //going down-left (bottom angle)
-                            ctx.lineTo(xStartingPointRight+singleStepSize*(firstIndex-secondIndex+2),yStartingPoint+singleStepSize*(firstIndex+secondIndex+1)); //going up-left (left angle)
-                            ctx.lineTo(xStartingPointRight+singleStepSize*(firstIndex-secondIndex+1),yStartingPoint+singleStepSize*(firstIndex+secondIndex)); //closing square (top angle) (same coordinates of starting point)
-
-                            // defining the outline
-                            ctx.lineWidth = .8;
-                            ctx.strokeStyle = '#666666';
-                            ctx.stroke();
-
-                            ctx.fillStyle = "#FFFFFF";
-                            ctx.fill();   
-
-                            // Determining whether the two nodes are associated:
-                            let presentAssociation = false // will be changed to "true" if association is present in the considered instance 
-                            // when dealing with associations for node "0", using the array created at the beginning of the function:
-                            if (currentTrialOrder[firstIndex+1] == 0 ) {
-                                //first node was zero
-                                if(rightNodeZeroAssociations[(currentTrialOrder[secondIndex])-1] == 1 )
-                                    presentAssociation = true
-                            } else if (currentTrialOrder[secondIndex] == 0) {
-                                //second node was zero
-                                if(rightNodeZeroAssociations[(currentTrialOrder[firstIndex+1])-1] == 1 )            
-                                    presentAssociation = true
-                            } else {
-                                // when dealing with non-zero nodes, always reading the value from bigger node (constraint because of triangular matrix)
-                                //console.log("no zeros between the two nodes. Is the association present? ")
-                                if (currentTrialOrder[firstIndex+1] < currentTrialOrder[secondIndex]) {
-                                    //second element is bigger
-                                    if(rightGraph[currentTrialOrder[secondIndex]][currentTrialOrder[firstIndex+1]] == 1)
-                                        presentAssociation = true
-                                } else {
-                                    //second element is smaller
-                                    if(rightGraph[currentTrialOrder[firstIndex+1]][currentTrialOrder[secondIndex]] == 1)
-                                        presentAssociation = true
-                                }
-                            }
-                                
-                            //filling the square according to the choice just made
-                            if (presentAssociation) {
-                                // black if nodes are associated
-                                ctx.fillStyle = "#000000";
-                                ctx.fill();
-                            } else {
-                                // white if nodes are unassociated
-                                ctx.fillStyle = "#FFFFFF";
-                                ctx.fill();                       
-                                }
-                            }
-                            
-                        }
-
+                    // Calling function to draw stimuli:
+                    drawStimuli(ctx,presentationIndex,currentTrialOrder)
                     
-                    // ADDING ACCURACY on the top-right corner of the screen
                     // accessing the array of the trials done up to now:
                     let currentTrialsArray = jsPsych.data.get().trials
-                    let arrayOfResponses = []
-                    // looping through all the elements to check which trials have a final response (arrow press):
-                    currentTrialsArray.forEach(element => {
-                        // only the trials were arrow press was done have the "correctnessOfResponse" property
-                        if(element.hasOwnProperty('correctnessOfResponse') )
-                            // if(element.correctnessOfResponse)
-                                // correctResponses += 1 
-                            arrayOfResponses.push(element.correctnessOfResponse)
-                    });
-                    let numberOfCorrectResponses = arrayOfResponses.reduce((a, b) => a + b, 0)
-                    //creating string to be displayed as feedback:
-                    let feedbackString = "SCORE: " + numberOfCorrectResponses +"/"+ presentationIndex
-                    //rect (differentiating color (green / red) based on correctness / incorrectness of last response)
-                    if(arrayOfResponses.length == 0)
-                        // if no response has been given, choosing a "neutral" color
-                        ctx.fillStyle = "orange";
-                    else 
-                        if(arrayOfResponses[arrayOfResponses.length-1] == true)
-                            ctx.fillStyle = "lawngreen";
-                        else
-                            ctx.fillStyle = "red";
-                    ctx.fillRect((c.width-(c.width/6)), (c.height)/16, 200, 80);
-                    // text on the canvas:
-                    ctx.fillStyle = "black"
-                    ctx.font = "bold 1.7em system-ui";
-                    ctx.fillText(feedbackString, (c.width-(c.width/6.5)), (c.height)/7.5);
+                    // Calling function to draw accuracy:
+                    drawAccuracy(ctx,presentationIndex,currentTrialsArray)
 
                     }
                 
-                return drawStimuli
+                return drawCanvas
 
             }
             
@@ -272,7 +103,7 @@
       
             // adding the stimulus to the timeline of the trial
             // NB: shuffling is done inside draw function
-            currentTrial.timeline.push({stimulus: generateDrawStimuli(presentationIndex)})
+            currentTrial.timeline.push({stimulus: generateDrawCanvas(presentationIndex)})
 
             // repeating the trial until an answer on the buttons is given:
             let loop_node = {

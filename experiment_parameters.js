@@ -1,6 +1,6 @@
 /* EXPERIMENT PARAMETERS: */
     // defining canvas dimensions (sizes of canvas = sizes of whole window):
-    let canvasHeight = window.innerHeight  //height is the dimension that regulates the size of the stimuli
+    let canvasHeight = window.innerHeight  //height is the dimension that regulates the size of the stimuli (on which the "step" is calculated)
     let canvasWidth = window.innerWidth
 
     // CREATING OBJECT FOR CURRENT EXPERIMENT:
@@ -10,8 +10,8 @@
         maximumNumberOfRandomizations: 3, // maximum number of randomizations allowed for a single couple of matrices 
         canvasDimensions: [canvasHeight,canvasWidth], // [height,width]
         // parameters for graphs:
-        numberOfNodes: 150,
-        initialCliqueSize: 100,  // this is the maximum dimension of the clique, it will decrease throughout the experiment, increasing the difficulty of the task                       
+        numberOfNodes: 9,
+        initialCliqueSize: 5,  // this is the maximum dimension of the clique, it will decrease throughout the experiment, increasing the difficulty of the task                       
         probabilityOfAssociation: 0.5
     }
 
