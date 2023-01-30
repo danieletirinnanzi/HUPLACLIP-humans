@@ -10,8 +10,8 @@
         maximumNumberOfRandomizations: 3, // maximum number of randomizations allowed for a single couple of matrices 
         canvasDimensions: [canvasHeight,canvasWidth], // [height,width]
         // parameters for graphs:
-        numberOfNodes: 9,
-        initialCliqueSize: 5,  // this is the maximum dimension of the clique, it will decrease throughout the experiment, increasing the difficulty of the task                       
+        numberOfNodes: 150,
+        initialCliqueSize: 100,  // this is the maximum dimension of the clique, it will decrease throughout the experiment, increasing the difficulty of the task                       
         probabilityOfAssociation: 0.5
     }
 
@@ -29,4 +29,3 @@
 
     // adding the graphs to display as a property to the "currentExperiment" object
     currentExperiment.graphsToDisplay = generateGraphs()
-    console.log(currentExperiment.graphsToDisplay)

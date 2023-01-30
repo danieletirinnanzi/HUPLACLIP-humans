@@ -19,10 +19,6 @@ function drawStimuli(ctx,presentationIndex,currentTrialOrder) {
     // Drawing stimulus on LEFT SIDE:
     // accessing the graph that will appear on the left side of the screen:
     let leftGraph = currentExperiment.graphsToDisplay[presentationIndex][0]  
-    console.log("stimulus on left side is: ")
-    console.log(leftGraph)
-    console.log("ordering is: ")
-    console.log(currentTrialOrder)
 
     for (let firstIndex = 0; firstIndex < ((currentExperiment.standardOrderOfNodes.length)-1); firstIndex++) {
         for (let secondIndex = 0; secondIndex < firstIndex+1; secondIndex++) {

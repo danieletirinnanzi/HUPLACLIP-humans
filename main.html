@@ -114,7 +114,7 @@
 
                 if (currentData.trials.filter(element => element.presentationNumber == presentationIndex).length == currentExperiment.maximumNumberOfRandomizations) {
                     // if number of repetitions exceeded the limit for the current stimulus, moving to next stimulus:
-                    console.log("maximum number of randomizations for this trial, moving on to the next one")
+                    console.log("maximum number of randomizations for this presentation, moving on to the next one")
                     return false
                 }  else if(currentData.last(1).values()[0].response == " "){
                     // if last response was a spacebar press, repeat the trial
