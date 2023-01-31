@@ -5,6 +5,7 @@
     <!-- My scripts -->
     <script src="graphs_generation.js"></script>
     <script src="introduction/introduction_generation.js"></script>
+    <!-- <script src="introduction/consent_page.html"></script> -->
     <script src="experiment_parameters.js"></script>
     <script src="canvas_drawing.js"></script>
     <!-- Standard scripts -->
@@ -13,7 +14,7 @@
     <!-- Plugins -->
     <script src="jspsych/dist/plugin-canvas-keyboard-response.js"></script>
     <script src="jspsych/dist/plugin-instructions.js"></script>
-    <script src="jspsych/dist/plugin-survey-html-form.js"></script> <!-- Substitute with external HTML plugin -->
+    <script src="jspsych/dist/plugin-survey-html-form.js"></script>
     <!-- Styling -->
     <link href="jspsych/dist/jspsych.css" rel="stylesheet" type="text/css" />
   </head>
@@ -42,7 +43,6 @@
 
         /* CONSENT FORM */
         // showing consent form and recording participant response
-        // REDO WITH external HTML plugin (https://www.jspsych.org/7.0/plugins/external-html/), checking that it has been clicked before proceeding with tutorial
         let consent_form = {
             type: jsPsychSurveyHtmlForm,
             preamble: `<p> By clicking the checkbox below you are expressing your consent in taking part in the study, and you confirm to: <br>
@@ -51,11 +51,38 @@
              - have had the possibility of asking questions regarding any aspect of the experimental procedure and to have obtained satisfying answers;<br>
              - be aware of the possible risks related with the experiment;<br>
              - have received satisfying assurance regarding the confidentiality of the information collected through the testing of your data;<br>
-             - be aware that you can withdraw in any phase of the study.<br><br> </p>`,
+             - be aware that you can withdraw in any phase of the study.<br> </p>`,
             html:
-            `<p> <input id="consent-checkbox" type="checkbox" /><br> </p>`
+            `<p> <input id="consent-checkbox" type="checkbox" /><br> I agree to take part in the study. </p>`,
+            button_label: "Start Tutorial"
         };
-        timeline.push(consent_form)     
+        timeline.push(consent_form)
+        // TO DO: GOING ON ONLY IF CHECKBOX HAS BEEN CLICKED, OTHERWISE ALERT SUBJECT    
+        
+        /*
+        POSSIBLE IMPROVEMENT: showing consent form with EXTERNAL-HTML plugin (https://www.jspsych.org/7.0/plugins/external-html/) -> issues for CORS policy (Access to fetch at 'file:///H:/Desktop/HUPLACLIP/introduction/consent_page.html' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: http, data, isolated-app, chrome-extension, chrome-untrusted, https, edge)
+        // sample function that might be used to check if a subject has given consent to participate.
+        var check_consent = function(elem) {
+            if (document.getElementById('consent_checkbox').checked) {
+                return true; //NOT ALLOWING TO GO ON UNTIL CHECKBOX HAS BEEN PRESSED
+            }
+            else {
+                alert("If you wish to participate, you must check the box next to the statement 'I agree to participate in this study.'");
+                return false;
+            }
+            return false;
+        };
+
+        // declare the block.
+        var trial = {
+            type: jsPsychExternalHtml,
+            url: "file:///H:/Desktop/HUPLACLIP/introduction/consent_page.html",
+            cont_btn: "start",
+            check_fn: check_consent
+        };
+        timeline.push(trial)
+        */  
+        
         
         /* TUTORIAL */
         // OPZIONI:
