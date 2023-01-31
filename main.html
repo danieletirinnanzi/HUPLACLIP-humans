@@ -4,7 +4,7 @@
     <title>New version of HUPLACLIP</title>
     <!-- My scripts -->
     <script src="graphs_generation.js"></script>
-    <script src="instructions/instructions_generation.js"></script>
+    <script src="introduction/introduction_generation.js"></script>
     <script src="experiment_parameters.js"></script>
     <script src="canvas_drawing.js"></script>
     <!-- Standard scripts -->
@@ -13,6 +13,8 @@
     <!-- Plugins -->
     <script src="jspsych/dist/plugin-canvas-keyboard-response.js"></script>
     <script src="jspsych/dist/plugin-instructions.js"></script>
+    <script src="jspsych/dist/plugin-survey-html-form.js"></script> <!-- Substitute with external HTML plugin -->
+    <!-- Styling -->
     <link href="jspsych/dist/jspsych.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
@@ -30,12 +32,34 @@
         var timeline = [];
 
         /* INTRODUCTION */
+        // showing informative pages about the study (general info, aim, payment, description of exp procedure, privacy)
         let introduction = {
         type: jsPsychInstructions,
         pages: generateIntroductionPages(),
         show_clickable_nav: true    //subjects will be able to navigate through the pages
         }
         timeline.push(introduction)
+
+        /* CONSENT FORM */
+        // showing consent form and recording participant response
+        // REDO WITH external HTML plugin (https://www.jspsych.org/7.0/plugins/external-html/), checking that it has been clicked before proceeding with tutorial
+        let consent_form = {
+            type: jsPsychSurveyHtmlForm,
+            preamble: `<p> By clicking the checkbox below you are expressing your consent in taking part in the study, and you confirm to: <br>
+             - have carefully read the explanations regarding this study and the full experimental procedure;<br>
+             - have been informed regarding the scope and aims of the present research;<br>
+             - have had the possibility of asking questions regarding any aspect of the experimental procedure and to have obtained satisfying answers;<br>
+             - be aware of the possible risks related with the experiment;<br>
+             - have received satisfying assurance regarding the confidentiality of the information collected through the testing of your data;<br>
+             - be aware that you can withdraw in any phase of the study.<br><br> </p>`,
+            html:
+            `<p> <input id="consent-checkbox" type="checkbox" /><br> </p>`
+        };
+        timeline.push(consent_form)     
+        
+        /* TUTORIAL */
+        // OPZIONI:
+        // - Fare come esempio una presentazione completa con una serie di randomizzazioni, cerchiando e spiegando il quadrato dello score e delle randomizzazioni permesse (immagini??) 
         
 
         /* DRAWING STIMULI: */
@@ -86,6 +110,10 @@
             
 
     /* ACTUAL JSPSYCH SCRIPT: */
+    // POSSIBLE IMPROVEMENTS:
+    // - entering fullscreen before starting real experiment (https://www.jspsych.org/7.0/plugins/fullscreen/)
+    // - resizing screen to control for effective physical size of stimuli (https://www.jspsych.org/7.0/plugins/resize/)
+
         // creating the trials for the experiment
         for (let presentationIndex = 0; presentationIndex < currentExperiment.numberOfPresentations; presentationIndex++) {
             
