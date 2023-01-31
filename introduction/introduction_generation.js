@@ -43,7 +43,7 @@ function generateIntroductionPages() {
     <i>- SPACEBAR PRESS:</i> to visualize the same couple of triangles but in a different way. This modification may help you in making a choice (this operation will be better explained in a tutorial preceeding the start of the real experiment).<br>
     <b><i>EXAMPLE:</i></b> in the two triangles below, it is possible to isolate a subset of 100 black tiles only in the left triangle and not in the right one.<br>
     <b><i>DURATION:</i></b> the experiment will last approximately 30 minutes. <br><br>     
-    <img src="introduction/images/exp_procedure_description_image_N150_K100.jpg" </img>
+    <img src="introduction/exp_procedure_description_image_N150_K100.jpg" </img>
     <br><br>`
     introductionPagesArray.push(page4)
 

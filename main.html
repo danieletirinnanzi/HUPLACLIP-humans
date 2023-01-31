@@ -32,7 +32,8 @@
         /* create timeline */
         var timeline = [];
 
-        /* INTRODUCTION */
+
+        /* INTRODUCTIVE PAGES */
         // showing informative pages about the study (general info, aim, payment, description of exp procedure, privacy)
         let introduction = {
         type: jsPsychInstructions,
@@ -56,8 +57,8 @@
             `<p> <input id="consent-checkbox" type="checkbox" /><br> I agree to take part in the study. </p>`,
             button_label: "Start Tutorial"
         };
+        // TO DO: GOING ON ONLY IF CHECKBOX HAS BEEN CLICKED, OTHERWISE ALERT SUBJECT 
         timeline.push(consent_form)
-        // TO DO: GOING ON ONLY IF CHECKBOX HAS BEEN CLICKED, OTHERWISE ALERT SUBJECT    
         
         /*
         POSSIBLE IMPROVEMENT: showing consent form with EXTERNAL-HTML plugin (https://www.jspsych.org/7.0/plugins/external-html/) -> issues for CORS policy (Access to fetch at 'file:///H:/Desktop/HUPLACLIP/introduction/consent_page.html' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: http, data, isolated-app, chrome-extension, chrome-untrusted, https, edge)
@@ -83,10 +84,13 @@
         timeline.push(trial)
         */  
         
-        
         /* TUTORIAL */
-        // OPZIONI:
-        // - Fare come esempio una presentazione completa con una serie di randomizzazioni, cerchiando e spiegando il quadrato dello score e delle randomizzazioni permesse (immagini??) 
+        // A)
+        // 1. Screenshots explaining the meaning of the numbers on the screen (modify on Paint to underline relevant parts). Writing keys pressed -> consequence on the screen (following natural flow of experiment)
+        // 2. Complete presentation (1/2, stored in data), to have an idea of whether they understood the task and familiarized correctly
+        // 
+        // B)
+        // canvasKeyBoardResponse + alert -> suggesting what the subject should do to perform the various actions
         
 
         /* DRAWING STIMULI: */
