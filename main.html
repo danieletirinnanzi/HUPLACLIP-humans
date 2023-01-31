@@ -75,6 +75,8 @@
                     let currentTrialsArray = jsPsych.data.get().trials
                     // Calling function to draw accuracy:
                     drawAccuracy(ctx,presentationIndex,currentTrialsArray)
+                    // Calling function to draw number of remaining randomizations for current presentation:
+                    drawRemainingRandomizations(ctx,presentationIndex,currentTrialsArray)
 
                     }
                 

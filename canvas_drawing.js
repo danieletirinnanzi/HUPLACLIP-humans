@@ -158,8 +158,6 @@ function drawAccuracy(ctx,presentationIndex,currentTrialsArray) {
     currentTrialsArray.forEach(element => {
         // only the trials were arrow press was done have the "correctnessOfResponse" property
         if(element.hasOwnProperty('correctnessOfResponse') )
-            // if(element.correctnessOfResponse)
-                // correctResponses += 1 
             arrayOfResponses.push(element.correctnessOfResponse)
     });
     let numberOfCorrectResponses = arrayOfResponses.reduce((a, b) => a + b, 0)
@@ -180,4 +178,35 @@ function drawAccuracy(ctx,presentationIndex,currentTrialsArray) {
     ctx.font = "bold 1.7em system-ui";
     ctx.fillText(feedbackString, (currentExperiment.canvasDimensions[1]-(currentExperiment.canvasDimensions[1]/6.5)), (currentExperiment.canvasDimensions[0])/7.5);
 
+}
+
+
+/* FUNCTION TO PRINT THE NUMBER OF REMAINING RANDOMIZATIONS FOR THE CURRENT PRESENTATION ON THE CANVAS */
+function drawRemainingRandomizations(ctx,presentationIndex,currentTrialsArray) {
+    /* INPUT: 
+    - ctx (reference to the canvas on which stimuli will be drawn)
+    - presentationIndex (the number that identifies the couple of graphs that is being displayed)
+    - currentTrialsArray (the array that stores all the data produced up to now)
+
+    OUTPUT:
+    - display of the remaining randomizations for the current presentation on the screen
+    */ 
+
+    let randomizationsPerformed = 0
+    // looping through all the trials to check how many times a randomization was already performed:
+    currentTrialsArray.forEach(element => {
+        // isolating the canvas-keyboard-response trials for the current presentation were space-bar presses were done
+        if(element.trial_type == "canvas-keyboard-response" && element.presentationNumber == presentationIndex && element.response == " ")
+            // increasing the number of randomizations already performed
+            randomizationsPerformed += 1
+    });
+    // computing the number of randomizations left:
+    let remainingRandomizations = currentExperiment.maximumNumberOfRandomizations - randomizationsPerformed
+    //creating string to be displayed as feedback:
+    let feedbackString = "MOVES LEFT: " + remainingRandomizations
+    // text on canvas (increasing red hue when the remaining randomizations decrease. No randomization requested -> black; no randomizations left -> red ):
+    ctx.fillStyle = `rgb(${255 - Math.floor(255/currentExperiment.maximumNumberOfRandomizations)*remainingRandomizations},0,0)`;
+    ctx.font = "bold 1.7em system-ui";
+    ctx.fillText(feedbackString, 0, (currentExperiment.canvasDimensions[0])/7.5);
+    
 }
