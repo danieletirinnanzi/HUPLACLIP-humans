@@ -4,7 +4,7 @@
     <title>New version of HUPLACLIP</title>
     <!-- My scripts -->
     <script src="graphs_generation.js"></script>
-    <script src="introduction/introduction_generation.js"></script>
+    <script src="introduction/introduction_pages_generation.js"></script>
     <!-- <script src="introduction/consent_page.html"></script> -->
     <script src="experiment_parameters.js"></script>
     <script src="canvas_drawing.js"></script>
@@ -34,7 +34,7 @@
 
 
         /* INTRODUCTIVE PAGES */
-        // showing informative pages about the study (general info, aim, payment, description of exp procedure, privacy)
+        // showing informative pages about the study (informed consent, aim, privacy)
         let introduction = {
         type: jsPsychInstructions,
         pages: generateIntroductionPages(),
@@ -42,55 +42,24 @@
         }
         timeline.push(introduction)
 
-        /* CONSENT FORM */
-        // showing consent form and recording participant response
+
+        /* AGREEMENT TO START EXPERIMENT */
+        // informing that the experiment will start and subject agrees
+        // POSSIBLE IMPROVEMENT: use external-HTML plugin (with "agreement_page.html"), so that it is possible to use checkbox and check agreement with a function (alert if clicking something else)
         let consent_form = {
-            type: jsPsychSurveyHtmlForm,
-            preamble: `<p> By clicking the checkbox below you are expressing your consent in taking part in the study, and you confirm to: <br>
+            type: jsPsychInstructions,
+            pages: [`<p> By clicking the "Space" you are expressing your consent in taking part in the study, and you confirm to: <br>
              - have carefully read the explanations regarding this study and the full experimental procedure;<br>
              - have been informed regarding the scope and aims of the present research;<br>
              - have had the possibility of asking questions regarding any aspect of the experimental procedure and to have obtained satisfying answers;<br>
              - be aware of the possible risks related with the experiment;<br>
              - have received satisfying assurance regarding the confidentiality of the information collected through the testing of your data;<br>
-             - be aware that you can withdraw in any phase of the study.<br> </p>`,
-            html:
-            `<p> <input id="consent-checkbox" type="checkbox" /><br> I agree to take part in the study. </p>`,
-            button_label: "Start Tutorial"
+             - be aware that you can withdraw in any phase of the study.<br><br> 
+             Click "Space" to start the experiment.
+             </p>`],
+             key_forward: " "
         };
-        // TO DO: GOING ON ONLY IF CHECKBOX HAS BEEN CLICKED, OTHERWISE ALERT SUBJECT 
         timeline.push(consent_form)
-        
-        /*
-        POSSIBLE IMPROVEMENT: showing consent form with EXTERNAL-HTML plugin (https://www.jspsych.org/7.0/plugins/external-html/) -> issues for CORS policy (Access to fetch at 'file:///H:/Desktop/HUPLACLIP/introduction/consent_page.html' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: http, data, isolated-app, chrome-extension, chrome-untrusted, https, edge)
-        // sample function that might be used to check if a subject has given consent to participate.
-        var check_consent = function(elem) {
-            if (document.getElementById('consent_checkbox').checked) {
-                return true; //NOT ALLOWING TO GO ON UNTIL CHECKBOX HAS BEEN PRESSED
-            }
-            else {
-                alert("If you wish to participate, you must check the box next to the statement 'I agree to participate in this study.'");
-                return false;
-            }
-            return false;
-        };
-
-        // declare the block.
-        var trial = {
-            type: jsPsychExternalHtml,
-            url: "file:///H:/Desktop/HUPLACLIP/introduction/consent_page.html",
-            cont_btn: "start",
-            check_fn: check_consent
-        };
-        timeline.push(trial)
-        */  
-        
-        /* TUTORIAL */
-        // A)
-        // 1. Screenshots explaining the meaning of the numbers on the screen (modify on Paint to underline relevant parts). Writing keys pressed -> consequence on the screen (following natural flow of experiment)
-        // 2. Complete presentation (1/2, stored in data), to have an idea of whether they understood the task and familiarized correctly
-        // 
-        // B)
-        // canvasKeyBoardResponse + alert -> triggering/suggesting actions to the subject and showing consequences
         
 
         /* DRAWING STIMULI: */
