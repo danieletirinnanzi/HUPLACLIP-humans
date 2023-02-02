@@ -13,7 +13,8 @@ function generateIntroductionPages() {
 
     // page 1: welcome   
     let page1 = `<font size="+2"><b> Welcome to the experiment. </b></font><br><br>
-    Press the buttons below or use the left and right arrow to move across pages. <br>`
+    Press the buttons below or use the left and right arrow to move across pages. <br><br>
+    <i><b>Press right arrow to move on > </b></i>`
     introductionPagesArray.push(page1)
 
     // page 2: informed consent + aim + privacy
@@ -37,14 +38,18 @@ function generateIntroductionPages() {
     (PEDICE: Il Responsabile della protezione dei dati (RPD) è l'Avv. Valentina Carollo che
     può essere contattato ai seguenti indirizzi email: dpo@sissa.it oppure rpd@sissa.it - PEC: protocollo@pec.sissa.it )
     Before expressing your consent to participate, we remind you again that in case you needed clarifications on any aspect of the current research, the experimenter is fully available to provide it.<br><br>
-    Go to the next page to start the tutorial. 
+    Go to the next page to start the tutorial. <br><br>
+    <i><b>< Press left arrow to go back <br></b></i>
+    <i><b>Press right arrow to go forward > </b></i>
     `
     introductionPagesArray.push(page2)  
     
     // page 3: tutorial   
     let tutorial1 = `<font size="+2"><b> TUTORIAL </b></font><br><br>
     The tutorial will be here <br>
-    <img src="introduction/tutorial_images/2 highlighted/square/highlighted_square_chessboard_N6_2.png" alt="Girl in a jacket" width="600" height="600">
+    <img src="introduction/tutorial_images/2 highlighted/square/highlighted_square_chessboard_N16_1.png" alt="Girl in a jacket" width="500" height="500"><br><br>
+    <i><b>< Press left arrow to go back <br></b></i>
+    <i><b>Press right arrow to go forward ></b></i>
     `
     introductionPagesArray.push(tutorial1)    
     
@@ -56,15 +61,16 @@ function generateIntroductionPages() {
         - highlighted rows and columns,
         - modified chessboard,
         - visual comparison of standard /modified chessboards next to each other;
-    3. Depict passage from square to triangular chessboard (opacity on half of the chessboard -> triangular version) (N<10);
+    3. Depict passage from square to triangular chessboard (opacity on half of the chessboard -> triangular version. Do it for all 3 versions (6 - 10 - 16 nodes) ) (N<10);
     4. Illustrate swapping in triangular chessboard (same as point 2. Same N and same visualizations/repetitions);
-    5. Illustrate idea of clique in triangular chessboard with color coding (repeat 2/3 times (increasing N)):
+    5. 45 degree rotation of triangular chessboard (multiple examples, with different n. of nodes)
+    6. Illustrate idea of clique in triangular chessboard with color coding (repeat 2/3 times (increasing N)):
         - single triangular chessboard with clique "clustered" and with different color,
         - spreading the clique in the chessboard,
         - visual comparison of "clustered" and randomized version (maintaining color coding),
-    6. Show "paired" stimuli like in task (one with clique, one without) maintaining color coding (repeat 2/3 times, increasing difficulty (increasing N & decreasing K) ). Introduce with: "In the task, you will see two triangular chessboards next to each other, like this: ". Also underline which is the correct answer and what happens if one presses the spacebar ( = 1 "move") in this version (maintaining color coding);
-    7. Show "paired" stimuli like in task (one with clique, one without) in B/W. Same as point 6., so both underlining correct answer and effect of spacebar press.
-    8. Final familiarization with moves and responses: perform final simulation before starting the experiment OR trash the first 2/3 trials of experiment.
+    7. Show "paired" stimuli like in task (one with clique, one without) maintaining color coding (repeat 2/3 times, increasing difficulty (increasing N & decreasing K) ). Introduce with: "In the task, you will see two triangular chessboards next to each other, like this: ". Also underline which is the correct answer (change color of clique) and what happens if one presses the spacebar ( = 1 "move") in this version (maintaining color coding);
+    8. Show "paired" stimuli like in task (one with clique, one without) in B/W. Same as point 6., so both underlining correct answer (make it "appear" in the graph with the clique to show that it was the correct one, like in Francesco's task) and effect of spacebar press.
+    9. Final familiarization with moves and responses (give feedback after every trial completed, by coloring the clique in the correct stimulus): perform final simulation before starting the experiment OR trash the first 2/3 trials of experiment.
     */
 
     return introductionPagesArray

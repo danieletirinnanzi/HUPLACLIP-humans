@@ -38,7 +38,8 @@
         let introduction = {
         type: jsPsychInstructions,
         pages: generateIntroductionPages(),
-        show_clickable_nav: true    //subjects will be able to navigate through the pages
+        // show_clickable_nav: true    //subjects will be able to navigate through the pages
+        key_forward: "ArrowRight"
         }
         timeline.push(introduction)
 
@@ -55,7 +56,7 @@
              - be aware of the possible risks related with the experiment;<br>
              - have received satisfying assurance regarding the confidentiality of the information collected through the testing of your data;<br>
              - be aware that you can withdraw in any phase of the study.<br><br> 
-             Click "Space" to start the experiment.
+             Press "Space" to start the experiment.
              </p>`],
              key_forward: " "
         };

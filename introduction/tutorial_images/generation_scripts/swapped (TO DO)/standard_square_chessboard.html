@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Swapped square chessboard generation</title>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="900" height="900"></canvas>
+    <script>
+        
+        function drawStimuli(numberOfSquares) {
+            // addressing canvas from HTML (moving outside function and passing canvas as input (check in JSPSYCH page) ):
+            let canvasElement = document.querySelector("#myCanvas");
+            // canvas with id="myCanvas"
+            let ctx = canvasElement.getContext("2d");
+            // drawing the squares
+            let singleSquareDimension = canvasElement.width/(numberOfSquares);
+            for (let firstIndex = 0; firstIndex < numberOfSquares+1; firstIndex++) {  
+                // this index allows to move vertically when building in the stimulus
+                for (let secondIndex = 0; secondIndex < numberOfSquares+1; secondIndex++) {
+                    //this index allows to move horizontally when building the stimulus (1st row: one square; 2nd row: two squares...):
+                    // drawing the square
+                    ctx.beginPath();
+                    ctx.moveTo(singleSquareDimension*secondIndex,singleSquareDimension*firstIndex); //starting point (upper-left angle)
+                    ctx.lineTo(singleSquareDimension*secondIndex,singleSquareDimension*(firstIndex+1)); //going downwards (lower-left angle)
+                    ctx.lineTo(singleSquareDimension*(secondIndex+1),singleSquareDimension*(firstIndex+1)); //going horizontal (lower-right angle)
+                    ctx.lineTo(singleSquareDimension*(secondIndex+1),singleSquareDimension*firstIndex); //going upwards (upper-right angle)
+                    ctx.lineTo(singleSquareDimension*secondIndex,singleSquareDimension*firstIndex); //closing square (upper-left angle)
+
+                    // the outline
+                    ctx.lineWidth = 2;
+                    ctx.strokeStyle = '#666666';
+                    ctx.stroke();
+                    
+                    
+                    // VERSION 1 (black diagonal)
+                    // adjusting the fill color to obtain a chessboard
+                    if(firstIndex % 2==0){       
+                        if(secondIndex % 2==0)
+                            //black
+                            ctx.fillStyle = "#000000";
+                        else 
+                            //white
+                            ctx.fillStyle = "#FFFFFF";
+                    }
+                    else {
+                        if(secondIndex % 2==0)
+                            //white
+                            ctx.fillStyle = "#FFFFFF";
+                        else 
+                            //black
+                            ctx.fillStyle = "#000000";                    
+                    //The number is odd
+                    }
+                    
+
+                    /*
+                    // VERSION 2 (white diagonal)
+                    // adjusting the fill color to obtain a chessboard
+                    if(firstIndex % 2==0){       
+                        if(secondIndex % 2==0)
+                            //black
+                            ctx.fillStyle = "#FFFFFF";
+                        else 
+                            //white
+                            ctx.fillStyle = "#000000";
+                    }
+                    else {
+                        if(secondIndex % 2==0)
+                            //white
+                            ctx.fillStyle = "#000000";
+                        else 
+                            //black
+                            ctx.fillStyle = "#FFFFFF";                    
+                    //The number is odd
+                    }      
+                    */              
+                    
+                    ctx.fill();
+                }   
+            }  
+        }
+
+        //calling function to draw the stimulus:
+        let numberOfNodes = prompt("Insert number of nodes: ");
+        drawStimuli(numberOfNodes) //NB: if 10 nodes are associated, the triangular matrix has to be of 9 squares
+
+    </script>
+
+</body>
+</html>
