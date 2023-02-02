@@ -43,7 +43,9 @@ function generateIntroductionPages() {
     
     // page 3: tutorial   
     let tutorial1 = `<font size="+2"><b> TUTORIAL </b></font><br><br>
-    The tutorial will be here <br>`
+    The tutorial will be here <br>
+    <img src="introduction/tutorial_images/2 highlighted/square/highlighted_square_chessboard_N6_2.png" alt="Girl in a jacket" width="600" height="600">
+    `
     introductionPagesArray.push(tutorial1)    
     
     /*
