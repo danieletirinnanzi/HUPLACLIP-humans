@@ -47,7 +47,7 @@ function generateIntroductionPages() {
     // page 3: tutorial   
     let tutorial1 = `<font size="+2"><b> TUTORIAL </b></font><br><br>
     The tutorial will be here <br>
-    <img src="introduction/tutorial_images/2 highlighted/square/highlighted_square_chessboard_N16_1.png" alt="Girl in a jacket" width="500" height="500"><br><br>
+    <img src="tutorial/task_screenshots/1_standard_page_N150_K100.JPG" alt="Girl in a jacket" width="500" height="500"><br><br>
     <i><b>< Press left arrow to go back <br></b></i>
     <i><b>Press right arrow to go forward ></b></i>
     `
@@ -60,7 +60,7 @@ function generateIntroductionPages() {
         - standard chessboard,
         - highlighted rows and columns,
         - modified chessboard,
-        - visual comparison of standard /modified chessboards next to each other;
+        - visual comparison of standard / highlighted / modified chessboards next to each other;
     3. Depict passage from square to triangular chessboard (opacity on half of the chessboard -> triangular version. Do it for all 3 versions (6 - 10 - 16 nodes) ) (N<10);
     4. Illustrate swapping in triangular chessboard (same as point 2. Same N and same visualizations/repetitions);
     5. 45 degree rotation of triangular chessboard (multiple examples, with different n. of nodes)
