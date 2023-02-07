@@ -1,16 +1,18 @@
 
+const tutorialObject = {
+    // THINK ABOUT THE MORE EFFICIENT WAY OF ENCODING IT 
+    // - saving images in a folder with names that can be accessed through a for loop)
+}
 
 
-    /* FUNCTION TO GENERATE THE INTRODUCTION PAGES ARRAY */
+/* FUNCTION TO GENERATE THE INTRODUCTION PAGES ARRAY */
 function generateIntroductionPages() {
     /* INPUT: none
 
     OUTPUT:
     - array of pages that will be shown one after the other
     */ 
-
-    let introductionPagesArray = []
-
+    
     // page 1: welcome   
     let page1 = `<font size="+2"><b> Welcome to the experiment. </b></font><br><br>
     Press the buttons below or use the left and right arrow to move across pages. <br><br>
@@ -53,6 +55,12 @@ function generateIntroductionPages() {
     `
     introductionPagesArray.push(tutorial1)    
     
+
+    // GENERATE STRINGS FOR TUTORIAL with formatted string (keep buttons "left/right arrow press" below):
+    // Possibility:
+    // - create object outside function with arrays inside (element 0: instruction text; element 1: corresponding instruction image)
+
+
     /*
     TUTORIAL STRUCTURE:
     1. Show square chessboard (N<10);
@@ -61,10 +69,16 @@ function generateIntroductionPages() {
         - highlighted rows and columns,
         - modified chessboard,
         - visual comparison of standard / highlighted / modified chessboards next to each other;
-    3. Depict passage from square to triangular chessboard (opacity on half of the chessboard -> triangular version. Do it for all 3 versions (6 - 10 - 16 nodes) ) (N<10);
+    3. Depict passage from square to triangular chessboard (opacity on half of the chessboard -> triangular version. Do it for all 3 versions (6 - 10 - 16 nodes) );
     4. Illustrate swapping in triangular chessboard (same as point 2. Same N and same visualizations/repetitions);
-    5. 45 degree rotation of triangular chessboard (multiple examples, with different n. of nodes)
-    6. Illustrate idea of clique in triangular chessboard with color coding (repeat 2/3 times (increasing N)):
+    5. 45 degree rotation of triangular chessboard (as in scribble at the top of page 3):
+        - standard square chessboard
+        - vertical square chessboard
+        - triangular swapped chessboard visualization (left + right)
+        - swapped square chessboard
+        - vertical square swapped chessboard
+        - triangular swapped chessboard visualization (left + right)
+    6. Illustrate idea of clique in (vertical) triangular chessboard with color coding (repeat 2/3 times (increasing N)):
         - single triangular chessboard with clique "clustered" and with different color,
         - spreading the clique in the chessboard,
         - visual comparison of "clustered" and randomized version (maintaining color coding),
@@ -72,6 +86,7 @@ function generateIntroductionPages() {
     8. Show "paired" stimuli like in task (one with clique, one without) in B/W. Same as point 6., so both underlining correct answer (make it "appear" in the graph with the clique to show that it was the correct one, like in Francesco's task) and effect of spacebar press.
     9. Final familiarization with moves and responses (give feedback after every trial completed, by coloring the clique in the correct stimulus): perform final simulation before starting the experiment OR trash the first 2/3 trials of experiment.
     */
+
 
     return introductionPagesArray
     
