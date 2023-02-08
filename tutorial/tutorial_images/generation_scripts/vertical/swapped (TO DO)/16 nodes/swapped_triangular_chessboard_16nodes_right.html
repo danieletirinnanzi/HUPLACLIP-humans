@@ -3,38 +3,50 @@
   <head>
     <title>Swapped square chessboard generation</title>
   </head>
-  <body>
-    <canvas id="myCanvas" width="900" height="900"></canvas>
+  <body style="background-color: orange">
+    <canvas id="myCanvas" width="900" height="900" style="background-color: white"></canvas>
     <script>
         
-        /* version 1 (black diagonal) of graph with 10 nodes, after swapping node 3 and 8 (indices start from zero):
+        /* version 1 (black diagonal) of graph with 16 nodes, after swapping node 2 and 11 (indices start from zero):
         starting graph: {
-            0:[1 0 1 0 1 0 1 0 1 0],
-            1:[0 1 0 1 0 1 0 1 0 1],
-            2:[1 0 1 0 1 0 1 0 1 0],
-            3:[0 1 0 1 0 1 0 1 0 1],
-            4:[1 0 1 0 1 0 1 0 1 0],
-            5:[0 1 0 1 0 1 0 1 0 1],
-            6:[1 0 1 0 1 0 1 0 1 0],
-            7:[0 1 0 1 0 1 0 1 0 1],
-            8:[1 0 1 0 1 0 1 0 1 0],
-            9:[0 1 0 1 0 1 0 1 0 1],
+            0:[1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0],
+            1:[0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1],
+            2:[1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0],
+            3:[0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1],
+            4:[1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0],
+            5:[0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1],
+            6:[1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0],
+            7:[0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1],
+            8:[1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0],
+            9:[0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1],
+            10:[1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0],
+            11:[0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1],
+            12:[1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0],
+            13:[0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1],
+            14:[1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0],
+            15:[0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1],
 
         }
         */
         
-        let numberOfNodes = 10
+        let numberOfNodes = 16
         let graphToDraw = {
-            0:[1, 0, 1, 1, 1, 0, 1, 0, 0, 0],
-            1:[0, 1, 0, 0, 0, 1, 0, 1, 1, 1],
-            2:[1, 0, 1, 1, 1, 0, 1, 0, 0, 0],
-            3:[1, 0, 1, 1, 1, 0, 1, 0, 0, 0],
-            4:[1, 0, 1, 1, 1, 0, 1, 0, 0, 0],
-            5:[0, 1, 0, 0, 0, 1, 0, 1, 1, 1],
-            6:[1, 0, 1, 1, 1, 0, 1, 0, 0, 0],
-            7:[0, 1, 0, 0, 0, 1, 0, 1, 1, 1],
-            8:[0, 1, 0, 0, 0, 1, 0, 1, 1, 1],
-            9:[0, 1, 0, 0, 0, 1, 0, 1, 1, 1],
+            0:[1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0],
+            1:[0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1],
+            2:[0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1],
+            3:[0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1],
+            4:[1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0],
+            5:[0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1],
+            6:[1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0],
+            7:[0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1],
+            8:[1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0],
+            9:[0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1],
+            10:[1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0],
+            11:[1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0],
+            12:[1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0],
+            13:[0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1],
+            14:[1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0],
+            15:[0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1],            
         }
         
 
@@ -47,14 +59,14 @@
             const centerX = canvasElement.width / 2,
                 centerY = canvasElement.height / 2;            
             // move the origin to the canvas' center
-            ctx.translate(centerX, 0);
+            ctx.translate(centerX, canvasElement.height);
             // add 45 degrees rotation
-            ctx.rotate(45 * Math.PI / 180);            
+            ctx.rotate(225 * Math.PI / 180);                
             // drawing the squares
             let singleSquareDimension = canvasElement.width/(numberOfNodes)/1.7;
             for (let firstIndex = 0; firstIndex < numberOfNodes; firstIndex++) {  
                 // this index allows to move vertically when building in the stimulus
-                for (let secondIndex = 0; secondIndex < numberOfNodes; secondIndex++) {
+                for (let secondIndex = 0; secondIndex < firstIndex; secondIndex++) {
                     //this index allows to move horizontally when building the stimulus (1st row: one square; 2nd row: two squares...):
                     // drawing the square
                     ctx.beginPath();

@@ -55,8 +55,15 @@
             let canvasElement = document.querySelector("#myCanvas");
             // canvas with id="myCanvas"
             let ctx = canvasElement.getContext("2d");
+            // canvas center X and Y
+            const centerX = canvasElement.width / 2,
+                centerY = canvasElement.height / 2;            
+            // move the origin to the canvas' center
+            ctx.translate(centerX, 0);
+            // add 45 degrees rotation
+            ctx.rotate(45 * Math.PI / 180);            
             // drawing the squares
-            let singleSquareDimension = canvasElement.width/(numberOfNodes);
+            let singleSquareDimension = canvasElement.width/(numberOfNodes)/1.7;
             for (let firstIndex = 0; firstIndex < numberOfNodes; firstIndex++) {  
                 // this index allows to move vertically when building in the stimulus
                 for (let secondIndex = 0; secondIndex < numberOfNodes; secondIndex++) {

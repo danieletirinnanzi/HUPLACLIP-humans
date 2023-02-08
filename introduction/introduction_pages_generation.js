@@ -71,14 +71,11 @@ function generateIntroductionPages() {
         - visual comparison of standard / highlighted / modified chessboards next to each other;
     3. Depict passage from square to triangular chessboard (opacity on half of the chessboard -> triangular version. Do it for all 3 versions (6 - 10 - 16 nodes) );
     4. Illustrate swapping in triangular chessboard (same as point 2. Same N and same visualizations/repetitions);
-    5. 45 degree rotation of triangular chessboard (as in scribble at the top of page 3):
-        - standard square chessboard
-        - vertical square chessboard
-        - triangular swapped chessboard visualization (left + right)
-        - swapped square chessboard
-        - vertical square swapped chessboard
-        - triangular swapped chessboard visualization (left + right)
-    6. Illustrate idea of clique in (vertical) triangular chessboard with color coding (repeat 2/3 times (increasing N)):
+    5. 45 degree rotation of triangular chessboard (as in scribble at the top of page 3. Repeat for all different values of N):
+        - vertical triangular standard chessboards (left/right)
+        - highlighted vertical triangular chessboards (left/right)
+        - swapped triangular vertical chessboard (left + right) 
+    6. Illustrate idea of clique in (vertical) triangular (left/right, change) chessboard with color coding (repeat increasing N, gradually >10) (as in scribble in the middle of page 3):
         - single triangular chessboard with clique "clustered" and with different color,
         - spreading the clique in the chessboard,
         - visual comparison of "clustered" and randomized version (maintaining color coding),
