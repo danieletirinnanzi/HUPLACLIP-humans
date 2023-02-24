@@ -38,7 +38,7 @@
                     ctx.strokeStyle = '#666666';
                     ctx.stroke();  
                     
-                    /*
+                    
                     // VERSION 1 (black diagonal)
                     // adjusting the fill color to obtain a chessboard
                     if(firstIndex % 2==0){       
@@ -58,10 +58,10 @@
                             ctx.fillStyle = "#FFFFFF";                    
                     //The number is odd
                     }
-                    */ 
+                    
                     
 
-                    
+                    /*
                     // VERSION 2 (white diagonal)
                     // adjusting the fill color to obtain a chessboard
                     if(firstIndex % 2==0){       
@@ -81,7 +81,7 @@
                             ctx.fillStyle = "#000000";                    
                     //The number is odd
                     } 
-                      
+                      */ 
                                  
                     
                     ctx.fill();
@@ -91,7 +91,7 @@
 
         //calling function to draw the stimulus:
         let numberOfNodes = prompt("Insert number of nodes: ");
-        drawStimuli(numberOfNodes) //NB: if 10 nodes are associated, the triangular matrix has to be of 9 squares
+        drawStimuli(numberOfNodes-1) //NB: if 10 nodes are associated, the triangular matrix has to be of 9 squares
 
     </script>
 
