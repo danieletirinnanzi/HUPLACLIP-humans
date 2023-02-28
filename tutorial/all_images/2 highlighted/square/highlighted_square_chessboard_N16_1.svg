@@ -4,12 +4,12 @@
 <svg
    version="1.1"
    id="svg2683"
-   width="903"
-   height="901"
-   viewBox="0 0 903 901"
+   width="1014.4104"
+   height="1012.7934"
+   viewBox="0 0 1014.4104 1012.7934"
    sodipodi:docname="highlighted_square_chessboard_N16_1.svg"
    inkscape:version="1.1 (c68e22c387, 2021-05-23)"
-   inkscape:export-filename="H:\Desktop\HUPLACLIP\introduction\tutorial_images\2 highlighted\square\highlighted_square_chessboard_N16_1.png"
+   inkscape:export-filename="H:\Desktop\HUPLACLIP\tutorial\all_images\2 highlighted\square\highlighted_square_chessboard_N16_1.png"
    inkscape:export-xdpi="94.049294"
    inkscape:export-ydpi="94.049294"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -79,44 +79,49 @@
   <sodipodi:namedview
      id="namedview2685"
      pagecolor="#ffffff"
-     bordercolor="#eeeeee"
+     bordercolor="#ee3eee"
      borderopacity="1"
      inkscape:pageshadow="0"
-     inkscape:pageopacity="0"
-     inkscape:pagecheckerboard="0"
+     inkscape:pageopacity="1"
+     inkscape:pagecheckerboard="true"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:zoom="0.57604481"
-     inkscape:cx="259.52842"
-     inkscape:cy="419.23822"
+     inkscape:cx="427.9181"
+     inkscape:cy="514.7169"
      inkscape:window-width="1280"
      inkscape:window-height="961"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g2689">
+     inkscape:current-layer="g2689"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0">
     <sodipodi:guide
-       position="163.18175,916.62378"
+       position="259.90008,933.31584"
        orientation="0,-1"
        id="guide2715" />
     <sodipodi:guide
-       position="-34.719521,-13.859377"
+       position="61.998812,2.8326792"
        orientation="0,-1"
        id="guide2717" />
     <sodipodi:guide
-       position="-15.623784,734.3463"
+       position="81.094549,751.03836"
        orientation="1,0"
        id="guide2719" />
     <sodipodi:guide
-       position="921.80328,595.46822"
+       position="1018.5216,612.16028"
        orientation="1,0"
        id="guide2721" />
   </sodipodi:namedview>
   <g
      inkscape:groupmode="layer"
      inkscape:label="Image"
-     id="g2689">
+     id="g2689"
+     transform="translate(96.718333,95.10134)">
     <image
        width="903"
        height="901"
@@ -183,6 +188,16 @@
        d="m 619.14496,-50.902587 c 0,0 -213.1308,-86.267223 -449.09704,-7.61181"
        id="path25481-7"
        inkscape:export-filename="H:\Desktop\HUPLACLIP\introduction\tutorial_images\2 highlighted\square\highlighted_square_chessboard_N16_1.png"
+       inkscape:export-xdpi="94.049294"
+       inkscape:export-ydpi="94.049294" />
+    <rect
+       style="fill:none;fill-opacity:0;stroke:#5f5f5f;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect1993"
+       width="901"
+       height="902"
+       x="0"
+       y="-1"
+       inkscape:export-filename="H:\Desktop\HUPLACLIP\tutorial\all_images\2 highlighted\square\highlighted_square_chessboard_N16_1.png"
        inkscape:export-xdpi="94.049294"
        inkscape:export-ydpi="94.049294" />
   </g>

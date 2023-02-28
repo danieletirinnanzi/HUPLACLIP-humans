@@ -13,6 +13,8 @@ function generateIntroductionPages() {
     - array of pages that will be shown one after the other
     */ 
     
+    let introductionPagesArray = []
+
     // page 1: welcome   
     let page1 = `<font size="+2"><b> Welcome to the experiment. </b></font><br><br>
     Press the buttons below or use the left and right arrow to move across pages. <br><br>

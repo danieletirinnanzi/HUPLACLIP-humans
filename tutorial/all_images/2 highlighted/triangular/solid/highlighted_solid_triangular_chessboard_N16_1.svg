@@ -4,11 +4,14 @@
 <svg
    version="1.1"
    id="svg2683"
-   width="903"
-   height="901"
-   viewBox="0 0 903 901"
+   width="1018.5216"
+   height="1007.099"
+   viewBox="0 0 1018.5216 1007.099"
    sodipodi:docname="highlighted_solid_triangular_chessboard_N16_1.svg"
    inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   inkscape:export-filename="H:\Desktop\HUPLACLIP\tutorial\all_images\2 highlighted\triangular\solid\highlighted_triangular_chessboard_N16_1.png"
+   inkscape:export-xdpi="94.049294"
+   inkscape:export-ydpi="94.049294"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -112,44 +115,49 @@
   <sodipodi:namedview
      id="namedview2685"
      pagecolor="#ffffff"
-     bordercolor="#eeeeee"
+     bordercolor="#ee5bee"
      borderopacity="1"
      inkscape:pageshadow="0"
-     inkscape:pageopacity="0"
-     inkscape:pagecheckerboard="0"
+     inkscape:pageopacity="1"
+     inkscape:pagecheckerboard="true"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:zoom="0.28802241"
-     inkscape:cx="723.90202"
-     inkscape:cy="199.63725"
+     inkscape:zoom="0.4073252"
+     inkscape:cx="421.0395"
+     inkscape:cy="1074.0804"
      inkscape:window-width="1280"
      inkscape:window-height="961"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g2689">
+     inkscape:current-layer="g2689"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0">
     <sodipodi:guide
-       position="163.18175,916.62378"
+       position="259.90008,999.0701"
        orientation="0,-1"
        id="guide2715" />
     <sodipodi:guide
-       position="-34.719521,-13.859377"
+       position="61.998812,68.586947"
        orientation="0,-1"
        id="guide2717" />
     <sodipodi:guide
-       position="-15.623784,734.3463"
+       position="81.094549,816.79262"
        orientation="1,0"
        id="guide2719" />
     <sodipodi:guide
-       position="921.80328,595.46822"
+       position="1018.5216,677.91454"
        orientation="1,0"
        id="guide2721" />
   </sodipodi:namedview>
   <g
      inkscape:groupmode="layer"
      inkscape:label="Image"
-     id="g2689">
+     id="g2689"
+     transform="translate(96.718333,23.652674)">
     <image
        width="903"
        height="901"
@@ -229,19 +237,34 @@
        inkscape:export-filename="H:\Desktop\HUPLACLIP\tutorial\all_images\2 highlighted\triangular\solid\highlighted_square_chessboard_N16_1.png"
        inkscape:export-xdpi="94.049294"
        inkscape:export-ydpi="94.049294" />
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2.02291"
+       id="rect3016-9-7"
+       width="68.48555"
+       height="39.075619"
+       x="-913.38342"
+       y="-906.8175"
+       transform="scale(-1)"
+       inkscape:export-filename="H:\Desktop\HUPLACLIP\tutorial\all_images\1 standard\triangular\triangular_chessboard_N16_1.PNG"
+       inkscape:export-xdpi="94.049294"
+       inkscape:export-ydpi="94.049294" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.4;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="M 1.084985,55.768231 V 100.68661 Z"
+       style="fill:none;stroke:#5f5f5f;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 1.084985,55.768231 V 900.75457 Z"
        id="path6402"
        inkscape:export-filename="H:\Desktop\HUPLACLIP\tutorial\all_images\2 highlighted\triangular\solid\highlighted_square_chessboard_N16_1.png"
        inkscape:export-xdpi="94.049294"
        inkscape:export-ydpi="94.049294" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.448321;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 788.4715,899.92593 h 56.42638 z"
+       style="fill:none;stroke:#5f5f5f;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 0.38742111,899.92593 H 844.89788 Z"
        id="path6402-0"
        inkscape:export-filename="H:\Desktop\HUPLACLIP\tutorial\all_images\2 highlighted\triangular\solid\highlighted_square_chessboard_N16_1.png"
        inkscape:export-xdpi="94.049294"
        inkscape:export-ydpi="94.049294" />
+    <path
+       style="fill:none;stroke:#5f5f5f;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 505.556,505.60303 v 55.98523 0"
+       id="path8903" />
   </g>
 </svg>
