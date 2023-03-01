@@ -14,7 +14,7 @@ function drawStimuli(ctx,presentationIndex,currentTrialOrder) {
     // calculating starting points (for right and left stimulus) on x axis (considering the space to be left in the middle):
     let xStartingPointLeft = (currentExperiment.canvasDimensions[1]/2 ) - currentExperiment.canvasDimensions[1]/20
     let xStartingPointRight = (currentExperiment.canvasDimensions[1]/2 ) + currentExperiment.canvasDimensions[1]/20
-    let yStartingPoint = (1/20)*(currentExperiment.canvasDimensions[0])  //NB: starting to draw not from top of window, but leaving (1/20*c.height) above (and consequently below). For this reason, the single step size is calculated dividing not (c.height) but (9/10*canvas.height)
+    let yStartingPoint = (1/20)*(currentExperiment.canvasDimensions[0])  //NB: starting to draw not from top of window, but leaving (1/20*c.height) above (and consequently below). For this reason, singleStepSize is calculated dividing not (c.height) but (9/10*canvas.height)
 
     // Drawing stimulus on LEFT SIDE:
     // accessing the graph that will appear on the left side of the screen:
