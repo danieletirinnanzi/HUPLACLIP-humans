@@ -5,6 +5,7 @@
     <!-- My scripts -->
     <script src="graphs_generation.js"></script>
     <script src="introduction/introduction_pages_generation.js"></script>
+    <script src="tutorial/tutorial_pages_generation.js"></script>
     <!-- <script src="introduction/consent_page.html"></script> -->
     <script src="experiment_parameters.js"></script>
     <script src="canvas_drawing.js"></script>
@@ -38,10 +39,20 @@
         let introduction = {
         type: jsPsychInstructions,
         pages: generateIntroductionPages(),
-        // show_clickable_nav: true    //subjects will be able to navigate through the pages
         key_forward: "ArrowRight"
         }
         timeline.push(introduction)
+
+
+        /* INSTRUCTIONS AND TUTORIAL */
+        // showing informative pages about the study (informed consent, aim, privacy)
+        let instructions = {
+        type: jsPsychInstructions,
+        pages: generateInstructionsPages(),
+        // show_clickable_nav: true    //subjects will be able to navigate through the pages
+        key_forward: "ArrowRight"
+        }
+        timeline.push(instructions)
 
 
         /* AGREEMENT TO START EXPERIMENT */

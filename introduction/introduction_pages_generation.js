@@ -1,10 +1,3 @@
-
-const tutorialObject = {
-    // THINK ABOUT THE MORE EFFICIENT WAY OF ENCODING IT 
-    // - saving images in a folder with names that can be accessed through a for loop)
-}
-
-
 /* FUNCTION TO GENERATE THE INTRODUCTION PAGES ARRAY */
 function generateIntroductionPages() {
     /* INPUT: none
@@ -47,20 +40,6 @@ function generateIntroductionPages() {
     <i><b>Press right arrow to go forward > </b></i>
     `
     introductionPagesArray.push(page2)  
-    
-    // page 3: tutorial   
-    let tutorial1 = `<font size="+2"><b> TUTORIAL </b></font><br><br>
-    The tutorial will go here <br><br>
-    <img src="tutorial/images sequence/96 N40_K18_red_clique_left.PNG" alt="Girl in a jacket" width="500" height="500"><br><br>
-    <i><b>< Press left arrow to go back <br></b></i>
-    <i><b>Press right arrow to go forward ></b></i>
-    `
-    introductionPagesArray.push(tutorial1)    
-
-    // GENERATE STRINGS FOR TUTORIAL with formatted string (keep buttons "left/right arrow press" below):
-    // Possibility:
-    // - create object outside function with arrays inside (element 0: instruction text; element 1: corresponding instruction image)
-
 
     /*
     TUTORIAL STRUCTURE:
