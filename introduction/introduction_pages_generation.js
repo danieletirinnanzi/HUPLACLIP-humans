@@ -50,13 +50,12 @@ function generateIntroductionPages() {
     
     // page 3: tutorial   
     let tutorial1 = `<font size="+2"><b> TUTORIAL </b></font><br><br>
-    The tutorial will be here <br>
-    <img src="tutorial/task_screenshots/1_standard_page_N150_K100.JPG" alt="Girl in a jacket" width="500" height="500"><br><br>
+    The tutorial will go here <br><br>
+    <img src="tutorial/images sequence/96 N40_K18_red_clique_left.PNG" alt="Girl in a jacket" width="500" height="500"><br><br>
     <i><b>< Press left arrow to go back <br></b></i>
     <i><b>Press right arrow to go forward ></b></i>
     `
     introductionPagesArray.push(tutorial1)    
-    
 
     // GENERATE STRINGS FOR TUTORIAL with formatted string (keep buttons "left/right arrow press" below):
     // Possibility:
