@@ -119,7 +119,7 @@ const instructionsObject = {
     89: ["In the real experiment, this is what you will see. In this case, given that the right triangle contained the group of tiles, the correct answer is right.", "89 N120_K45_black&white"],
     // N200_K80
     90: ["Let's see the same thing with a bigger triangle.", "90 N200_K80_1"],
-    91: ["In this case, the right triangle contains the group of tiles.", "91 N200_K80_2"],
+    91: ["In this case, the left triangle contains the group of tiles.", "91 N200_K80_2"],
     92: ["If you press the spacebar, you can see different shuffled versions of the same two triangles.", "92 N200_K80_3"],
     93: ["In the real experiment, this is what you will see. In this case, given that the left triangle contained the group of tiles, the correct answer is left.", "93 N200_K80_black&white"],
     // examples (b/w version -> corresponding color coded version)
