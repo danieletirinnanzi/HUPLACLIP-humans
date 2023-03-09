@@ -33,6 +33,7 @@
         var timeline = [];
 
 
+
         /* INTRODUCTIVE PAGES */
         // showing informative pages about the study (informed consent, aim, privacy)
         let introduction = {
@@ -43,8 +44,8 @@
         timeline.push(introduction)
 
 
+
         /* INSTRUCTIONS */
-        /*
         // showing instructions for the study
         let instructions = {
         type: jsPsychInstructions,
@@ -53,68 +54,136 @@
         key_forward: "ArrowRight"
         }
         timeline.push(instructions)
-        */
-        
+       
+
+       // TO ADD: AGREEMENT PAGE TO MOVE TO TASK FAMILIARIZATION 
 
 
-    /* TASK FAMILIARIZATION */
-    // creating the trials for the task familiarization
-    /* (CONTINUE FROM HERE 09/03)
-    var taskFamiliarizationTimeline = [];
-    for (let presentationIndex = 0; presentationIndex < Object.keys(taskFamiliarizationObject).length; presentationIndex++) {
+        /* TASK FAMILIARIZATION */
+        // PART 1: no background information
+        // creating the trials for the first part of the task familiarization        
+        for (let index = 0; index < Object.keys(taskFamiliarizationObject_part1).length; index += 4) {
+        // NB: index increases by 4 at every iteration
+            let visualization_1_trial = {
+                type: jsPsychImageKeyboardResponse,
+                stimulus: `tutorial/task_familiarization_images/part 1/${taskFamiliarizationObject_part1[index+1][1]}.PNG`,
+                prompt: `<br><br><br> ${taskFamiliarizationObject_part1[index+1][0]}`,
+                choices: [' '],
+                stimulus_height: 500,
+            };
 
-        // creating general currentFamiliarizationTrial object, the other properties will be defined in the ifs:
-        let currentFamiliarizationTrial = {
-            type: jsPsychImageKeyboardResponse,    
-            stimulus_height: 500, 
-            response_ends_trial: true,
-            timeline: [],
-            on_finish: function(data) {
-                // checking correctness of last response and changing prompt accordingly:
-                let lastResponse = jsPsych.data.get().last(1).values()[0].key_press;
-                if (lastResponse == taskFamiliarizationObject[presentationIndex+1][1]) {
-                    // correct response        
-                    data.prompt = taskFamiliarizationObject[presentationIndex+1][2]
-                } else {
-                    // wrong response
-                    data.prompt = taskFamiliarizationObject[presentationIndex+1][3]                
-                }
+            let visualization_2_trial = {
+                type: jsPsychImageKeyboardResponse,
+                stimulus: `tutorial/task_familiarization_images/part 1/${taskFamiliarizationObject_part1[index+2][1]}.PNG`,
+                prompt: `<br><br><br> ${taskFamiliarizationObject_part1[index+2][0]}`,
+                choices: [' '],
+                stimulus_height: 500,
+            };
 
-                // adding the next trial to the timeline
-                if (presentationIndex < Object.keys(taskFamiliarizationObject).length - 1) {
-                    let nextTrial = createFamiliarizationTrial(presentationIndex + 1);
-                    taskFamiliarizationTimeline.push(nextTrial);
-                }
-            }
-        };
+            let choice_trial = {
+                type: jsPsychImageKeyboardResponse,
+                stimulus: `tutorial/task_familiarization_images/part 1/${taskFamiliarizationObject_part1[index+3][1]}.PNG`,
+                prompt: `<br><br><br> ${taskFamiliarizationObject_part1[index+3][0]}`,
+                choices: ['ArrowLeft', 'ArrowRight'],
+                stimulus_height: 500,
+            };
 
-        // defining remaining parameters of currentFamiliarizationTrial depending on trial type:
-        if ( taskFamiliarizationObject[presentationIndex+1][0] == "visualization trial" ) {
-            // visualization trial (subject goes to next visualization by pressing the spacebar):
-            currentFamiliarizationTrial.stimulus = `tutorial/task_familiarization_images/${taskFamiliarizationObject[presentationIndex+1][2]}.PNG`
-            currentFamiliarizationTrial.prompt = `<p>${taskFamiliarizationObject[presentationIndex+1][1]}</p>`
-            currentFamiliarizationTrial.choices = [' ']
+            let feedback_trial = {
+                type: jsPsychImageKeyboardResponse,
+                stimulus: `tutorial/task_familiarization_images/part 1/${taskFamiliarizationObject_part1[index+4][3]}.PNG`,
+                prompt: "", //defined below based on correctness of choice
+                choices: [' '],
+                stimulus_height: 500,
+                // using a closure (a function that has access to the variables defined in its outer function) to be able to access "index" from inside the on_start function
+                on_start: (function(index) {
+                    return function(currentFeedbackTrial) {
+                        // accessing last trial:
+                        let last_trial = jsPsych.data.get().last(1).values()[0];
+                        // changing prompt according to correctness of last choice:
+                        if (last_trial.response == taskFamiliarizationObject_part1[index+4][0].toLowerCase() ) {
+                            currentFeedbackTrial.prompt = `<br><br><br> ${taskFamiliarizationObject_part1[index+4][1]}`;
+                        } else {
+                            currentFeedbackTrial.prompt = `<br><br><br> ${taskFamiliarizationObject_part1[index+4][2]}`;
+                        }
+                    };
+                })(index)
+            };
 
-            console.log("visualization trial created")
-
-        } else if (taskFamiliarizationObject[presentationIndex+1][0] == "choice trial") {
-            // choice trial:
-            currentFamiliarizationTrial.stimulus = `tutorial/task_familiarization_images/${taskFamiliarizationObject[presentationIndex+1][2]}.PNG`
-            currentFamiliarizationTrial.prompt = `<p>${taskFamiliarizationObject[presentationIndex+1][1]}</p>`
-            currentFamiliarizationTrial.choices = ['ArrowLeft','ArrowRight'],
-
-            console.log("choice trial created")
-
-        } else if (taskFamiliarizationObject[presentationIndex+1][0] == "feedback trial") {
-            // feedback trial correct:
-            currentFamiliarizationTrial.stimulus = `tutorial/task_familiarization_images/${taskFamiliarizationObject[presentationIndex+1][4]}.PNG`,
-            currentFamiliarizationTrial.choices = [' ']
-
-            console.log("feedback trial created")
+            // adding the trials to the timeline
+            timeline.push(visualization_1_trial);
+            timeline.push(visualization_2_trial);
+            timeline.push(choice_trial);
+            timeline.push(feedback_trial);
         }
-    }
 
-    */
+
+        // PART 2: background information
+        // creating the trials for the second part of the task familiarization        
+        for (let index = 0; index < Object.keys(taskFamiliarizationObject_part2).length; index += 5) {
+        // NB: index increases by 5 at every iteration
+            let visualization_1_trial = {
+                type: jsPsychImageKeyboardResponse,
+                stimulus: `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index+1][1]}.PNG`,
+                prompt: `<br><br><br> ${taskFamiliarizationObject_part2[index+1][0]}`,
+                choices: [' '],
+                stimulus_height: 700,
+            };
+
+            let visualization_2_trial = {
+                type: jsPsychImageKeyboardResponse,
+                stimulus: `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index+2][1]}.PNG`,
+                prompt: `<br><br><br> ${taskFamiliarizationObject_part2[index+2][0]}`,
+                choices: [' '],
+                stimulus_height: 700,
+            };
+
+            let choice_trial = {
+                type: jsPsychImageKeyboardResponse,
+                stimulus: `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index+3][1]}.PNG`,
+                prompt: `<br><br><br> ${taskFamiliarizationObject_part2[index+3][0]}`,
+                choices: ['ArrowLeft', 'ArrowRight'],
+                stimulus_height: 700,
+            };
+
+            let solution_trial = {
+                type: jsPsychImageKeyboardResponse,
+                stimulus: `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index+4][1]}.PNG`,
+                prompt: `<br><br><br> ${taskFamiliarizationObject_part2[index+4][0]}`,
+                choices: [' '],
+                stimulus_height: 700,
+            };
+
+            let feedback_trial = {
+                type: jsPsychImageKeyboardResponse,
+                stimulus: "", //defined below based on correctness of choice
+                prompt: "", //defined below based on correctness of choice
+                choices: [' '],
+                stimulus_height: 700,
+                // using a closure (a function that has access to the variables defined in its outer function) to be able to access "index" from inside the on_start function
+                on_start: (function(index) {
+                    return function(currentFeedbackTrial) {
+                        // accessing second to last trial:
+                        let second_to_last_trial = jsPsych.data.get().last(2).values()[0];
+                        // changing prompt according to correctness of last choice:
+                        if (second_to_last_trial.response == taskFamiliarizationObject_part2[index+5][0].toLowerCase() ) {
+                            currentFeedbackTrial.stimulus = `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index+5][3]}.PNG`;
+                            currentFeedbackTrial.prompt = `<br><br><br> ${taskFamiliarizationObject_part2[index+5][1]}`;
+                        } else {
+                            currentFeedbackTrial.stimulus = `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index+5][4]}.PNG`;
+                            currentFeedbackTrial.prompt = `<br><br><br> ${taskFamiliarizationObject_part2[index+5][2]}`;
+                        }
+                    };
+                })(index)
+            };
+
+            // adding the trials to the timeline
+            timeline.push(visualization_1_trial);
+            timeline.push(visualization_2_trial);
+            timeline.push(choice_trial);
+            timeline.push(solution_trial);
+            timeline.push(feedback_trial);
+        }        
+
 
 
         /* AGREEMENT TO START EXPERIMENT */
@@ -237,6 +306,7 @@
         }
 
         /* start the experiment */
+        console.log(timeline)
         jsPsych.run(timeline);
 
     </script>
