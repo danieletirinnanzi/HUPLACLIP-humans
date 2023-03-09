@@ -41,30 +41,7 @@ function generateIntroductionPages() {
     `
     introductionPagesArray.push(page2)  
 
-    /*
-    TUTORIAL STRUCTURE:
-    1. Show square chessboard (N<10);
-    2. Illustrate swapping (highlight corresponding rows and columns with colors) in square chessboard (repeat 2/3 times (increasing N)):
-        - standard chessboard,
-        - highlighted rows and columns,
-        - modified chessboard,
-        - visual comparison of standard / highlighted / modified chessboards next to each other;
-    3. Depict passage from square to triangular chessboard (opacity on half of the chessboard -> triangular version. Do it for all 3 versions (6 - 10 - 16 nodes) );
-    4. Illustrate swapping in triangular chessboard (same as point 2. Same N and same visualizations/repetitions);
-    5. 45 degree rotation of triangular chessboard (as in scribble at the top of page 3. Repeat for all different values of N):
-        - vertical triangular standard chessboards (left/right)
-        - highlighted vertical triangular chessboards (left/right)
-        - swapped triangular vertical chessboard (left + right) 
-    6. Illustrate idea of clique in (vertical) triangular (left/right, change) chessboard with color coding (repeat increasing N, gradually >10) (as in scribble in the middle of page 3):
-        - single triangular chessboard with clique "clustered" and with different color,
-        - spreading the clique in the chessboard,
-        - visual comparison of "clustered" and randomized version (maintaining color coding),
-    7. Show "paired" stimuli like in task (one with clique, one without) maintaining color coding (repeat 2/3 times, increasing difficulty (increasing N & decreasing K) ). Introduce with: "In the task, you will see two triangular chessboards next to each other, like this: ". Also underline which is the correct answer (change color of clique) and what happens if one presses the spacebar ( = 1 "move") in this version (maintaining color coding);
-    8. Show "paired" stimuli like in task (one with clique, one without) in B/W. Same as point 6., so both underlining correct answer (make it "appear" in the graph with the clique to show that it was the correct one, like in Francesco's task) and effect of spacebar press.
-    9. Final familiarization with moves and responses (give feedback after every trial completed, by coloring the clique in the correct stimulus): perform final simulation before starting the experiment OR trash the first 2/3 trials of experiment.
-    */
-
-
+    
     return introductionPagesArray
     
 }

@@ -44,6 +44,7 @@
 
 
         /* INSTRUCTIONS */
+        /*
         // showing instructions for the study
         let instructions = {
         type: jsPsychInstructions,
@@ -52,62 +53,68 @@
         key_forward: "ArrowRight"
         }
         timeline.push(instructions)
+        */
         
 
 
-        /* TASK FAMILIARIZATION */
-        /* (KEEP ON FROM HERE, 08/03/2023)
-        // creating the trials for the task familiarization
-        for (let presentationIndex = 0; presentationIndex < Object.keys(taskFamiliarizationObject).length; presentationIndex++) {
-            
-            console.log(taskFamiliarizationObject[presentationIndex+1][0] == "visualization trial")
+    /* TASK FAMILIARIZATION */
+    // creating the trials for the task familiarization
+    /* (CONTINUE FROM HERE 09/03)
+    var taskFamiliarizationTimeline = [];
+    for (let presentationIndex = 0; presentationIndex < Object.keys(taskFamiliarizationObject).length; presentationIndex++) {
 
-            // creating general currentFamiliarizationTrial object, the other properties will be defined in the ifs:
-            let currentFamiliarizationTrial = {
-                type: jsPsychImageKeyboardResponse,    
-                stimulus_height: 500, 
-                response_ends_trial: true,                                            
-            }
-
-            if ( taskFamiliarizationObject[presentationIndex+1][0] == "visualization trial" ) {
-                // visualization trial (subject goes to next visualization by pressing the spacebar):
-                currentFamiliarizationTrial.stimulus = `tutorial/task_familiarization_images/${taskFamiliarizationObject[presentationIndex+1][2]}.PNG`
-                currentFamiliarizationTrial.prompt = `<p>${taskFamiliarizationObject[presentationIndex+1][1]}</p>`
-                currentFamiliarizationTrial.choices = [' ']
-
-                console.log("visualization trial created")
-
-                } else if (taskFamiliarizationObject[presentationIndex+1][0] == "choice trial") {
-                // choice trial:
-                currentFamiliarizationTrial.stimulus = `tutorial/task_familiarization_images/${taskFamiliarizationObject[presentationIndex+1][2]}.PNG`
-                currentFamiliarizationTrial.prompt = `<p>${taskFamiliarizationObject[presentationIndex+1][1]}</p>`
-                currentFamiliarizationTrial.choices = ['ArrowLeft','ArrowRight'],
-                
-                console.log("choice trial created")
-                
-                } else if (taskFamiliarizationObject[presentationIndex+1][0] == "feedback trial") {
-                // feedback trial:
-                currentFamiliarizationTrial.stimulus = `tutorial/task_familiarization_images/${taskFamiliarizationObject[presentationIndex+1][4]}.PNG`,
-                currentFamiliarizationTrial.choices = [' ']
-                // accessing last response given:
-                let currentData = jsPsych.data.get()
-                console.log(currentData)
-                //let lastResponse = currentData.last(1).values()[0].response
+        // creating general currentFamiliarizationTrial object, the other properties will be defined in the ifs:
+        let currentFamiliarizationTrial = {
+            type: jsPsychImageKeyboardResponse,    
+            stimulus_height: 500, 
+            response_ends_trial: true,
+            timeline: [],
+            on_finish: function(data) {
                 // checking correctness of last response and changing prompt accordingly:
+                let lastResponse = jsPsych.data.get().last(1).values()[0].key_press;
                 if (lastResponse == taskFamiliarizationObject[presentationIndex+1][1]) {
                     // correct response        
-                    currentFamiliarizationTrial.prompt = taskFamiliarizationObject[presentationIndex+1][2]
+                    data.prompt = taskFamiliarizationObject[presentationIndex+1][2]
                 } else {
                     // wrong response
-                    currentFamiliarizationTrial.prompt = taskFamiliarizationObject[presentationIndex+1][3]                
+                    data.prompt = taskFamiliarizationObject[presentationIndex+1][3]                
                 }
-                console.log("feedback trial created")
+
+                // adding the next trial to the timeline
+                if (presentationIndex < Object.keys(taskFamiliarizationObject).length - 1) {
+                    let nextTrial = createFamiliarizationTrial(presentationIndex + 1);
+                    taskFamiliarizationTimeline.push(nextTrial);
+                }
             }
+        };
 
-        timeline.push(currentFamiliarizationTrial)
+        // defining remaining parameters of currentFamiliarizationTrial depending on trial type:
+        if ( taskFamiliarizationObject[presentationIndex+1][0] == "visualization trial" ) {
+            // visualization trial (subject goes to next visualization by pressing the spacebar):
+            currentFamiliarizationTrial.stimulus = `tutorial/task_familiarization_images/${taskFamiliarizationObject[presentationIndex+1][2]}.PNG`
+            currentFamiliarizationTrial.prompt = `<p>${taskFamiliarizationObject[presentationIndex+1][1]}</p>`
+            currentFamiliarizationTrial.choices = [' ']
 
+            console.log("visualization trial created")
+
+        } else if (taskFamiliarizationObject[presentationIndex+1][0] == "choice trial") {
+            // choice trial:
+            currentFamiliarizationTrial.stimulus = `tutorial/task_familiarization_images/${taskFamiliarizationObject[presentationIndex+1][2]}.PNG`
+            currentFamiliarizationTrial.prompt = `<p>${taskFamiliarizationObject[presentationIndex+1][1]}</p>`
+            currentFamiliarizationTrial.choices = ['ArrowLeft','ArrowRight'],
+
+            console.log("choice trial created")
+
+        } else if (taskFamiliarizationObject[presentationIndex+1][0] == "feedback trial") {
+            // feedback trial correct:
+            currentFamiliarizationTrial.stimulus = `tutorial/task_familiarization_images/${taskFamiliarizationObject[presentationIndex+1][4]}.PNG`,
+            currentFamiliarizationTrial.choices = [' ']
+
+            console.log("feedback trial created")
         }
-        */
+    }
+
+    */
 
 
         /* AGREEMENT TO START EXPERIMENT */
