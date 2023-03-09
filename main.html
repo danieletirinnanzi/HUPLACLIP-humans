@@ -56,10 +56,25 @@
         timeline.push(instructions)
        
 
-       // TO ADD: AGREEMENT PAGE TO MOVE TO TASK FAMILIARIZATION 
+
+        /* AGREEMENT TO MOVE TO TASK FAMILIARIZATION */
+        let move_to_familiarization_form = {
+            type: jsPsychInstructions,
+            pages: [`<p> Now it's your turn. <br>
+                From this moment on, you will not be able to move back and forth through the pages. <br><br>
+                Press "Space" to start a simulation of the experiment. <br>
+                </p>`],
+             key_forward: " "
+        };
+        timeline.push(move_to_familiarization_form)
+
 
 
         /* TASK FAMILIARIZATION */
+        // POSSIBLE IMPROVEMENT: 
+        // - creating function to generate a single block (4 (part 1) / 5 (part 2) trials), to add to the timeline from here. Problem: in "feedback_trial" the global variable jsPsych is called, and it can be called only from main script, otherwise it gives an error
+        // (possibility: creating all trials except from feedback in the function, and feedback from here, then adding everything) 
+        
         // PART 1: no background information
         // creating the trials for the first part of the task familiarization        
         for (let index = 0; index < Object.keys(taskFamiliarizationObject_part1).length; index += 4) {
@@ -205,57 +220,58 @@
         timeline.push(consent_form)
         
 
+
+        /* ACTUAL EXPERIMENT: */
+        // POSSIBLE IMPROVEMENTS:
+        // - entering fullscreen before starting real experiment (https://www.jspsych.org/7.0/plugins/fullscreen/)
+        // - resizing screen to control for effective physical size of stimuli (https://www.jspsych.org/7.0/plugins/resize/)
+        
         /* DRAWING STIMULI: */
-            // FUNCTION THAT WILL DRAW THE STIMULI GIVEN THE CHOSEN ORDER OF THE NODES:
-            function generateDrawCanvas(presentationIndex) {
-                /* INPUT: 
-                - presentationIndex (the number that identifies the couple of graphs that is being displayed)
+        // FUNCTION THAT WILL DRAW THE STIMULI GIVEN THE CHOSEN ORDER OF THE NODES:
+        function generateDrawCanvas(presentationIndex) {
+            /* INPUT: 
+            - presentationIndex (the number that identifies the couple of graphs that is being displayed)
 
-                OUTPUT:
-                - display of the stimuli on the screen
-                */    
+            OUTPUT:
+            - display of the stimuli on the screen
+            */    
 
-                // function that generates the stimuli:
-                function drawCanvas(c) {
+            // function that generates the stimuli:
+            function drawCanvas(c) {
 
-                    // addressing canvas
-                    let ctx = c.getContext("2d"); 
+                // addressing canvas
+                let ctx = c.getContext("2d"); 
 
-                    // for each presentation, shuffling the standard order of the nodes (adding "slice()" so that the value of "currentExperiment.standardOrderOfNodes" is not modified):
-                    let currentTrialOrder = shuffleNodes(currentExperiment.standardOrderOfNodes.slice())
-                    // global variable that temporarily stores the order of the nodes (it keeps changing, and its value is read from plugin to store the order in the corresponding trial)
-                    jsPsych.data.presentedOrder = currentTrialOrder
-                    // global variable that temporarily stores the current size of the clique (it keeps changing, and its value is read from plugin to store the order in the corresponding trial)
-                    jsPsych.data.cliqueSize = currentExperiment.arrayOfCliqueSizes[presentationIndex]
+                // for each presentation, shuffling the standard order of the nodes (adding "slice()" so that the value of "currentExperiment.standardOrderOfNodes" is not modified):
+                let currentTrialOrder = shuffleNodes(currentExperiment.standardOrderOfNodes.slice())
+                // global variable that temporarily stores the order of the nodes (it keeps changing, and its value is read from plugin to store the order in the corresponding trial)
+                jsPsych.data.presentedOrder = currentTrialOrder
+                // global variable that temporarily stores the current size of the clique (it keeps changing, and its value is read from plugin to store the order in the corresponding trial)
+                jsPsych.data.cliqueSize = currentExperiment.arrayOfCliqueSizes[presentationIndex]
 
-                    // global variable that temporarily stores the correct answer for the current presentation (it keeps changing, and its value is read from plugin to store the order in the corresponding trial)
-                    if(currentExperiment.graphsToDisplay[presentationIndex][0][currentExperiment.numberOfNodes] == "clique is absent") 
-                        //if first stimulus doesn't have the clique, then the graph with the clique (correct answer) is on the right side
-                        jsPsych.data.correctResponse = "arrowright"
-                     else
-                        jsPsych.data.correctResponse = "arrowleft"
+                // global variable that temporarily stores the correct answer for the current presentation (it keeps changing, and its value is read from plugin to store the order in the corresponding trial)
+                if(currentExperiment.graphsToDisplay[presentationIndex][0][currentExperiment.numberOfNodes] == "clique is absent") 
+                    //if first stimulus doesn't have the clique, then the graph with the clique (correct answer) is on the right side
+                    jsPsych.data.correctResponse = "arrowright"
+                    else
+                    jsPsych.data.correctResponse = "arrowleft"
 
-                    // Calling function to draw the two stimuli:
-                    drawStimuli(ctx,presentationIndex,currentTrialOrder)
-                    
-                    // accessing the array of the trials completed up to now:
-                    let currentTrialsArray = jsPsych.data.get().trials
-                    // Calling function to draw accuracy:
-                    drawAccuracy(ctx,presentationIndex,currentTrialsArray)
-                    // Calling function to draw number of remaining randomizations for current presentation:
-                    drawRemainingRandomizations(ctx,presentationIndex,currentTrialsArray)
-
-                    }
+                // Calling function to draw the two stimuli:
+                drawStimuli(ctx,presentationIndex,currentTrialOrder)
                 
-                return drawCanvas
+                // accessing the array of the trials completed up to now:
+                let currentTrialsArray = jsPsych.data.get().trials
+                // Calling function to draw accuracy:
+                drawAccuracy(ctx,presentationIndex,currentTrialsArray)
+                // Calling function to draw number of remaining randomizations for current presentation:
+                drawRemainingRandomizations(ctx,presentationIndex,currentTrialsArray)
 
-            }
+                }
             
+            return drawCanvas
 
-    /* ACTUAL JSPSYCH SCRIPT: */
-    // POSSIBLE IMPROVEMENTS:
-    // - entering fullscreen before starting real experiment (https://www.jspsych.org/7.0/plugins/fullscreen/)
-    // - resizing screen to control for effective physical size of stimuli (https://www.jspsych.org/7.0/plugins/resize/)
+        }
+            
 
         // creating the trials for the experiment
         for (let presentationIndex = 0; presentationIndex < currentExperiment.numberOfPresentations; presentationIndex++) {
@@ -306,7 +322,6 @@
         }
 
         /* start the experiment */
-        console.log(timeline)
         jsPsych.run(timeline);
 
     </script>

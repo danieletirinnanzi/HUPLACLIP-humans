@@ -1,3 +1,4 @@
+/* INTRODUCTIVE PAGES */
 // OBJECT THAT CONTAINS INSTRUCTIONS TEXT AND RELATIVE IMAGES:
 const instructionsObject = {
     // checkerboard familiarization
@@ -144,7 +145,6 @@ const instructionsObject = {
 
 }
 
-
 /* FUNCTION TO GENERATE THE INTRODUCTION PAGES ARRAY */
 function generateInstructionsPages() {
     /* INPUT: none ("instructionsObject" is global)
@@ -173,7 +173,9 @@ function generateInstructionsPages() {
 }
 
 
-// TASK FAMILIARIZATION
+
+
+/* TASK FAMILIARIZATION */
 
 // PART 1: no background information
 const taskFamiliarizationObject_part1 = {
@@ -234,7 +236,6 @@ const taskFamiliarizationObject_part1 = {
 }
 
 
-
 // PART 2: background information
 const taskFamiliarizationObject_part2 = {
     /* 
@@ -265,7 +266,3 @@ const taskFamiliarizationObject_part2 = {
         "41 150_40_cliqueLeft_withFeedback_wrongAnswer",
         ]
 }
-
-
-
-//
