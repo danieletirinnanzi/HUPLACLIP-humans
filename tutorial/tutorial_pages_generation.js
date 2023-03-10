@@ -142,8 +142,8 @@ const instructionsObject = {
     // N200_K80
     104: ["Let's see one last example: try to guess which triangle contains the group of tiles.", "104 N200_K80_black_clique_right_3"],
     105: ["In this case, it was the right one.", "105 N200_K80_red_clique_right"],
-
 }
+
 
 /* FUNCTION TO GENERATE THE INTRODUCTION PAGES ARRAY */
 function generateInstructionsPages() {
@@ -177,7 +177,7 @@ function generateInstructionsPages() {
 
 /* TASK FAMILIARIZATION */
 
-// PART 1: no background information
+// PART 1: without background information
 const taskFamiliarizationObject_part1 = {
     /* 
     In every group of four images:
@@ -192,51 +192,96 @@ const taskFamiliarizationObject_part1 = {
     1: ["Now it's your turn: <br> Press space to shuffle the two triangles.", "1 N20_K13_cliqueRight_question1"],
     2: ["To see a different version of the same two triangles,<br> Press space again.", "2 N20_K13_cliqueRight_question2"],
     3: ["To indicate which of the two triangles has the group of tiles,<br> Press the right or left arrow.", "3 N20_K13_cliqueRight_question3"],
-    4: ["ArrowRight", "Correct!<br>Press space to move on.", "Wrong! The triangle was the other one.<br>Press space to move on.", "4 N20_K13_cliqueRight_solution"], // correct answer: ArrowRight
+    4: ["ArrowRight", "<b>Correct!</b> <br>Press space to move on.", "<b>Wrong!</b> The triangle was the other one.<br>Press space to move on.", "4 N20_K13_cliqueRight_solution"], // correct answer: ArrowRight
     // N40_K18
     5: ["Let's see other examples with bigger triangles.<br> Press space to shuffle the two triangles.", "5 N40_K18_cliqueLeft_question1"],
     6: ["To see a different version of the same two triangles,<br> Press space again.", "6 N40_K18_cliqueLeft_question2"],
     7: ["To indicate which of the two triangles has the group of tiles,<br> Press the right or left arrow.", "7 N40_K18_cliqueLeft_question3"],
-    8: ["ArrowLeft", "Correct!<br>Press space to move on.", "Wrong! The triangle was the other one.<br>Press space to move on.", "8 N40_K18_cliqueLeft_solution"], // correct answer: ArrowLeft
+    8: ["ArrowLeft", "<b>Correct!</b> <br>Press space to move on.", "<b>Wrong!</b> The triangle was the other one.<br>Press space to move on.", "8 N40_K18_cliqueLeft_solution"], // correct answer: ArrowLeft
     // N70_K30
     9: ["Let's see other examples with bigger triangles.<br> Press space to shuffle the two triangles.", "9 N70_K30_cliqueRight_question1"],
     10: ["To see a different version of the same two triangles,<br> Press space again.", "10 N70_K30_cliqueRight_question2"],
     11: ["To indicate which of the two triangles has the group of tiles,<br> Press the right or left arrow.", "11 N70_K30_cliqueRight_question3"],
-    12: ["ArrowRight", "Correct!<br>Press space to move on.", "Wrong! The triangle was the other one.<br>Press space to move on.", "12 N70_K30_cliqueRight_solution"], // correct answer: ArrowRight
+    12: ["ArrowRight", "<b>Correct!</b> <br>Press space to move on.", "<b>Wrong!</b> The triangle was the other one.<br>Press space to move on.", "12 N70_K30_cliqueRight_solution"], // correct answer: ArrowRight
     // N100_K50
     13: ["Let's see other examples with bigger triangles.<br> Press space to shuffle the two triangles.", "13 N100_K50_cliqueLeft_question1"],
     14: ["To see a different version of the same two triangles,<br> Press space again.", "14 N100_K50_cliqueLeft_question2"],
     15: ["To indicate which of the two triangles has the group of tiles,<br> Press the right or left arrow.", "15 N100_K50_cliqueLeft_question3"],
-    16: ["ArrowLeft", "Correct!<br>Press space to move on.", "Wrong! The triangle was the other one.<br>Press space to move on.", "16 N100_K50_cliqueLeft_solution"], // correct answer: ArrowLeft
+    16: ["ArrowLeft", "<b>Correct!</b> <br>Press space to move on.", "<b>Wrong!</b> The triangle was the other one.<br>Press space to move on.", "16 N100_K50_cliqueLeft_solution"], // correct answer: ArrowLeft
     // N120_K45
     17: ["Let's see other examples with bigger triangles.<br> Press space to shuffle the two triangles.", "17 N120_K45_cliqueLeft_question1"],
     18: ["To see a different version of the same two triangles,<br> Press space again.", "18 N120_K45_cliqueLeft_question2"],
     19: ["To indicate which of the two triangles has the group of tiles,<br> Press the right or left arrow.", "19 N120_K45_cliqueLeft_question3"],
-    20: ["ArrowLeft", "Correct!<br>Press space to move on.", "Wrong! The triangle was the other one.<br>Press space to move on.", "20 N120_K45_cliqueLeft_solution"], // correct answer: ArrowLeft
+    20: ["ArrowLeft", "<b>Correct!</b> <br>Press space to move on.", "<b>Wrong!</b> The triangle was the other one.<br>Press space to move on.", "20 N120_K45_cliqueLeft_solution"], // correct answer: ArrowLeft
     // N140_K60
     21: ["Let's see other examples with bigger triangles.<br> Press space to shuffle the two triangles.", "21 N140_K60_cliqueRight_question1"],
     22: ["To see a different version of the same two triangles,<br> Press space again.", "22 N140_K60_cliqueRight_question2"],
     23: ["To indicate which of the two triangles has the group of tiles,<br> Press the right or left arrow.", "23 N140_K60_cliqueRight_question3"],
-    24: ["ArrowRight", "Correct!<br>Press space to move on.", "Wrong! The triangle was the other one.<br>Press space to move on.", "24 N140_K60_cliqueRight_solution"], // correct answer: ArrowRight      
+    24: ["ArrowRight", "<b>Correct!</b> <br>Press space to move on.", "<b>Wrong!</b> The triangle was the other one.<br>Press space to move on.", "24 N140_K60_cliqueRight_solution"], // correct answer: ArrowRight      
     // N150_K100
     25: ["Let's see other examples with bigger triangles.<br> Press space to shuffle the two triangles.", "25 N150_K100_cliqueLeft_question1"],
     26: ["To see a different version of the same two triangles,<br> Press space again.", "26 N150_K100_cliqueLeft_question2"],
     27: ["To indicate which of the two triangles has the group of tiles,<br> Press the right or left arrow.", "27 N150_K100_cliqueLeft_question3"],
-    28: ["ArrowLeft", "Correct!<br>Press space to move on.", "Wrong! The triangle was the other one.<br>Press space to move on.", "28 N150_K100_cliqueLeft_solution"], // correct answer: ArrowLeft
+    28: ["ArrowLeft", "<b>Correct!</b> <br>Press space to move on.", "<b>Wrong!</b> The triangle was the other one.<br>Press space to move on.", "28 N150_K100_cliqueLeft_solution"], // correct answer: ArrowLeft
     // N180_K60
     29: ["Let's see other examples with bigger triangles.<br> Press space to shuffle the two triangles.", "29 N180_K60_cliqueLeft_question1"],
     30: ["To see a different version of the same two triangles,<br> Press space again.", "30 N180_K60_cliqueLeft_question2"],
     31: ["To indicate which of the two triangles has the group of tiles,<br> Press the right or left arrow.", "31 N180_K60_cliqueLeft_question3"],
-    32: ["ArrowLeft", "Correct!<br>Press space to move on.", "Wrong! The triangle was the other one.<br>Press space to move on.", "32 N180_K60_cliqueLeft_solution"], // correct answer: ArrowLeft
+    32: ["ArrowLeft", "<b>Correct!</b> <br>Press space to move on.", "<b>Wrong!</b> The triangle was the other one.<br>Press space to move on.", "32 N180_K60_cliqueLeft_solution"], // correct answer: ArrowLeft
     // N200_K80
     33: ["Let's see other examples with bigger triangles.<br> Press space to shuffle the two triangles.", "33 N200_K80_black_clique_right_1"],
     34: ["To see a different version of the same two triangles,<br> Press space again.", "34 N200_K80_black_clique_right_2"],
     35: ["To indicate which of the two triangles has the group of tiles,<br> Press the right or left arrow.", "35 N200_K80_black_clique_right_3"],
-    36: ["ArrowRight", "Correct!<br>Press space to move on.", "Wrong! The triangle was the other one.<br>Press space to move on.", "36 N200_K80_red_clique_right"], // correct answer: ArrowRight  
+    36: ["ArrowRight", "<b>Correct!</b> <br>Press space to move on.", "<b>Wrong!</b> The triangle was the other one.<br>Press space to move on.", "36 N200_K80_red_clique_right"], // correct answer: ArrowRight  
+}
+
+// FUNCTION THAT GENERATES THE FAMILIARIZATION TRIALS FOR PART 1 (all except feedback trial, added from main)
+function generateBlockOfFamiliarizationTrials_part1(index) {
+    /* INPUT: ("taskFamiliarizationObject_part1" is global)
+    - index: identifies the number of the block of trials (first call: trials 1-3; second call: trials 5-7...)
+
+    OUTPUT:
+    - array of trials for the current block (visualization 1, visualization 2, choice)
+    (NB: the feedback trial is added from the main script since it requires to access global jsPsych variable)
+    */ 
+
+    // empty array that will be filled with the different trials:
+    let currentBlockOfTrialsArray = []
+
+    // creating the trials and adding them to the array
+    let visualization_1_trial = {
+        type: jsPsychImageKeyboardResponse,
+        stimulus: `tutorial/task_familiarization_images/part 1/${taskFamiliarizationObject_part1[index+1][1]}.PNG`,
+        prompt: `<br><br><br> ${taskFamiliarizationObject_part1[index+1][0]}`,
+        choices: [' '],
+        stimulus_height: 500,
+    };
+    currentBlockOfTrialsArray.push(visualization_1_trial)
+    
+    let visualization_2_trial = {
+        type: jsPsychImageKeyboardResponse,
+        stimulus: `tutorial/task_familiarization_images/part 1/${taskFamiliarizationObject_part1[index+2][1]}.PNG`,
+        prompt: `<br><br><br> ${taskFamiliarizationObject_part1[index+2][0]}`,
+        choices: [' '],
+        stimulus_height: 500,
+    };
+    currentBlockOfTrialsArray.push(visualization_2_trial)
+    
+    let choice_trial = {
+        type: jsPsychImageKeyboardResponse,
+        stimulus: `tutorial/task_familiarization_images/part 1/${taskFamiliarizationObject_part1[index+3][1]}.PNG`,
+        prompt: `<br><br><br> ${taskFamiliarizationObject_part1[index+3][0]}`,
+        choices: ['ArrowLeft', 'ArrowRight'],
+        stimulus_height: 500,
+    };
+    currentBlockOfTrialsArray.push(choice_trial)
+
+    //returning the array 
+    return currentBlockOfTrialsArray
 }
 
 
-// PART 2: background information
+// PART 2: with background information
 const taskFamiliarizationObject_part2 = {
     /* 
     In every group of four images:
@@ -249,20 +294,94 @@ const taskFamiliarizationObject_part2 = {
 
     // with background information
     // N150_K70
-    1: ["During the real experiment, you will also see your score on the top-right, and the moves on the top-left.<br> By pressing space, you use one move.", "37 150_70_cliqueRight_withFeedback_1"],
-    2: ["You will have a limited number of moves.<br> Press space once again to shuffle the triangles and use another move.", "38 150_70_cliqueRight_withFeedback_2"],
-    3: ["To indicate which of the two triangles has the group of tiles,<br> Press the right or left arrow.", "39 150_70_cliqueRight_withFeedback_3"],
-    4: ["This was the triangle that contained the trial.<br> Press space to see the feedback for your response.", "40 150_70_cliqueRight_withFeedback_solution"], 
+    1: ["During the real experiment, you will see your score on the top-right, and the moves on the top-left.<br> By pressing space, you use one move.", "1 150_70_cliqueRight_withFeedback_1"],
+    2: ["You will have a limited number of moves.<br> Press space again to shuffle the triangles and use another move.", "2 150_70_cliqueRight_withFeedback_2"],
+    3: ["To indicate which of the two triangles has the group of tiles,<br> Press the right or left arrow.", "3 150_70_cliqueRight_withFeedback_3"],
+    4: ["This was the triangle that contained the trial.<br> Press space to see the feedback for your response.", "4 150_70_cliqueRight_withFeedback_solution"], 
     5: ["ArrowRight", // correct answer: ArrowRight
         //PROMPT:
         //correct answer
-        "Since you answered correctly, the score has increased and has turned green.<br> Press space to try another example.", 
+        "Your answer was <b>correct!</b>, the score has increased and has turned green.<br> Press space to start a new trial.", 
         //wrong answer
-        "Since you answered wrongly, the score has not increased and has turned red.<br> Press space to try another example.",
+        "Your answer was <b>wrong!</b>, the score has not increased and has turned red.<br> Press space to start a new trial.",
         //IMAGE:
         //correct answer
-        "41 150_40_cliqueLeft_withFeedback_correctAnswer", 
+        "5 150_40_cliqueLeft_withFeedback_correctAnswer", 
         //wrong answer
-        "41 150_40_cliqueLeft_withFeedback_wrongAnswer",
-        ]
+        "5 150_40_cliqueLeft_withFeedback_wrongAnswer",
+        ],
+    // N170_K50
+    6: ["During the real experiment, you will see your score on the top-right, and the moves on the top-left.<br> By pressing space, you use one move.", "6 170_50_cliqueLeft_withFeedback_1"],
+    7: ["You will have a limited number of moves.<br> Press space again to shuffle the triangles and use another move.", "7 170_50_cliqueLeft_withFeedback_2"],
+    8: ["To indicate which of the two triangles has the group of tiles,<br> Press the right or left arrow.", "8 170_50_cliqueLeft_withFeedback_3"],
+    9: ["This was the triangle that contained the trial.<br> Press space to see the feedback for your response.", "9 170_50_cliqueLeft_withFeedback_solution"], 
+    10: ["ArrowLeft", // correct answer: ArrowLeft
+        //PROMPT:
+        //correct answer
+        "Your answer was <b>correct!</b>, the score has increased and has turned green.<br> Press space to try another example.", 
+        //wrong answer
+        "Your answer was <b>wrong!</b>, the score has not increased and has turned red.<br> Press space to end the training phase.",
+        //IMAGE:
+        //correct answer
+        "10 170_50_cliqueLeft_withFeedback_correctAnswer", 
+        //wrong answer
+        "10 170_50_cliqueLeft_withFeedback_wrongAnswer",
+        ]   
+        
+        // GENERATE OTHER IMAGES AND ADD THEM???
+
+}
+
+// FUNCTION THAT GENERATES THE FAMILIARIZATION TRIALS FOR PART 2 (all except feedback trial, added from main)
+function generateBlockOfFamiliarizationTrials_part2(index) {
+    /* INPUT: ("taskFamiliarizationObject_part2" is global)
+    - index: identifies the number of the block of trials (first call: trials 1-4; second call: trials 6-9...)
+
+    OUTPUT:
+    - array of trials for the current block (visualization 1, visualization 2, choice, solution)
+    (NB: the feedback trial is added from the main script since it requires to access global jsPsych variable)
+    */ 
+
+    // empty array that will be filled with the different trials:
+    let currentBlockOfTrialsArray = []
+
+    // creating the trials and adding them to the array
+    let visualization_1_trial = {
+        type: jsPsychImageKeyboardResponse,
+        stimulus: `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index+1][1]}.PNG`,
+        prompt: `<br><br><br> ${taskFamiliarizationObject_part2[index+1][0]}`,
+        choices: [' '],
+        stimulus_height: 700,
+    };
+    currentBlockOfTrialsArray.push(visualization_1_trial)
+    
+    let visualization_2_trial = {
+        type: jsPsychImageKeyboardResponse,
+        stimulus: `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index+2][1]}.PNG`,
+        prompt: `<br><br><br> ${taskFamiliarizationObject_part2[index+2][0]}`,
+        choices: [' '],
+        stimulus_height: 700,
+    };
+    currentBlockOfTrialsArray.push(visualization_2_trial)
+    
+    let choice_trial = {
+        type: jsPsychImageKeyboardResponse,
+        stimulus: `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index+3][1]}.PNG`,
+        prompt: `<br><br><br> ${taskFamiliarizationObject_part2[index+3][0]}`,
+        choices: ['ArrowLeft', 'ArrowRight'],
+        stimulus_height: 700,
+    };
+    currentBlockOfTrialsArray.push(choice_trial)
+
+    let solution_trial = {
+        type: jsPsychImageKeyboardResponse,
+        stimulus: `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index+4][1]}.PNG`,
+        prompt: `<br><br><br> ${taskFamiliarizationObject_part2[index+4][0]}`,
+        choices: [' '],
+        stimulus_height: 700,
+    };   
+    currentBlockOfTrialsArray.push(solution_trial)     
+
+    //returning the array 
+    return currentBlockOfTrialsArray
 }

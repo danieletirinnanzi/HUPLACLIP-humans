@@ -10,8 +10,8 @@ function generateIntroductionPages() {
 
     // page 1: welcome   
     let page1 = `<font size="+2"><b> Welcome to the experiment. </b></font><br><br>
-    Press the buttons below or use the left and right arrow to move across pages. <br><br>
-    <i><b>Press right arrow to move on > </b></i>`
+    Use the left and right arrow to move across pages. <br><br>
+    <i><b>Press right arrow to go forward > </b></i>`
     introductionPagesArray.push(page1)
 
     // page 2: informed consent + aim + privacy
@@ -35,7 +35,7 @@ function generateIntroductionPages() {
     (PEDICE: Il Responsabile della protezione dei dati (RPD) è l'Avv. Valentina Carollo che
     può essere contattato ai seguenti indirizzi email: dpo@sissa.it oppure rpd@sissa.it - PEC: protocollo@pec.sissa.it )
     Before expressing your consent to participate, we remind you again that in case you needed clarifications on any aspect of the current research, the experimenter is fully available to provide it.<br><br>
-    Go to the next page to start the tutorial. <br><br>
+    Go to the next page to visualize the instructions for the task. <br><br>
     <i><b>< Press left arrow to go back <br></b></i>
     <i><b>Press right arrow to go forward > </b></i>
     `

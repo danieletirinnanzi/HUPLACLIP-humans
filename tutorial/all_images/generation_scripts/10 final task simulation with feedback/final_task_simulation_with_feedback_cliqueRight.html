@@ -332,6 +332,11 @@ function generateDrawStimuli(graphsToDraw,shuffledOrderOfNodes,presentationIndex
         //creating string to be displayed as feedback:
         let feedbackStringMoves = "MOVES LEFT: " + 3
         // text on canvas (increasing red hue when the remaining randomizations decrease. No randomization requested -> black; no randomizations left -> red ):
+        //RED (1 MOVE):
+        //ctx.fillStyle = `rgb(250,0,0)`;
+        //MID-RED (2 MOVES):
+        //ctx.fillStyle = `rgb(120,0,0)`;
+        //BLACK (3 MOVES):
         ctx.fillStyle = `rgb(0,0,0)`;
         ctx.font = "bold 1.7em system-ui";
         ctx.fillText(feedbackStringMoves, 0, (c.height)/7.5);     

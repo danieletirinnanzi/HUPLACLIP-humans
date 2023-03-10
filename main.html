@@ -54,7 +54,7 @@
         key_forward: "ArrowRight"
         }
         timeline.push(instructions)
-       
+
 
 
         /* AGREEMENT TO MOVE TO TASK FAMILIARIZATION */
@@ -79,30 +79,11 @@
         // creating the trials for the first part of the task familiarization        
         for (let index = 0; index < Object.keys(taskFamiliarizationObject_part1).length; index += 4) {
         // NB: index increases by 4 at every iteration
-            let visualization_1_trial = {
-                type: jsPsychImageKeyboardResponse,
-                stimulus: `tutorial/task_familiarization_images/part 1/${taskFamiliarizationObject_part1[index+1][1]}.PNG`,
-                prompt: `<br><br><br> ${taskFamiliarizationObject_part1[index+1][0]}`,
-                choices: [' '],
-                stimulus_height: 500,
-            };
 
-            let visualization_2_trial = {
-                type: jsPsychImageKeyboardResponse,
-                stimulus: `tutorial/task_familiarization_images/part 1/${taskFamiliarizationObject_part1[index+2][1]}.PNG`,
-                prompt: `<br><br><br> ${taskFamiliarizationObject_part1[index+2][0]}`,
-                choices: [' '],
-                stimulus_height: 500,
-            };
+            // calling function that generates an array containing a single block of 3 trials (visualization 1, visualization 2, choice)
+            let currentBlockOfTrialsArray_part1 = generateBlockOfFamiliarizationTrials_part1(index) 
 
-            let choice_trial = {
-                type: jsPsychImageKeyboardResponse,
-                stimulus: `tutorial/task_familiarization_images/part 1/${taskFamiliarizationObject_part1[index+3][1]}.PNG`,
-                prompt: `<br><br><br> ${taskFamiliarizationObject_part1[index+3][0]}`,
-                choices: ['ArrowLeft', 'ArrowRight'],
-                stimulus_height: 500,
-            };
-
+            // creating the feedback trial and adding it to the array
             let feedback_trial = {
                 type: jsPsychImageKeyboardResponse,
                 stimulus: `tutorial/task_familiarization_images/part 1/${taskFamiliarizationObject_part1[index+4][3]}.PNG`,
@@ -123,12 +104,13 @@
                     };
                 })(index)
             };
+            currentBlockOfTrialsArray_part1.push(feedback_trial)
 
-            // adding the trials to the timeline
-            timeline.push(visualization_1_trial);
-            timeline.push(visualization_2_trial);
-            timeline.push(choice_trial);
-            timeline.push(feedback_trial);
+            // adding all the elments of the array to the timeline
+            currentBlockOfTrialsArray_part1.forEach(singleTrial => {
+                timeline.push(singleTrial)
+            });
+
         }
 
 
@@ -136,38 +118,11 @@
         // creating the trials for the second part of the task familiarization        
         for (let index = 0; index < Object.keys(taskFamiliarizationObject_part2).length; index += 5) {
         // NB: index increases by 5 at every iteration
-            let visualization_1_trial = {
-                type: jsPsychImageKeyboardResponse,
-                stimulus: `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index+1][1]}.PNG`,
-                prompt: `<br><br><br> ${taskFamiliarizationObject_part2[index+1][0]}`,
-                choices: [' '],
-                stimulus_height: 700,
-            };
 
-            let visualization_2_trial = {
-                type: jsPsychImageKeyboardResponse,
-                stimulus: `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index+2][1]}.PNG`,
-                prompt: `<br><br><br> ${taskFamiliarizationObject_part2[index+2][0]}`,
-                choices: [' '],
-                stimulus_height: 700,
-            };
-
-            let choice_trial = {
-                type: jsPsychImageKeyboardResponse,
-                stimulus: `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index+3][1]}.PNG`,
-                prompt: `<br><br><br> ${taskFamiliarizationObject_part2[index+3][0]}`,
-                choices: ['ArrowLeft', 'ArrowRight'],
-                stimulus_height: 700,
-            };
-
-            let solution_trial = {
-                type: jsPsychImageKeyboardResponse,
-                stimulus: `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index+4][1]}.PNG`,
-                prompt: `<br><br><br> ${taskFamiliarizationObject_part2[index+4][0]}`,
-                choices: [' '],
-                stimulus_height: 700,
-            };
-
+            // calling function that generates an array containing a single block of 4 trials (visualization 1, visualization 2, choice, solution)
+            let currentBlockOfTrialsArray_part2 = generateBlockOfFamiliarizationTrials_part2(index) 
+            
+            // creating the feedback trial and adding it to the array
             let feedback_trial = {
                 type: jsPsychImageKeyboardResponse,
                 stimulus: "", //defined below based on correctness of choice
@@ -190,13 +145,12 @@
                     };
                 })(index)
             };
+            currentBlockOfTrialsArray_part2.push(feedback_trial)            
 
-            // adding the trials to the timeline
-            timeline.push(visualization_1_trial);
-            timeline.push(visualization_2_trial);
-            timeline.push(choice_trial);
-            timeline.push(solution_trial);
-            timeline.push(feedback_trial);
+            // adding all the elments of the array to the timeline
+            currentBlockOfTrialsArray_part2.forEach(singleTrial => {
+                timeline.push(singleTrial)
+            });
         }        
 
 
@@ -206,9 +160,10 @@
         // POSSIBLE IMPROVEMENT: use external-HTML plugin (with "agreement_page.html"), so that it is possible to use checkbox and check agreement with a function (alert if clicking something else)
         let consent_form = {
             type: jsPsychInstructions,
-            pages: [`<p> By clicking the "Space" you are expressing your consent in taking part in the study, and you confirm to: <br>
+            pages: [`<p> You have completed the training: after this page, the real experiment will start. <br><br>
+               By pressing "Space" you are expressing your consent in taking part in the study, and you confirm to: <br>
              - have carefully read the explanations regarding this study and the full experimental procedure;<br>
-             - have been informed regarding the scope and aims of the present research;<br>
+             - have been informed regarding the aims of the present research;<br>
              - have had the possibility of asking questions regarding any aspect of the experimental procedure and to have obtained satisfying answers;<br>
              - be aware of the possible risks related with the experiment;<br>
              - have received satisfying assurance regarding the confidentiality of the information collected through the testing of your data;<br>

@@ -6,7 +6,7 @@
     // CREATING OBJECT FOR CURRENT EXPERIMENT:
     const currentExperiment = {
         // parameters for experiment:
-        numberOfPresentations: 8, // number of presentations for each experiment (single presentation = single couple of triangular matrices, presented once and reordered through space bar presses)
+        numberOfPresentations: 20, // number of presentations for each experiment (single presentation = single couple of triangular matrices, presented once and reordered through space bar presses)
         maximumNumberOfRandomizations: 20, // maximum number of randomizations allowed for a single couple of matrices 
         canvasDimensions: [canvasHeight,canvasWidth], // [height,width]
         // parameters for graphs:
