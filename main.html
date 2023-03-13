@@ -47,6 +47,7 @@
 
         /* INSTRUCTIONS */
         // showing instructions for the study
+        /*
         let instructions = {
         type: jsPsychInstructions,
         pages: generateInstructionsPages(),
@@ -54,7 +55,7 @@
         key_forward: "ArrowRight"
         }
         timeline.push(instructions)
-
+        */
 
 
         /* AGREEMENT TO MOVE TO TASK FAMILIARIZATION */
@@ -128,7 +129,7 @@
                 stimulus: "", //defined below based on correctness of choice
                 prompt: "", //defined below based on correctness of choice
                 choices: [' '],
-                stimulus_height: 700,
+                stimulus_height: 500,
                 // using a closure (a function that has access to the variables defined in its outer function) to be able to access "index" from inside the on_start function
                 on_start: (function(index) {
                     return function(currentFeedbackTrial) {

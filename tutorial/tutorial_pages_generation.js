@@ -2,9 +2,9 @@
 // OBJECT THAT CONTAINS INSTRUCTIONS TEXT AND RELATIVE IMAGES:
 const instructionsObject = {
     // checkerboard familiarization
-    1: ["Image you have a black and white checkerboard.", "1 square_chessboard_N6_2"],
-    2: ["Checkerboards can have various dimensions.", "2 square_chessboard_N10_1"],
-    3: ["Checkerboards can have various dimensions.", "3 square_chessboard_N16_1"],
+    1: ["Imagine you have a black and white checkerboard.", "1 square_chessboard_N6_2"],
+    2: ["Checkerboards come in different sizes.", "2 square_chessboard_N10_1"],
+    3: ["Checkerboards come in different sizes.", "3 square_chessboard_N16_1"],
     // swaps in squares
     // 6x6
     4: ["Now let's consider a 6 by 6 checkerboard.", "4 square_chessboard_N6_2"],
@@ -318,7 +318,7 @@ const taskFamiliarizationObject_part2 = {
     10: ["ArrowLeft", // correct answer: ArrowLeft
         //PROMPT:
         //correct answer
-        "Your answer was <b>correct!</b>, the score has increased and has turned green.<br> Press space to try another example.", 
+        "Your answer was <b>correct!</b>, the score has increased and has turned green.<br> Press space to end the training phase.", 
         //wrong answer
         "Your answer was <b>wrong!</b>, the score has not increased and has turned red.<br> Press space to end the training phase.",
         //IMAGE:
@@ -351,7 +351,7 @@ function generateBlockOfFamiliarizationTrials_part2(index) {
         stimulus: `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index+1][1]}.PNG`,
         prompt: `<br><br><br> ${taskFamiliarizationObject_part2[index+1][0]}`,
         choices: [' '],
-        stimulus_height: 700,
+        stimulus_height: 500,
     };
     currentBlockOfTrialsArray.push(visualization_1_trial)
     
@@ -360,7 +360,7 @@ function generateBlockOfFamiliarizationTrials_part2(index) {
         stimulus: `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index+2][1]}.PNG`,
         prompt: `<br><br><br> ${taskFamiliarizationObject_part2[index+2][0]}`,
         choices: [' '],
-        stimulus_height: 700,
+        stimulus_height: 500,
     };
     currentBlockOfTrialsArray.push(visualization_2_trial)
     
@@ -369,7 +369,7 @@ function generateBlockOfFamiliarizationTrials_part2(index) {
         stimulus: `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index+3][1]}.PNG`,
         prompt: `<br><br><br> ${taskFamiliarizationObject_part2[index+3][0]}`,
         choices: ['ArrowLeft', 'ArrowRight'],
-        stimulus_height: 700,
+        stimulus_height: 500,
     };
     currentBlockOfTrialsArray.push(choice_trial)
 
@@ -378,7 +378,7 @@ function generateBlockOfFamiliarizationTrials_part2(index) {
         stimulus: `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index+4][1]}.PNG`,
         prompt: `<br><br><br> ${taskFamiliarizationObject_part2[index+4][0]}`,
         choices: [' '],
-        stimulus_height: 700,
+        stimulus_height: 500,
     };   
     currentBlockOfTrialsArray.push(solution_trial)     
 
