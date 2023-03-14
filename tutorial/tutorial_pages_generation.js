@@ -100,9 +100,9 @@ const instructionsObject = {
     73: ["However, during the experiment the two triangles will be all black and white. <br> Your task is to indicate in which triangle a group of tiles was spread (in this case, the left one) by pressing the corresponding arrow.", "73 N20_K13_black&white"],
     // N40_K18
     74: ["Let's see the same thing with two bigger triangles.", "74 N40_K18_1"],
-    75: ["In this case, the right triangle contains the group of tiles.", "75 74 N40_K18_2"],
-    76: ["If you press the spacebar, you can see different shuffled versions of the same two triangles.", "76 74 N40_K18_3"],
-    77: ["In the real experiment, this is what you will see. In this case, given that the right triangle contained the group of tiles, the correct answer is right.", "77 74 N40_K18_black&white"],
+    75: ["In this case, the right triangle contains the group of tiles.", "75 N40_K18_2"],
+    76: ["If you press the spacebar, you can see different shuffled versions of the same two triangles.", "76 N40_K18_3"],
+    77: ["In the real experiment, this is what you will see. In this case, given that the right triangle contained the group of tiles, the correct answer is right.", "77 N40_K18_black&white"],
     // N70_K30
     78: ["Let's see the same thing with two bigger triangles.", "78 N70_K30_1"],
     79: ["In this case, the left triangle contains the group of tiles.", "79 N70_K30_2"],
@@ -178,7 +178,7 @@ function generateInstructionsPages() {
 /* TASK FAMILIARIZATION */
 
 // PART 1: without background information
-const taskFamiliarizationObject_part1 = {
+let taskFamiliarizationObject_part1 = {
     /* 
     In every group of four images:
     1: visualization trial n.1,
@@ -235,54 +235,9 @@ const taskFamiliarizationObject_part1 = {
     36: ["ArrowRight", "<b>Correct!</b> <br>Press space to move on.", "<b>Wrong!</b> The triangle was the other one.<br>Press space to move on.", "36 N200_K80_red_clique_right"], // correct answer: ArrowRight  
 }
 
-// FUNCTION THAT GENERATES THE FAMILIARIZATION TRIALS FOR PART 1 (all except feedback trial, added from main)
-function generateBlockOfFamiliarizationTrials_part1(index) {
-    /* INPUT: ("taskFamiliarizationObject_part1" is global)
-    - index: identifies the number of the block of trials (first call: trials 1-3; second call: trials 5-7...)
-
-    OUTPUT:
-    - array of trials for the current block (visualization 1, visualization 2, choice)
-    (NB: the feedback trial is added from the main script since it requires to access global jsPsych variable)
-    */ 
-
-    // empty array that will be filled with the different trials:
-    let currentBlockOfTrialsArray = []
-
-    // creating the trials and adding them to the array
-    let visualization_1_trial = {
-        type: jsPsychImageKeyboardResponse,
-        stimulus: `tutorial/task_familiarization_images/part 1/${taskFamiliarizationObject_part1[index+1][1]}.PNG`,
-        prompt: `<br><br><br> ${taskFamiliarizationObject_part1[index+1][0]}`,
-        choices: [' '],
-        stimulus_height: 500,
-    };
-    currentBlockOfTrialsArray.push(visualization_1_trial)
-    
-    let visualization_2_trial = {
-        type: jsPsychImageKeyboardResponse,
-        stimulus: `tutorial/task_familiarization_images/part 1/${taskFamiliarizationObject_part1[index+2][1]}.PNG`,
-        prompt: `<br><br><br> ${taskFamiliarizationObject_part1[index+2][0]}`,
-        choices: [' '],
-        stimulus_height: 500,
-    };
-    currentBlockOfTrialsArray.push(visualization_2_trial)
-    
-    let choice_trial = {
-        type: jsPsychImageKeyboardResponse,
-        stimulus: `tutorial/task_familiarization_images/part 1/${taskFamiliarizationObject_part1[index+3][1]}.PNG`,
-        prompt: `<br><br><br> ${taskFamiliarizationObject_part1[index+3][0]}`,
-        choices: ['ArrowLeft', 'ArrowRight'],
-        stimulus_height: 500,
-    };
-    currentBlockOfTrialsArray.push(choice_trial)
-
-    //returning the array 
-    return currentBlockOfTrialsArray
-}
-
 
 // PART 2: with background information
-const taskFamiliarizationObject_part2 = {
+let taskFamiliarizationObject_part2 = {
     /* 
     In every group of four images:
     1: visualization trial n. 1 (image: 3 moves left; orange score)
@@ -332,13 +287,16 @@ const taskFamiliarizationObject_part2 = {
 
 }
 
-// FUNCTION THAT GENERATES THE FAMILIARIZATION TRIALS FOR PART 2 (all except feedback trial, added from main)
-function generateBlockOfFamiliarizationTrials_part2(index) {
-    /* INPUT: ("taskFamiliarizationObject_part2" is global)
-    - index: identifies the number of the block of trials (first call: trials 1-4; second call: trials 6-9...)
+
+// FUNCTION THAT GENERATES THE FAMILIARIZATION TRIALS FOR PART 1 AND PART 2 (all except feedback trial, added from main)
+function generateBlockOfFamiliarizationTrials(part,index,taskFamiliarizationObject) {
+    /* INPUT:
+    - part: identifies if the familiarization trials are produced for part 1 (3 trials for each block) or 2 (4 trials for each block)
+    - index: identifies the number of the block of trials (first call: trials 1-3 (part 1) / 1-4 (part 2); second call: trials 5-7 (part 1) / 6...)
+    - taskFamiliarizationObject: taskFamiliarizationObject_part1/_part2
 
     OUTPUT:
-    - array of trials for the current block (visualization 1, visualization 2, choice, solution)
+    - array of trials for the current block (part 1: visualization 1, visualization 2, choice; part 2: visualization 1, visualization 2, choice, solution)
     (NB: the feedback trial is added from the main script since it requires to access global jsPsych variable)
     */ 
 
@@ -348,8 +306,8 @@ function generateBlockOfFamiliarizationTrials_part2(index) {
     // creating the trials and adding them to the array
     let visualization_1_trial = {
         type: jsPsychImageKeyboardResponse,
-        stimulus: `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index+1][1]}.PNG`,
-        prompt: `<br><br><br> ${taskFamiliarizationObject_part2[index+1][0]}`,
+        stimulus: `tutorial/task_familiarization_images/part ${part}/${taskFamiliarizationObject[index+1][1]}.PNG`,
+        prompt: `<br><br><br> ${taskFamiliarizationObject[index+1][0]}`,
         choices: [' '],
         stimulus_height: 500,
     };
@@ -357,8 +315,8 @@ function generateBlockOfFamiliarizationTrials_part2(index) {
     
     let visualization_2_trial = {
         type: jsPsychImageKeyboardResponse,
-        stimulus: `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index+2][1]}.PNG`,
-        prompt: `<br><br><br> ${taskFamiliarizationObject_part2[index+2][0]}`,
+        stimulus: `tutorial/task_familiarization_images/part ${part}/${taskFamiliarizationObject[index+2][1]}.PNG`,
+        prompt: `<br><br><br> ${taskFamiliarizationObject[index+2][0]}`,
         choices: [' '],
         stimulus_height: 500,
     };
@@ -366,22 +324,24 @@ function generateBlockOfFamiliarizationTrials_part2(index) {
     
     let choice_trial = {
         type: jsPsychImageKeyboardResponse,
-        stimulus: `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index+3][1]}.PNG`,
-        prompt: `<br><br><br> ${taskFamiliarizationObject_part2[index+3][0]}`,
+        stimulus: `tutorial/task_familiarization_images/part ${part}/${taskFamiliarizationObject[index+3][1]}.PNG`,
+        prompt: `<br><br><br> ${taskFamiliarizationObject[index+3][0]}`,
         choices: ['ArrowLeft', 'ArrowRight'],
         stimulus_height: 500,
     };
     currentBlockOfTrialsArray.push(choice_trial)
 
-    let solution_trial = {
-        type: jsPsychImageKeyboardResponse,
-        stimulus: `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index+4][1]}.PNG`,
-        prompt: `<br><br><br> ${taskFamiliarizationObject_part2[index+4][0]}`,
-        choices: [' '],
-        stimulus_height: 500,
-    };   
-    currentBlockOfTrialsArray.push(solution_trial)     
-
+    // if function is called for part 2, the solution trial has to be added to the array
+    if (part == 2) {
+        let solution_trial = {
+            type: jsPsychImageKeyboardResponse,
+            stimulus: `tutorial/task_familiarization_images/part ${part}/${taskFamiliarizationObject[index+4][1]}.PNG`,
+            prompt: `<br><br><br> ${taskFamiliarizationObject[index+4][0]}`,
+            choices: [' '],
+            stimulus_height: 500,
+        };   
+        currentBlockOfTrialsArray.push(solution_trial)           
+    }
     //returning the array 
     return currentBlockOfTrialsArray
 }

@@ -172,7 +172,7 @@ function drawAccuracy(ctx,presentationIndex,currentTrialsArray) {
             ctx.fillStyle = "lawngreen";
         else
             ctx.fillStyle = "red";
-    ctx.fillRect((currentExperiment.canvasDimensions[1]-(currentExperiment.canvasDimensions[1]/5.5)), (currentExperiment.canvasDimensions[0])/16, 250, 80);
+    ctx.fillRect((currentExperiment.canvasDimensions[1]-(currentExperiment.canvasDimensions[1]/5.5)), (currentExperiment.canvasDimensions[0])/16, 300, 80);
     // text on the canvas:
     ctx.fillStyle = "black"
     ctx.font = "bold 1.7em system-ui";

@@ -81,7 +81,7 @@
         // NB: index increases by 4 at every iteration
 
             // calling function that generates an array containing a single block of 3 trials (visualization 1, visualization 2, choice)
-            let currentBlockOfTrialsArray_part1 = generateBlockOfFamiliarizationTrials_part1(index) 
+            let currentBlockOfTrialsArray_part1 = generateBlockOfFamiliarizationTrials(1,index,taskFamiliarizationObject_part1) 
 
             // creating the feedback trial and adding it to the array
             let feedback_trial = {
@@ -120,7 +120,7 @@
         // NB: index increases by 5 at every iteration
 
             // calling function that generates an array containing a single block of 4 trials (visualization 1, visualization 2, choice, solution)
-            let currentBlockOfTrialsArray_part2 = generateBlockOfFamiliarizationTrials_part2(index) 
+            let currentBlockOfTrialsArray_part2 = generateBlockOfFamiliarizationTrials(2,index,taskFamiliarizationObject_part2) 
             
             // creating the feedback trial and adding it to the array
             let feedback_trial = {
