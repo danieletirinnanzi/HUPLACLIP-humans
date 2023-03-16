@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Swapped square matrix generation, N=20, firstSwap</title>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="900" height="900"></canvas>
+    <script>
+        
+        /* version 1 (black diagonal) of matrix with 20 rows and 20 columns */
+        let numberOfNodes = 20;
+
+        /* Ask the user for the two nodes to swap */
+        let nodesToSwap = prompt("Enter two numbers (0-19) to swap separated by comma, e.g. 3,10").split(",");
+        let node1 = Number(nodesToSwap[0]);
+        let node2 = Number(nodesToSwap[1]);
+
+        /* Generate the starting matrix */
+        let startingMatrix = [];
+        for (let i = 0; i < numberOfNodes; i++) {
+            let row = [];
+            for (let j = 0; j < numberOfNodes; j++) {
+                if ((i + j) % 2 === 0) {
+                    row.push(1);
+                } else {
+                    row.push(0);
+                }
+            }
+            startingMatrix.push(row);
+        }
+
+        console.log(startingMatrix.slice())
+
+        /* Swap the rows */
+        let tempRow = startingMatrix[node1];
+        startingMatrix[node1] = startingMatrix[node2];
+        startingMatrix[node2] = tempRow;
+
+        /* Swap the columns */
+        for (let i = 0; i < numberOfNodes; i++) {
+            let tempCol = startingMatrix[i][node1];
+            startingMatrix[i][node1] = startingMatrix[i][node2];
+            startingMatrix[i][node2] = tempCol;
+        }
+
+        /* Draw the matrix on the canvas */
+        let canvas = document.getElementById("myCanvas");
+        let context = canvas.getContext("2d");
+        let nodeSize = 40;
+        for (let i = 0; i < numberOfNodes; i++) {
+            for (let j = 0; j < numberOfNodes; j++) {
+                if (startingMatrix[i][j] === 1) {
+                    context.fillStyle = "black";
+                } else {
+                    context.fillStyle = "white";
+                }
+                context.fillRect(j * nodeSize, i * nodeSize, nodeSize, nodeSize);
+            }
+        }
+        
+    </script>
+  </body>
+</html>

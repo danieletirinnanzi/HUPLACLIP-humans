@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Standard triangular chessboard generation</title>
+  </head>
+  <body style="background-color: orange">
+    <canvas id="myCanvas" width="900" height="900" style="background-color: white"></canvas>
+    <script>
+        
+        function drawStimuli(numberOfSquares) {
+            // addressing canvas from HTML (moving outside function and passing canvas as input (check in JSPSYCH page) ):
+            let canvasElement = document.querySelector("#myCanvas");
+            // canvas with id="myCanvas"
+            let ctx = canvasElement.getContext("2d");
+            // canvas center X and Y
+            const centerX = canvasElement.width / 2,
+                centerY = canvasElement.height / 2;            
+            // move the origin to the canvas' center
+            ctx.translate(centerX, canvasElement.height);
+            // add 45 degrees rotation
+            ctx.rotate(225 * Math.PI / 180);             
+            // drawing the squares
+            let singleSquareDimension = (canvasElement.width/(numberOfSquares))/1.7;
+            for (let firstIndex = 0; firstIndex < numberOfSquares; firstIndex++) {  
+                // this index allows to move vertically when building in the stimulus
+                for (let secondIndex = 0; secondIndex < firstIndex+1; secondIndex++) {
+                    //this index allows to move horizontally when building the stimulus (1st row: one square; 2nd row: two squares...):
+                    // drawing the square
+                    ctx.beginPath();
+                    ctx.moveTo(singleSquareDimension*secondIndex,singleSquareDimension+singleSquareDimension*firstIndex); //starting point (upper-left angle)
+                    ctx.lineTo(singleSquareDimension*secondIndex,singleSquareDimension+singleSquareDimension*(firstIndex+1)); //going downwards (lower-left angle)
+                    ctx.lineTo(singleSquareDimension*(secondIndex+1),singleSquareDimension+singleSquareDimension*(firstIndex+1)); //going horizontal (lower-right angle)
+                    ctx.lineTo(singleSquareDimension*(secondIndex+1),singleSquareDimension+singleSquareDimension*firstIndex); //going upwards (upper-right angle)
+                    ctx.lineTo(singleSquareDimension*secondIndex,singleSquareDimension+singleSquareDimension*firstIndex); //closing square (upper-left angle)
+
+                    // the outline
+                    ctx.lineWidth = .8;
+                    ctx.strokeStyle = '#666666';
+                    ctx.stroke();  
+                    
+                    
+                    // VERSION 1 (black diagonal)
+                    // adjusting the fill color to obtain a chessboard
+                    if(firstIndex % 2==0){       
+                        if(secondIndex % 2==0)
+                            //white
+                            ctx.fillStyle = "#FFFFFF";
+                        else 
+                            //black
+                            ctx.fillStyle = "#000000";
+                    }
+                    else {
+                        if(secondIndex % 2==0)
+                            //black
+                            ctx.fillStyle = "#000000";
+                        else 
+                            //white
+                            ctx.fillStyle = "#FFFFFF";                    
+                    //The number is odd
+                    }
+                    
+                    
+
+                    /*
+                    // VERSION 2 (white diagonal)
+                    // adjusting the fill color to obtain a chessboard
+                    if(firstIndex % 2==0){       
+                        if(secondIndex % 2==0)
+                            //black
+                            ctx.fillStyle = "#000000";
+                        else 
+                            //white
+                            ctx.fillStyle = "#FFFFFF";
+                    }
+                    else {
+                        if(secondIndex % 2==0)
+                            //white
+                            ctx.fillStyle = "#FFFFFF";
+                        else 
+                            //black
+                            ctx.fillStyle = "#000000";                    
+                    //The number is odd
+                    } 
+                       */
+                                 
+                    
+                    ctx.fill();
+                }   
+            }  
+        }
+
+        //calling function to draw the stimulus:
+        let numberOfNodes = prompt("Insert number of nodes: ");
+        drawStimuli(numberOfNodes-1) //NB: if 10 nodes are associated, the triangular matrix has to be of 9 squares
+
+    </script>
+
+</body>
+</html>
