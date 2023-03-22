@@ -10,7 +10,7 @@
         maximumNumberOfRandomizations: 20, // maximum number of randomizations allowed for a single couple of matrices 
         canvasDimensions: [canvasHeight,canvasWidth], // [height,width]
         // parameters for graphs:
-        numberOfNodes: 150,
+        numberOfNodes: 300,
         initialCliqueSize: 100,  // this is the maximum dimension of the clique, it will decrease throughout the experiment, increasing the difficulty of the task                       
         probabilityOfAssociation: 0.5
     }
