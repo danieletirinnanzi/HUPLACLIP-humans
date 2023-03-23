@@ -2,146 +2,131 @@
 // OBJECT THAT CONTAINS INSTRUCTIONS TEXT AND RELATIVE IMAGES:
 const instructionsObject = {
     // checkerboard familiarization
-    1: ["Imagine you have a black and white checkerboard.", "1 square_chessboard_N6_2"],
-    2: ["Checkerboards come in different sizes.", "2 square_chessboard_N10_1"],
-    3: ["Checkerboards come in different sizes.", "3 square_chessboard_N16_1"],
-    // swaps in squares
-    // 6x6
-    4: ["Now let's consider a 6 by 6 checkerboard.", "4 square_chessboard_N6_2"],
-    5: ["In this checkerboard, if we switch these rows and columns.", "5 highlighted_square_chessboard_N6_2"],
-    6: ["We obtain a different checkerboard.", "6 swapped_square_chessboard_N6_2"],
-    7: ["We have transformed the original checkerboard.", "7 6nodes_square_sidebyside"],
-    // 10x10
-    8: ["Let's see the same thing with a bigger checkerboard.", "8 square_chessboard_N10_1"],
-    9: ["Here, if we switch these rows and columns.", "9 highlighted_square_chessboard_N10_1"],
-    10: ["We obtain a different checkerboard.", "10 swapped_square_chessboard_N10_1"],
-    11: ["Again, we have transformed the original checkerboard.", "11 10nodes_square_sidebyside"],
-    // 16x16
-    12: ["Let's see it one last time, with an even bigger checkerboard.", "12 square_chessboard_N16_1"],   
-    13: ["If we switch these rows and columns.", "13 highlighted_square_chessboard_N16_1"],
-    14: ["We obtain a different checkerboard.", "14 swapped_square_chessboard_N16_1"],
-    15: ["Also in this case, we have transformed the original checkerboard.", "15 16nodes_square_sidebyside"],
+    1: ["Imagine you have a black and white checkerboard.", "1_square_chessboard_N10_1"],
+    2: ["Checkerboards come in different sizes.", "2_square_chessboard_N16_1"],
+    // swaps in 20x20 square
+    // first swap:
+    3: ["Now let's consider a 20 by 20 checkerboard.", "3_standard_square_chessboard_N20_1"],
+    4: ["In this checkerboard, if we switch these rows and columns.", "4_highlighted_square_chessboard_N20_1_firstSwap"],
+    5: ["We obtain a different checkerboard.", "5_swapped_square_chessboard_N20_1"],
+    6: ["By swapping the two rows and the two columns, we transformed the original checkerboard.<br>Remember that you can always visualize the previous images by pressing the left arrow.", "6_20nodes_square_sidebyside_firstSwap"],
+    // second swap:
+    7: ["Let's consider again our standard 20x20 checkerboard.", "7_standard_square_chessboard_N20_1"],
+    8: ["Now let's switch two different rows and columns.", "8_highlighted_square_chessboard_N20_1_secondSwap"],
+    9: ["We obtain a different checkerboard.", "9_swapped_square_chessboard_N20_1_secondSwap"],
+    10: ["By swapping the two rows and the two columns, we have transformed the original checkerboard.<br>Remember that you can always visualize the previous images by pressing the left arrow.", "10_20nodes_square_sidebyside_secondSwap"],
+
     // square - triangle transition
-    16: ["Until now, we have seen square checkerboards.", "16 swapped_square_chessboard_N10_1"],
-    17: ["But if we cover one half, they become triangles.", "17 masked_swapped_square_chessboard_N10_1"],
-    18: ["And this is the resulting checkerboard.", "18 swapped_triangular_chessboard_N10_1"],
-    19: ["Let's see the same thing with different checkerboards.", "19 square_chessboard_N16_1"],
-    20: ["By covering one half of the checkerboard.", "20 masked_triangular_chessboard_N16_1"],
-    21: ["And obtaining a triangle.", "21 triangular_chessboard_N16_1"],
-    22: ["Let's see another example.", "22 swapped_square_chessboard_N6_2"],
-    23: ["Where we cover one half of the checkerboard.", "23 masked_swapped_square_chessboard_N6_2"],
-    24: ["And obtain a triangle.", "24 swapped_triangular_chessboard_N6_2"],
-    25: ["Let's see one last example.", "25 swapped_square_chessboard_N16_1"],
-    26: ["Where we cover one half of the checkerboard.", "26 masked_swapped_square_chessboard_N16_1"],
-    27: ["And obtain a triangle.", "27 swapped_triangular_chessboard_N16_1"],
-    // swaps in triangles
-    // 6x6    
-    28: ["We can transform also triangles.", "28 triangular_chessboard_N6_2"],
-    29: ["If we switch these rows and columns.", "29 highlighted_triangular_chessboard_N6_2"],
-    30: ["We obtain a different triangle.", "30 swapped_triangular_chessboard_N6_2"],
-    31: ["As done before, we have transformed the original triangle.", "31 6nodes_triangular"],
-    // 10x10 
-    32: ["We can transform also bigger triangles.", "32 triangular_chessboard_N10_1"],
-    33: ["If we switch these rows and columns.", "33 highlighted_triangular_chessboard_N10_1"],
-    34: ["We obtain a different triangle.", "34 swapped_triangular_chessboard_N10_1"], 
-    35: ["Again, we have transformed the original triangle.", "35 10nodes_triangular"],
-    // 16x16    
-    36: ["Let's see it one last time, with an even bigger triangle.", "36 triangular_chessboard_N16_1"],
-    37: ["If we switch these rows and columns.", "37 highlighted_triangular_chessboard_N16_1"],
-    38: ["We obtain a different triangle.", "38 swapped_triangular_chessboard_N16_1"], 
-    39: ["Again, we have transformed the original triangle.", "39 16nodes_triangular"],
-    // horizontal - vertical transition
-    // swaps in vertical triangles
-    // 6x6        
-    40: ["The same triangles can also be seen vertically.", "40 vertical_standard_triangular_chessboard_N6_2"],
-    41: ["And we can transform them in the same way, by switching rows and columns.", "41 vertical_highlighted_triangular_chessboard_N6_2"],
-    42: ["To obtain a different triangle.", "42 vertical_swapped_triangular_chessboard_N6_2"],  
-    43: ["As done before, we have transformed the original triangle.", "43 6nodes_vertical_sidebyside"],
-    // 10x10     
-    44: ["Also in this case, we can transform bigger triangles.", "44 vertical_standard_triangular_chessboard_N10_1"],
-    45: ["If we switch these rows and columns.", "45 vertical_highlighted_triangular_chessboard_N10_1"],
-    46: ["We obtain a different triangle.", "46 vertical_swapped_triangular_chessboard_N10_1"], 
-    47: ["Again, we have transformed the original triangle.", "47 10nodes_vertical_sidebyside"],
-    // 16x16     
-    48: ["Let's see it one last time, with an even bigger triangle", "48 vertical_standard_triangular_chessboard_N16_2"],
-    49: ["If we switch these rows and columns.", "49 vertical_highlighted_triangular_chessboard_N16_2"],
-    50: ["We obtain a different triangle.", "50 vertical_swapped_triangular_chessboard_N16_2"], 
-    51: ["Again, we have transformed the original triangle.", "51 16nodes_vertical_sidebyside"],
+    11: ["Until now, we have seen square checkerboards.", "11_standard_square_chessboard_N20_1_without_frame"],
+    12: ["But if we cover one half, they become triangles.", "12_masked_triangular_chessboard_N20_1_standard"],   
+    13: ["And this is the resulting checkerboard.", "13_solid_triangular_chessboard_N20_1_standard"],
+    14: ["Let's see the same thing with a different checkerboard.", "14_swapped_square_chessboard_N20_1_firstSwap_withoutFrame"],
+    15: ["By covering one half of the checkerboard.", "15_masked_triangular_chessboard_N20_1_firstSwap"],
+    16: ["And obtaining a triangle", "16_solid_triangular_chessboard_N20_1_firstSwap"],
+    17: ["Let's see one last example.", "17_swapped_square_chessboard_N20_1_secondSwap_withoutFrame"],
+    18: ["Where we cover one half of the checkerboard.", "18_masked_triangular_chessboard_N20_1_secondSwap"],
+    19: ["And obtain a triangle.", "19_solid_triangular_chessboard_N20_1_secondSwap"],
+
+    // swaps in triangles   
+    // first swap 
+    20: ["We can switch rows and columns also triangles.", "20_triangular_chessboard_N20_1_firstSwap"],
+    21: ["For example, if we switch these rows and columns.", "21_highlighted_triangular_chessboard_N20_1_firstSwap"],
+    22: ["We obtain a different triangle.", "22_swapped_triangular_chessboard_N20_1_firstSwap"],
+    23: ["By swapping the two rows and columns, we have transformed the original triangle.<br>Remember that you can always visualize the previous images by pressing the left arrow.", "23_20nodes_triangular_firstSwap"],
+    // second swap:    
+    24: ["Let's consider again the initial triangle.", "24_triangular_chessboard_N20_1_secondSwap"],
+    25: ["If we switch two different rows and columns.", "25_highlighted_triangular_chessboard_N20_1_secondSwap"],
+    26: ["We obtain another different triangle.", "26_swapped_triangular_chessboard_N20_1_secondSwap"],
+    27: ["By swapping the two rows and columns, we have transformed the original triangle.<br>Remember that you can always visualize the previous images by pressing the left arrow.", "27_20nodes_triangular_secondSwap"],
+
+    // horizontal - vertical transition 
+    // first swap 
+    28: ["The same triangle can also be represented vertically.", "28_vertical_standard_triangular_chessboard_N20_1_firstSwap"],
+    29: ["We can transform the triangle similarly, by switching specific rows and columns.", "29_vertical_highlighted_triangular_chessboard_N20_1_firstSwap"],
+    30: ["To obtain a different triangle.", "30_vertical_swapped_triangular_chessboard_N20_1_firstSwap"],
+    31: ["Swapping two rows and columns transforms the original triangle.<br>Remember that you can always visualize the previous images by pressing the left arrow.", "31_20nodes_vertical_firstSwap"],
+    // second swap:     
+    32: ["Let's consider again the initial vertical triangle.", "32_vertical_standard_triangular_chessboard_N20_1_secondSwap"],
+    33: ["If we switch two different rows and columns.", "33_vertical_highlighted_triangular_chessboard_N20_1_secondSwap"],
+    34: ["We obtain another different triangle.", "34_vertical_swapped_triangular_chessboard_N20_1_secondSwap"], 
+    35: ["Also in this case, swapping two rows and columns transforms the original triangle.<br>Remember that you can always visualize the previous images by pressing the left arrow.", "35_20nodes_vertical_secondSwap"],
+    
     // spreading clique (color coded)    
-    // N20_K13
-    52: ["Now, let's imagine to spread this group of red tiles inside the triangle.", "52 N20_K13_grouped"],
-    53: ["This is what we obtain.", "53 N20_K13_shuffled"],
-    54: ["We have the same triangle, but in the right one the red tiles are spread.", "54 N20_K13_sidebyside"],
-    // N40_K18
-    55: ["Let's spread the red tiles of this bigger triangle.", "55 N40_K18_grouped"],
-    56: ["This is what we obtain.", "56 N40_K18_shuffled"],
-    57: ["Again, we have the same triangle, but in the right one the red tiles are spread.", "57 N40_K18_sidebyside"],    
-    // N70_K30
-    58: ["Let's spread the red tiles of this even bigger triangle.", "58 N70_K30_grouped"],
-    59: ["This is what we obtain.", "59 N70_K30_shuffled"],
-    60: ["Again, we have the same triangle, but in the right one the red tiles are spread.", "60 N70_K30_sidebyside"], 
+    // N20_K14 (regular chessboard - progression)
+    36: ["Now let's imagine you have a regular triangular chessboard where some tiles are colored in red.", "36_N20_K14_regular_1standard"],
+    37: ["If you switch two rows and columns, the red tiles change their location in the triangle", "37_N20_K14_regular_swap1"],
+    38: ["If you make another switch, the red tiles will spread even more inside the triangle.", "38_N20_K14_regular_swap2"], 
+    39: ["With a third switch, they will keep spreading inside the triangle.", "39_N20_K14_regular_swap3"],
+    40: ["After many single switches, the red tiles will be distributed inside the triangle, and they will look like this.", "40_N20_K14_regular_visualization5_shuffled"],
+    41: ["Repeating single switches of rows and columns shuffles the original triangle.<br>A 'shuffle' is the passage from a standard triangle to its shuffled version.", "41_N20_K14_progression"],
+    // N20_K14 (irregular chessboard)
+    42: ["It is possible to shuffle also triangles where the black and white tiles are not regular.", "42_N20_K14_irregular_standard"],  
+    43: ["This is how a shuffle of the previous triangle looks like.", "43_N20_K14_irregular_shuffled"],  
+    44: ["A 'shuffle' is the passage from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "44_N20_K14_sidebyside"],
+    // N40_K24
+    45: ["It is possible to shuffle also bigger triangles. Let's see some examples.", "45_N40_K24_grouped"],
+    46: ["This is how a shuffle of the previous triangle looks like.", "46_N40_K24_shuffled"], 
+    47: ["A 'shuffle' is the passage from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "47_N40_K24_sidebyside"],
+    // N70_K30   
+    48: ["Let's see an example of a shuffle in a bigger triangle.", "48_N70_K30_grouped"],
+    49: ["This is how a shuffle of the previous triangle looks like.", "49_N70_K30_shuffled"],
+    50: ["A 'shuffle' is the passage from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "50_N70_K30_sidebyside"], 
     // N100_K50
-    61: ["Let's spread the red tiles of this even bigger triangle.", "61 N100_K50_grouped"],
-    62: ["This is what we obtain.", "62 N100_K50_shuffled"],
-    63: ["Again, we have the same triangle, but in the right one the red tiles are spread.", "63 N100_K50_sidebyside"], 
+    51: ["Let's see an example of a shuffle in a bigger triangle.", "51_N100_K50_grouped"],  
+    52: ["This is how a shuffle of the previous triangle looks like.", "52_N100_K50_shuffled"],
+    53: ["A 'shuffle' is the passage from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "53_N100_K50_sidebyside"],
     // N120_K45
-    64: ["Let's spread the red tiles of this even bigger triangle.", "64 N120_K45_grouped"],
-    65: ["This is what we obtain.", "65 N120_K45_shuffled"],
-    66: ["Again, we have the same triangle, but in the right one the red tiles are spread.", "66 N120_K45_sidebyside"], 
+    54: ["Let's see an example of a shuffle in a bigger triangle.", "54_N120_K45_grouped"],
+    55: ["This is how a shuffle of the previous triangle looks like.", "55_N120_K45_shuffled"],
+    56: ["A 'shuffle' is the passage from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "56_N120_K45_sidebyside"],
+    // N200_K110
+    57: ["Let's see an example of a shuffle in a bigger triangle.", "57_N200_K110_grouped"],    
+    58: ["This is how a shuffle of the previous triangle looks like.", "58_N200_K110_shuffled"],
+    59: ["A 'shuffle' is the passage from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "59_N200_K110_sidebyside"],
     // N200_K80
-    67: ["Let's see the last example: if we spread the red tiles of this huge triangle.", "67 N200_K80_grouped"],
-    68: ["This is what we obtain.", "68 N200_K80_shuffled"],
-    69: ["Once again, we have the same triangle, but in the right one the red tiles are spread.", "69 N200_K80_sidebyside"], 
+    60: ["Let's see an example of a shuffle in another triangle.", "60_N200_K80_grouped"], 
+    61: ["This is how a shuffle of the previous triangle looks like.", "61_N200_K80_shuffled"],
+    62: ["A 'shuffle' is the passage from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "62_N200_K80_sidebyside"],
+    // N250_K110
+    63: ["Let's see an example of a shuffle in a bigger triangle.", "63_N250_K110_grouped"], 
+    64: ["This is how a shuffle of the previous triangle looks like.", "64_N250_K110_shuffled"],
+    65: ["A 'shuffle' is the passage from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "65_N250_K110_sidebyside"],
+    // N300_K120
+    66: ["Let's see an example of a shuffle in a bigger triangle.", "66_N300_K120_grouped"], 
+    67: ["This is how a shuffle of the previous triangle looks like.", "67_N300_K120_shuffled"],
+    68: ["A 'shuffle' is the passage from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "68_N300_K120_sidebyside"],
+    // N300_K80
+    69: ["Let's see the last example of a shuffle.", "69_N300_K80_grouped"], 
+    70: ["This is how a shuffle of the previous triangle looks like.", "70_N300_K80_shuffled"],
+    71: ["A 'shuffle' is the passage from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "71_N300_K80_sidebyside"],
+    
     // stimuli without (B/W) and with clique (color coded) side by side (3 shuffled versions color coded + corresponding b/w version)
-    // N20_K13
-    70: ["During the experiment, you will see two triangles next to each other. By pressing the spacebar, you can shuffle the tiles...", "70 N20_K13_1"],
-    71: ["One of the two triangles contains a group of tiles that has been spread, like we have just seen. In this case, the left one does.", "71 N20_K13_2"],
-    72: ["The triangle on the right, instead, does not contain the group of tiles.", "72 N20_K13_3"],
-    73: ["However, during the experiment the two triangles will be all black and white. <br> Your task is to indicate in which triangle a group of tiles was spread (in this case, the left one) by pressing the corresponding arrow.", "73 N20_K13_black&white"],
-    // N40_K18
-    74: ["Let's see the same thing with two bigger triangles.", "74 N40_K18_1"],
-    75: ["In this case, the right triangle contains the group of tiles.", "75 N40_K18_2"],
-    76: ["If you press the spacebar, you can see different shuffled versions of the same two triangles.", "76 N40_K18_3"],
-    77: ["In the real experiment, this is what you will see. In this case, given that the right triangle contained the group of tiles, the correct answer is right.", "77 N40_K18_black&white"],
-    // N70_K30
-    78: ["Let's see the same thing with two bigger triangles.", "78 N70_K30_1"],
-    79: ["In this case, the left triangle contains the group of tiles.", "79 N70_K30_2"],
-    80: ["If you press the spacebar, you can see different shuffled versions of the same two triangles.", "80 N70_K30_3"],
-    81: ["In the real experiment, this is what you will see. In this case, given that the left triangle contained the group of tiles, the correct answer is left.", "81 N70_K30_black&white"],
-    // N100_K50
-    82: ["Let's see the same thing with a bigger triangle.", "82 N100_K50_1"],
-    83: ["In this case, the right triangle contains the group of tiles.", "83 N100_K50_2"],
-    84: ["If you press the spacebar, you can see different shuffled versions of the same two triangles.", "84 N100_K50_3"],
-    85: ["In the real experiment, this is what you will see. In this case, given that the right triangle contained the group of tiles, the correct answer is right.", "85 N100_K50_black&white"],
-    // N120_K45
-    86: ["Let's see the same thing with a bigger triangle.", "86 N120_K45_6"],
-    87: ["In this case, the right triangle contains the group of tiles.", "87 N120_K45_2"],
-    88: ["If you press the spacebar, you can see different shuffled versions of the same two triangles.", "88 N120_K45_3"],
-    89: ["In the real experiment, this is what you will see. In this case, given that the right triangle contained the group of tiles, the correct answer is right.", "89 N120_K45_black&white"],
-    // N200_K80
-    90: ["Let's see the same thing with a bigger triangle.", "90 N200_K80_1"],
-    91: ["In this case, the left triangle contains the group of tiles.", "91 N200_K80_2"],
-    92: ["If you press the spacebar, you can see different shuffled versions of the same two triangles.", "92 N200_K80_3"],
-    93: ["In the real experiment, this is what you will see. In this case, given that the left triangle contained the group of tiles, the correct answer is left.", "93 N200_K80_black&white"],
+    // N300_K130
+    72: ["During the experiment, you will see two triangles next to each other. In one of the triangles a group of tiles has been spread through a shuffle. Move on to see a different shuffle of the same triangle.", "72_N300_K130_1"],
+    73: ["In this case, the left triangle contains the tiles.", "73_N300_K130_2"],
+    74: ["Your task is to determine which of the two triangles contains the group of tiles.", "74_N300_K130_3"],
+    75: ["In the real experiment, the tiles will not be red, but black. In this case, given that the left triangle contained the group of tiles, the correct answer is left.", "75_N300_K130_black&white"],
+    // N300_K90
+    76: ["If you press the spacebar, you can see different shuffled versions of the same two triangles.", "76_N300_K90_1"],
+    77: ["In the real experiment, this is what you will see. In this case, given that the right triangle contained the group of tiles, the correct answer is right.", "77_N300_K90_2"],
+    78: ["Let's see the same thing with two bigger triangles.", "78_N300_K90_3"],
+    79: ["In this case, the left triangle contains the group of tiles.", "79_N300_K90_black&white"],
+    // N300_K60    
+    80: ["If you press the spacebar, you can see different shuffled versions of the same two triangles.", "80_N300_K60_1"],
+    81: ["In the real experiment, this is what you will see. In this case, given that the left triangle contained the group of tiles, the correct answer is left.", "81_N300_K60_2"],
+    82: ["Let's see the same thing with a bigger triangle.", "82_N300_K60_3"],
+    83: ["In this case, the right triangle contains the group of tiles.", "83_N300_K60_black&white"],
+
     // examples (b/w version -> corresponding color coded version)
-    // N20_K13   
-    94: ["Let's see some examples: try to guess which triangle contains the group of tiles.", "94 N20_K13_black_clique_right_3"],
-    95: ["In this case, it was the right one.", "95 N20_K13_red_clique_right"],
-    // N40_K18
-    96: ["Let's see another example: try to guess which triangle contains the group of tiles.", "96 N40_K18_black_clique_left_3"],
-    97: ["In this case, it was the left one.", "97 N40_K18_red_clique_left"],
-    // N70_K30
-    98: ["Let's see another example: try to guess which triangle contains the group of tiles.", "98 N70_K30_black_clique_right_3"],
-    99: ["In this case, it was the right one.", "99 N70_K30_red_clique_right"],
-    // N100_K50
-    100: ["Let's see another example: try to guess which triangle contains the group of tiles.", "100 N100_K50_black_clique_left_3"],
-    101: ["In this case, it was the left one.", "101 N100_K50_red_clique_left"],
-    // N120_K45
-    102: ["Let's see another example: try to guess which triangle contains the group of tiles.", "102 N120_K45_black_clique_left_3"],
-    103: ["In this case, it was the left one.", "103 N120_K45_red_clique_left"],
-    // N200_K80
-    104: ["Let's see one last example: try to guess which triangle contains the group of tiles.", "104 N200_K80_black_clique_right_3"],
-    105: ["In this case, it was the right one.", "105 N200_K80_red_clique_right"],
+    // N300_K110    
+    84: ["Let's see some examples: try to guess which triangle contains the group of tiles.", "84_N300_K110_black_clique_left"],
+    85: ["In this case, it was the left one.", "85_N300_K110_red_clique_left"],
+    // N300_K80
+    86: ["Let's see another example: try to guess which triangle contains the group of tiles.", "86_N300_K80_black_clique_right"],
+    87: ["In this case, it was the right one.", "87_N300_K80_red_clique_right"],
+    // N300_K60
+    88: ["Let's see another example: try to guess which triangle contains the group of tiles.", "88_N300_K60_black_clique_right"],
+    89: ["In this case, it was the right one.", "89_N300_K60_red_clique_right"],
 }
 
 
