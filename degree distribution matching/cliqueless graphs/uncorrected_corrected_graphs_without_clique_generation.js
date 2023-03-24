@@ -9,7 +9,7 @@
         - array where the dimension of the clique for each one of the trials is stored in the order of presentation
         */            
         let cliqueSizeArray = [];
-        let step = maximumCliqueSize / numberOfValues;
+        let step = maximumCliqueSize / (numberOfValues-1);
         for (let i = 0; i < numberOfValues; i++) {
             cliqueSizeArray.push(Math.round((step * i)));
         }
