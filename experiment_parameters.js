@@ -40,3 +40,16 @@
     currentExperiment.yStartingPoint = (1/20)*(currentExperiment.canvasDimensions[0])  //NB: starting to draw not from top of window, but leaving (1/20*c.height) above (and consequently below). For this reason, singleStepSize is calculated dividing not (c.height) but (9/10*canvas.height)
     // calculating number of iterations of foor loops:
     currentExperiment.numberOfIterations = (currentExperiment.numberOfNodes)-1
+
+    // calculating all the possible randomizations of the nodes in their standard order and storing them in the currentExperiment object:
+    let randomizationsObject = {}   // object of arrays -> each array is a permutation of the standard order of nodes
+    for (let presentationIndex = 0; presentationIndex < currentExperiment.numberOfPresentations; presentationIndex++) {
+        randomizationsObject[presentationIndex] = []
+        for (let shuffleIndex = 0; shuffleIndex < currentExperiment.maximumNumberOfRandomizations; shuffleIndex++) {
+            // adding the order of nodes for a single shuffle
+            randomizationsObject[presentationIndex].push(shuffleNodes(currentExperiment.standardOrderOfNodes.slice()))
+        }    
+    }
+    // adding property to currentExperiment object:
+    currentExperiment.randomizationsObject = randomizationsObject
+    console.log(currentExperiment.randomizationsObject)

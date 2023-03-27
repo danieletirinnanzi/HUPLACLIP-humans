@@ -1,6 +1,7 @@
 /* FUNCTION TO DRAW SINGLE STIMULUS ON CANVAS */
-function drawStimuli(ctx,presentationIndex,currentTrialOrder) {
+function drawStimulus(side,ctx,presentationIndex,currentTrialOrder) {
     /* INPUT: 
+    - side (left/right: indication of which stimulus has to be drawn, whether the left one or the right one)
     - ctx (reference to the canvas on which stimuli will be drawn)
     - presentationIndex (the number that identifies the couple of graphs that is being displayed)
     - currentTrialOrder (order in which the nodes are displayed on the screen)
@@ -11,20 +12,37 @@ function drawStimuli(ctx,presentationIndex,currentTrialOrder) {
 
     //NB: coordinates for where to draw the stimuli are calculated in "experiment_parameters.js"
 
-    // Drawing stimulus on LEFT SIDE:
-    // accessing the graph that will appear on the left side of the screen:
-    let leftGraph = currentExperiment.graphsToDisplay[presentationIndex][0]  
+    // Drawing stimulus:
+    // accessing the graph to be drawn:
+    if(side == "left") {
+        // if left stimulus, drawing the first one of the two graphs
+        graphToDraw = currentExperiment.graphsToDisplay[presentationIndex][0]  
+    } else {
+        // if right stimulus, drawing the second one of the two graphs
+        graphToDraw = currentExperiment.graphsToDisplay[presentationIndex][1]          
+    }
 
+    // for loops that draw the squares and color them
     for (let firstIndex = 0; firstIndex < currentExperiment.numberOfIterations; firstIndex++) {
         for (let secondIndex = 0; secondIndex < firstIndex+1; secondIndex++) {
             // drawing the square
             ctx.beginPath();
-            ctx.moveTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex)); //starting point (top angle)
-            ctx.lineTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+1)); //going left-right (right angle)
-            ctx.lineTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+2)); //going down-left (bottom angle)
-            ctx.lineTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex+2),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+1)); //going up-left (left angle)
-            ctx.lineTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex)); //closing square (top angle) (same coordinates of starting point)
-
+            if(side == "left") {
+                // drawing left square
+                ctx.moveTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex)); //starting point (top angle)
+                ctx.lineTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+1)); //going left-right (right angle)
+                ctx.lineTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+2)); //going down-left (bottom angle)
+                ctx.lineTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex+2),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+1)); //going up-left (left angle)
+                ctx.lineTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex)); //closing square (top angle) (same coordinates of starting point)
+            } else {
+                // drawing right square:
+                ctx.beginPath();
+                ctx.moveTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex)); //starting point (top angle)
+                ctx.lineTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+1)); //going left-right (right angle)
+                ctx.lineTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+2)); //going down-left (bottom angle)
+                ctx.lineTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex+2),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+1)); //going up-left (left angle)
+                ctx.lineTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex)); //closing square (top angle) (same coordinates of starting point)
+            }
             // defining the outline
             ctx.lineWidth = .8;
             ctx.strokeStyle = '#000000';
@@ -38,21 +56,21 @@ function drawStimuli(ctx,presentationIndex,currentTrialOrder) {
             // dealing with associations for node "0":
             if (currentTrialOrder[firstIndex+1] == 0 ) {
                 //first node was zero, reading 0th column of element
-                if(leftGraph[(currentTrialOrder[secondIndex])][0] == 1 )
+                if(graphToDraw[(currentTrialOrder[secondIndex])][0] == 1 )
                     presentAssociation = true
             } else if (currentTrialOrder[secondIndex] == 0) {
                 //second node was zero, reading 0th column of element
-                if(leftGraph[(currentTrialOrder[firstIndex+1])][0] == 1 )            
+                if(graphToDraw[(currentTrialOrder[firstIndex+1])][0] == 1 )            
                     presentAssociation = true
             } else {
                 // when dealing with non-zero nodes, always reading the value from bigger node (constraint since matrix is triangular)
                 if (currentTrialOrder[firstIndex+1] < currentTrialOrder[secondIndex]) {
                     //second element is bigger
-                    if(leftGraph[currentTrialOrder[secondIndex]][currentTrialOrder[firstIndex+1]] == 1)
+                    if(graphToDraw[currentTrialOrder[secondIndex]][currentTrialOrder[firstIndex+1]] == 1)
                         presentAssociation = true
                 } else {
                     //second element is smaller
-                    if(leftGraph[currentTrialOrder[firstIndex+1]][currentTrialOrder[secondIndex]] == 1)
+                    if(graphToDraw[currentTrialOrder[firstIndex+1]][currentTrialOrder[secondIndex]] == 1)
                         presentAssociation = true
                 }
             }
@@ -70,67 +88,6 @@ function drawStimuli(ctx,presentationIndex,currentTrialOrder) {
             }
             
         }
-
-        
-    // Drawing stimulus on RIGHT SIDE:
-    // accessing the graph that will appear on the left side of the screen:
-    let rightGraph = currentExperiment.graphsToDisplay[presentationIndex][1]
-                        
-    for (let firstIndex = 0; firstIndex < currentExperiment.numberOfIterations; firstIndex++) {
-        for (let secondIndex = 0; secondIndex < firstIndex+1; secondIndex++) {
-            // drawing the square
-            ctx.beginPath();
-            ctx.moveTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex)); //starting point (top angle)
-            ctx.lineTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+1)); //going left-right (right angle)
-            ctx.lineTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+2)); //going down-left (bottom angle)
-            ctx.lineTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex+2),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+1)); //going up-left (left angle)
-            ctx.lineTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex)); //closing square (top angle) (same coordinates of starting point)
-
-            // defining the outline
-            ctx.lineWidth = .8;
-            ctx.strokeStyle = '#666666';
-            ctx.stroke();
-
-            ctx.fillStyle = "#FFFFFF";
-            ctx.fill();   
-
-            // Determining whether the two nodes are associated:
-            let presentAssociation = false // will be changed to "true" if association is present in the considered instance 
-            // dealing with associations for node "0":
-            if (currentTrialOrder[firstIndex+1] == 0 ) {
-                //first node was zero, reading 0th column of element
-                if(rightGraph[(currentTrialOrder[secondIndex])][0] == 1 )
-                    presentAssociation = true
-            } else if (currentTrialOrder[secondIndex] == 0) {
-                //second node was zero, reading 0th column of element
-                if(rightGraph[(currentTrialOrder[firstIndex+1])][0] == 1 )            
-                    presentAssociation = true
-            } else {
-                // when dealing with non-zero nodes, always reading the value from bigger node (constraint because of triangular matrix)
-                if (currentTrialOrder[firstIndex+1] < currentTrialOrder[secondIndex]) {
-                    //second element is bigger
-                    if(rightGraph[currentTrialOrder[secondIndex]][currentTrialOrder[firstIndex+1]] == 1)
-                        presentAssociation = true
-                } else {
-                    //second element is smaller
-                    if(rightGraph[currentTrialOrder[firstIndex+1]][currentTrialOrder[secondIndex]] == 1)
-                        presentAssociation = true
-                }
-            }
-                
-            //filling the square according to the choice just made
-            if (presentAssociation) {
-                // black if nodes are associated
-                ctx.fillStyle = "#000000";
-                ctx.fill();
-            } else {
-                // white if nodes are unassociated
-                ctx.fillStyle = "#FFFFFF";
-                ctx.fill();                       
-                }
-        }
-            
-    }
 
 }
 

@@ -199,6 +199,8 @@
 
                 // for each presentation, shuffling the standard order of the nodes (adding "slice()" so that the value of "currentExperiment.standardOrderOfNodes" is not modified):
                 let currentTrialOrder = shuffleNodes(currentExperiment.standardOrderOfNodes.slice())
+                //READ HERE THE RIGHT RANDOMIZATION ORDER (stored in currentExperiment.randomizationsObject)
+
                 // global variable that temporarily stores the order of the nodes (it keeps changing, and its value is read from plugin to store the order in the corresponding trial)
                 jsPsych.data.presentedOrder = currentTrialOrder
                 // global variable that temporarily stores the current size of the clique (it keeps changing, and its value is read from plugin to store the order in the corresponding trial)
@@ -212,21 +214,16 @@
                     jsPsych.data.correctResponse = "arrowleft"
 
                 // Calling function to draw the two stimuli:
-                drawStimuli(ctx,presentationIndex,currentTrialOrder)
-                
-                // IMPROVEMENT (one function with inputs):
-                // DRAW LEFT STIMULUS
-                // DRAW RIGHT STIMULUS
+                //left stimulus:
+                drawStimulus("left",ctx,presentationIndex,currentTrialOrder)
+                // right stimulus:
+                drawStimulus("right",ctx,presentationIndex,currentTrialOrder)             
                 
                 // accessing the array of the trials completed up to now:
                 let currentTrialsArray = jsPsych.data.get().trials
                 // Calling function to draw accuracy and number of remaining randomizations:
                 drawFeedback(ctx,presentationIndex,currentTrialsArray)
-
-                //drawAccuracy(ctx,presentationIndex,currentTrialsArray)
-                // Calling function to draw number of remaining randomizations for current presentation:
-                //drawRemainingRandomizations(ctx,presentationIndex,currentTrialsArray)
-
+                
                 }
             
             return drawCanvas
