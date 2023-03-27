@@ -7,41 +7,38 @@ function drawStimulus(side,ctx,presentationIndex,currentTrialOrder) {
     - currentTrialOrder (order in which the nodes are displayed on the screen)
 
     OUTPUT:
-    - display of the two stimuli on the screen
+    - display of single stimulus on the screen
+    NB: coordinates for where to draw the stimuli are calculated in "experiment_parameters.js"
     */
 
-    //NB: coordinates for where to draw the stimuli are calculated in "experiment_parameters.js"
-
     // Drawing stimulus:
-    // accessing the graph to be drawn:
-    if(side == "left") {
-        // if left stimulus, drawing the first one of the two graphs
-        graphToDraw = currentExperiment.graphsToDisplay[presentationIndex][0]  
-    } else {
-        // if right stimulus, drawing the second one of the two graphs
-        graphToDraw = currentExperiment.graphsToDisplay[presentationIndex][1]          
-    }
+    // defining graph to draw:
+    let graphToDraw = side === "left"? currentExperiment.graphsToDisplay[presentationIndex][0] : currentExperiment.graphsToDisplay[presentationIndex][1];
 
     // for loops that draw the squares and color them
     for (let firstIndex = 0; firstIndex < currentExperiment.numberOfIterations; firstIndex++) {
         for (let secondIndex = 0; secondIndex < firstIndex+1; secondIndex++) {
             // drawing the square
             ctx.beginPath();
-            if(side == "left") {
-                // drawing left square
-                ctx.moveTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex)); //starting point (top angle)
-                ctx.lineTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+1)); //going left-right (right angle)
-                ctx.lineTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+2)); //going down-left (bottom angle)
-                ctx.lineTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex+2),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+1)); //going up-left (left angle)
-                ctx.lineTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex)); //closing square (top angle) (same coordinates of starting point)
-            } else {
-                // drawing right square:
-                ctx.beginPath();
-                ctx.moveTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex)); //starting point (top angle)
-                ctx.lineTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+1)); //going left-right (right angle)
-                ctx.lineTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+2)); //going down-left (bottom angle)
-                ctx.lineTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex+2),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+1)); //going up-left (left angle)
-                ctx.lineTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex)); //closing square (top angle) (same coordinates of starting point)
+            switch(side) {
+                case "left":
+                    // drawing left square
+                    ctx.moveTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex)); //starting point (top angle)
+                    ctx.lineTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+1)); //going left-right (right angle)
+                    ctx.lineTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+2)); //going down-left (bottom angle)
+                    ctx.lineTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex+2),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+1)); //going up-left (left angle)
+                    ctx.lineTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex)); //closing square (top angle) (same coordinates of starting point)
+                    break;
+                case "right":
+                    // drawing right square:
+                    ctx.moveTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex)); //starting point (top angle)
+                    ctx.lineTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+1)); //going left-right (right angle)
+                    ctx.lineTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+2)); //going down-left (bottom angle)
+                    ctx.lineTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex+2),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+1)); //going up-left (left angle)
+                    ctx.lineTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex)); //closing square (top angle) (same coordinates of starting point)
+                    break;
+                default:
+                    console.error("Invalid side: " + side);
             }
             // defining the outline
             ctx.lineWidth = .8;
