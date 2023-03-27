@@ -35,7 +35,6 @@
 
 
         /* INTRODUCTIVE PAGES */
-        /*
         // showing informative pages about the study (informed consent, aim, privacy)
         let introduction = {
         type: jsPsychInstructions,
@@ -51,7 +50,6 @@
         let instructions = {
         type: jsPsychInstructions,
         pages: generateInstructionsPages(),
-        // show_clickable_nav: true    //subjects will be able to navigate through the pages
         key_forward: "ArrowRight"
         }
         timeline.push(instructions)
@@ -59,12 +57,11 @@
 
 
         /* AGREEMENT TO MOVE TO TASK FAMILIARIZATION */
-        /*
         let move_to_familiarization_form = {
             type: jsPsychInstructions,
             pages: [`<p> Now it's your turn. <br>
                 From this moment on, you will not be able to move back and forth through the pages. <br><br>
-                Press "Space" to start a simulation of the experiment. <br>
+                Press "Space" to start a <b>simulation of the experiment</b>. <br>
                 </p>`],
              key_forward: " "
         };
@@ -73,10 +70,6 @@
 
 
         /* TASK FAMILIARIZATION */
-        // POSSIBLE IMPROVEMENT: 
-        // - creating function to generate a single block (4 (part 1) / 5 (part 2) trials), to add to the timeline from here. Problem: in "feedback_trial" the global variable jsPsych is called, and it can be called only from main script, otherwise it gives an error
-        // (possibility: creating all trials except from feedback in the function, and feedback from here, then adding everything) 
-        /*
         // PART 1: no background information
         // creating the trials for the first part of the task familiarization        
         for (let index = 0; index < Object.keys(taskFamiliarizationObject_part1).length; index += 4) {
