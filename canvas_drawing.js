@@ -203,7 +203,7 @@ function drawRemainingRandomizations(ctx,presentationIndex,currentTrialsArray) {
     // computing the number of randomizations left:
     let remainingRandomizations = currentExperiment.maximumNumberOfRandomizations - randomizationsPerformed
     //creating string to be displayed as feedback:
-    let feedbackString = "MOVES LEFT: " + remainingRandomizations
+    let feedbackString = "SHUFFLES LEFT: " + remainingRandomizations
     // text on canvas (increasing red hue when the remaining randomizations decrease. No randomization requested -> black; no randomizations left -> red ):
     ctx.fillStyle = `rgb(${255 - Math.floor(255/currentExperiment.maximumNumberOfRandomizations)*remainingRandomizations},0,0)`;
     ctx.font = "bold 1.7em system-ui";

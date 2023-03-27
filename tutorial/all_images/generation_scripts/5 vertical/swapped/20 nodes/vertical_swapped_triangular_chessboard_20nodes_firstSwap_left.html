@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Swapped square chessboard generation (vertical view)</title>
+  </head>
+  <body style="background-color: orange">
+    <canvas id="myCanvas" width="900" height="900" style="background-color: white"></canvas>
+    <script>
+        
+        let numberOfNodes = 20
+        let nodesToSwap = [3, 10]
+
+        let startingGraph = {
+            0:[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            1:[0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            2:[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            3:[0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            4:[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            5:[0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            6:[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            7:[0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            8:[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            9:[0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            10:[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            11:[0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            12:[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            13:[0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            14:[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            15:[0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            16:[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            17:[0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            18:[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            19:[0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        }
+        
+
+        let swappedGraph = {
+            0: [1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            1: [0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            2: [1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            3: [1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            4: [1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            5: [0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            6: [1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            7: [0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            8: [1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            9: [0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            10:[0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            11:[0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            12:[1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            13:[0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            14:[1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            15:[0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            16:[1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            17:[0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            18:[1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            19:[0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1],        
+        }
+
+        function drawStimuli(numberOfNodes,swappedGraph) {
+            // addressing canvas from HTML (moving outside function and passing canvas as input (check in JSPSYCH page) ):
+            let canvasElement = document.querySelector("#myCanvas");
+            // canvas with id="myCanvas"
+            let ctx = canvasElement.getContext("2d");
+            // canvas center X and Y
+            const centerX = canvasElement.width / 2,
+                centerY = canvasElement.height / 2;            
+            // move the origin to the canvas' center
+            ctx.translate(centerX, 0);
+            // add 45 degrees rotation
+            ctx.rotate(45 * Math.PI / 180);            
+            // drawing the squares
+            let singleSquareDimension = canvasElement.width/(numberOfNodes)/1.7;
+            for (let firstIndex = 0; firstIndex < numberOfNodes; firstIndex++) {  
+                // this index allows to move vertically when building in the stimulus
+                for (let secondIndex = 0; secondIndex < firstIndex; secondIndex++) {
+                    //this index allows to move horizontally when building the stimulus (1st row: one square; 2nd row: two squares...):
+                    // drawing the square
+                    ctx.beginPath();
+                    ctx.moveTo(singleSquareDimension*secondIndex,singleSquareDimension*firstIndex); //starting point (upper-left angle)
+                    ctx.lineTo(singleSquareDimension*secondIndex,singleSquareDimension*(firstIndex+1)); //going downwards (lower-left angle)
+                    ctx.lineTo(singleSquareDimension*(secondIndex+1),singleSquareDimension*(firstIndex+1)); //going horizontal (lower-right angle)
+                    ctx.lineTo(singleSquareDimension*(secondIndex+1),singleSquareDimension*firstIndex); //going upwards (upper-right angle)
+                    ctx.lineTo(singleSquareDimension*secondIndex,singleSquareDimension*firstIndex); //closing square (upper-left angle)
+
+                    // the outline
+                    ctx.lineWidth = .7;
+                    ctx.strokeStyle = '#666666';
+                    ctx.stroke();
+
+                    // filling squares
+                    if (swappedGraph[firstIndex][secondIndex] == 1) {
+                        ctx.fillStyle = "#000000";
+                        ctx.fill();
+                    } else {
+                        ctx.fillStyle = "#FFFFFF";
+                        ctx.fill();                       
+                    }
+                            
+                    
+                    ctx.fill();
+                }   
+            }  
+        }
+
+        //calling function to draw the stimulus:
+        drawStimuli(numberOfNodes,swappedGraph) //NB: if 10 nodes are associated, the triangular matrix has to be of 9 squares
+
+    </script>
+
+</body>
+</html>

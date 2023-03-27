@@ -314,12 +314,12 @@ function generateDrawStimuli(graphsToDraw,shuffledOrderOfNodes,presentationIndex
 
         // SCORE:
         //creating string to be displayed as feedback:
-        let feedbackStringScore = "SCORE: " + 1 +"/"+ 1
+        let feedbackStringScore = "SCORE: " + 0 +"/"+ 0
         //rect (differentiating color (green / red) based on correctness / incorrectness of last response)
         // if no response has been given, choosing a "neutral" color
-        //ctx.fillStyle = "orange";
+        ctx.fillStyle = "orange";
         // if response was correct, green:
-        ctx.fillStyle = "lawngreen";
+        //ctx.fillStyle = "lawngreen";
         // if response was wrong, red:
         //ctx.fillStyle = "red";
         ctx.fillRect((c.width-(c.width/6)), (c.height)/16, 200, 80);
@@ -330,14 +330,14 @@ function generateDrawStimuli(graphsToDraw,shuffledOrderOfNodes,presentationIndex
 
         // MOVES:
         //creating string to be displayed as feedback:
-        let feedbackStringMoves = "MOVES LEFT: " + 3
+        let feedbackStringMoves = "MOVES LEFT: " + 1
         // text on canvas (increasing red hue when the remaining randomizations decrease. No randomization requested -> black; no randomizations left -> red ):
         //RED (1 MOVE):
-        //ctx.fillStyle = `rgb(250,0,0)`;
+        ctx.fillStyle = `rgb(250,0,0)`;
         //MID-RED (2 MOVES):
         //ctx.fillStyle = `rgb(120,0,0)`;
         //BLACK (3 MOVES):
-        ctx.fillStyle = `rgb(0,0,0)`;
+        //ctx.fillStyle = `rgb(0,0,0)`;
         ctx.font = "bold 1.7em system-ui";
         ctx.fillText(feedbackStringMoves, 0, (c.height)/7.5);     
 
