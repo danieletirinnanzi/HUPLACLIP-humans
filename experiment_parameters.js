@@ -4,7 +4,7 @@
     let canvasWidth = window.innerWidth
 
     // CREATING OBJECT FOR CURRENT EXPERIMENT:
-    const currentExperiment = {
+    let currentExperiment = {
         // parameters for experiment:
         numberOfPresentations: 20, // number of presentations for each experiment (single presentation = single couple of triangular matrices, presented once and reordered through space bar presses)
         maximumNumberOfRandomizations: 20, // maximum number of randomizations allowed for a single couple of matrices 
@@ -29,3 +29,14 @@
 
     // adding the graphs to display as a property to the "currentExperiment" object
     currentExperiment.graphsToDisplay = generateGraphs()
+
+    // calculating drawing coordinates (will be read in "drawStimuli" function)
+    // calculting single step size (a step size is a single displacement on the x or y axes). Each square spans two steps:
+    currentExperiment.singleStepSize = ((9/10)*(currentExperiment.canvasDimensions[0]))/(((currentExperiment.numberOfNodes)*2))
+    // calculating starting points (for right and left stimulus) on x axis (considering the space to be left in the middle):
+    currentExperiment.xStartingPointLeft = (currentExperiment.canvasDimensions[1]/2 ) - currentExperiment.canvasDimensions[1]/20
+    currentExperiment.xStartingPointRight = (currentExperiment.canvasDimensions[1]/2 ) + currentExperiment.canvasDimensions[1]/20
+    // calculating starting points on y axis:
+    currentExperiment.yStartingPoint = (1/20)*(currentExperiment.canvasDimensions[0])  //NB: starting to draw not from top of window, but leaving (1/20*c.height) above (and consequently below). For this reason, singleStepSize is calculated dividing not (c.height) but (9/10*canvas.height)
+    // calculating number of iterations of foor loops:
+    currentExperiment.numberOfIterations = (currentExperiment.numberOfNodes)-1
