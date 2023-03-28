@@ -172,9 +172,6 @@
 
 
         /* ACTUAL EXPERIMENT: */
-        // POSSIBLE IMPROVEMENTS:
-        // - entering fullscreen before starting real experiment (https://www.jspsych.org/7.0/plugins/fullscreen/)
-        // - resizing screen to control for effective physical size of stimuli (https://www.jspsych.org/7.0/plugins/resize/)
         
         /* DRAWING STIMULI: */
         // FUNCTION THAT WILL DRAW THE STIMULI GIVEN THE CHOSEN ORDER OF THE NODES:
@@ -192,13 +189,23 @@
                 // addressing canvas
                 let ctx = c.getContext("2d"); 
 
-                // for each presentation, shuffling the standard order of the nodes (adding "slice()" so that the value of "currentExperiment.standardOrderOfNodes" is not modified):
-                let currentTrialOrder = shuffleNodes(currentExperiment.standardOrderOfNodes.slice())
-                //READ HERE THE RIGHT RANDOMIZATION ORDER (stored in currentExperiment.randomizationsObject)
+                // for each presentation, shuffling the standard order of the nodes
+                let currentTrialOrder = shuffleNodes(currentExperiment.standardOrderOfNodes.slice())    //using "slice()" so that the value of "currentExperiment.standardOrderOfNodes" is not modified)
 
-                // global variable that temporarily stores the order of the nodes (it keeps changing, and its value is read from plugin to store the order in the corresponding trial)
+                // accessing the array of the trials completed up to now:
+                let currentTrialsArray = jsPsych.data.get().trials            
+                
+                // DRAWING ON CANVAS:               
+                //left stimulus:
+                drawStimulus("left",ctx,presentationIndex,currentTrialOrder)
+                // right stimulus:
+                drawStimulus("right",ctx,presentationIndex,currentTrialOrder)     
+                // accuracy and number of remaining randomizations (storing number of randomizations performed in this presentation):
+                drawFeedback(ctx,presentationIndex,currentTrialsArray)
+
+                // global variable that temporarily stores the order of the nodes (it keeps changing, and its value is read from plugin to store the order in the current trial)
                 jsPsych.data.presentedOrder = currentTrialOrder
-                // global variable that temporarily stores the current size of the clique (it keeps changing, and its value is read from plugin to store the order in the corresponding trial)
+                // global variable that temporarily stores the current size of the clique (it keeps changing, and its value is read from plugin to store the order in the current trial)
                 jsPsych.data.cliqueSize = currentExperiment.arrayOfCliqueSizes[presentationIndex]
 
                 // global variable that temporarily stores the correct answer for the current presentation (it keeps changing, and its value is read from plugin to store the order in the corresponding trial)
@@ -207,18 +214,6 @@
                     jsPsych.data.correctResponse = "arrowright"
                     else
                     jsPsych.data.correctResponse = "arrowleft"
-
-                // Calling function to draw the two stimuli:
-                //left stimulus:
-                drawStimulus("left",ctx,presentationIndex,currentTrialOrder)
-                // right stimulus:
-                drawStimulus("right",ctx,presentationIndex,currentTrialOrder)             
-                
-                // accessing the array of the trials completed up to now:
-                let currentTrialsArray = jsPsych.data.get().trials
-                // Calling function to draw accuracy and number of remaining randomizations:
-                drawFeedback(ctx,presentationIndex,currentTrialsArray)
-                
                 }
             
             return drawCanvas

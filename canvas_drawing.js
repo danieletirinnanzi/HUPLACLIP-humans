@@ -15,38 +15,30 @@ function drawStimulus(side,ctx,presentationIndex,currentTrialOrder) {
     // defining graph to draw:
     let graphToDraw = side === "left"? currentExperiment.graphsToDisplay[presentationIndex][0] : currentExperiment.graphsToDisplay[presentationIndex][1];
 
-    // for loops that draw the squares and color them
-    for (let firstIndex = 0; firstIndex < currentExperiment.numberOfIterations; firstIndex++) {
+    // for loops that draws the squares and color them
+    let squareIndex = 0   //to correctly identify which square is being drawn and filling it correctly
+    for (let firstIndex = 0; firstIndex < (currentExperiment.numberOfNodes-1); firstIndex++) {
         for (let secondIndex = 0; secondIndex < firstIndex+1; secondIndex++) {
             // drawing the square
             ctx.beginPath();
             switch(side) {
                 case "left":
                     // drawing left square
-                    ctx.moveTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex)); //starting point (top angle)
-                    ctx.lineTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+1)); //going left-right (right angle)
-                    ctx.lineTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+2)); //going down-left (bottom angle)
-                    ctx.lineTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex+2),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+1)); //going up-left (left angle)
-                    ctx.lineTo(currentExperiment.xStartingPointLeft-currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex)); //closing square (top angle) (same coordinates of starting point)
+                    ctx.moveTo(currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][0][0],currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][0][1]); //starting point (top angle)
+                    ctx.lineTo(currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][1][0],currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][1][1]); //going left-right (right angle)
+                    ctx.lineTo(currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][2][0],currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][2][1]); //going down-left (bottom angle)
+                    ctx.lineTo(currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][3][0],currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][3][1]); //going up-left (left angle)
+                    ctx.lineTo(currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][4][0],currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][4][1]); //closing square (top angle) (same coordinates of starting point)
                     break;
                 case "right":
                     // drawing right square:
-                    ctx.moveTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex)); //starting point (top angle)
-                    ctx.lineTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+1)); //going left-right (right angle)
-                    ctx.lineTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+2)); //going down-left (bottom angle)
-                    ctx.lineTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex+2),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex+1)); //going up-left (left angle)
-                    ctx.lineTo(currentExperiment.xStartingPointRight+currentExperiment.singleStepSize*(firstIndex-secondIndex+1),currentExperiment.yStartingPoint+currentExperiment.singleStepSize*(firstIndex+secondIndex)); //closing square (top angle) (same coordinates of starting point)
+                    ctx.moveTo(currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][0][0],currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][0][1]); //starting point (top angle)
+                    ctx.lineTo(currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][1][0],currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][1][1]); //going left-right (right angle)
+                    ctx.lineTo(currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][2][0],currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][2][1]); //going down-left (bottom angle)
+                    ctx.lineTo(currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][3][0],currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][3][1]); //going up-left (left angle)
+                    ctx.lineTo(currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][4][0],currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][4][1]); //closing square (top angle) (same coordinates of starting point)
                     break;
-                default:
-                    console.error("Invalid side: " + side);
             }
-            // defining the outline
-            ctx.lineWidth = .8;
-            ctx.strokeStyle = '#000000';
-            ctx.stroke();
-
-            ctx.fillStyle = "#FFFFFF";
-            ctx.fill();   
 
             // Determining whether the two nodes are associated:
             let presentAssociation = false // will be changed to "true" if association is present in the considered instance 
@@ -82,6 +74,10 @@ function drawStimulus(side,ctx,presentationIndex,currentTrialOrder) {
                 ctx.fillStyle = "#FFFFFF";
                 ctx.fill();                       
                 }
+
+            // incrementing squareIndex:
+            squareIndex += 1
+
             }
             
         }
@@ -145,6 +141,5 @@ function drawFeedback(ctx,presentationIndex,currentTrialsArray) {
     // text on the canvas:
     ctx.fillStyle = "black"
     ctx.font = "bold 1.7em system-ui";
-    ctx.fillText(feedbackStringScore, (currentExperiment.canvasDimensions[1]-(currentExperiment.canvasDimensions[1]/6.5)), (currentExperiment.canvasDimensions[0])/7.5);    
-    
+    ctx.fillText(feedbackStringScore, (currentExperiment.canvasDimensions[1]-(currentExperiment.canvasDimensions[1]/6.5)), (currentExperiment.canvasDimensions[0])/8.5);    
 }
