@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <title>New version of HUPLACLIP</title>
     <!-- My scripts -->
     <script src="graphs_generation.js"></script>
@@ -9,23 +10,23 @@
     <script src="experiment_parameters.js"></script>
     <script src="canvas_drawing.js"></script>
     <!-- Standard scripts -->
-    <script src="jspsych/dist/jspsych.js"></script>    
+    <script src="jspsych/dist/jspsych.js"></script>
     <script src="jspsych/dist/plugin-instructions.js"></script>
     <script src="jspsych/dist/plugin-image-keyboard-response.js"></script>
     <!-- Plugins (modified) -->
     <script src="jspsych/dist/my-plugin-canvas-keyboard-response.js"></script>
-    <!-- <script src="scripts Francesco/my-plugin-instructions.js"></script> -->
     <!-- Styling -->
     <link href="jspsych/dist/jspsych.css" rel="stylesheet" type="text/css" />
-  </head>
-  <body>
+</head>
+
+<body>
     <script type="module">
 
         /* initialize jsPsych */
         var jsPsych = initJsPsych({
-            on_finish: function() {
-            console.log("experiment is over")
-            jsPsych.data.displayData();
+            on_finish: function () {
+                console.log("experiment is over")
+                jsPsych.data.displayData();
             }
         });
 
@@ -37,9 +38,9 @@
         /* INTRODUCTIVE PAGES */
         // showing informative pages about the study (informed consent, aim, privacy)
         let introduction = {
-        type: jsPsychInstructions,
-        pages: generateIntroductionPages(),
-        key_forward: "ArrowRight"
+            type: jsPsychInstructions,
+            pages: generateIntroductionPages(),
+            key_forward: "ArrowRight"
         }
         timeline.push(introduction)
 
@@ -48,12 +49,12 @@
         /* INSTRUCTIONS */
         // showing instructions for the study
         let instructions = {
-        type: jsPsychInstructions,
-        pages: generateInstructionsPages(),
-        key_forward: "ArrowRight"
+            type: jsPsychInstructions,
+            pages: generateInstructionsPages(),
+            key_forward: "ArrowRight"
         }
         timeline.push(instructions)
-        
+
 
 
         /* AGREEMENT TO MOVE TO TASK FAMILIARIZATION */
@@ -61,9 +62,9 @@
             type: jsPsychInstructions,
             pages: [`<p> Now it's your turn. <br>
                 From this moment on, you will not be able to move back and forth through the pages. <br><br>
-                Press "Space" to start a <b>simulation of the experiment</b>. <br>
+                Press "Space" to start a <b>trial run of the experiment</b>. For now, your score will not be recorded. <br>
                 </p>`],
-             key_forward: " "
+            key_forward: " "
         };
         timeline.push(move_to_familiarization_form)
 
@@ -73,28 +74,28 @@
         // PART 1: no background information
         // creating the trials for the first part of the task familiarization        
         for (let index = 0; index < Object.keys(taskFamiliarizationObject_part1).length; index += 4) {
-        // NB: index increases by 4 at every iteration
+            // NB: index increases by 4 at every iteration
 
             // calling function that generates an array containing a single block of 3 trials (visualization 1, visualization 2, choice)
-            let currentBlockOfTrialsArray_part1 = generateBlockOfFamiliarizationTrials(1,index,taskFamiliarizationObject_part1) 
+            let currentBlockOfTrialsArray_part1 = generateBlockOfFamiliarizationTrials(1, index, taskFamiliarizationObject_part1)
 
             // creating the feedback trial and adding it to the array
             let feedback_trial = {
                 type: jsPsychImageKeyboardResponse,
-                stimulus: `tutorial/task_familiarization_images/part 1/${taskFamiliarizationObject_part1[index+4][3]}.PNG`,
+                stimulus: `tutorial/task_familiarization_images/part 1/${taskFamiliarizationObject_part1[index + 4][3]}.PNG`,
                 prompt: "", //defined below based on correctness of choice
                 choices: [' '],
-                stimulus_height: 500,
+                stimulus_height: 600,
                 // using a closure (a function that has access to the variables defined in its outer function) to be able to access "index" from inside the on_start function
-                on_start: (function(index) {
-                    return function(currentFeedbackTrial) {
+                on_start: (function (index) {
+                    return function (currentFeedbackTrial) {
                         // accessing last trial:
                         let last_trial = jsPsych.data.get().last(1).values()[0];
                         // changing prompt according to correctness of last choice:
-                        if (last_trial.response == taskFamiliarizationObject_part1[index+4][0].toLowerCase() ) {
-                            currentFeedbackTrial.prompt = `<br><br><br> ${taskFamiliarizationObject_part1[index+4][1]}`;
+                        if (last_trial.response == taskFamiliarizationObject_part1[index + 4][0].toLowerCase()) {
+                            currentFeedbackTrial.prompt = `<br><br><br> ${taskFamiliarizationObject_part1[index + 4][1]}`;
                         } else {
-                            currentFeedbackTrial.prompt = `<br><br><br> ${taskFamiliarizationObject_part1[index+4][2]}`;
+                            currentFeedbackTrial.prompt = `<br><br><br> ${taskFamiliarizationObject_part1[index + 4][2]}`;
                         }
                     };
                 })(index)
@@ -112,41 +113,41 @@
         // PART 2: background information
         // creating the trials for the second part of the task familiarization        
         for (let index = 0; index < Object.keys(taskFamiliarizationObject_part2).length; index += 5) {
-        // NB: index increases by 5 at every iteration
+            // NB: index increases by 5 at every iteration
 
             // calling function that generates an array containing a single block of 4 trials (visualization 1, visualization 2, choice, solution)
-            let currentBlockOfTrialsArray_part2 = generateBlockOfFamiliarizationTrials(2,index,taskFamiliarizationObject_part2) 
-            
+            let currentBlockOfTrialsArray_part2 = generateBlockOfFamiliarizationTrials(2, index, taskFamiliarizationObject_part2)
+
             // creating the feedback trial and adding it to the array
             let feedback_trial = {
                 type: jsPsychImageKeyboardResponse,
                 stimulus: "", //defined below based on correctness of choice
                 prompt: "", //defined below based on correctness of choice
                 choices: [' '],
-                stimulus_height: 500,
+                stimulus_height: 600,
                 // using a closure (a function that has access to the variables defined in its outer function) to be able to access "index" from inside the on_start function
-                on_start: (function(index) {
-                    return function(currentFeedbackTrial) {
+                on_start: (function (index) {
+                    return function (currentFeedbackTrial) {
                         // accessing second to last trial:
                         let second_to_last_trial = jsPsych.data.get().last(2).values()[0];
                         // changing prompt according to correctness of last choice:
-                        if (second_to_last_trial.response == taskFamiliarizationObject_part2[index+5][0].toLowerCase() ) {
-                            currentFeedbackTrial.stimulus = `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index+5][3]}.PNG`;
-                            currentFeedbackTrial.prompt = `<br><br><br> ${taskFamiliarizationObject_part2[index+5][1]}`;
+                        if (second_to_last_trial.response == taskFamiliarizationObject_part2[index + 5][0].toLowerCase()) {
+                            currentFeedbackTrial.stimulus = `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index + 5][3]}.PNG`;
+                            currentFeedbackTrial.prompt = `<br><br><br> ${taskFamiliarizationObject_part2[index + 5][1]}`;
                         } else {
-                            currentFeedbackTrial.stimulus = `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index+5][4]}.PNG`;
-                            currentFeedbackTrial.prompt = `<br><br><br> ${taskFamiliarizationObject_part2[index+5][2]}`;
+                            currentFeedbackTrial.stimulus = `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index + 5][4]}.PNG`;
+                            currentFeedbackTrial.prompt = `<br><br><br> ${taskFamiliarizationObject_part2[index + 5][2]}`;
                         }
                     };
                 })(index)
             };
-            currentBlockOfTrialsArray_part2.push(feedback_trial)            
+            currentBlockOfTrialsArray_part2.push(feedback_trial)
 
             // adding all the elments of the array to the timeline
             currentBlockOfTrialsArray_part2.forEach(singleTrial => {
                 timeline.push(singleTrial)
             });
-        }        
+        }
 
 
 
@@ -165,14 +166,14 @@
              - be aware that you can withdraw in any phase of the study.<br><br> 
              Press "Space" to start the experiment.
              </p>`],
-             key_forward: " "
+            key_forward: " "
         };
         timeline.push(consent_form)
-        
+
 
 
         /* ACTUAL EXPERIMENT: */
-        
+
         /* DRAWING STIMULI: */
         // FUNCTION THAT WILL DRAW THE STIMULI GIVEN THE CHOSEN ORDER OF THE NODES:
         function generateDrawCanvas(presentationIndex) {
@@ -181,27 +182,27 @@
 
             OUTPUT:
             - display of the stimuli on the screen
-            */    
+            */
 
             // function that generates the stimuli:
             function drawCanvas(c) {
 
                 // addressing canvas
-                let ctx = c.getContext("2d"); 
+                let ctx = c.getContext("2d");
 
                 // for each presentation, shuffling the standard order of the nodes
                 let currentTrialOrder = shuffleNodes(currentExperiment.standardOrderOfNodes.slice())    //using "slice()" so that the value of "currentExperiment.standardOrderOfNodes" is not modified)
 
                 // accessing the array of the trials completed up to now:
-                let currentTrialsArray = jsPsych.data.get().trials            
-                
+                let currentTrialsArray = jsPsych.data.get().trials
+
                 // DRAWING ON CANVAS:               
                 //left stimulus:
-                drawStimulus("left",ctx,presentationIndex,currentTrialOrder)
+                drawStimulus("left", ctx, presentationIndex, currentTrialOrder)
                 // right stimulus:
-                drawStimulus("right",ctx,presentationIndex,currentTrialOrder)     
+                drawStimulus("right", ctx, presentationIndex, currentTrialOrder)
                 // accuracy and number of remaining randomizations (storing number of randomizations performed in this presentation):
-                drawFeedback(ctx,presentationIndex,currentTrialsArray)
+                drawFeedback(ctx, presentationIndex, currentTrialsArray)
 
                 // global variable that temporarily stores the order of the nodes (it keeps changing, and its value is read from plugin to store the order in the current trial)
                 jsPsych.data.presentedOrder = currentTrialOrder
@@ -209,62 +210,62 @@
                 jsPsych.data.cliqueSize = currentExperiment.arrayOfCliqueSizes[presentationIndex]
 
                 // global variable that temporarily stores the correct answer for the current presentation (it keeps changing, and its value is read from plugin to store the order in the corresponding trial)
-                if(currentExperiment.graphsToDisplay[presentationIndex][0][currentExperiment.numberOfNodes] == "clique is absent") 
+                if (currentExperiment.graphsToDisplay[presentationIndex][0][currentExperiment.numberOfNodes] == "clique is absent")
                     //if first stimulus doesn't have the clique, then the graph with the clique (correct answer) is on the right side
                     jsPsych.data.correctResponse = "arrowright"
-                    else
+                else
                     jsPsych.data.correctResponse = "arrowleft"
-                }
-            
+            }
+
             return drawCanvas
 
         }
-            
+
 
         // creating the trials for the experiment
         for (let presentationIndex = 0; presentationIndex < currentExperiment.numberOfPresentations; presentationIndex++) {
-            
+
             // defining the current trial
             let currentTrial = {
-            type: jsPsychCanvasKeyboardResponse, 
-            canvas_size: [currentExperiment.canvasDimensions[0], currentExperiment.canvasDimensions[1]], // [height,width]
-            // prompt: '<p> Which of the two matrices contains the clique? <br> Press the left arrow to indicate the left one, press the right arrow to indicate the right one. <br> Press Spacebar to reorder the nodes of the two graphs </p>',
-            choices: [' ', 'ArrowLeft','ArrowRight'],
-            response_ends_trial: true,
-            timeline: [],
-            data: {
-                // other parameters for the exp go here
-                presentationNumber: presentationIndex, //NB: one trial is a couple of graphs presented on the screen
-                }  
+                type: jsPsychCanvasKeyboardResponse,
+                canvas_size: [currentExperiment.canvasDimensions[0], currentExperiment.canvasDimensions[1]], // [height,width]
+                // prompt: '<p> Which of the two matrices contains the clique? <br> Press the left arrow to indicate the left one, press the right arrow to indicate the right one. <br> Press Spacebar to reorder the nodes of the two graphs </p>',
+                choices: [' ', 'ArrowLeft', 'ArrowRight'],
+                response_ends_trial: true,
+                timeline: [],
+                data: {
+                    // other parameters for the exp go here
+                    presentationNumber: presentationIndex, //NB: one trial is a couple of graphs presented on the screen
+                }
             }
-      
+
             // adding the stimulus to the timeline of the trial
             // NB: shuffling of nodes is done inside draw function
-            currentTrial.timeline.push({stimulus: generateDrawCanvas(presentationIndex)})
+            currentTrial.timeline.push({ stimulus: generateDrawCanvas(presentationIndex) })
 
             // repeating the trial until a final answer (left/right arrow press) is given:
             let loop_node = {
-            timeline: [currentTrial],
-            loop_function: function(data){
-                // accessing the data stored up to now (it will increase progressively):
-                let currentData = jsPsych.data.get()
+                timeline: [currentTrial],
+                loop_function: function (data) {
+                    // accessing the data stored up to now (it will increase progressively):
+                    let currentData = jsPsych.data.get()
 
-                if (currentData.trials.filter(element => element.presentationNumber == presentationIndex).length == currentExperiment.maximumNumberOfRandomizations) {
-                    // if number of repetitions exceeded the limit for the current stimulus, moving to next stimulus:
-                    return false
-                }  else if(currentData.last(1).values()[0].response == " "){
-                    // if last response was a spacebar press, repeat the trial
-                    return true 
-                } else if(currentData.last(1).values()[0].response == 0 || currentData.last(1).values()[0].response == 1) {
-                    // if last response was on left/right arrow, moving to next trial
-                    return false 
+                    if (currentData.trials.filter(element => element.presentationNumber == presentationIndex).length == currentExperiment.maximumNumberOfRandomizations) {
+                        // if number of repetitions exceeded the limit for the current stimulus, moving to next stimulus:
+                        return false
+                    } else if (currentData.last(1).values()[0].response == " ") {
+                        // if last response was a spacebar press, repeat the trial
+                        return true
+                    } else if (currentData.last(1).values()[0].response == 0 || currentData.last(1).values()[0].response == 1) {
+                        // if last response was on left/right arrow, moving to next trial
+                        return false
+                    }
                 }
             }
-            } 
-            
+
             // adding the loop node to the timeline
             timeline.push(loop_node)
-        
+
         }
 
         /* start the experiment */
@@ -273,4 +274,5 @@
     </script>
 
 </body>
+
 </html>
