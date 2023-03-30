@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Paired stimuli with color coding (stimulus with clique on the right) generation</title>
+    <title>SEQUENCE OF 3 RANDOMIZATIONS THEN CLIQUE APPEARING IN RED (on the right)</title>
     <!-- Standard scripts -->
     <script src="jspsych/dist/jspsych.js"></script>
     <!-- Plugins (modified) -->
@@ -55,6 +55,33 @@
 
             // array that contains the two graphs to draw:
             let coupleOfGraphs = []
+
+
+            // Generating graph without clique:
+            //empty object (the properties will be the nodes and the values will be the arrays that indicate the existing connections)
+            let graphWithoutClique = {};
+            // defining the values of the triangular adjacency matrix:
+            for (let rowIndex = 1; rowIndex < numberOfNodes; rowIndex++) {
+                //defining empty array that will contain the connections for the current row
+                let currentRowAssociations = [];
+                for (let columnIndex = 0; columnIndex < rowIndex; columnIndex++) {
+                    //if the current two nodes are not part of the clique, associating them with probability 0.5
+                    let randomValue = Math.random();
+                    // calculating the correct probability of association:
+                    // increasing the value of p so that the two graphs will have the same average degree (pCorr = p + (K*(K-1)/N*(N-1)) * (1-p) )
+                    let correctedProbabilityForGraphWithoutClique = 0.5 + (((cliqueSize * (cliqueSize - 1)) / (numberOfNodes * (numberOfNodes - 1))) * (1 - 0.5))
+                    if (randomValue < correctedProbabilityForGraphWithoutClique) {
+                        currentRowAssociations.push(1);
+                    } else {
+                        currentRowAssociations.push(0);
+                    }
+                }
+                //adding to the object the property (the connections of the current node in the triangular matrix)
+                graphWithoutClique[rowIndex] = currentRowAssociations;
+            }
+            // adding graph without clique to the array containing the two graphs:
+            coupleOfGraphs.push(graphWithoutClique)
+
             // Generating graph with clique:
             //empty object (the properties will be the nodes and the values will be the arrays that indicate the existing connections)
             let graphWithClique = {};
@@ -84,33 +111,7 @@
             // adding graph with clique to the array containing the two graphs:
             coupleOfGraphs.push(graphWithClique)
 
-            // Generating graph without clique:
-            //empty object (the properties will be the nodes and the values will be the arrays that indicate the existing connections)
-            let graphWithoutClique = {};
-            // defining the values of the triangular adjacency matrix:
-            for (let rowIndex = 1; rowIndex < numberOfNodes; rowIndex++) {
-                //defining empty array that will contain the connections for the current row
-                let currentRowAssociations = [];
-                for (let columnIndex = 0; columnIndex < rowIndex; columnIndex++) {
-                    //if the current two nodes are not part of the clique, associating them with probability 0.5
-                    let randomValue = Math.random();
-                    // calculating the correct probability of association:
-                    // increasing the value of p so that the two graphs will have the same average degree (pCorr = p + (K*(K-1)/N*(N-1)) * (1-p) )
-                    let correctedProbabilityForGraphWithoutClique = 0.5 + (((cliqueSize * (cliqueSize - 1)) / (numberOfNodes * (numberOfNodes - 1))) * (1 - 0.5))
-                    if (randomValue < correctedProbabilityForGraphWithoutClique) {
-                        currentRowAssociations.push(1);
-                    } else {
-                        currentRowAssociations.push(0);
-                    }
-                }
-                //adding to the object the property (the connections of the current node in the triangular matrix)
-                graphWithoutClique[rowIndex] = currentRowAssociations;
-            }
-            // adding graph without clique to the array containing the two graphs:
-            coupleOfGraphs.push(graphWithoutClique)
-
             return coupleOfGraphs
-
         }
 
 
@@ -205,13 +206,13 @@
                         //filling the square:
                         if (currentAssociation == "clique") {
                             // defining color of nodes that are part of the clique (if present)
-                            if (presentationIndex == 0) {
-                                // red if first visualization
-                                ctx.fillStyle = "#ff0000";
-                                ctx.fill();
-                            } else if (presentationIndex == 1) {
-                                // black if second visualization
+                            if (presentationIndex < 3) {
+                                // black if visualization n. 1-3
                                 ctx.fillStyle = "#000000";
+                                ctx.fill();
+                            } else {
+                                // red if visualization n. 4
+                                ctx.fillStyle = "#ff0000";
                                 ctx.fill();
                             }
                         }
@@ -274,13 +275,13 @@
                         //filling the square:
                         if (currentAssociation == "clique") {
                             // defining color of nodes that are part of the clique (if present)
-                            if (presentationIndex == 0) {
-                                // red if first visualization
-                                ctx.fillStyle = "#ff0000";
-                                ctx.fill();
-                            } else if (presentationIndex == 1) {
-                                // black if second visualization
+                            if (presentationIndex < 3) {
+                                // black if visualization n. 1-3
                                 ctx.fillStyle = "#000000";
+                                ctx.fill();
+                            } else {
+                                // red if visualization n. 4
+                                ctx.fillStyle = "#ff0000";
                                 ctx.fill();
                             }
                         }
@@ -310,13 +311,18 @@
         }
         // calling function to generate the graph:
         let graphsToDraw = generateGraphs(numberOfNodes, cliqueSize)
-        // calling function to shuffle the nodes:
-        let shuffledOrderOfNodes = shuffleNodes(standardOrderOfNodes.slice())
+        // creating 3 shuffles of the nodes:
+        let shuffle1 = shuffleNodes(standardOrderOfNodes.slice())
+        let shuffle2 = shuffleNodes(standardOrderOfNodes.slice())
+        let shuffle3 = shuffleNodes(standardOrderOfNodes.slice())
+
+        // creating array of the order of nodes for the three visualizations (SHUFFLE1 - SHUFFLE2 - SHUFFLE3 - SHUFFLE 3 (same as previous, but red clique) ):
+        let orderOfNodesArray = [shuffle1, shuffle2, shuffle3, shuffle3]
 
 
         /* ACTUAL JSPSYCH SCRIPT: */
         // creating the trials for the experiment
-        for (let presentationIndex = 0; presentationIndex < 2; presentationIndex++) {
+        for (let presentationIndex = 0; presentationIndex < 4; presentationIndex++) {
             // defining the current trial
             let currentTrial = {
                 type: jsPsychCanvasButtonResponse,
@@ -328,7 +334,7 @@
 
             // adding the stimulus to the timeline of the trial
             // NB: shuffling of nodes is done inside draw function
-            currentTrial.timeline.push({ stimulus: generateDrawStimuli(graphsToDraw, shuffledOrderOfNodes, presentationIndex) })
+            currentTrial.timeline.push({ stimulus: generateDrawStimuli(graphsToDraw, orderOfNodesArray[presentationIndex], presentationIndex) })
 
             // adding the trial to the timeline
             timeline.push(currentTrial)

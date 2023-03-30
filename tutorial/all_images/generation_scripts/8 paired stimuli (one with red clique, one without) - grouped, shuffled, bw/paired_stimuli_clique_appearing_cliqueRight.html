@@ -2,7 +2,8 @@
 <html>
 
 <head>
-    <title>Paired stimuli with color coding (stimulus with clique on the right) generation</title>
+    <title>Paired stimuli with color coding (3 VIEWS: RED&GROUPED CLIQUE - RED&SHUFFLED CLIQUE - CORRESPONDING B/W) -
+        Clique right </title>
     <!-- Standard scripts -->
     <script src="jspsych/dist/jspsych.js"></script>
     <!-- Plugins (modified) -->
@@ -140,7 +141,7 @@
                 - array of the two graphs to be drawn
                 - standardOrderOfNodes -> will be used for left graph
                 - shuffledOrderOfNodes -> will be used for right graph
-        
+            
                 OUTPUT:
                 - display of two graphs, with shuffled nodes and the graph with the clique on the left
                 */
@@ -204,18 +205,20 @@
                         }
 
                         //filling the square:
+                        // COLOR OF THE CLIQUE
                         if (currentAssociation == "clique") {
                             // defining color of nodes that are part of the clique (if present)
-                            if (presentationIndex == 0) {
-                                // red if first visualization
+                            if (presentationIndex < 2) {
+                                // RED if first/second visualization
                                 ctx.fillStyle = "#ff0000";
                                 ctx.fill();
-                            } else if (presentationIndex == 1) {
-                                // black if second visualization
+                            } else {
+                                // BLACK if third visualization
                                 ctx.fillStyle = "#000000";
                                 ctx.fill();
                             }
                         }
+                        // COLOR OF THE OTHER TILES
                         else if (currentAssociation == "present") {
                             // black if nodes are associated
                             ctx.fillStyle = "#000000";
@@ -225,6 +228,7 @@
                             ctx.fillStyle = "#FFFFFF";
                             ctx.fill();
                         }
+
                     }
                 }
 
@@ -273,18 +277,20 @@
                         }
 
                         //filling the square:
+                        // COLOR OF THE CLIQUE
                         if (currentAssociation == "clique") {
                             // defining color of nodes that are part of the clique (if present)
-                            if (presentationIndex == 0) {
-                                // red if first visualization
+                            if (presentationIndex < 2) {
+                                // RED if first/second visualization
                                 ctx.fillStyle = "#ff0000";
                                 ctx.fill();
-                            } else if (presentationIndex == 1) {
-                                // black if second visualization
+                            } else {
+                                // BLACK if third visualization
                                 ctx.fillStyle = "#000000";
                                 ctx.fill();
                             }
                         }
+                        // COLOR OF THE OTHER TILES
                         else if (currentAssociation == "present") {
                             // black if nodes are associated
                             ctx.fillStyle = "#000000";
@@ -302,22 +308,25 @@
         }
 
         //calling function to draw the stimulus:
-        let numberOfNodes = prompt("Insert number of nodes: ");
+        let numberOfNodes = 300
         let cliqueSize = prompt("Insert clique size: ");
         //creating array that contains the indices of all the nodes of the graph in the standard order
         let standardOrderOfNodes = new Array();
         for (let index = 0; index < numberOfNodes; index++) {
             standardOrderOfNodes.push(index)
         }
-        // calling function to generate the graph:
+
+        // calling function to generate the two graphs (left side - right side):
         let graphsToDraw = generateGraphs(numberOfNodes, cliqueSize)
         // calling function to shuffle the nodes:
         let shuffledOrderOfNodes = shuffleNodes(standardOrderOfNodes.slice())
 
+        // creating array of the order of nodes for the three visualizations (GROUPED - SHUFFLED - SHUFFLED (same as previous) ):
+        let orderOfNodesArray = [standardOrderOfNodes, shuffledOrderOfNodes, shuffledOrderOfNodes]
 
         /* ACTUAL JSPSYCH SCRIPT: */
         // creating the trials for the experiment
-        for (let presentationIndex = 0; presentationIndex < 2; presentationIndex++) {
+        for (let presentationIndex = 0; presentationIndex < 3; presentationIndex++) {
             // defining the current trial
             let currentTrial = {
                 type: jsPsychCanvasButtonResponse,
@@ -329,7 +338,7 @@
 
             // adding the stimulus to the timeline of the trial
             // NB: shuffling of nodes is done inside draw function
-            currentTrial.timeline.push({ stimulus: generateDrawStimuli(graphsToDraw, shuffledOrderOfNodes, presentationIndex) })
+            currentTrial.timeline.push({ stimulus: generateDrawStimuli(graphsToDraw, orderOfNodesArray[presentationIndex], presentationIndex) })
 
             // adding the trial to the timeline
             timeline.push(currentTrial)
