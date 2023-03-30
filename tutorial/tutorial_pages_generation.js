@@ -67,64 +67,55 @@ const instructionsObject = {
     45: ["It is also possible to shuffle bigger triangles. Let's see some examples.", "45_N40_K24_grouped"],
     46: ["This is how a shuffle of the previous triangle looks like.", "46_N40_K24_shuffled"],
     47: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "47_N40_K24_sidebyside"],
-    // N70_K30 RID
-    48: ["Let's see an example of a shuffle in a bigger triangle.", "48_N70_K30_grouped"],
-    49: ["This is how a shuffle of the previous triangle looks like.", "49_N70_K30_shuffled"],
-    50: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "50_N70_K30_sidebyside"],
-    // N100_K50 RIDURRE STRENGTH OUTLINE QUI
-    51: ["Let's see an example of a shuffle in a bigger triangle.", "51_N100_K50_grouped"],
-    52: ["This is how a shuffle of the previous triangle looks like.", "52_N100_K50_shuffled"],
-    53: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "53_N100_K50_sidebyside"],
-    // N120_K45 TOGLIERE OUTLINE QUI
-    54: ["Let's see an example of a shuffle in a bigger triangle.", "54_N120_K45_grouped"],
-    55: ["This is how a shuffle of the previous triangle looks like.", "55_N120_K45_shuffled"],
-    56: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "56_N120_K45_sidebyside"],
-    // N200_K110
-    57: ["Let's see an example of a shuffle in a bigger triangle.", "57_N200_K110_grouped"],
-    58: ["This is how a shuffle of the previous triangle looks like.", "58_N200_K110_shuffled"],
-    59: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "59_N200_K110_sidebyside"],
-    // N200_K80
+    // N80_K30
+    48: ["Let's see an example of a shuffle in a bigger triangle.", "48_N80_K30_grouped"],
+    49: ["This is how a shuffle of the previous triangle looks like.", "49_N80_K30_shuffled"],
+    50: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "50_N80_K30_sidebyside"],
+    // N160_K70
+    51: ["Let's see an example of a shuffle in a bigger triangle.", "51_N160_K70_grouped"],
+    52: ["This is how a shuffle of the previous triangle looks like.", "52_N160_K70_shuffled"],
+    53: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "53_N160_K70_sidebyside"],
+    // N300_K120
+    54: ["Let's see an example of a shuffle in a bigger triangle.", "54_N300_K120_grouped"],
+    55: ["This is how a shuffle of the previous triangle looks like.", "55_N300_K120_shuffled"],
+    56: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "56_N300_K120_sidebyside"],
+    // N300_K100
+    57: ["Let's see one last example of a shuffle in a different triangle.", "57_N300_K100_grouped"],
+    58: ["This is how a shuffle of the previous triangle looks like.", "58_N300_K100_shuffled"],
+    59: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "59_N300_K100_sidebyside"],
+
+
+
+
+    // single - paired stimuli transition (N=300):
     60: ["Let's see an example of a shuffle in another triangle.", "60_N200_K80_grouped"],
     61: ["This is how a shuffle of the previous triangle looks like.", "61_N200_K80_shuffled"],
     62: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "62_N200_K80_sidebyside"],
-    // N250_K110
     63: ["Let's see an example of a shuffle in a bigger triangle.", "63_N250_K110_grouped"],
     64: ["This is how a shuffle of the previous triangle looks like.", "64_N250_K110_shuffled"],
     65: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "65_N250_K110_sidebyside"],
-    // N300_K120
     66: ["Let's see an example of a shuffle in a bigger triangle.", "66_N300_K120_grouped"],
     67: ["This is how a shuffle of the previous triangle looks like.", "67_N300_K120_shuffled"],
     68: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "68_N300_K120_sidebyside"],
-    // N300_K80
     69: ["Let's see one last example of a shuffle.", "69_N300_K80_grouped"],
     70: ["This is how a shuffle of the previous triangle looks like.", "70_N300_K80_shuffled"],
     71: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "71_N300_K80_sidebyside"],
-
-    // stimuli without (B/W) and with clique (color coded) side by side (3 shuffled versions color coded + corresponding b/w version)
-    // N300_K130
     72: ["During the experiment, you will see two triangles next to each other. In one of the triangles, a group of tiles has been spread through a shuffle. Move on to see a different shuffle of the same two triangles.", "72_N300_K130_1"],
     73: ["In this case, the left triangle contains the tiles. Press the left and right arrow to see different shuffles of the same two triangles", "73_N300_K130_2"],
     74: ["In this case, the left triangle contains the tiles.", "74_N300_K130_3"],
     75: ["In the real experiment, the tiles will not be red, but black. Your task is to indicate which of the two triangles contains the group of tiles. In this case, the correct answer is <b>left</b>.", "75_N300_K130_black&white"],
-    // N300_K90
     76: ["Let's see another couple of stimuli. This time the tiles are in the right triangle.", "76_N300_K90_1"],
     77: ["Press the left and right arrow to see different shuffles of the same two triangles.", "77_N300_K90_2"],
     78: ["In this case, the right triangle contains the tiles.", "78_N300_K90_3"],
     79: ["Your task is to indicate which of the two triangles contains the group of tiles. In this case, the correct answer is <b>right</b>.", "79_N300_K90_black&white"],
-    // N300_K60    
     80: ["Let's see the last couple of stimuli. This time the tiles are in the right triangle.", "80_N300_K60_1"],
     81: ["Press the left and right arrow to see different shuffles of the same two triangles.", "81_N300_K60_2"],
     82: ["In this case, the right triangle contains the tiles.", "82_N300_K60_3"],
     83: ["Your task is to indicate which of the two triangles contains the group of tiles. In this case, the correct answer is <b>right</b>.", "83_N300_K60_black&white"],
-
-    // examples (b/w version -> corresponding color coded version)
-    // N300_K110    
     84: ["Let's see some examples: which of these two triangles contains the tiles?", "84_N300_K110_black_clique_left"],
     85: ["In this case, the left one does.", "85_N300_K110_red_clique_left"],
-    // N300_K80
     86: ["Let's see another example: which of these two triangles contains the tiles?", "86_N300_K80_black_clique_right"],
     87: ["In this case, the right one does.", "87_N300_K80_red_clique_right"],
-    // N300_K60
     88: ["Let's see this last difficult example. Which of these two triangles contains the tiles?", "88_N300_K60_black_clique_right"],
     89: ["In this case, the right one does.", "89_N300_K60_red_clique_right"],
 }
