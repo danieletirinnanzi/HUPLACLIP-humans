@@ -308,7 +308,7 @@
                 //ctx.fillStyle = "lawngreen";
                 // if response was wrong, red:
                 //ctx.fillStyle = "red";
-                ctx.fillRect((c.width - (c.width / 6)), (c.height) / 16, 200, 80);
+                ctx.fillRect((c.width - (c.width / 6)), (c.height) / 16, 200, 100);
                 // text on the canvas:
                 ctx.fillStyle = "black"
                 ctx.font = "bold 1.7em system-ui";
@@ -316,14 +316,20 @@
 
                 // MOVES:
                 //creating string to be displayed as feedback:
-                let feedbackStringMoves = "MOVES LEFT: " + 1
+                let movesLeft = "1" // TO CHANGE
+                let feedbackStringMoves = "SHUFFLES LEFT: " + movesLeft
                 // text on canvas (increasing red hue when the remaining randomizations decrease. No randomization requested -> black; no randomizations left -> red ):
-                //RED (1 MOVE):
-                ctx.fillStyle = `rgb(250,0,0)`;
-                //MID-RED (2 MOVES):
-                //ctx.fillStyle = `rgb(120,0,0)`;
-                //BLACK (3 MOVES):
-                //ctx.fillStyle = `rgb(0,0,0)`;
+                if (movesLeft == "3") {
+                    //BLACK (3 MOVES):
+                    ctx.fillStyle = `rgb(0,0,0)`;
+                } else if(movesLeft == "2"){
+                    //MID-RED (2 MOVES):
+                    ctx.fillStyle = `rgb(120,0,0)`;                    
+                } else {                
+                    //RED (1 MOVE):
+                    ctx.fillStyle = `rgb(250,0,0)`;
+                }
+
                 ctx.font = "bold 1.7em system-ui";
                 ctx.fillText(feedbackStringMoves, 0, (c.height) / 7.5);
 
@@ -332,7 +338,7 @@
         }
 
         //calling function to draw the stimulus:
-        let numberOfNodes = prompt("Insert number of nodes: ");
+        let numberOfNodes = 300;
         let cliqueSize = prompt("Insert clique size: ");
         //creating array that contains the indices of all the nodes of the graph in the standard order
         let standardOrderOfNodes = new Array();

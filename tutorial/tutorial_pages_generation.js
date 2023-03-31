@@ -99,7 +99,6 @@ const instructionsObject = {
     69: ["If we shuffle the two triangles, the red tiles spread inside the right triangle.", "69_N300_K110_shuffled_red"],
     70: ["If we now turn the red tiles to black, we see the stimuli as they will appear during the experiment.", "70_N300_K110_shuffled_black"],
     71: ["In this case, the correct answer is <b>right</b>, since the right triangle is the one that contained the group of red tiles before the shuffle and the color change.", "71_N300_K110_correct_response"],
-
 }
 
 
@@ -152,27 +151,36 @@ let taskFamiliarizationObject_part1 = {
     */
 
     // without background information
-    // N300_K130
-    1: ["Now it's your turn: <br> Press space to shuffle the two triangles.", "1_N300_K130_cliqueRight_question1"],
-    2: ["To see another shuffled version of the same two triangles,<br> Press space again.", "2_N300_K130_cliqueRight_question2"],
-    3: ["To indicate which of the two triangles has the group of tiles,<br> Press the right or left arrow.", "3_N300_K130_cliqueRight_question3"],
-    4: ["ArrowRight", "<b>Correct!</b> <br>Press space to move on.", "<b>Wrong!</b> The triangle was the other one.<br>Press space to move on.", "4_N300_K130_cliqueRight_solution"], // correct answer: ArrowRight
+    // N300_K170
+    1: ["Try to identify which triangle has the group of tiles. <br> Press <b>space</b> to shuffle the triangles.", "1_N300_K170_cliqueRight_question1"],
+    2: ["To shuffle again the triangles,<br> Press <b>space</b>.", "2_N300_K170_cliqueRight_question2"],
+    3: ["To indicate which of the triangles has the group of tiles,<br> Press the <b>right</b> or <b>left</b> arrow.", "3_N300_K170_cliqueRight_question3"],
+    4: ["ArrowRight", "<b>Correct!</b> <br>Press space to move to the next example.", "<b>Wrong!</b> The triangle was the other one.<br>Press space to move to the next example.", "4_N300_K170_cliqueRight_solution"], // correct answer: ArrowRight
+    // N300_K120
+    5: ["Try to identify which triangle has the group of tiles in this other example.<br> Press <b>space</b> to shuffle the triangles.", "5_N300_K120_cliqueRight_question1"],
+    6: ["To shuffle again the triangles,<br> Press <b>space</b>.", "6_N300_K120_cliqueRight_question2"],
+    7: ["To indicate which of the triangles has the group of tiles,<br> Press the <b>right</b> or <b>left</b> arrow.", "7_N300_K120_cliqueRight_question3"],
+    8: ["ArrowRight", "<b>Correct!</b> <br>Press space to move to the next example.", "<b>Wrong!</b> The triangle was the other one.<br>Press space to move to the next example.", "8_N300_K120_cliqueRight_solution"], // correct answer: ArrowRight
     // N300_K90
-    5: ["Let's see another example.<br> Press space to shuffle the two triangles.", "5_N300_K90_cliqueLeft_question1"],
-    6: ["To see another shuffled version of the same two triangles,<br> Press space again.", "6_N300_K90_cliqueLeft_question2"],
-    7: ["To indicate which of the two triangles has the group of tiles,<br> Press the right or left arrow.", "7_N300_K90_cliqueLeft_question3"],
-    8: ["ArrowLeft", "<b>Correct!</b> <br>Press space to move on.", "<b>Wrong!</b> The triangle was the other one.<br>Press space to move on.", "8_N300_K90_cliqueLeft_solution"], // correct answer: ArrowLeft
-    // N300_K100
-    9: ["Let's see another example.<br> Press space to shuffle the two triangles.", "9_N300_K100_cliqueLeft_question1"],
-    10: ["To see another shuffled version of the same two triangles,<br> Press space again.", "10_N300_K100_cliqueLeft_question2"],
-    11: ["To indicate which of the two triangles has the group of tiles,<br> Press the right or left arrow.", "11_N300_K100_cliqueLeft_question3"],
-    12: ["ArrowLeft", "<b>Correct!</b> <br>Press space to move on.", "<b>Wrong!</b> The triangle was the other one.<br>Press space to move on.", "12_N300_K100_cliqueLeft_solution"], // correct answer: ArrowLeft
+    9:  ["Try to identify which triangle has the group of tiles in this other example.<br> Press <b>space</b> to shuffle the triangles.", "9_N300_K90_cliqueLeft_question1"],
+    10: ["To shuffle again the triangles,<br> Press <b>space</b>.", "10_N300_K90_cliqueLeft_question2"],
+    11: ["To indicate which of the triangles has the group of tiles,<br> Press the <b>right</b> or <b>left</b> arrow.", "11_N300_K90_cliqueLeft_question3"],
+    12: ["ArrowLeft", "<b>Correct!</b> <br>Press space to move to the next example.", "<b>Wrong!</b> The triangle was the other one.<br>Press space to move to the next example.", "12_N300_K90_cliqueLeft_solution"], // correct answer: ArrowLeft
+    // N300_K140
+    13: ["Try to identify which triangle has the group of tiles in this other example.<br> Press <b>space</b> to shuffle the triangles.", "13_N300_K140_cliqueLeft_question1"],
+    14: ["To shuffle again the triangles,<br> Press <b>space</b>.", "14_N300_K140_cliqueLeft_question2"],
+    15: ["To indicate which of the triangles has the group of tiles,<br> Press the <b>right</b> or <b>left</b> arrow.", "15_N300_K140_cliqueLeft_question3"],
+    16: ["ArrowLeft", "<b>Correct!</b> <br>Press space to move to the next example.", "<b>Wrong!</b> The triangle was the other one.<br>Press space to move to the next example.", "16_N300_K140_cliqueLeft_solution"], // correct answer: ArrowLeft
     // N300_K70
-    13: ["Let's see another example.<br> Press space to shuffle the two triangles.", "13_N300_K70_cliqueRight_question1"],
-    14: ["To see another shuffled version of the same two triangles,<br> Press space again.", "14_N300_K70_cliqueRight_question2"],
-    15: ["To indicate which of the two triangles has the group of tiles,<br> Press the right or left arrow.", "15_N300_K70_cliqueRight_question3"],
-    16: ["ArrowRight", "<b>Correct!</b> <br>Press space to move on.", "<b>Wrong!</b> The triangle was the other one.<br>Press space to move on.", "16_N300_K70_cliqueRight_solution"], // correct answer: ArrowRight
-
+    17: ["Try to identify which triangle has the group of tiles in this difficult example.<br> Press <b>space</b> to shuffle the triangles.", "17_N300_K70_cliqueRight_question1"],
+    18: ["To shuffle again the triangles,<br> Press <b>space</b>.", "18_N300_K70_cliqueRight_question2"],
+    19: ["To indicate which of the triangles has the group of tiles,<br> Press the <b>right</b> or <b>left</b> arrow.", "19_N300_K70_cliqueRight_question3"],
+    20: ["ArrowRight", "<b>Correct!</b> <br>Press space to move to the next example.", "<b>Wrong!</b> The triangle was the other one.<br>Press space to move to the next example.", "20_N300_K70_cliqueRight_solution"], // correct answer: ArrowRight
+    // N300_K100
+    21: ["Let's see an easier example.<br> Press <b>space</b> to shuffle the triangles.", "21_N300_K100_cliqueLeft_question1"],
+    22: ["To shuffle again the triangles,<br> Press <b>space</b>.", "22_N300_K100_cliqueLeft_question2"],
+    23: ["To indicate which of the triangles has the group of tiles,<br> Press the <b>right</b> or <b>left</b> arrow.", "23_N300_K100_cliqueLeft_question3"],
+    24: ["ArrowLeft", "<b>Correct!</b> <br>Press space to move to the next phase.", "<b>Wrong!</b> The triangle was the other one.<br>Press space to move to the next phase.", "24_N300_K100_cliqueLeft_solution"], // correct answer: ArrowLeft    
 }
 
 
@@ -188,40 +196,57 @@ let taskFamiliarizationObject_part2 = {
     */
 
     // with background information
-    // N300_K100
-    1: ["During the real experiment, you will see your score on the top-right, and the remaining shuffles on the top-left.<br> By pressing space, you use one move.", "1_300_100_cliqueLeft_withFeedback_1"],
-    2: ["You will have a limited number of moves.<br> Press space again to shuffle the triangles and use another move.", "2_300_100_cliqueLeft_withFeedback_2"],
-    3: ["To indicate which of the two triangles has the group of tiles,<br> Press the right or left arrow.", "3_300_100_cliqueLeft_withFeedback_3"],
-    4: ["This was the triangle that contained the trial.<br> Press space to see the feedback for your response.", "4_300_100_cliqueLeft_withFeedback_solution"],
+    // N300_K120
+    1: ["During the real experiment, you will see your score on the top-right, and the remaining shuffles on the top-left.<br> By pressing <b>space</b>, you use one move.", "1_300_120_cliqueLeft_withFeedback_1"],
+    2: ["You will have a limited number of moves.<br> Press <b>space</b> again to shuffle the triangles and use another move.", "2_300_120_cliqueLeft_withFeedback_2"],
+    3: ["To indicate which of the triangles has the group of tiles,<br> Press the <b>right</b> or <b>left</b> arrow.", "3_300_120_cliqueLeft_withFeedback_3"],
+    4: ["This was the triangle that contained the trial.<br> Press <b>space</b> to see the feedback for your response.", "4_300_120_cliqueLeft_withFeedback_solution"],
     5: ["ArrowLeft", // correct answer: ArrowLeft
         //PROMPT:
         //correct answer
-        "Your answer was <b>correct!</b>, the score has increased and has turned green.<br> Press space to start a new trial.",
+        "Your answer was <b>correct!</b>, the score has increased and has turned green.<br> Press <b>space</b> to try another example.",
         //wrong answer
-        "Your answer was <b>wrong!</b>, the score has not increased and has turned red.<br> Press space to start a new trial.",
+        "Your answer was <b>wrong!</b>, the score has not increased and has turned red.<br> Press <b>space</b> to try another example.",
         //IMAGE:
         //correct answer
-        "5_300_100_cliqueLeft_withFeedback_correctAnswer",
+        "5_300_120_cliqueLeft_withFeedback_correctAnswer",
         //wrong answer
-        "5_300_100_cliqueLeft_withFeedback_wrongAnswer",
+        "5_300_120_cliqueLeft_withFeedback_wrongAnswer",
     ],
-    // N300_K75
-    6: ["During the real experiment, you will see your score on the top-right, and the moves on the top-left.<br> By pressing space, you use one move.", "6_300_75_cliqueRight_withFeedback_1"],
-    7: ["You will have a limited number of moves.<br> Press space again to shuffle the triangles and use another move.", "7_300_75_cliqueRight_withFeedback_2"],
-    8: ["To indicate which of the two triangles has the group of tiles,<br> Press the right or left arrow.", "8_300_75_cliqueRight_withFeedback_3"],
-    9: ["This was the triangle that contained the trial.<br> Press space to see the feedback for your response.", "9_300_75_cliqueRight_withFeedback_solution"],
+    // N300_K95
+    6: ["During the real experiment, you will see your score on the top-right, and the moves on the top-left.<br> By pressing <b>space</b>, you use one move.", "6_300_95_cliqueRight_withFeedback_1"],
+    7: ["You will have a limited number of moves.<br> Press <b>space</b> again to shuffle the triangles and use another move.", "7_300_95_cliqueRight_withFeedback_2"],
+    8: ["To indicate which of the triangles has the group of tiles,<br> Press the <b>right</b> or <b>left</b> arrow.", "8_300_95_cliqueRight_withFeedback_3"],
+    9: ["This was the triangle that contained the trial.<br> Press <b>space</b> to see the feedback for your response.", "9_300_95_cliqueRight_withFeedback_solution"],
     10: ["ArrowRight", // correct answer: ArrowRight
         //PROMPT:
         //correct answer
-        "Your answer was <b>correct!</b>, the score has increased and has turned green.<br> Press space to end the training phase.",
+        "Your answer was <b>correct!</b>, the score has increased and has turned green.<br> Press <b>space</b> to try another example.",
         //wrong answer
-        "Your answer was <b>wrong!</b>, the score has not increased and has turned red.<br> Press space to end the training phase.",
+        "Your answer was <b>wrong!</b>, the score has not increased and has turned red.<br> Press <b>space</b> to try another example.",
         //IMAGE:
         //correct answer
-        "10_300_75_cliqueRight_withFeedback_correctAnswer",
+        "10_300_95_cliqueRight_withFeedback_correctAnswer",
         //wrong answer
-        "10_300_75_cliqueRight_withFeedback_wrongAnswer",
-    ]
+        "10_300_95_cliqueRight_withFeedback_wrongAnswer",
+    ],
+    // N300_K100
+    11: ["During the real experiment, you will see your score on the top-right, and the moves on the top-left.<br> By pressing <b>space</b>, you use one move.", "11_300_100_cliqueLeft_withFeedback_1"],
+    12: ["You will have a limited number of moves.<br> Press <b>space</b> again to shuffle the triangles and use another move.", "12_300_100_cliqueLeft_withFeedback_2"],
+    13: ["To indicate which of the triangles has the group of tiles,<br> Press the <b>right</b> or <b>left</b> arrow.", "13_300_100_cliqueLeft_withFeedback_3"],
+    14: ["This was the triangle that contained the trial.<br> Press <b>space</b> to see the feedback for your response.", "14_300_100_cliqueLeft_solution"],
+    15: ["ArrowLeft", // correct answer: ArrowLeft
+        //PROMPT:
+        //correct answer
+        "Your answer was <b>correct!</b>, the score has increased and has turned green.<br> Press <b>space</b> to end the training phase.",
+        //wrong answer
+        "Your answer was <b>wrong!</b>, the score has not increased and has turned red.<br> Press <b>space</b> to end the training phase.",
+        //IMAGE:
+        //correct answer
+        "15_300_100_cliqueLeft_correctAnswer",
+        //wrong answer
+        "15_300_100_cliqueLeft_wrongAnswer",
+    ]    
 
     // GENERATE OTHER IMAGES AND ADD THEM???
 
