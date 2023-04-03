@@ -9,11 +9,13 @@
     <script src="tutorial/tutorial_pages_generation.js"></script>
     <script src="experiment_parameters.js"></script>
     <script src="canvas_drawing.js"></script>
-    <!-- Standard scripts -->
+    <!-- Standard styling -->
     <script src="jspsych/dist/jspsych.js"></script>
+    <!-- Standard plugins -->
     <script src="jspsych/dist/plugin-instructions.js"></script>
     <script src="jspsych/dist/plugin-image-keyboard-response.js"></script>
-    <!-- Plugins (modified) -->
+    <script src="jspsych/dist/plugin-preload.js"></script>
+    <!-- Customized plugin -->
     <script src="jspsych/dist/my-plugin-canvas-keyboard-response.js"></script>
     <!-- Styling -->
     <link href="jspsych/dist/jspsych.css" rel="stylesheet" type="text/css" />
@@ -27,6 +29,8 @@
             on_finish: function () {
                 console.log("experiment is over")
                 jsPsych.data.displayData();
+                // IMPROVEMENT: changing the name of the file to include time and date of experiment execution
+                jsPsych.data.get().localSave('csv', 'mydata.csv');
             }
         });
 
@@ -36,7 +40,6 @@
 
 
         /* INTRODUCTIVE PAGES */
-        /*
         // showing informative pages about the study (informed consent, aim, privacy)
         let introduction = {
             type: jsPsychInstructions,
@@ -48,8 +51,21 @@
 
 
         /* INSTRUCTIONS */
-        /*
-        // showing instructions for the study
+        // PRELOADING images:
+        // creating filepaths for all instruction images
+        let instructionsImagesArray = [];
+        for (let index = 1; index < Object.keys(instructionsObject).length; index++) {
+            let singleInstructionImagePath = `tutorial/instructions_images/${instructionsObject[index + 1][1]}.PNG`
+            instructionsImagesArray.push(singleInstructionImagePath)
+        }
+        // adding preload plugin to timeline
+        let preloadInstructions = {
+            type: jsPsychPreload,
+            images: instructionsImagesArray,
+        }
+        timeline.push(preloadInstructions)
+
+        // SHOWING instructions:
         let instructions = {
             type: jsPsychInstructions,
             pages: generateInstructionsPages(),
@@ -73,6 +89,7 @@
 
 
         /* TASK FAMILIARIZATION */
+        // POSSIBLE IMPROVEMENT: preloading images
         // PART 1: no background information
         // creating the trials for the first part of the task familiarization        
         for (let index = 0; index < Object.keys(taskFamiliarizationObject_part1).length; index += 4) {
@@ -158,15 +175,15 @@
         // POSSIBLE IMPROVEMENT: use external-HTML plugin (with "agreement_page.html"), so that it is possible to use checkbox and check agreement with a function (alert if clicking something else)
         let consent_form = {
             type: jsPsychInstructions,
-            pages: [`<p> You have completed the training: after this page, the real experiment will start. <br><br>
-               By pressing "Space" you are expressing your consent in taking part in the study, and you confirm to: <br>
+            pages: [`<p> You have completed the training: after this page, the real experiment will start and your score will be recorded. <br><br>
+               By pressing <b>space</b> you are expressing your consent in taking part in the study, and you confirm to: <br>
              - have carefully read the explanations regarding this study and the full experimental procedure;<br>
              - have been informed regarding the aims of the present research;<br>
              - have had the possibility of asking questions regarding any aspect of the experimental procedure and to have obtained satisfying answers;<br>
              - be aware of the possible risks related with the experiment;<br>
              - have received satisfying assurance regarding the confidentiality of the information collected through the testing of your data;<br>
              - be aware that you can withdraw in any phase of the study.<br><br> 
-             Press "Space" to start the experiment.
+             Press <b>space</b> to start the experiment.
              </p>`],
             key_forward: " "
         };
