@@ -25,17 +25,17 @@
     <script type="module">
 
         /* initialize jsPsych */
-        var jsPsych = initJsPsych({
+        let jsPsych = initJsPsych({
             on_finish: function () {
-                console.log("experiment is over")
-                jsPsych.data.displayData();
-                // IMPROVEMENT: changing the name of the file to include time and date of experiment execution
-                jsPsych.data.get().localSave('csv', 'mydata.csv');
+                let participantNumber = prompt("insert participant number: ")
+                let currentDate = new Date();
+                let finalString = `subj${participantNumber}_completed_${currentDate.getDate()}.${(currentDate.getMonth() + 1)}.${currentDate.getFullYear()}_${currentDate.getHours()}.${currentDate.getMinutes()}.${currentDate.getSeconds()}.csv`
+                jsPsych.data.get().localSave('csv', finalString);
             }
         });
 
         /* create timeline */
-        var timeline = [];
+        let timeline = [];
 
 
 
@@ -51,17 +51,13 @@
 
 
         /* INSTRUCTIONS */
-        // PRELOADING images:
-        // creating filepaths for all instruction images
-        let instructionsImagesArray = [];
-        for (let index = 1; index < Object.keys(instructionsObject).length; index++) {
-            let singleInstructionImagePath = `tutorial/instructions_images/${instructionsObject[index + 1][1]}.PNG`
-            instructionsImagesArray.push(singleInstructionImagePath)
-        }
+        // PRELOADING instructions images:
+        // calling function to create filepaths for all instructions images
+        let instructions_ImagesArray = createArrayOfFilePaths(instructionsObject, 0)
         // adding preload plugin to timeline
         let preloadInstructions = {
             type: jsPsychPreload,
-            images: instructionsImagesArray,
+            images: instructions_ImagesArray,
         }
         timeline.push(preloadInstructions)
 
@@ -89,8 +85,17 @@
 
 
         /* TASK FAMILIARIZATION */
-        // POSSIBLE IMPROVEMENT: preloading images
-        // PART 1: no background information
+        // PART 1: WITHOUT BACKGROUND INFORMATION
+        // PRELOADING images:
+        // calling function to create filepaths for all images
+        let taskFamiliarization1_ImagesArray = createArrayOfFilePaths(taskFamiliarizationObject_part1, 1)
+        // adding preload plugin to timeline
+        let preloadTaskFamiliarization1 = {
+            type: jsPsychPreload,
+            images: taskFamiliarization1_ImagesArray,
+        }
+        timeline.push(preloadTaskFamiliarization1)
+
         // creating the trials for the first part of the task familiarization        
         for (let index = 0; index < Object.keys(taskFamiliarizationObject_part1).length; index += 4) {
             // NB: index increases by 4 at every iteration
@@ -129,7 +134,17 @@
         }
 
 
-        // PART 2: background information
+        // PART 2: WITH BACKGROUND INFORMATION
+        // PRELOADING images:
+        // calling function to create filepaths for all images
+        let taskFamiliarization2_ImagesArray = createArrayOfFilePaths(taskFamiliarizationObject_part2, 2)
+        // adding preload plugin to timeline
+        let preloadTaskFamiliarization2 = {
+            type: jsPsychPreload,
+            images: taskFamiliarization2_ImagesArray,
+        }
+        timeline.push(preloadTaskFamiliarization2)
+
         // creating the trials for the second part of the task familiarization        
         for (let index = 0; index < Object.keys(taskFamiliarizationObject_part2).length; index += 5) {
             // NB: index increases by 5 at every iteration

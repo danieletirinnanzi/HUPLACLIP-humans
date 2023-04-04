@@ -308,3 +308,45 @@ function generateBlockOfFamiliarizationTrials(part, index, taskFamiliarizationOb
     //returning the array 
     return currentBlockOfTrialsArray
 }
+
+
+
+/* PRELOADING IMAGES */
+// FUNCTION THAT RETURNS AN ARRAY OF ALL THE FILEPATHS OF THE IMAGES (for instructions + task familiarization) -> will be the argument of preload plugin trial
+function createArrayOfFilePaths(objectToScan, phaseIndex) {
+    /* INPUT:
+    - objectToScan: object that contains the filepaths for the images (instructionsObject / taskFamiliarizationObject)
+    - phaseIndex: indicates whether the function has been called for instructions (phaseIndex = 0), familiarization 1 (phaseIndex = 1) or familiarization 2 (phaseIndex = 2)
+
+    OUTPUT:
+    - filepathsArray: array of filepaths of all the images
+    (NB: images are recognized in the object because of the presence of "_" in the file name
+    */
+
+    let filepathsArray = []
+
+    for (let index = 1; index <= Object.keys(objectToScan).length; index++) {
+        // addressing current line of object
+        let currentLineOfObject = objectToScan[index]
+        currentLineOfObject.forEach(element => {
+            // if element of array is a filepath, creating the correct path for the image and adding it to the array
+            if (element.includes("_")) {
+                switch (phaseIndex) {
+                    case 0:
+                        //instructions images
+                        filepathsArray.push(`tutorial/instructions_images/${element}.PNG`)
+                        break;
+                    case 1:
+                    case 2:
+                        //familiarization 1 / 2
+                        filepathsArray.push(`tutorial/task_familiarization_images/part ${phaseIndex}/${element}.PNG`)
+                        break;
+                }
+
+            }
+        });
+    }
+
+    return filepathsArray
+
+}
