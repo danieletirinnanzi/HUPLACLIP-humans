@@ -8,12 +8,12 @@ const instructionsObject = {
     // first switch:
     3: ["Now let's consider a 20 by 20 checkerboard.", "3_standard_square_chessboard_N20_1"],
     4: ["In this checkerboard, if we switch these rows and columns...", "4_highlighted_square_chessboard_N20_1_firstSwap"],
-    5: ["...we obtain a different checkerboard (remember that you can move through the images using the arrows).", "5_swapped_square_chessboard_N20_1"],
+    5: ["...we obtain a different checkerboard (remember that you can flick through the images using the arrows).", "5_swapped_square_chessboard_N20_1"],
     6: ["By switching the two rows and the two columns, we transformed the original checkerboard.", "6_20nodes_square_sidebyside_firstSwap"],
     // second switch:
     7: ["Let's consider again our standard 20x20 checkerboard.", "7_standard_square_chessboard_N20_1"],
     8: ["Now let's switch two different rows and columns...", "8_highlighted_square_chessboard_N20_1_secondSwap"],
-    9: ["...we obtain another different checkerboard (remember that you can move through the images using the arrows).", "9_swapped_square_chessboard_N20_1_secondSwap"],
+    9: ["...we obtain another different checkerboard (remember that you can flick through the images using the arrows).", "9_swapped_square_chessboard_N20_1_secondSwap"],
     10: ["By switching the two rows and the two columns, we have transformed the original checkerboard.", "10_20nodes_square_sidebyside_secondSwap"],
 
     // square - triangle transition
@@ -31,58 +31,58 @@ const instructionsObject = {
     // first switch 
     20: ["We can also switch rows and columns in triangles.", "20_triangular_chessboard_N20_1_firstSwap"],
     21: ["For example, if we switch these rows and columns...", "21_highlighted_triangular_chessboard_N20_1_firstSwap"],
-    22: ["..we obtain a different triangle (remember that you can move through the images using the arrows).", "22_swapped_triangular_chessboard_N20_1_firstSwap"],
+    22: ["..we obtain a different triangle (remember that you can flick through the images using the arrows).", "22_swapped_triangular_chessboard_N20_1_firstSwap"],
     23: ["By switching the two rows and columns, we transformed the original triangle.", "23_20nodes_triangular_firstSwap"],
     // second switch:    
     24: ["Let's consider again the initial triangle.", "24_triangular_chessboard_N20_1_secondSwap"],
     25: ["If we switch two different rows and columns...", "25_highlighted_triangular_chessboard_N20_1_secondSwap"],
-    26: ["...we obtain another different triangle (remember that you can move through the images using the arrows).", "26_swapped_triangular_chessboard_N20_1_secondSwap"],
+    26: ["...we obtain another different triangle (remember that you can flick through the images using the arrows).", "26_swapped_triangular_chessboard_N20_1_secondSwap"],
     27: ["By switching the two rows and columns, we transformed the original triangle.", "27_20nodes_triangular_secondSwap"],
 
     // horizontal - vertical transition 
     // first switch 
     28: ["The same triangle can also be represented vertically.", "28_vertical_standard_triangular_chessboard_N20_1_firstSwap"],
     29: ["We can transform a vertical triangle similarly: by switching rows and columns...", "29_vertical_highlighted_triangular_chessboard_N20_1_firstSwap"],
-    30: ["...we obtain a different triangle (remember that you can move through the images using the arrows).", "30_vertical_swapped_triangular_chessboard_N20_1_firstSwap"],
+    30: ["...we obtain a different triangle (remember that you can flick through the images using the arrows).", "30_vertical_swapped_triangular_chessboard_N20_1_firstSwap"],
     31: ["Switching two rows and columns transformed the original triangle.", "31_20nodes_vertical_firstSwap"],
     // second switch:     
     32: ["Let's consider again the initial vertical triangle.", "32_vertical_standard_triangular_chessboard_N20_1_secondSwap"],
     33: ["If we switch two different rows and columns...", "33_vertical_highlighted_triangular_chessboard_N20_1_secondSwap"],
-    34: ["...we obtain another different triangle (remember that you can move through the images using the arrows).", "34_vertical_swapped_triangular_chessboard_N20_1_secondSwap"],
+    34: ["...we obtain another different triangle (remember that you can flick through the images using the arrows).", "34_vertical_swapped_triangular_chessboard_N20_1_secondSwap"],
     35: ["Also in this case, switching two rows and columns transformed the original triangle.", "35_20nodes_vertical_secondSwap"],
 
     // spreading clique (color coded)    
     // N20_K14 (regular chessboard - progression)
     36: ["Now imagine you have a triangular chessboard where some tiles are colored in red.", "36_N20_K14_regular_1standard"],
     37: ["If you switch two rows and columns as we have seen before, some red tiles change their location in the triangle.", "37_N20_K14_regular_swap1"],
-    38: ["If you make another single switch, some other tiles change their location in the triangle.", "38_N20_K14_regular_swap2"],
+    38: ["If you make another switch, some other tiles change their location in the triangle.", "38_N20_K14_regular_swap2"],
     39: ["With a third switch, they keep moving.", "39_N20_K14_regular_swap3"],
-    40: ["With many single switches, the red tiles spread inside the triangle, and they look like this.", "40_N20_K14_regular_visualization5_shuffled"],
-    41: ["Repeating single switches of rows and columns shuffles the original triangle.<br>A <b>shuffle</b> is the transformation from a standard triangle to its shuffled version.", "41_N20_K14_progression"],
+    40: ["If we perform many switches, the red tiles spread inside the triangle, and they look like this.", "40_N20_K14_regular_visualization5_shuffled"],
+    41: ["Repeating switches of rows and columns shuffles the original triangle.<br>A <b>shuffle</b> is the transformation from a standard triangle to its shuffled version.", "41_N20_K14_progression"],
     // N20_K14 (irregular chessboard)
     42: ["It is also possible to shuffle triangles where the black and white tiles are not regular.", "42_N20_K14_irregular_standard"],
-    43: ["This is how a shuffle of the previous triangle looks like (remember that you can move through the images using the arrows).", "43_N20_K14_irregular_shuffled"],
-    44: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "44_N20_K14_sidebyside"],
+    43: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "43_N20_K14_irregular_shuffled"],
+    44: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating switches of rows and columns.", "44_N20_K14_sidebyside"],
     // N40_K24
     45: ["It is also possible to shuffle bigger triangles. Let's see some examples.", "45_N40_K24_grouped"],
-    46: ["This is how a shuffle of the previous triangle looks like (remember that you can move through the images using the arrows).", "46_N40_K24_shuffled"],
-    47: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "47_N40_K24_sidebyside"],
+    46: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "46_N40_K24_shuffled"],
+    47: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating switches of rows and columns.", "47_N40_K24_sidebyside"],
     // N80_K30
     48: ["Let's see an example of a shuffle in a bigger triangle.", "48_N80_K30_grouped"],
-    49: ["This is how a shuffle of the previous triangle looks like (remember that you can move through the images using the arrows).", "49_N80_K30_shuffled"],
-    50: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "50_N80_K30_sidebyside"],
+    49: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "49_N80_K30_shuffled"],
+    50: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating switches of rows and columns.", "50_N80_K30_sidebyside"],
     // N160_K70
     51: ["Let's see an example of a shuffle in an even bigger triangle.", "51_N160_K70_grouped"],
-    52: ["This is how a shuffle of the previous triangle looks like (remember that you can move through the images using the arrows).", "52_N160_K70_shuffled"],
-    53: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "53_N160_K70_sidebyside"],
+    52: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "52_N160_K70_shuffled"],
+    53: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating switches of rows and columns.", "53_N160_K70_sidebyside"],
     // N300_K120
-    54: ["Let's see an example of a shuffle in an even bigger triangle: you will not see bigger triangles than this.", "54_N300_K120_grouped"],
-    55: ["This is how a shuffle of the previous triangle looks like (remember that you can move through the images using the arrows).", "55_N300_K120_shuffled"],
-    56: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "56_N300_K120_sidebyside"],
+    54: ["Let's see an example of a shuffle in an even bigger triangle. This is the size of the largest triangle you will see in the experiment.", "54_N300_K120_grouped"],
+    55: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "55_N300_K120_shuffled"],
+    56: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating switches of rows and columns.", "56_N300_K120_sidebyside"],
     // N300_K100
     57: ["Let's see one last example of a shuffle in a different triangle.", "57_N300_K100_grouped"],
-    58: ["This is how a shuffle of the previous triangle looks like (remember that you can move through the images using the arrows).", "58_N300_K100_shuffled"],
-    59: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating single switches of rows and columns.", "59_N300_K100_sidebyside"],
+    58: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "58_N300_K100_shuffled"],
+    59: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating switches of rows and columns.", "59_N300_K100_sidebyside"],
 
     // single - paired stimuli transition (N=300):
     // N300_K160
@@ -114,16 +114,16 @@ function generateInstructionsPages() {
 
     // first instruction page (index = 0): no 'press left arrow to go back' button
     let firstHTML = `<font size="+2"><b> INSTRUCTIONS </b></font><br><br>
-    <img src="tutorial/instructions_images/${instructionsObject[0 + 1][1]}.PNG" alt="Could not upload image" height="600"><br><br>
+    <img src="tutorial/instructions_images/${instructionsObject[0 + 1][1]}.PNG" alt="Could not upload image" height="${currentExperiment.canvasDimensions[0] / 2}"><br><br>
     ${instructionsObject[0 + 1][0]}<br><br>
     <i><b>Press right arrow to go forward ></b></i>
     `
     instructionsPagesArray.push(firstHTML)
 
-    // from second instruction page on:
+    // from second instruction page on (adding max-width property to avoid large images to exit the screen):
     for (let index = 1; index < Object.keys(instructionsObject).length; index++) {
         let singleHTML = `<font size="+2"><b> INSTRUCTIONS </b></font><br><br>
-        <img src="tutorial/instructions_images/${instructionsObject[index + 1][1]}.PNG" alt="Could not upload image" height="600"><br><br>
+        <img src="tutorial/instructions_images/${instructionsObject[index + 1][1]}.PNG" alt="Could not upload image" max-width: "${currentExperiment.canvasDimensions[1]}" height="${currentExperiment.canvasDimensions[0] / 2}" ><br><br>
         ${instructionsObject[index + 1][0]}<br><br>
         <i><b>< Press left arrow to go back <br></b></i>
         <i><b>Press right arrow to go forward ></b></i>
@@ -188,17 +188,17 @@ let taskFamiliarizationObject_part1 = {
 let taskFamiliarizationObject_part2 = {
     /* 
     In every group of four images:
-    1: visualization trial n. 1 (image: 3 moves left; orange score)
-    2: visualization trial n. 2 (image: 2 moves left; orange score)
-    3: choice trial (image: 1 move left; orange score)
-    4: solution trial (image: 1 move left; orange score; red clique)
-    5: feedback trial (image: 3 moves left; red/green score)
+    1: visualization trial n. 1 (image: 2 moves left; orange score)
+    2: visualization trial n. 2 (image: 1 moves left; orange score)
+    3: choice trial (image: no move left; orange score)
+    4: solution trial (image: 0 move left; orange score; red clique)
+    5: feedback trial (image: 2 moves left; red/green score)
     */
 
     // with background information
     // N300_K120
     1: ["During the real experiment, you will see the remaining <b>shuffles</b> on the top-left and your <b>score</b> on the top-right.<br> By pressing <b>space</b>, you use one shuffle.", "1_300_120_cliqueLeft_withFeedback_1"],
-    2: ["<b>Shuffles</b> will help you in the task, but they will be limited: you have to give an answer before they are over, otherwise you will be penalized.<br> Press <b>space</b> again to use another shuffle", "2_300_120_cliqueLeft_withFeedback_2"],
+    2: ["<b>Shuffles</b> will help you in the task, but they will be limited. If you run out of them, you will be forced to give an answer.<br> Press <b>space</b> again to use the last shuffle", "2_300_120_cliqueLeft_withFeedback_2"],
     3: ["When you are ready to indicate which of the triangles had the group of tiles,<br> Press the <b>right</b> or <b>left</b> arrow.", "3_300_120_cliqueLeft_withFeedback_3"],
     4: ["As you can see, the <b>left</b> triangle contained the red tiles.<br> Press <b>space</b> to see the feedback for your response.", "4_300_120_cliqueLeft_withFeedback_solution"],
     5: ["ArrowLeft", // correct answer: ArrowLeft
@@ -215,8 +215,8 @@ let taskFamiliarizationObject_part2 = {
     ],
     // N300_K95
     6: ["Let's re-set the remaining <b>shuffles</b> and the <b>score</b> to their initial values.<br> As we said, by pressing <b>space</b>, you use one shuffle.", "6_300_95_cliqueRight_withFeedback_1"],
-    7: ["Now you only have three <b>shuffles</b>, but in the task you will have more.<br> Press <b>space</b> again to use another shuffle", "7_300_95_cliqueRight_withFeedback_2"],
-    8: ["When you have taken a decision and before the shuffles are over, indicate which triangle contained the red tiles.<br> Press the <b>right</b> or <b>left</b> arrow to do so.", "8_300_95_cliqueRight_withFeedback_3"],
+    7: ["Now you only have two <b>shuffles</b>, but in the task you will have more.<br> Press <b>space</b> again to use another shuffle.", "7_300_95_cliqueRight_withFeedback_2"],
+    8: ["When you have taken a decision, indicate which triangle contained the red tiles.<br> Press the <b>right</b> or <b>left</b> arrow to do so.", "8_300_95_cliqueRight_withFeedback_3"],
     9: ["As you can see, the <b>right</b> triangle contained the red tiles.<br> Press <b>space</b> to see the feedback for your response.", "9_300_95_cliqueRight_withFeedback_solution"],
     10: ["ArrowRight", // correct answer: ArrowRight
         //PROMPT:
@@ -272,7 +272,7 @@ function generateBlockOfFamiliarizationTrials(part, index, taskFamiliarizationOb
         stimulus: `tutorial/task_familiarization_images/part ${part}/${taskFamiliarizationObject[index + 1][1]}.PNG`,
         prompt: `<br><br><br> ${taskFamiliarizationObject[index + 1][0]}`,
         choices: [' '],
-        stimulus_height: 600,
+        stimulus_height: currentExperiment.canvasDimensions[0] / 1.6,
     };
     currentBlockOfTrialsArray.push(visualization_1_trial)
 
@@ -281,7 +281,7 @@ function generateBlockOfFamiliarizationTrials(part, index, taskFamiliarizationOb
         stimulus: `tutorial/task_familiarization_images/part ${part}/${taskFamiliarizationObject[index + 2][1]}.PNG`,
         prompt: `<br><br><br> ${taskFamiliarizationObject[index + 2][0]}`,
         choices: [' '],
-        stimulus_height: 600,
+        stimulus_height: currentExperiment.canvasDimensions[0] / 1.6,
     };
     currentBlockOfTrialsArray.push(visualization_2_trial)
 
@@ -290,7 +290,7 @@ function generateBlockOfFamiliarizationTrials(part, index, taskFamiliarizationOb
         stimulus: `tutorial/task_familiarization_images/part ${part}/${taskFamiliarizationObject[index + 3][1]}.PNG`,
         prompt: `<br><br><br> ${taskFamiliarizationObject[index + 3][0]}`,
         choices: ['ArrowLeft', 'ArrowRight'],
-        stimulus_height: 600,
+        stimulus_height: currentExperiment.canvasDimensions[0] / 1.6,
     };
     currentBlockOfTrialsArray.push(choice_trial)
 
@@ -301,7 +301,7 @@ function generateBlockOfFamiliarizationTrials(part, index, taskFamiliarizationOb
             stimulus: `tutorial/task_familiarization_images/part ${part}/${taskFamiliarizationObject[index + 4][1]}.PNG`,
             prompt: `<br><br><br> ${taskFamiliarizationObject[index + 4][0]}`,
             choices: [' '],
-            stimulus_height: 600,
+            stimulus_height: currentExperiment.canvasDimensions[0] / 1.6,
         };
         currentBlockOfTrialsArray.push(solution_trial)
     }

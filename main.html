@@ -21,7 +21,9 @@
     <link href="jspsych/dist/jspsych.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body>
+<!-- The 'overflow: hidden' css property below prevents scrollbar to be shown on screen -->
+
+<body style="overflow: hidden">
     <script type="module">
 
         /* initialize jsPsych */
@@ -109,7 +111,7 @@
                 stimulus: `tutorial/task_familiarization_images/part 1/${taskFamiliarizationObject_part1[index + 4][3]}.PNG`,
                 prompt: "", //defined below based on correctness of choice
                 choices: [' '],
-                stimulus_height: 600,
+                stimulus_height: currentExperiment.canvasDimensions[0] / 1.6,
                 // using a closure (a function that has access to the variables defined in its outer function) to be able to access "index" from inside the on_start function
                 on_start: (function (index) {
                     return function (currentFeedbackTrial) {
@@ -158,7 +160,8 @@
                 stimulus: "", //defined below based on correctness of choice
                 prompt: "", //defined below based on correctness of choice
                 choices: [' '],
-                stimulus_height: 600,
+                // stimulus_width: (SPECIFY IF NECESSARY)
+                stimulus_height: currentExperiment.canvasDimensions[0] / 1.6,
                 // using a closure (a function that has access to the variables defined in its outer function) to be able to access "index" from inside the on_start function
                 on_start: (function (index) {
                     return function (currentFeedbackTrial) {
@@ -237,6 +240,8 @@
                 drawStimulus("right", ctx, presentationIndex, currentTrialOrder)
                 // accuracy and number of remaining randomizations (storing number of randomizations performed in this presentation):
                 drawFeedback(ctx, presentationIndex, currentTrialsArray)
+                // reminder:
+                drawReminder(ctx)
 
                 // global variable that temporarily stores the order of the nodes (it keeps changing, and its value is read from plugin to store the order in the current trial)
                 jsPsych.data.presentedOrder = currentTrialOrder

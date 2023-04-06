@@ -306,25 +306,25 @@
                 //ctx.fillStyle = "lawngreen";
                 // if response was wrong, red:
                 //ctx.fillStyle = "red";
-                ctx.fillRect((c.width - (c.width / 6)), (c.height) / 16, 200, 100);
+                ctx.fillRect((c.width - (c.width / 4.5)), (c.height) / 16, (c.width / 7), (c.height / 14));
                 // text on the canvas:
                 ctx.fillStyle = "black"
                 ctx.font = "bold 1.7em system-ui";
-                ctx.fillText(feedbackStringScore, (c.width - (c.width / 6.5)), (c.height) / 7.5);
+                ctx.fillText(feedbackStringScore, (c.width - (c.width / 5)), (c.height) / 8.5);
 
                 // MOVES:
                 //creating string to be displayed as feedback:
-                let movesLeft = "1" // TO CHANGE
+                let movesLeft = "0" // TO CHANGE
                 let feedbackStringMoves = "SHUFFLES LEFT: " + movesLeft
                 // text on canvas (increasing red hue when the remaining randomizations decrease. No randomization requested -> black; no randomizations left -> red ):
-                if (movesLeft == "3") {
-                    //BLACK (3 MOVES):
+                if (movesLeft == "2") {
+                    //BLACK (2 MOVES):
                     ctx.fillStyle = `rgb(0,0,0)`;
-                } else if(movesLeft == "2"){
-                    //MID-RED (2 MOVES):
-                    ctx.fillStyle = `rgb(120,0,0)`;                    
-                } else {                
-                    //RED (1 MOVE):
+                } else if (movesLeft == "1") {
+                    //MID-RED (1 MOVES):
+                    ctx.fillStyle = `rgb(120,0,0)`;
+                } else {
+                    //RED (0 MOVE):
                     ctx.fillStyle = `rgb(250,0,0)`;
                 }
 
