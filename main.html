@@ -21,9 +21,9 @@
     <link href="jspsych/dist/jspsych.css" rel="stylesheet" type="text/css" />
 </head>
 
-<!-- The 'overflow: hidden' css property below prevents scrollbar to be shown on screen -->
+<body style="overflow:hidden">
+    <!-- The 'overflow: hidden' css property above prevents scrollbar to be shown on screen -->
 
-<body>
     <script type="module">
 
         /* initialize jsPsych */
@@ -32,7 +32,6 @@
                 let participantNumber = prompt("insert participant number: ")
                 let currentDate = new Date();
                 let fileName = `subj${participantNumber}_completed_${currentDate.getDate()}.${(currentDate.getMonth() + 1)}.${currentDate.getFullYear()}_${currentDate.getHours()}.${currentDate.getMinutes()}.${currentDate.getSeconds()}.json`
-                //jsPsych.data.displayData('json') //DEBUG
                 jsPsych.data.get().localSave('json', fileName);
             }
         });
@@ -278,6 +277,13 @@
                 data: {
                     // other parameters for the exp go here
                     presentationNumber: presentationIndex, //NB: one presentation is a couple of graphs presented on the screen
+                },
+                on_start: function (currentTrial) {
+                    // accessing the data stored up to now (it will increase progressively):
+                    let currentData = jsPsych.data.get()
+                    // if no more shuffles are available, only allowing final answers (arrow presses):
+                    if (currentData.trials.filter(element => element.presentationNumber == presentationIndex).length == currentExperiment.maximumNumberOfRandomizations)
+                        currentTrial.choices = ['ArrowLeft', 'ArrowRight']
                 }
             }
 
@@ -288,13 +294,11 @@
             // repeating the trial until a final answer (left/right arrow press) is given:
             let loop_node = {
                 timeline: [currentTrial],
-                loop_function: function (data) {
+                loop_function: function () {
                     // accessing the data stored up to now (it will increase progressively):
                     let currentData = jsPsych.data.get()
-
                     if (currentData.trials.filter(element => element.presentationNumber == presentationIndex).length > currentExperiment.maximumNumberOfRandomizations) {
-                        // if number of repetitions exceeded the limit for the current stimulus, forcing subject to give final answer:
-
+                        // if number of repetitions exceeded the limit for the current stimulus, moving to next trial:
                         return false
                     } else if (currentData.last(1).values()[0].response == " ") {
                         // if last response was a spacebar press, repeat the trial

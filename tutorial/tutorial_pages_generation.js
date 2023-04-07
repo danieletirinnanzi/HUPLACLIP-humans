@@ -215,7 +215,7 @@ let taskFamiliarizationObject_part2 = {
     ],
     // N300_K95
     6: ["Let's re-set the remaining <b>shuffles</b> and the <b>score</b> to their initial values.<br> As we said, by pressing <b>space</b>, you use one shuffle.", "6_300_95_cliqueRight_withFeedback_1"],
-    7: ["Now you only have two <b>shuffles</b>, but in the task you will have more.<br> Press <b>space</b> again to use the last shuffle.", "7_300_95_cliqueRight_withFeedback_2"],
+    7: ["Now you only have two <b>shuffles</b>, but in the real experiment you will have more.<br> Press <b>space</b> again to use the last shuffle.", "7_300_95_cliqueRight_withFeedback_2"],
     8: ["When you have taken a decision, indicate which triangle contained the red tiles.<br> Press the <b>right</b> or <b>left</b> arrow to do so.", "8_300_95_cliqueRight_withFeedback_3"],
     9: ["As you can see, the <b>right</b> triangle contained the red tiles.<br> Press <b>space</b> to see the feedback for your response.", "9_300_95_cliqueRight_withFeedback_solution"],
     10: ["ArrowRight", // correct answer: ArrowRight
