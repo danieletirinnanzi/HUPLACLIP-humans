@@ -300,14 +300,14 @@
 
                 // SCORE:
                 //creating string to be displayed as feedback:
-                let feedbackStringScore = "SCORE: " + 0 + "/" + 0
+                let feedbackStringScore = "SCORE: " + 0 + "/" + 1
                 //rect (differentiating color (green / red) based on correctness / incorrectness of last response)
                 // if no response has been given, choosing a "neutral" color
-                ctx.fillStyle = "orange";
+                //ctx.fillStyle = "orange";
                 // if response was correct, green:
                 //ctx.fillStyle = "lawngreen";
                 // if response was wrong, red:
-                //ctx.fillStyle = "red";
+                ctx.fillStyle = "red";
                 ctx.fillRect((c.width - (c.width / 4.5)), (c.height) / 16, (c.width / 7), (c.height / 14));
                 // text on the canvas:
                 ctx.fillStyle = "black"
@@ -316,7 +316,7 @@
 
                 // MOVES:
                 //creating string to be displayed as feedback:
-                let movesLeft = "1" // TO CHANGE
+                let movesLeft = "2" // TO CHANGE
                 let feedbackStringMoves = "SHUFFLES LEFT: " + movesLeft
                 // text on canvas (increasing red hue when the remaining randomizations decrease. No randomization requested -> black; no randomizations left -> red ):
                 if (movesLeft == "2") {

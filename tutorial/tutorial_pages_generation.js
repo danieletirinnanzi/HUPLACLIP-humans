@@ -199,7 +199,7 @@ let taskFamiliarizationObject_part2 = {
     // N300_K120
     1: ["During the real experiment, you will see the remaining <b>shuffles</b> on the top-left and your <b>score</b> on the top-right.<br> By pressing <b>space</b>, you use one shuffle.", "1_300_120_cliqueLeft_withFeedback_1"],
     2: ["<b>Shuffles</b> will help you in the task, but they will be limited. If you run out of them, you will be forced to give an answer.<br> Press <b>space</b> again to use the last shuffle", "2_300_120_cliqueLeft_withFeedback_2"],
-    3: ["When you are ready to indicate which of the triangles had the group of tiles,<br> Press the <b>right</b> or <b>left</b> arrow.", "3_300_120_cliqueLeft_withFeedback_3"],
+    3: ["To indicate which of the triangles had the group of tiles,<br> Press the <b>right</b> or <b>left</b> arrow.", "3_300_120_cliqueLeft_withFeedback_3"],
     4: ["As you can see, the <b>left</b> triangle contained the red tiles.<br> Press <b>space</b> to see the feedback for your response.", "4_300_120_cliqueLeft_withFeedback_solution"],
     5: ["ArrowLeft", // correct answer: ArrowLeft
         //PROMPT:
@@ -215,7 +215,7 @@ let taskFamiliarizationObject_part2 = {
     ],
     // N300_K95
     6: ["Let's re-set the remaining <b>shuffles</b> and the <b>score</b> to their initial values.<br> As we said, by pressing <b>space</b>, you use one shuffle.", "6_300_95_cliqueRight_withFeedback_1"],
-    7: ["Now you only have two <b>shuffles</b>, but in the task you will have more.<br> Press <b>space</b> again to use another shuffle.", "7_300_95_cliqueRight_withFeedback_2"],
+    7: ["Now you only have two <b>shuffles</b>, but in the task you will have more.<br> Press <b>space</b> again to use the last shuffle.", "7_300_95_cliqueRight_withFeedback_2"],
     8: ["When you have taken a decision, indicate which triangle contained the red tiles.<br> Press the <b>right</b> or <b>left</b> arrow to do so.", "8_300_95_cliqueRight_withFeedback_3"],
     9: ["As you can see, the <b>right</b> triangle contained the red tiles.<br> Press <b>space</b> to see the feedback for your response.", "9_300_95_cliqueRight_withFeedback_solution"],
     10: ["ArrowRight", // correct answer: ArrowRight

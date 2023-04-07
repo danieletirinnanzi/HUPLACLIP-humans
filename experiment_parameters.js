@@ -78,5 +78,3 @@ for (let firstIndex = 0; firstIndex < (currentExperiment.numberOfNodes - 1); fir
 currentExperiment.stimuliCoordinates = {};
 currentExperiment.stimuliCoordinates.leftTriangle = leftTriangleCoordinatesArray
 currentExperiment.stimuliCoordinates.rightTriangle = rightTriangleCoordinatesArray
-
-console.log(currentExperiment)
