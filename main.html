@@ -238,20 +238,15 @@
                 drawStimulus("left", ctx, presentationIndex, currentTrialOrder)
                 // right stimulus:
                 drawStimulus("right", ctx, presentationIndex, currentTrialOrder)
-                // accuracy and number of remaining randomizations (storing number of randomizations performed in this presentation):
+                // accuracy and number of remaining randomizations:
                 drawFeedback(ctx, presentationIndex, currentTrialsArray)
-                // reminder:
-                drawReminder(ctx)
+                // instructions reminder:
+                drawInstructionsReminder(ctx)
 
                 // GLOBAL VARIABLES THAT WILL BE ADDED TO TRIAL_DATA (they keep changing, and their value is read from "my-plugin-canvas-keyboard-response.js")
                 // order of the nodes 
                 jsPsych.data.presentedOrder = currentTrialOrder
-                // current size of the clique
-                jsPsych.data.cliqueSize = currentExperiment.arrayOfCliqueSizes[presentationIndex]
-                // graphs presented
-                jsPsych.data.coupleOfGraphs = currentExperiment.graphsToDisplay[presentationIndex]
-
-                // global variable that temporarily stores the correct answer for the current presentation (it keeps changing, and its value is read from plugin to store the order in the corresponding trial)
+                // correct answer (does not change between trials relative to the same couple of graphs, but its value is read to compute the "correctnessOfResponse" variable)
                 if (currentExperiment.graphsToDisplay[presentationIndex][0][currentExperiment.numberOfNodes] == "clique is absent")
                     //if first stimulus doesn't have the clique, then the graph with the clique (correct answer) is on the right side
                     jsPsych.data.correctResponse = "arrowright"
@@ -275,8 +270,10 @@
                 response_ends_trial: true,
                 timeline: [],
                 data: {
-                    // other parameters for the exp go here
-                    presentationNumber: presentationIndex, //NB: one presentation is a couple of graphs presented on the screen
+                    // variables that do not change between trials relative to the same couple of graphs:
+                    presentationNumber: presentationIndex,  // index
+                    cliqueSize: currentExperiment.arrayOfCliqueSizes[presentationIndex],
+                    coupleOfGraphs: currentExperiment.graphsToDisplay[presentationIndex]
                 },
                 on_start: function (currentTrial) {
                     // accessing the data stored up to now (it will increase progressively):

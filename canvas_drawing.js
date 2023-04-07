@@ -121,7 +121,7 @@ function drawFeedback(ctx, presentationIndex, currentTrialsArray) {
     let feedbackStringShuffle = "SHUFFLES LEFT: " + remainingRandomizations
     // text on canvas (increasing red hue when the remaining randomizations decrease. No randomization requested -> black; no randomizations left -> red ):
     ctx.fillStyle = `rgb(${255 - Math.floor(255 / currentExperiment.maximumNumberOfRandomizations) * remainingRandomizations},0,0)`;
-    ctx.font = "bold 1.7em system-ui";
+    ctx.font = "bold 2rem system-ui";
     ctx.fillText(feedbackStringShuffle, 0, (currentExperiment.canvasDimensions[0]) / 7.5);
 
     // SCORE:
@@ -140,13 +140,13 @@ function drawFeedback(ctx, presentationIndex, currentTrialsArray) {
     ctx.fillRect((currentExperiment.canvasDimensions[1] - (currentExperiment.canvasDimensions[1] / 4.5)), (currentExperiment.canvasDimensions[0]) / 16, (currentExperiment.canvasDimensions[1] / 7), (currentExperiment.canvasDimensions[0]) / 14);
     // text on the canvas:
     ctx.fillStyle = "black"
-    ctx.font = "bold 1.7em system-ui";
+    ctx.font = "bold 2rem system-ui";
     ctx.fillText(feedbackStringScore, (currentExperiment.canvasDimensions[1] - (currentExperiment.canvasDimensions[1] / 5)), (currentExperiment.canvasDimensions[0]) / 8.5);
 }
 
 
-/* FUNCTION TO DRAW ACTION REMINDER ON THE CANVAS*/
-function drawReminder(ctx) {
+/* FUNCTION TO DRAW INSTRUCTIONS REMINDER ON THE CANVAS*/
+function drawInstructionsReminder(ctx) {
     /* INPUT: 
     - ctx (reference to the canvas on which feedback will be drawn)
 
@@ -159,24 +159,23 @@ function drawReminder(ctx) {
     // key label:
     let reminderString_arrows_label = "LEFT / RIGHT ARROW"
     // text specs (not bold)
-    ctx.font = "italic bold 1.0em system-ui";
+    ctx.font = "italic bold 1.3rem system-ui";
     ctx.fillText(reminderString_arrows_label, 0, (currentExperiment.canvasDimensions[0]) / 4.5);
     // description string:
     let reminderString_arrows_description = "To choose the triangle with the hidden red tiles."
     // text specs (not bold)
-    ctx.font = "0.8em system-ui";
+    ctx.font = "1.1rem system-ui";
     ctx.fillText(reminderString_arrows_description, 0, (currentExperiment.canvasDimensions[0]) / 4.1);
 
     // SPACE:
     // key label:
     let reminderString_space_label = "SPACE"
     // text specs (not bold)
-    ctx.font = "italic small-caps bold 1.0em system-ui";
+    ctx.font = "italic small-caps bold 1.3rem system-ui";
     ctx.fillText(reminderString_space_label, 0, (currentExperiment.canvasDimensions[0]) / 3.5);
     // description string:
     let reminderString_space_description = "To shuffle the triangles."
     // text specs (not bold)
-    ctx.font = "0.8em system-ui";
+    ctx.font = "1.1rem system-ui";
     ctx.fillText(reminderString_space_description, 0, (currentExperiment.canvasDimensions[0]) / 3.25);
-
 }

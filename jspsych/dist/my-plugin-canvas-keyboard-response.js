@@ -82,9 +82,7 @@ var jsPsychCanvasKeyboardResponse = (function (jspsych) {
                 rt: null,
                 key: null,
                 nodesOrdering: null,
-                cliqueSize: null,
                 correctResponse: null,
-                coupleOfGraphs: null
             };
             // function to end trial when it is time
             const end_trial = () => {
@@ -94,19 +92,15 @@ var jsPsychCanvasKeyboardResponse = (function (jspsych) {
                 if (typeof keyboardListener !== "undefined") {
                     this.jsPsych.pluginAPI.cancelKeyboardResponse(keyboardListener);
                 }
-                // MODIFIED MANUALLY (variables added to trial_data)
+                // MODIFIED MANUALLY (variables that change from trial to trial)
                 let currentTrialOrder = this.jsPsych.data.presentedOrder.slice()
-                let currentCliqueSize = this.jsPsych.data.cliqueSize
-                let correctResponse = this.jsPsych.data.correctResponse
-                let coupleOfGraphs = this.jsPsych.data.coupleOfGraphs
+                let correctResponse = this.jsPsych.data.correctResponse     // does not change from trial to trial, but it is used to compute "correctnessOfResponse"
                 // gather the data to store for the trial
                 var trial_data = {
                     rt: response.rt,
                     response: response.key,
                     nodesOrdering: currentTrialOrder, //array that stores the ordering of the data for the current trial
-                    cliqueSize: currentCliqueSize,
                     correctResponse: correctResponse,
-                    coupleOfGraphs: coupleOfGraphs
                 };
                 // when subject gives final answer (right/left arrow), determining correctness of response and adding it to trial_data:
                 if (trial_data.response == "arrowleft" || trial_data.response == "arrowright") {
