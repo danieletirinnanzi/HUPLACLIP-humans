@@ -5,13 +5,14 @@ let canvasWidth = window.innerWidth
 
 // CREATING OBJECT FOR CURRENT EXPERIMENT:
 let currentExperiment = {
-    // parameters for experiment:
-    numberOfPresentations: 20, // number of presentations for each experiment (single presentation = single couple of triangular matrices, presented once and reordered through space bar presses)
-    maximumNumberOfRandomizations: 30, // maximum number of randomizations allowed for a single couple of matrices 
+    // experiment parameters:
+    numberOfBlocks: 4,
+    numberOfPresentationsPerBlock: 30, // single presentation = single couple of graphs, presented once and reordered through space bar presses)
+    maximumNumberOfShuffles: 20, // maximum number of randomizations allowed for a single couple of matrices 
     canvasDimensions: [canvasHeight, canvasWidth], // [height,width]
-    // parameters for graphs:
-    numberOfNodes: 300,
-    initialCliqueSize: 200,  // this is the maximum dimension of the clique, it will decrease throughout the experiment, increasing the difficulty of the task                       
+    // graphs parameters:
+    graphSize: 300,
+    initialCliqueSize: 200,  // maximum dimension of the clique (will decrease throughout the experiment, increasing the difficulty of the task)                       
     probabilityOfAssociation: 0.5
 }
 
@@ -21,14 +22,14 @@ let currentExperiment = {
 
 //- ARRAY OF NODES IN STANDARD ORDER
 let standardOrderOfNodes = new Array();
-for (let index = 0; index < currentExperiment.numberOfNodes; index++) {
+for (let index = 0; index < currentExperiment.graphSize; index++) {
     standardOrderOfNodes.push(index)
 }
 // adding this array as a property to the "currentExperiment" object
 currentExperiment.standardOrderOfNodes = standardOrderOfNodes
 
 // - ARRAY OF CLIQUE SIZES
-currentExperiment.arrayOfCliqueSizes = createArrayOfCliqueSizes(currentExperiment.initialCliqueSize, currentExperiment.numberOfPresentations)
+currentExperiment.arrayOfCliqueSizes = createArrayOfCliqueSizes(currentExperiment.initialCliqueSize, currentExperiment.numberOfPresentationsPerBlock)
 
 // - GRAPHS TO DISPLAY
 currentExperiment.graphsToDisplay = generateGraphs()
@@ -36,7 +37,7 @@ currentExperiment.graphsToDisplay = generateGraphs()
 // - COORDINATES OF LEFT AND RIGHT TRIANGLES
 // calculating drawing parameters:
 // single step size (single displacement on x or y axes. Each square spans two steps)
-let singleStepSize = ((9 / 10) * (currentExperiment.canvasDimensions[0])) / (((currentExperiment.numberOfNodes) * 2))
+let singleStepSize = ((9 / 10) * (currentExperiment.canvasDimensions[0])) / (((currentExperiment.graphSize) * 2))
 // starting points (for right and left stimulus) on x axis (considering the space to be left in the middle):
 let xStartingPointLeft = (currentExperiment.canvasDimensions[1] / 2) - currentExperiment.canvasDimensions[1] / 20
 let xStartingPointRight = (currentExperiment.canvasDimensions[1] / 2) + currentExperiment.canvasDimensions[1] / 20
@@ -45,7 +46,7 @@ let yStartingPoint = (1 / 20) * (currentExperiment.canvasDimensions[0])  //NB: s
 
 // left triangle COORDINATES:
 let leftTriangleCoordinatesArray = []
-for (let firstIndex = 0; firstIndex < (currentExperiment.numberOfNodes - 1); firstIndex++) {
+for (let firstIndex = 0; firstIndex < (currentExperiment.graphSize - 1); firstIndex++) {
     let maxSecondIndex = firstIndex + 1
     for (let secondIndex = 0; secondIndex < maxSecondIndex; secondIndex++) {
         // calculating coordinates:
@@ -61,7 +62,7 @@ for (let firstIndex = 0; firstIndex < (currentExperiment.numberOfNodes - 1); fir
 
 // right triangle COORDINATES:
 let rightTriangleCoordinatesArray = []
-for (let firstIndex = 0; firstIndex < (currentExperiment.numberOfNodes - 1); firstIndex++) {
+for (let firstIndex = 0; firstIndex < (currentExperiment.graphSize - 1); firstIndex++) {
     let maxSecondIndex = firstIndex + 1
     for (let secondIndex = 0; secondIndex < maxSecondIndex; secondIndex++) {
         // calculating coordinates:

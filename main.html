@@ -29,9 +29,12 @@
         /* initialize jsPsych */
         let jsPsych = initJsPsych({
             on_finish: function () {
-                let participantNumber = prompt("insert participant number: ")
+                //let participantNumber = prompt("insert participant number: ")
                 let currentDate = new Date();
-                let fileName = `subj${participantNumber}_completed_${currentDate.getDate()}.${(currentDate.getMonth() + 1)}.${currentDate.getFullYear()}_${currentDate.getHours()}.${currentDate.getMinutes()}.${currentDate.getSeconds()}.json`
+                //with participant number:
+                //let fileName = `HUPLACLIP_pilot1_subj${participantNumber}_completed_${currentDate.getDate()}.${(currentDate.getMonth() + 1)}.${currentDate.getFullYear()}_${currentDate.getHours()}.${currentDate.getMinutes()}.${currentDate.getSeconds()}.json`
+                //without participant number
+                let fileName = `HUPLACLIP_pilot1_${currentDate.getDate()}.${(currentDate.getMonth() + 1)}.${currentDate.getFullYear()}_${currentDate.getHours()}.${currentDate.getMinutes()}.${currentDate.getSeconds()}.json`
                 jsPsych.data.get().localSave('json', fileName);
             }
         });
@@ -213,7 +216,7 @@
 
         /* DRAWING STIMULI: */
         // FUNCTION THAT WILL DRAW THE STIMULI GIVEN THE CHOSEN ORDER OF THE NODES:
-        function generateDrawCanvas(presentationIndex) {
+        function generateDrawCanvas(blockIndex, presentationIndex) {
             /* INPUT: 
             - presentationIndex (the number that identifies the couple of graphs that is being displayed)
 
@@ -235,19 +238,19 @@
 
                 // DRAWING ON CANVAS:               
                 //left stimulus:
-                drawStimulus("left", ctx, presentationIndex, currentTrialOrder)
+                drawStimulus("left", ctx, blockIndex, presentationIndex, currentTrialOrder)
                 // right stimulus:
-                drawStimulus("right", ctx, presentationIndex, currentTrialOrder)
+                drawStimulus("right", ctx, blockIndex, presentationIndex, currentTrialOrder)
                 // accuracy and number of remaining randomizations:
-                drawFeedback(ctx, presentationIndex, currentTrialsArray)
+                drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray)
                 // instructions reminder:
                 drawInstructionsReminder(ctx)
 
                 // GLOBAL VARIABLES THAT WILL BE ADDED TO TRIAL_DATA (they keep changing, and their value is read from "my-plugin-canvas-keyboard-response.js")
                 // order of the nodes 
                 jsPsych.data.presentedOrder = currentTrialOrder
-                // correct answer (does not change between trials relative to the same couple of graphs, but its value is read to compute the "correctnessOfResponse" variable)
-                if (currentExperiment.graphsToDisplay[presentationIndex][0][currentExperiment.numberOfNodes] == "clique is absent")
+                // correct answer (does not change between trials relative to the same couple of graphs, but its value is read to compute the "accuracy" variable)
+                if (currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0][currentExperiment.graphSize] == "clique is absent")
                     //if first stimulus doesn't have the clique, then the graph with the clique (correct answer) is on the right side
                     jsPsych.data.correctResponse = "arrowright"
                 else
@@ -259,58 +262,97 @@
         }
 
 
-        // creating the trials for the experiment
-        for (let presentationIndex = 0; presentationIndex < currentExperiment.numberOfPresentations; presentationIndex++) {
+        // creating the blocks of the experiment
+        for (let blockIndex = 0; blockIndex < currentExperiment.numberOfBlocks; blockIndex++) {
 
-            // defining the current trial
-            let currentTrial = {
-                type: jsPsychCanvasKeyboardResponse,
-                canvas_size: [currentExperiment.canvasDimensions[0], currentExperiment.canvasDimensions[1]], // [height,width]
-                choices: [' ', 'ArrowLeft', 'ArrowRight'],
-                response_ends_trial: true,
-                timeline: [],
-                data: {
-                    // variables that do not change between trials relative to the same couple of graphs:
-                    presentationNumber: presentationIndex,  // index
-                    cliqueSize: currentExperiment.arrayOfCliqueSizes[presentationIndex],
-                    coupleOfGraphs: currentExperiment.graphsToDisplay[presentationIndex]
-                },
-                on_start: function (currentTrial) {
-                    // accessing the data stored up to now (it will increase progressively):
-                    let currentData = jsPsych.data.get()
-                    // if no more shuffles are available, only allowing final answers (arrow presses):
-                    if (currentData.trials.filter(element => element.presentationNumber == presentationIndex).length == currentExperiment.maximumNumberOfRandomizations)
-                        currentTrial.choices = ['ArrowLeft', 'ArrowRight']
-                }
-            }
+            // creating the trials for the block
+            for (let presentationIndex = 0; presentationIndex < currentExperiment.numberOfPresentationsPerBlock; presentationIndex++) {
 
-            // adding the stimulus to the timeline of the trial
-            // NB: shuffling of nodes is done inside draw function
-            currentTrial.timeline.push({ stimulus: generateDrawCanvas(presentationIndex) })
-
-            // repeating the trial until a final answer (left/right arrow press) is given:
-            let loop_node = {
-                timeline: [currentTrial],
-                loop_function: function () {
-                    // accessing the data stored up to now (it will increase progressively):
-                    let currentData = jsPsych.data.get()
-                    if (currentData.trials.filter(element => element.presentationNumber == presentationIndex).length > currentExperiment.maximumNumberOfRandomizations) {
-                        // if number of repetitions exceeded the limit for the current stimulus, moving to next trial:
-                        return false
-                    } else if (currentData.last(1).values()[0].response == " ") {
-                        // if last response was a spacebar press, repeat the trial
-                        return true
-                    } else if (currentData.last(1).values()[0].response == 0 || currentData.last(1).values()[0].response == 1) {
-                        // if last response was on left/right arrow, moving to next trial
-                        return false
+                // defining the current trial
+                let currentTrial = {
+                    type: jsPsychCanvasKeyboardResponse,
+                    canvas_size: [currentExperiment.canvasDimensions[0], currentExperiment.canvasDimensions[1]], // [height,width]
+                    choices: [' ', 'ArrowLeft', 'ArrowRight'],
+                    response_ends_trial: true,
+                    timeline: [],
+                    data: {
+                        // storing variables that do not change between trials relative to the same couple of graphs
+                        // experiment parameters:
+                        block_index: blockIndex,
+                        presentation_index: presentationIndex,
+                        // graphs parameters:
+                        clique_size: currentExperiment.arrayOfCliqueSizes[presentationIndex],
+                        graph_size: currentExperiment.graphSize,
+                        graphs_couple: currentExperiment.graphsToDisplay[blockIndex][presentationIndex]
+                    },
+                    on_start: function (currentTrial) {
+                        // accessing the data stored up to now (it will increase progressively):
+                        let currentData = jsPsych.data.get()
+                        // if no more shuffles are available, only allowing final answers (arrow presses):
+                        if (currentData.trials.filter(element => element.presentation_index == presentationIndex).length == currentExperiment.maximumNumberOfShuffles)
+                            currentTrial.choices = ['ArrowLeft', 'ArrowRight']
                     }
                 }
+
+                // adding the stimulus to the timeline of the trial
+                // NB: shuffling of nodes is done inside draw function
+                currentTrial.timeline.push({ stimulus: generateDrawCanvas(blockIndex, presentationIndex) })
+
+                // repeating the trial until a final answer (left/right arrow press) is given:
+                let loop_node = {
+                    timeline: [currentTrial],
+                    loop_function: function () {
+                        // accessing the data stored up to now (it will increase progressively):
+                        let currentData = jsPsych.data.get()
+                        if (currentData.trials.filter(element => element.presentation_index == presentationIndex).length > currentExperiment.maximumNumberOfShuffles) {
+                            // if number of shuffles exceeded the limit for the current stimulus, moving to next presentation:
+                            return false
+                        } else if (currentData.last(1).values()[0].response == " ") {
+                            // if last response was a spacebar press, repeat the trial
+                            return true
+                        } else if (currentData.last(1).values()[0].response == 0 || currentData.last(1).values()[0].response == 1) {
+                            // if last response was on left/right arrow, moving to next trial
+                            return false
+                        }
+                    }
+                }
+
+                // adding the loop node to the timeline
+                timeline.push(loop_node)
+
             }
 
-            // adding the loop node to the timeline
-            timeline.push(loop_node)
+            // after each block, present break page
+            switch (blockIndex) {
+                // if last block just presented, showing final page
+                case (currentExperiment.numberOfBlocks - 1):
+                    /* FINAL PAGE */
+                    let final_page = {
+                        type: jsPsychInstructions,
+                        pages: [`<p> You completed the experiment. <br>
+                        Thank you for your time.
+                        <br><br>
+                        Press <b>space</b> to exit.<br>
+                        </p>`],
+                        key_forward: " "
+                    };
+                    timeline.push(final_page)
+                    break;
+                default:
+                    /* AGREEMENT TO MOVE TO NEXT BLOCK */
+                    let move_to_next_block = {
+                        type: jsPsychInstructions,
+                        pages: [`<p> You completed this block. <br>
+                        <br><br>
+                        Press <b>space</b> to move to the next block.<br>
+                        </p>`],
+                        key_forward: " "
+                    };
+                    timeline.push(move_to_next_block)
+            }
 
         }
+
 
         /* start the experiment */
         jsPsych.run(timeline);

@@ -81,8 +81,8 @@ var jsPsychCanvasKeyboardResponse = (function (jspsych) {
             var response = {
                 rt: null,
                 key: null,
-                nodesOrdering: null,
-                correctResponse: null,
+                nodes_order: null,
+                correct_response: null,
             };
             // function to end trial when it is time
             const end_trial = () => {
@@ -94,20 +94,20 @@ var jsPsychCanvasKeyboardResponse = (function (jspsych) {
                 }
                 // MODIFIED MANUALLY (variables that change from trial to trial)
                 let currentTrialOrder = this.jsPsych.data.presentedOrder.slice()
-                let correctResponse = this.jsPsych.data.correctResponse     // does not change from trial to trial, but it is used to compute "correctnessOfResponse"
+                let correctResponse = this.jsPsych.data.correctResponse     // does not change from trial to trial, but it is used to compute "accuracy"
                 // gather the data to store for the trial
                 var trial_data = {
                     rt: response.rt,
                     response: response.key,
-                    nodesOrdering: currentTrialOrder, //array that stores the ordering of the data for the current trial
-                    correctResponse: correctResponse,
+                    nodes_order: currentTrialOrder, //array that stores the ordering of the data for the current trial
+                    correct_response: correctResponse,
                 };
-                // when subject gives final answer (right/left arrow), determining correctness of response and adding it to trial_data:
+                // when subject gives final answer (right/left arrow), determining accuracy of response and adding it to trial_data:
                 if (trial_data.response == "arrowleft" || trial_data.response == "arrowright") {
-                    if (trial_data.response == trial_data.correctResponse)
-                        trial_data.correctnessOfResponse = true
+                    if (trial_data.response == trial_data.correct_response)
+                        trial_data.accuracy = true
                     else
-                        trial_data.correctnessOfResponse = false
+                        trial_data.accuracy = false
                 }
                 // clear the display
                 display_element.innerHTML = "";

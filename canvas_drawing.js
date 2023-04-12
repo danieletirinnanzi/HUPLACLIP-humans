@@ -1,8 +1,9 @@
 /* FUNCTION TO DRAW SINGLE STIMULUS ON CANVAS */
-function drawStimulus(side, ctx, presentationIndex, currentTrialOrder) {
+function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrder) {
     /* INPUT: 
     - side (left/right: indication of which stimulus has to be drawn, whether the left one or the right one)
     - ctx (reference to the canvas on which stimuli will be drawn)
+    - blockIndex (the number that identifies the current block)
     - presentationIndex (the number that identifies the couple of graphs that is being displayed)
     - currentTrialOrder (order in which the nodes are displayed on the screen)
 
@@ -13,11 +14,11 @@ function drawStimulus(side, ctx, presentationIndex, currentTrialOrder) {
 
     // Drawing stimulus:
     // defining graph to draw:
-    let graphToDraw = side === "left" ? currentExperiment.graphsToDisplay[presentationIndex][0] : currentExperiment.graphsToDisplay[presentationIndex][1];
+    let graphToDraw = side === "left" ? currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0] : currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1];
 
-    // for loops that draws the squares and color them
+    // for loops that draws the squares and colors them
     let squareIndex = 0   //to correctly identify which square is being drawn and filling it correctly
-    for (let firstIndex = 0; firstIndex < (currentExperiment.numberOfNodes - 1); firstIndex++) {
+    for (let firstIndex = 0; firstIndex < (currentExperiment.graphSize - 1); firstIndex++) {
         for (let secondIndex = 0; secondIndex < firstIndex + 1; secondIndex++) {
             // drawing the square
             ctx.beginPath();
@@ -86,9 +87,10 @@ function drawStimulus(side, ctx, presentationIndex, currentTrialOrder) {
 
 
 /* FUNCTION TO DRAW FEEDBACK ON THE CANVAS*/
-function drawFeedback(ctx, presentationIndex, currentTrialsArray) {
+function drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray) {
     /* INPUT: 
     - ctx (reference to the canvas on which feedback will be drawn)
+    - blockIndex (the number that identifies the current block)    
     - presentationIndex (the number that identifies the couple of graphs that is being displayed)
     - currentTrialsArray (the array that stores all the data produced up to now)
 
@@ -97,30 +99,30 @@ function drawFeedback(ctx, presentationIndex, currentTrialsArray) {
     */
 
     // temporary variables
-    let randomizationsPerformed = 0 // shuffles left
+    let shufflesPerformed = 0 // shuffles left
     let arrayOfResponses = []   // score
 
     // looping through all the elements to check which trials have a final response (arrow press):
     currentTrialsArray.forEach(element => {
 
-        // SHUFFLES LEFT: isolating the canvas-keyboard-response trials for the current presentation were space-bar presses were done
-        if (element.trial_type == "canvas-keyboard-response" && element.presentationNumber == presentationIndex && element.response == " ")
-            // increasing the number of randomizations already performed
-            randomizationsPerformed += 1
+        // SHUFFLES LEFT: isolating the canvas-keyboard-response trials for the current block and presentation were space-bar presses were done
+        if (element.trial_type == "canvas-keyboard-response" && element.block_index == blockIndex && element.presentation_index == presentationIndex && element.response == " ")
+            // increasing the number of shuffles already performed
+            shufflesPerformed += 1
 
-        // SCORE: isolating the trials were arrow press was done (they have the "correctnessOfResponse" property)
-        if (element.hasOwnProperty('correctnessOfResponse'))
-            arrayOfResponses.push(element.correctnessOfResponse)
+        // SCORE: isolating the trials for current block where arrow press was done (they have the "accuracy" property and are used to calculate the score)
+        if (element.block_index == blockIndex && element.hasOwnProperty('accuracy'))
+            arrayOfResponses.push(element.accuracy)
 
     });
 
     // SHUFFLES LEFT:
-    // computing the number of randomizations left:
-    let remainingRandomizations = currentExperiment.maximumNumberOfRandomizations - randomizationsPerformed
+    // computing the number of shuffles left:
+    let remainingShuffles = currentExperiment.maximumNumberOfShuffles - shufflesPerformed
     //creating string to be displayed as feedback:
-    let feedbackStringShuffle = "SHUFFLES LEFT: " + remainingRandomizations
-    // text on canvas (increasing red hue when the remaining randomizations decrease. No randomization requested -> black; no randomizations left -> red ):
-    ctx.fillStyle = `rgb(${255 - Math.floor(255 / currentExperiment.maximumNumberOfRandomizations) * remainingRandomizations},0,0)`;
+    let feedbackStringShuffle = "SHUFFLES LEFT: " + remainingShuffles
+    // text on canvas (increasing red hue when the remaining shuffles decrease. No randomization requested -> black; no shuffles left -> red ):
+    ctx.fillStyle = `rgb(${255 - Math.floor(255 / currentExperiment.maximumNumberOfShuffles) * remainingShuffles},0,0)`;
     ctx.font = "bold 2rem system-ui";
     ctx.fillText(feedbackStringShuffle, 0, (currentExperiment.canvasDimensions[0]) / 7.5);
 
