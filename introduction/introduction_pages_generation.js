@@ -31,7 +31,7 @@ function generateIntroductionPages() {
     and in the ones located inside the European Union. Accessing the data will not be possible for unauthorized people.
     Your personal information will be stored separately from the results of the current research, to which they will be associated only through an arbitrary ID.
     Thanks to this anonymization procedure, it will be impossible for any researcher to know which participant produced the analyzed data.
-    Furthermore this procedure will make your identification impossible also in the case in which results were published on scientific journals, presented in conferences or in any other public event.
+    Furthermore, this procedure will make your identification impossible also in the case in which results were published on scientific journals, presented in conferences or in any other public event.
     More generally, the data will be handled according to the national privacy regulation (Decreto Legislativo 30 giugno 2003 n. 196 'Codice in
     materia di protezione dei dati personali') and the European General Data Protection Regulation (2016/679 - GDPR).<br>
     The person responsible for Data Protection is lwy. Valentina Carollo ( <a href="mailto:dpo@sissa.it">dpo@sissa.it</a> or <a href="rpd@sissa.it">rpd@sissa.it</a>. PEC: <a href="protocollo@pec.sissa.it">protocollo@pec.sissa.it</a> )<br>

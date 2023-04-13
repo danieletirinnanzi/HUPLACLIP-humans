@@ -232,7 +232,7 @@ let taskFamiliarizationObject_part2 = {
     ],
     // N300_K100
     11: ["This is the last example before the real experiment starts. Same as before: <b>shuffles</b> on the top left, score on the top right.<br> Press <b>space</b> to use one shuffle.", "11_300_100_cliqueLeft_withFeedback_1"],
-    12: ["As you <b>shuffle</b> the triangles, try to identify which one had the group of red tiles.<br> Press <b>space</b> again to use another shuffle", "12_300_100_cliqueLeft_withFeedback_2"],
+    12: ["As you <b>shuffle</b> the triangles, try to identify which one had the group of red tiles.<br> Press <b>space</b> again to use the last shuffle", "12_300_100_cliqueLeft_withFeedback_2"],
     13: ["When you are ready to indicate which of the triangles had the group of tiles,<br> Press the <b>right</b> or the <b>left</b> arrow.", "13_300_100_cliqueLeft_withFeedback_3"],
     14: ["In this case, the <b>left</b> triangle contained the red tiles.<br> Press <b>space</b> to see the feedback for your response.", "14_300_100_cliqueLeft_solution"],
     15: ["ArrowLeft", // correct answer: ArrowLeft

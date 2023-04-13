@@ -29,6 +29,9 @@
         /* initialize jsPsych */
         let jsPsych = initJsPsych({
             on_finish: function () {
+                // DEBUG:
+                console.log(jsPsych.data.get().trials)
+
                 //let participantNumber = prompt("insert participant number: ")
                 let currentDate = new Date();
                 //with participant number:
@@ -36,6 +39,7 @@
                 //without participant number
                 let fileName = `HUPLACLIP_pilot1_${currentDate.getDate()}.${(currentDate.getMonth() + 1)}.${currentDate.getFullYear()}_${currentDate.getHours()}.${currentDate.getMinutes()}.${currentDate.getSeconds()}.json`
                 jsPsych.data.get().localSave('json', fileName);
+
             }
         });
 
@@ -304,10 +308,7 @@
                     loop_function: function () {
                         // accessing the data stored up to now (it will increase progressively):
                         let currentData = jsPsych.data.get()
-                        if (currentData.trials.filter(element => element.presentation_index == presentationIndex).length > currentExperiment.maximumNumberOfShuffles) {
-                            // if number of shuffles exceeded the limit for the current stimulus, moving to next presentation:
-                            return false
-                        } else if (currentData.last(1).values()[0].response == " ") {
+                        if (currentData.last(1).values()[0].response == " ") {
                             // if last response was a spacebar press, repeat the trial
                             return true
                         } else if (currentData.last(1).values()[0].response == 0 || currentData.last(1).values()[0].response == 1) {
@@ -343,7 +344,7 @@
                             // calculating accuracy:
                             let numberOfCorrectResponses = arrayOfResponses.reduce((a, b) => a + b, 0)
                             let numberOfFinalResponses = arrayOfResponses.length
-                            final_page.pages = [`<p> You completed all the blocks of the experiment. <br>
+                            final_page.pages = [`<p> You completed all the ${currentExperiment.numberOfBlocks} blocks of the experiment. <br>
                                 Your overall score was <b> ${numberOfCorrectResponses} / ${numberOfFinalResponses} </b>.<br><br>
                                 Thank you for your time.
                                 <br><br>
@@ -372,9 +373,10 @@
                             let numberOfCorrectResponsesPerBlock = arrayOfResponsesPerBlock.reduce((a, b) => a + b, 0)
                             let numberOfFinalResponsesPerBlock = arrayOfResponsesPerBlock.length
 
-                            move_to_next_block.pages = [`<p> You completed this block. <br>
+                            move_to_next_block.pages = [`<p> You completed one block. <br>
                                 Your score for this block was <b> ${numberOfCorrectResponsesPerBlock} / ${numberOfFinalResponsesPerBlock} </b>.<br>
-                                So far, you have completed <b> ${(blockIndex + 1)} </b> blocks. You have <b> ${currentExperiment.numberOfBlocks - (blockIndex + 1)} </b> to go.
+                                So far, you have completed <b> ${(blockIndex + 1)} </b> out of <b>${currentExperiment.numberOfBlocks}</b> blocks. <br>
+                                You still have <b> ${currentExperiment.numberOfBlocks - (blockIndex + 1)} </b> to go.
                                 <br><br>
                                 Remember: <br>
                                 - Press <b> LEFT / RIGHT arrow </b> to choose the triangle with the hidden red tiles. <br>
