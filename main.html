@@ -289,7 +289,7 @@
                         // accessing the data stored up to now (it will increase progressively):
                         let currentData = jsPsych.data.get()
                         // if no more shuffles are available, only allowing final answers (arrow presses):
-                        if (currentData.trials.filter(element => element.presentation_index == presentationIndex).length == currentExperiment.maximumNumberOfShuffles)
+                        if (currentData.trials.filter(element => element.block_index == blockIndex && element.presentation_index == presentationIndex).length == currentExperiment.maximumNumberOfShuffles)
                             currentTrial.choices = ['ArrowLeft', 'ArrowRight']
                     }
                 }
@@ -329,12 +329,27 @@
                     /* FINAL PAGE */
                     let final_page = {
                         type: jsPsychInstructions,
-                        pages: [`<p> You completed the experiment. <br>
-                        Thank you for your time.
-                        <br><br>
-                        Press <b>space</b> to exit.<br>
-                        </p>`],
-                        key_forward: " "
+                        pages: [], // defined inside on_start function (below)
+                        key_forward: " ",
+                        on_start: function (final_page) {
+                            // accessing the array of all the trials completed up to now:
+                            let currentTrialsArray = jsPsych.data.get().trials
+                            let arrayOfResponses = []
+                            currentTrialsArray.forEach(element => {
+                                // creating array of all final responses:
+                                if (element.hasOwnProperty('accuracy'))
+                                    arrayOfResponses.push(element.accuracy)
+                            })
+                            // calculating accuracy:
+                            let numberOfCorrectResponses = arrayOfResponses.reduce((a, b) => a + b, 0)
+                            let numberOfFinalResponses = arrayOfResponses.length
+                            final_page.pages = [`<p> You completed all the blocks of the experiment. <br>
+                                Your overall score was <b> ${numberOfCorrectResponses} / ${numberOfFinalResponses} </b>.<br><br>
+                                Thank you for your time.
+                                <br><br>
+                                Press <b>space</b> to exit.<br>
+                                </p>`]
+                        }
                     };
                     timeline.push(final_page)
                     break;
@@ -342,11 +357,31 @@
                     /* AGREEMENT TO MOVE TO NEXT BLOCK */
                     let move_to_next_block = {
                         type: jsPsychInstructions,
-                        pages: [`<p> You completed this block. <br>
-                        <br><br>
-                        Press <b>space</b> to move to the next block.<br>
-                        </p>`],
-                        key_forward: " "
+                        pages: [], // defined inside on_start function (below)
+                        key_forward: " ",
+                        on_start: function (move_to_next_block) {
+                            // accessing the array of the trials completed up to now:
+                            let currentTrialsArray = jsPsych.data.get().trials
+                            let arrayOfResponsesPerBlock = []
+                            currentTrialsArray.forEach(element => {
+                                // creating array of final responses for current block:
+                                if (element.block_index == blockIndex && element.hasOwnProperty('accuracy'))
+                                    arrayOfResponsesPerBlock.push(element.accuracy)
+                            })
+                            // calculating accuracy:
+                            let numberOfCorrectResponsesPerBlock = arrayOfResponsesPerBlock.reduce((a, b) => a + b, 0)
+                            let numberOfFinalResponsesPerBlock = arrayOfResponsesPerBlock.length
+
+                            move_to_next_block.pages = [`<p> You completed this block. <br>
+                                Your score for this block was <b> ${numberOfCorrectResponsesPerBlock} / ${numberOfFinalResponsesPerBlock} </b>.<br>
+                                So far, you have completed <b> ${(blockIndex + 1)} </b> blocks. You have <b> ${currentExperiment.numberOfBlocks - (blockIndex + 1)} </b> to go.
+                                <br><br>
+                                Remember: <br>
+                                - Press <b> LEFT / RIGHT arrow </b> to choose the triangle with the hidden red tiles. <br>
+                                - Press <b> SPACE </b> to shuffle the triangles. <br><br>
+                                When you feel ready, press <b>space</b> to move to the next block.<br>
+                                </p>`]
+                        }
                     };
                     timeline.push(move_to_next_block)
             }

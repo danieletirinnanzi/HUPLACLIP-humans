@@ -7,8 +7,8 @@ let canvasWidth = window.innerWidth
 let currentExperiment = {
     // experiment parameters:
     numberOfBlocks: 4,
-    numberOfPresentationsPerBlock: 30, // single presentation = single couple of graphs, presented once and reordered through space bar presses)
-    maximumNumberOfShuffles: 20, // maximum number of randomizations allowed for a single couple of matrices 
+    numberOfPresentationsPerBlock: 6, // single presentation = single couple of graphs, presented once and reordered through space bar presses)
+    maximumNumberOfShuffles: 5, // maximum number of randomizations allowed for a single couple of matrices 
     canvasDimensions: [canvasHeight, canvasWidth], // [height,width]
     // graphs parameters:
     graphSize: 300,
