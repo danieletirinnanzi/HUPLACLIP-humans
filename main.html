@@ -29,15 +29,13 @@
         /* initialize jsPsych */
         let jsPsych = initJsPsych({
             on_finish: function () {
-                // DEBUG:
-                console.log(jsPsych.data.get().trials)
 
                 //let participantNumber = prompt("insert participant number: ")
                 let currentDate = new Date();
                 //with participant number:
                 //let fileName = `HUPLACLIP_pilot1_subj${participantNumber}_completed_${currentDate.getDate()}.${(currentDate.getMonth() + 1)}.${currentDate.getFullYear()}_${currentDate.getHours()}.${currentDate.getMinutes()}.${currentDate.getSeconds()}.json`
                 //without participant number
-                let fileName = `HUPLACLIP_pilot1_${currentDate.getDate()}.${(currentDate.getMonth() + 1)}.${currentDate.getFullYear()}_${currentDate.getHours()}.${currentDate.getMinutes()}.${currentDate.getSeconds()}.json`
+                let fileName = `HUPLACLIP_pilot_${currentDate.getDate()}.${(currentDate.getMonth() + 1)}.${currentDate.getFullYear()}_${currentDate.getHours()}.${currentDate.getMinutes()}.${currentDate.getSeconds()}.json`
                 jsPsych.data.get().localSave('json', fileName);
 
             }

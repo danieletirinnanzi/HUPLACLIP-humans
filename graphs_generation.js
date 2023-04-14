@@ -1,5 +1,5 @@
 /* GRAPHS GENERATION: */
-// FUNCTION THAT DEFINES THE CLIQUE SIZE FOR ALL THE TRIALS THAT WILL BE PRESENTED (implementation of "linspace", but stored in reverse order)
+// FUNCTION THAT DEFINES THE CLIQUE SIZE FOR THE TRIALS THAT WILL BE PRESENTED
 function createArrayOfCliqueSizes(initialCliqueSize, numberOfPresentations) {
     /* INPUT:
     - initial clique size (maximum value of the clique, the next values will be lower)
@@ -7,11 +7,15 @@ function createArrayOfCliqueSizes(initialCliqueSize, numberOfPresentations) {
 
     OUTPUT:
     - array where the dimension of the clique for each one of the trials is stored in the order of presentation
+    NB: in this version of the task, the clique will have (numberOfPresentations/2) values, and in each block of (numberOfPresentations) trials there will be 2 instances of the same value of K
     */
-    let cliqueSizeArray = [];
-    let step = initialCliqueSize / (numberOfPresentations);
-    for (let i = 0; i < numberOfPresentations; i++) {
-        cliqueSizeArray.push(Math.round(initialCliqueSize - (step * i)));
+    let cliqueSizeArray = [];   // will have (numberOfPresentations) values
+    let step = initialCliqueSize / (numberOfPresentations / 2);
+    for (let i = 0; i < numberOfPresentations / 2; i++) {
+        // two trials for each value of K:
+        for (let j = 0; j < 2; j++) {
+            cliqueSizeArray.push(Math.round(initialCliqueSize - (step * i)));
+        }
     }
     return cliqueSizeArray;
 }
@@ -121,8 +125,8 @@ function generateGraphs() {
                         }
                     }
                 }
-                //adding to the matrix an indication about the presence of the clique:
-                graphWithClique[currentExperiment.graphSize] = "clique array for current stimulus is: " + cliqueArray
+                //adding to the matrix information about the clique: size and array of nodes that are part of it
+                graphWithClique[currentExperiment.graphSize] = { 'clique_size': cliqueArray.length, 'clique_array': cliqueArray }
                 //adding to the object the property (the connections of the current node in the triangular matrix)
                 graphWithClique[rowIndex] = currentRowAssociations;
             }

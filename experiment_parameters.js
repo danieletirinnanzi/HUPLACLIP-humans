@@ -16,7 +16,9 @@ let currentExperiment = {
     probabilityOfAssociation: 0.5
 }
 
-
+// checking that the number of presentations is even, so that is possible to have two trials for each value of K
+if (currentExperiment.numberOfPresentationsPerBlock % 2 != 0)
+    alert("number of presentations for each trial must be even")
 
 // ADDING PROPERTIES TO THE currentExperiment OBJECT:
 
