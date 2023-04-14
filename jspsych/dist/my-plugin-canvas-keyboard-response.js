@@ -102,8 +102,12 @@ var jsPsychCanvasKeyboardResponse = (function (jspsych) {
                     nodes_order: currentTrialOrder, //array that stores the ordering of the data for the current trial
                     correct_response: correctResponse,
                 };
-                // when subject gives final answer (right/left arrow), determining accuracy of response and adding it to trial_data:
+                // when subject gives final answer (right/left arrow):
                 if (trial_data.response == "arrowleft" || trial_data.response == "arrowright") {
+                    // - reading and adding couple of graphs to trial_data:
+                    let graphsCouple = this.jsPsych.data.graphsCouple
+                    trial_data.graphs_couple = graphsCouple
+                    // - determining accuracy of response and adding it to trial_data:
                     if (trial_data.response == trial_data.correct_response)
                         trial_data.accuracy = true
                     else

@@ -250,15 +250,18 @@
                 // instructions reminder:
                 drawInstructionsReminder(ctx)
 
-                // GLOBAL VARIABLES THAT WILL BE ADDED TO TRIAL_DATA (they keep changing, and their value is read from "my-plugin-canvas-keyboard-response.js")
-                // order of the nodes 
+                // GLOBAL VARIABLES ADDED TO TRIAL_DATA (read in "my-plugin-canvas-keyboard-response.js")
+                // order of the nodes (changes from trial to trial)
                 jsPsych.data.presentedOrder = currentTrialOrder
-                // correct answer (does not change between trials relative to the same couple of graphs, but its value is read to compute the "accuracy" variable)
+                // variables that do not change from trial to trial but are used when subject gives final answer:
+                // - correct answer (its value is read to compute the "accuracy" variable)
                 if (currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0][currentExperiment.graphSize] == "clique is absent")
                     //if first stimulus doesn't have the clique, then the graph with the clique (correct answer) is on the right side
                     jsPsych.data.correctResponse = "arrowright"
                 else
                     jsPsych.data.correctResponse = "arrowleft"
+                // - couple of graphs (added to data only when subject gives final answer)
+                jsPsych.data.graphsCouple = currentExperiment.graphsToDisplay[blockIndex][presentationIndex]
             }
 
             return drawCanvas
@@ -286,8 +289,7 @@
                         presentation_index: presentationIndex,
                         // graphs parameters:
                         clique_size: currentExperiment.arrayOfCliqueSizes[presentationIndex],
-                        graph_size: currentExperiment.graphSize,
-                        graphs_couple: currentExperiment.graphsToDisplay[blockIndex][presentationIndex]
+                        graph_size: currentExperiment.graphSize
                     },
                     on_start: function (currentTrial) {
                         // accessing the data stored up to now (it will increase progressively):

@@ -12,7 +12,7 @@ let currentExperiment = {
     canvasDimensions: [canvasHeight, canvasWidth], // [height,width]
     // graphs parameters:
     graphSize: 300,
-    initialCliqueSize: 200,  // maximum dimension of the clique (will decrease throughout the experiment, increasing the difficulty of the task)                       
+    initialCliqueSize: 175,  // maximum dimension of the clique (will decrease within the block, increasing the difficulty of the task)                       
     probabilityOfAssociation: 0.5
 }
 
