@@ -4,19 +4,22 @@
 <head>
     <title>New version of HUPLACLIP</title>
     <!-- My scripts -->
-    <script src="graphs_generation.js"></script>
-    <script src="introduction/introduction_pages_generation.js"></script>
-    <script src="tutorial/tutorial_pages_generation.js"></script>
-    <script src="experiment_parameters.js"></script>
-    <script src="canvas_drawing.js"></script>
-    <!-- Standard styling -->
-    <script src="jspsych/dist/jspsych.js"></script>
+    <script type="text/javascript" src="graphs_generation.js"></script>
+    <script type="text/javascript" src="introduction/introduction_pages_generation.js"></script>
+    <script type="text/javascript" src="tutorial/tutorial_pages_generation.js"></script>
+    <script type="text/javascript" src="experiment_parameters.js"></script>
+    <script type="text/javascript" src="canvas_drawing.js"></script>
+    <!-- Standard jspsych.js -->
+    <script type="text/javascript" src="jspsych/dist/jspsych.js"></script>
     <!-- Standard plugins -->
-    <script src="jspsych/dist/plugin-instructions.js"></script>
-    <script src="jspsych/dist/plugin-image-keyboard-response.js"></script>
-    <script src="jspsych/dist/plugin-preload.js"></script>
+    <script type="text/javascript" src="jspsych/dist/plugin-instructions.js"></script>
+    <script type="text/javascript" src="jspsych/dist/plugin-image-keyboard-response.js"></script>
+    <script type="text/javascript" src="jspsych/dist/plugin-preload.js"></script>
     <!-- Customized plugin -->
-    <script src="jspsych/dist/my-plugin-canvas-keyboard-response.js"></script>
+    <script type="text/javascript" src="jspsych/dist/my-plugin-canvas-keyboard-response.js"></script>
+    <!-- Pavlovia connection -->
+    <script type="text/javascript" src="lib/vendors/jquery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="lib/jspsych-pavlovia-3.2.5.js"></script>
     <!-- Styling -->
     <link href="jspsych/dist/jspsych.css" rel="stylesheet" type="text/css" />
 </head>
@@ -24,26 +27,18 @@
 <body style="overflow:hidden">
     <!-- The 'overflow: hidden' css property above prevents scrollbar to be shown on screen -->
 
-    <script type="module">
-
-        /* initialize jsPsych */
-        let jsPsych = initJsPsych({
-            on_finish: function () {
-
-                //let participantNumber = prompt("insert participant number: ")
-                let currentDate = new Date();
-                //with participant number:
-                //let fileName = `HUPLACLIP_pilot1_subj${participantNumber}_completed_${currentDate.getDate()}.${(currentDate.getMonth() + 1)}.${currentDate.getFullYear()}_${currentDate.getHours()}.${currentDate.getMinutes()}.${currentDate.getSeconds()}.json`
-                //without participant number
-                let fileName = `HUPLACLIP_pilot_${currentDate.getDate()}.${(currentDate.getMonth() + 1)}.${currentDate.getFullYear()}_${currentDate.getHours()}.${currentDate.getMinutes()}.${currentDate.getSeconds()}.json`
-                jsPsych.data.get().localSave('json', fileName);
-
-            }
-        });
+    <script type="text/javascript">
 
         /* create timeline */
         let timeline = [];
 
+
+        /* init connection with pavlovia.org */
+        var pavlovia_init = {
+            type: "pavlovia",
+            command: "init"
+        };
+        timeline.push(pavlovia_init);
 
 
         /* INTRODUCTIVE PAGES */
@@ -389,6 +384,30 @@
             }
 
         }
+
+
+        /* finish connection with pavlovia.org */
+        var pavlovia_finish = {
+            type: "pavlovia",
+            command: "finish",
+            participantId: "JSPSYCH-DEMO"
+        };
+        timeline.push(pavlovia_finish);
+
+
+        /* start the experiment */
+        jsPsych.init({
+            timeline: timeline,
+
+            on_finish: function (data) {
+                // displaying data:
+                jsPsych.data.displayData();
+                // local save:
+                let currentDate = new Date();
+                let fileName = `HUPLACLIP_pilot_${currentDate.getDate()}.${(currentDate.getMonth() + 1)}.${currentDate.getFullYear()}_${currentDate.getHours()}.${currentDate.getMinutes()}.${currentDate.getSeconds()}.json`
+                jsPsych.data.get().localSave('json', fileName);
+            }
+        });
 
 
         /* start the experiment */
