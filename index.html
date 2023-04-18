@@ -19,7 +19,7 @@
     <script type="text/javascript" src="jspsych/dist/my-plugin-canvas-keyboard-response.js"></script>
     <!-- Pavlovia connection -->
     <script type="text/javascript" src="lib/vendors/jquery-2.2.0.min.js"></script>
-    <script type="text/javascript" src="lib/jspsych-pavlovia-3.2.5.js"></script>
+    <script type="text/javascript" src="jspsych/dist/my-pavlovia.js"></script>
     <!-- Styling -->
     <link href="jspsych/dist/jspsych.css" rel="stylesheet" type="text/css" />
 </head>
@@ -29,16 +29,31 @@
 
     <script type="text/javascript">
 
+        /* initializing jspsych */
+        var jsPsych = initJsPsych({
+
+            on_finish: function (data) {
+                // displaying data:
+                jsPsych.data.displayData();
+                // local save:
+                let currentDate = new Date();
+                let fileName = `HUPLACLIP_pilot_${currentDate.getDate()}.${(currentDate.getMonth() + 1)}.${currentDate.getFullYear()}_${currentDate.getHours()}.${currentDate.getMinutes()}.${currentDate.getSeconds()}.json`
+                jsPsych.data.get().localSave('json', fileName);
+            }
+        });
+
+
         /* create timeline */
         let timeline = [];
 
 
         /* init connection with pavlovia.org */
+        /*
         var pavlovia_init = {
-            type: "pavlovia",
+            type: jsPsychPavlovia,
             command: "init"
         };
-        timeline.push(pavlovia_init);
+        timeline.push(pavlovia_init)
 
 
         /* INTRODUCTIVE PAGES */
@@ -387,27 +402,19 @@
 
 
         /* finish connection with pavlovia.org */
+        /*
         var pavlovia_finish = {
-            type: "pavlovia",
+            type: jsPsychPavlovia,
             command: "finish",
-            participantId: "JSPSYCH-DEMO"
+            participantId: "JSPSYCH-DEMO",
+
+            //NECESSARY WHEN ADDING PROLIFIC:
+            //completedCallback: function (){
+            //    window.location.replace('https://app.prolific.co/submissions/complete?cc=C180BZKR');
+            //},
+
         };
-        timeline.push(pavlovia_finish);
-
-
-        /* start the experiment */
-        jsPsych.init({
-            timeline: timeline,
-
-            on_finish: function (data) {
-                // displaying data:
-                jsPsych.data.displayData();
-                // local save:
-                let currentDate = new Date();
-                let fileName = `HUPLACLIP_pilot_${currentDate.getDate()}.${(currentDate.getMonth() + 1)}.${currentDate.getFullYear()}_${currentDate.getHours()}.${currentDate.getMinutes()}.${currentDate.getSeconds()}.json`
-                jsPsych.data.get().localSave('json', fileName);
-            }
-        });
+        timeline.push(pavlovia_finish)
 
 
         /* start the experiment */
