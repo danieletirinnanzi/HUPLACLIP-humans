@@ -1,0 +1,82 @@
+<html>
+
+<head>
+    <!-- SCRIPTS -->
+    <!-- Generating graph pool -->
+    <script src="generate_graph_pool.js"></script>
+    <!-- Saving files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"
+        integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"> </script>
+</head>
+
+<body>
+    <h2>Create JSON file of graph pool and save it to local computer using <i>FileSaver</i> JavaScript Library.</h2>
+    <button type="button" onclick="CreateJSONGraphPoolFile();">Create JSON File</button>
+    <script>
+
+        // CREATING OBJECT:
+        const poolParameters = {
+            // experiment parameters (used to determine the steps from "initialCliqueSize" to zero):
+            numberOfBlocks: 4,
+            numberOfPresentationsPerBlock: 30, // single presentation = single couple of graphs, presented once and reordered through space bar presses) 
+            // graph pool parameters:
+            numberOfGraphsPerCliqueSize: 100,
+            // graphs parameters:
+            graphSize: 300,
+            initialCliqueSize: 175,  // maximum dimension of the clique (will decrease within the block, increasing the difficulty of the task)                       
+            probabilityOfAssociation: 0.5
+        }
+
+        // ADDING PROPERTIES TO THE poolParameters OBJECT:
+        //creating array that contains the indices of all the nodes of the graphs in the standard order
+        let standardOrderOfNodes = new Array();
+        for (let index = 0; index < poolParameters.numberOfNodes; index++) {
+            standardOrderOfNodes.push(index)
+        }
+        // adding this array as a property to the "poolParameters" object
+        poolParameters.standardOrderOfNodes = standardOrderOfNodes
+
+        // creating array that contains the clique sizes and adding it as a property to "poolParameters" object
+        poolParameters.arrayOfCliqueSizes = createArrayOfCliqueSizes(poolParameters.initialCliqueSize, poolParameters.numberOfPresentationsPerBlock, poolParameters.numberOfGraphsPerCliqueSize)
+
+        // adding the graphs to compare for the different values of K as a property to the "poolParameters" object
+        poolParameters.graphsToCompare = generateGraphsForComparison()
+
+        // visualizing the poolParameters object:
+        console.log(poolParameters)
+
+        // generating average degree arrays (will be plotted) and adding them as properties of "poolParameters" object
+        // UNCORRECTED graphs:
+        poolParameters.uncorrectedGraphsAverageDegreeArray = []
+        for (let index = 0; index < poolParameters.arrayOfCliqueSizes.length; index++) {
+            //pushing the average degree value into the array  (NB: the average degree of each graph is stored as the last element of the object)
+            poolParameters.uncorrectedGraphsAverageDegreeArray.push(poolParameters.graphsToCompare[index][0][poolParameters.numberOfNodes])
+        }
+        //  CORRECTED graphs:
+        poolParameters.correctedGraphsAverageDegreeArray = []
+        for (let index = 0; index < poolParameters.arrayOfCliqueSizes.length; index++) {
+            //pushing the average degree value into the array  (NB: the average degree of each graph is stored as the last element of the object)
+            poolParameters.correctedGraphsAverageDegreeArray.push(poolParameters.graphsToCompare[index][1][poolParameters.numberOfNodes])
+        }
+
+        // visualizing the average degree of the graphs
+        console.log(poolParameters.uncorrectedGraphsAverageDegreeArray)  // uncorrected average degree -> remains constant as cliqueSize increases
+        console.log(poolParameters.correctedGraphsAverageDegreeArray)  // corrected average degree -> increases as cliqueSize increases
+
+
+        /* SAVING JSON FILE IF BUTTON IS PRESSED */
+        // transforming the two arrays into .json format to export them
+        function CreateJSONGraphPoolFile() {
+            // convert the object to a JSON string
+            const json = JSON.stringify(poolParameters);
+            // create a new Blob object with the JSON string
+            const blob = new Blob([json], { type: "application/json;charset=utf-8" });
+            // save the Blob object to a file using FileSaver.js
+            saveAs(blob, "poolParametersObject_cliqueLessGraphs.json");
+        }
+
+    </script>
+</body>
+
+</html>
