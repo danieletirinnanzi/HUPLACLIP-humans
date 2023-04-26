@@ -1,55 +1,10 @@
-/* GRAPH POOL GENERATION: */
-// FUNCTION THAT DEFINES THE CLIQUE SIZE FOR THE TRIALS THAT WILL BE PRESENTED
-function createArrayOfCliqueSizes(initialCliqueSize, numberOfPresentations) {
-    /* INPUT:
-    - initial clique size (maximum value of the clique)
-    - number of presentations for each block (clique sizes will be half of this number)
+//FUNCTION THAT GENERATES THE GRAPH POOL (one with clique, one without) THAT WILL BE DISPLAYED
+function generateGraphPool() {
+    /* INPUT: none ("currentExperiment" and "graphPoolObject" can be accessed from inside functions)
 
     OUTPUT:
-    - array where the dimension of the clique for each one of the trials is stored in the order of presentation
-    NB: in this version of the task, the clique will have (numberOfPresentations/2) values, and in each block of (numberOfPresentations) trials there will be 2 instances of the same value of K
-    */
-    let cliqueSizeArray = [];   // will have (numberOfPresentations) values
-    let step = initialCliqueSize / (numberOfPresentations / 2);
-    for (let i = 0; i < numberOfPresentations / 2; i++) {
-        // 100 trials for each value of K:
-        for (let j = 0; j < 100; j++) {
-            cliqueSizeArray.push(Math.round(initialCliqueSize - (step * i)));
-        }
-    }
-    return cliqueSizeArray;
-}
-
-
-// FUNCTION THAT ASSOCIATES THE NODES THAT WILL BE PART OF THE CLIQUE (adapted from: https://stackoverflow.com/questions/19269545/how-to-get-a-number-of-random-elements-from-an-array)
-function createClique(nodesArray, singleCliqueSize) {
-    /* INPUT:
-    - array that contains all the nodes in the graph
-    - size of the clique
-
-    OUTPUT:
-    - array of nodes that will be part of the clique
-    */
-    // RIVEDI E CAPISCI UN PO' MEGLIO / RISCRIVI?
-    let result = new Array(singleCliqueSize),
-        len = nodesArray.length,
-        taken = new Array(len);
-    while (singleCliqueSize--) {
-        let x = Math.floor(Math.random() * len);
-        result[singleCliqueSize] = nodesArray[x in taken ? taken[x] : x];
-        taken[x] = --len in taken ? taken[len] : len;
-    }
-    return result;
-}
-
-
-//FUNCTION THAT GENERATES ALL THE COUPLES OF GRAPHS (one with clique, one without) THAT WILL BE DISPLAYED
-function generateGraphs() {
-    /* INPUT: none ("currentExperiment" can be accessed from inside functions)
-
-    OUTPUT:
-    - array of all the couples of triangular matrices that will be displayed in the experiment (NB: triangular matrices are represented as objects)
-    STRUCTURE: [  first block: [ [{graph1}{graph2}] [{graph1}{graph2}] [{graph1}{graph2}] ...(numberOfPresentationsPerBlock) ],
+    - array that contains 100 couples of graphs with and without clique for each clique size (NB: triangular matrices are represented as objects)
+    STRUCTURE: [  first clique size: [ [{graph1}{graph2}] ],
                   second block: [ [{graph1}{graph2}] [{graph1}{graph2}] [{graph1}{graph2}] ...(numberOfPresentationsPerBlock), ]
                  ...(numberOfBlocks) ]
     */
