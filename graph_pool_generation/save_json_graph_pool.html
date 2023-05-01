@@ -15,44 +15,48 @@
 
 <body>
     <h2>Create JSON file of graph pool and save it to local computer using <i>FileSaver</i> JavaScript Library.</h2>
-    <button type="button" onclick="CreateJSONGraphPoolFile();">Create JSON File</button>
+    <button type="button" onclick="CreateJSONGraphPoolFile_WITHCLIQUE();">Create JSON File of graphs WITH
+        CLIQUE</button>
+    <button type="button" onclick="CreateJSONGraphPoolFile_WITHOUTCLIQUE();">Create JSON File of graphs WITHOUT
+        CLIQUE</button>
     <script>
 
         // CREATING graphPoolObject OBJECT:
         const graphPoolObject = {
             // pool size (experiment and graphs parameters are already stored)
-            numberOfGraphsPerCliqueSizeInEachBlock: 100,
+            numberOfGraphsPerCliqueSize: 30,
+            outputFile: {}, // file of output
         }
 
-        // generating average degree arrays (will be plotted) and adding them as properties of "graphPoolObject" object
-        // UNCORRECTED graphs:
-        graphPoolObject.uncorrectedGraphsAverageDegreeArray = []
-        for (let index = 0; index < graphPoolObject.arrayOfCliqueSizes.length; index++) {
-            //pushing the average degree value into the array  (NB: the average degree of each graph is stored as the last element of the object)
-            graphPoolObject.uncorrectedGraphsAverageDegreeArray.push(graphPoolObject.graphsToCompare[index][0][graphPoolObject.numberOfNodes])
-        }
-        //  CORRECTED graphs:
-        graphPoolObject.correctedGraphsAverageDegreeArray = []
-        for (let index = 0; index < graphPoolObject.arrayOfCliqueSizes.length; index++) {
-            //pushing the average degree value into the array  (NB: the average degree of each graph is stored as the last element of the object)
-            graphPoolObject.correctedGraphsAverageDegreeArray.push(graphPoolObject.graphsToCompare[index][1][graphPoolObject.numberOfNodes])
-        }
+        console.log(currentExperiment)
 
-        // visualizing the average degree of the graphs
-        console.log(graphPoolObject.uncorrectedGraphsAverageDegreeArray)  // uncorrected average degree -> remains constant as cliqueSize increases
-        console.log(graphPoolObject.correctedGraphsAverageDegreeArray)  // corrected average degree -> increases as cliqueSize increases
+        // ADDING GRAPHS TO THE OBJECT
+        graphPoolObject.outputFile.graphsWithClique = generateGraphsWithClique()
+        graphPoolObject.outputFile.graphsWithOutClique = generateGraphsWithOutClique()
 
+        console.log(graphPoolObject)
 
-        /* SAVING JSON FILE IF BUTTON IS PRESSED */
-        // transforming the two arrays into .json format to export them
-        function CreateJSONGraphPoolFile() {
+        /* SAVING JSON FILES IF BUTTON IS PRESSED */
+        // transforming the array into .json format to export it
+        function CreateJSONGraphPoolFile_WITHCLIQUE() {
             // convert the object to a JSON string
-            const json = JSON.stringify(graphPoolObject);
+            const json = JSON.stringify(graphPoolObject.outputFile.graphsWithClique);
             // create a new Blob object with the JSON string
             const blob = new Blob([json], { type: "application/json;charset=utf-8" });
             // save the Blob object to a file using FileSaver.js
-            saveAs(blob, "graphPoolObjectObject_cliqueLessGraphs.json");
+            saveAs(blob, "graphs_with_clique_pool.json");
         }
+
+        // transforming the array into .json format to export it
+        function CreateJSONGraphPoolFile_WITHOUTCLIQUE() {
+            // convert the object to a JSON string
+            const json = JSON.stringify(graphPoolObject.outputFile.graphsWithOutClique);
+            // create a new Blob object with the JSON string
+            const blob = new Blob([json], { type: "application/json;charset=utf-8" });
+            // save the Blob object to a file using FileSaver.js
+            saveAs(blob, "graphs_without_clique_pool.json");
+        }
+
 
     </script>
 </body>
