@@ -33,9 +33,56 @@
         /* importing graph pools and extracting the ones that will be shown*/
         let graphsWithCliquePool = await getData('graph_pools/graphs_with_clique_pool.json');
         let graphsWithoutCliquePool = await getData('graph_pools/graphs_without_clique_pool.json');
-        // randomly extracting the graphs that will be shown:
-        console.log(graphsWithCliquePool[0].length)
-        console.log(graphsWithCliquePool[0])
+        // controlling that dimensions of graph pool match experiment parameters (2 graphs per clique size for each block):
+        if (currentExperiment.numberOfPresentationsPerBlock / currentExperiment.numberOfGraphsPerCliqueSize != graphsWithCliquePool.length) {
+            alert("dimensions of graphs_with_clique pool don't match experiment parameters")
+        } else if (currentExperiment.numberOfPresentationsPerBlock / currentExperiment.numberOfGraphsPerCliqueSize != graphsWithoutCliquePool.length) {
+            alert("dimensions of graphs_without_clique pool don't match experiment parameters")
+        }
+
+
+        // randomly extracting the graphs that will be shown in each block (INSERT IN INDEPENDENT FUNCTION inside "graphs_function.js"???):
+        let maxValue = graphsWithCliquePool[0].length   //this number will be excluded from the extraction
+        // empty array that will contain the couples of triangular matrices (objects) to be displayed
+        let graphsToDisplay = [];
+        // number of blocks:
+        for (let blockIndex = 0; blockIndex < currentExperiment.numberOfBlocks; blockIndex++) {
+            let graphsForCurrentBlock = []
+            // couples of graphs for a single block
+            for (let cliqueSizeIndex = 0; cliqueSizeIndex < (currentExperiment.numberOfPresentationsPerBlock / currentExperiment.numberOfGraphsPerCliqueSize); cliqueSizeIndex++) {
+                // for each clique size, extracting two couples of graphs: 
+                for (let graphIndex = 0; graphIndex < currentExperiment.numberOfGraphsPerCliqueSize; graphIndex++) {
+                    // 1. Extracting graph WITH CLIQUE:
+                    // randomly extracting index for graph with clique:
+                    let randIndex1 = Math.random() * maxValue;
+                    randIndex1 = Math.floor(randIndex1);
+                    let graphWithClique = graphsWithCliquePool[cliqueSizeIndex][randIndex1]
+
+                    // 2. Extracting graph WITHOUT CLIQUE:
+                    // randomly extracting index for graph without clique:
+                    let randIndex2 = Math.random() * maxValue;
+                    randIndex2 = Math.floor(randIndex2);
+                    let graphWithoutClique = graphsWithoutCliquePool[cliqueSizeIndex][randIndex2]
+
+                    // Adding the two graphs to the array for the current trial (random choice of which one is the first in the couple) and pushing this array into the array relative to the current block
+                    if (Math.round(Math.random())) {
+                        graphsForCurrentBlock.push([graphWithClique, graphWithoutClique])
+                    } else {
+                        graphsForCurrentBlock.push([graphWithoutClique, graphWithClique])
+                    }
+
+                }
+
+            }
+
+            // adding array of graphs for current block to array of all graphs
+            graphsToDisplay.push(graphsForCurrentBlock)
+
+        }
+        // adding the extracted graphs to the currentExperiment object:
+        currentExperiment.graphsToDisplay = graphsToDisplay
+        console.log(currentExperiment.graphsToDisplay)
+
 
         /* initializing jspsych */
         var jsPsych = initJsPsych({
@@ -65,6 +112,7 @@
 
 
         /* INTRODUCTIVE PAGES */
+        /*
         // showing informative pages about the study (informed consent, aim, privacy)
         let introduction = {
             type: jsPsychInstructions,
@@ -76,6 +124,7 @@
 
 
         /* INSTRUCTIONS */
+        /*
         // PRELOADING instructions images:
         // calling function to create filepaths for all instructions images
         let instructions_ImagesArray = createArrayOfFilePaths(instructionsObject, 0)
@@ -97,6 +146,7 @@
 
 
         /* AGREEMENT TO MOVE TO TASK FAMILIARIZATION */
+        /*
         let move_to_familiarization_form = {
             type: jsPsychInstructions,
             pages: [`<p> Now it's your turn! <br>
@@ -110,6 +160,7 @@
 
 
         /* TASK FAMILIARIZATION */
+        /*
         // PART 1: WITHOUT BACKGROUND INFORMATION
         // PRELOADING images:
         // calling function to create filepaths for all images
@@ -212,6 +263,7 @@
 
 
         /* AGREEMENT TO START EXPERIMENT */
+        /*
         // informing that the experiment will start and subject agrees
         // POSSIBLE IMPROVEMENT: use external-HTML plugin (with "agreement_page.html"), so that it is possible to use checkbox and check agreement with a function (alert if clicking something else)
         let consent_form = {
@@ -271,7 +323,7 @@
                 jsPsych.data.presentedOrder = currentTrialOrder
                 // variables that do not change from trial to trial but are used when subject gives final answer:
                 // - correct answer (its value is read to compute the "accuracy" variable)
-                if (currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0][currentExperiment.graphSize] == "clique is absent")
+                if (currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0][currentExperiment.graphSize].clique_array == "clique is absent")
                     //if first stimulus doesn't have the clique, then the graph with the clique (correct answer) is on the right side
                     jsPsych.data.correctResponse = "arrowright"
                 else
