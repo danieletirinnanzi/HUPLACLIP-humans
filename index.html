@@ -2,9 +2,9 @@
 <html>
 
 <head>
-    <title>New version of HUPLACLIP</title>
+    <title>HUPLACLIP experiment</title>
     <!-- My scripts -->
-    <script type="text/javascript" src="graphs_generation.js"></script>
+    <script type="text/javascript" src="graphs_functions.js"></script>
     <script type="text/javascript" src="introduction/introduction_pages_generation.js"></script>
     <script type="text/javascript" src="tutorial/tutorial_pages_generation.js"></script>
     <script type="text/javascript" src="experiment_parameters.js"></script>
@@ -28,7 +28,14 @@
 <body style="overflow:hidden">
     <!-- The 'overflow: hidden' css property above prevents scrollbar to be shown on screen -->
 
-    <script type="text/javascript">
+    <script type="module">
+
+        /* importing graph pools and extracting the ones that will be shown*/
+        let graphsWithCliquePool = await getData('graph_pools/graphs_with_clique_pool.json');
+        let graphsWithoutCliquePool = await getData('graph_pools/graphs_without_clique_pool.json');
+        // randomly extracting the graphs that will be shown:
+        console.log(graphsWithCliquePool[0].length)
+        console.log(graphsWithCliquePool[0])
 
         /* initializing jspsych */
         var jsPsych = initJsPsych({

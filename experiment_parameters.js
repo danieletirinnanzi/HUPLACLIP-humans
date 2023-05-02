@@ -33,8 +33,6 @@ currentExperiment.standardOrderOfNodes = standardOrderOfNodes
 // - ARRAY OF CLIQUE SIZES
 currentExperiment.arrayOfCliqueSizes = createArrayOfCliqueSizes(currentExperiment.initialCliqueSize, currentExperiment.numberOfPresentationsPerBlock)
 
-// - GRAPHS TO DISPLAY
-currentExperiment.graphsToDisplay = generateGraphs()
 
 // - COORDINATES OF LEFT AND RIGHT TRIANGLES
 // calculating drawing parameters:
