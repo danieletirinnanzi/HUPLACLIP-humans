@@ -41,7 +41,8 @@
         }
 
 
-        // randomly extracting the graphs that will be shown in each block (INSERT IN INDEPENDENT FUNCTION inside "graphs_function.js"???):
+        // INSERT IN INDEPENDENT FUNCTION inside "graphs_function.js" (+ DELETE "graphs_generation.js")
+        // randomly extracting the graphs that will be shown in each block 
         let maxValue = graphsWithCliquePool[0].length   //this number will be excluded from the extraction
         // empty array that will contain the couples of triangular matrices (objects) to be displayed
         let graphsToDisplay = [];
@@ -112,7 +113,6 @@
 
 
         /* INTRODUCTIVE PAGES */
-        /*
         // showing informative pages about the study (informed consent, aim, privacy)
         let introduction = {
             type: jsPsychInstructions,
@@ -124,7 +124,6 @@
 
 
         /* INSTRUCTIONS */
-        /*
         // PRELOADING instructions images:
         // calling function to create filepaths for all instructions images
         let instructions_ImagesArray = createArrayOfFilePaths(instructionsObject, 0)
@@ -146,7 +145,6 @@
 
 
         /* AGREEMENT TO MOVE TO TASK FAMILIARIZATION */
-        /*
         let move_to_familiarization_form = {
             type: jsPsychInstructions,
             pages: [`<p> Now it's your turn! <br>
@@ -160,7 +158,6 @@
 
 
         /* TASK FAMILIARIZATION */
-        /*
         // PART 1: WITHOUT BACKGROUND INFORMATION
         // PRELOADING images:
         // calling function to create filepaths for all images
@@ -263,7 +260,6 @@
 
 
         /* AGREEMENT TO START EXPERIMENT */
-        /*
         // informing that the experiment will start and subject agrees
         // POSSIBLE IMPROVEMENT: use external-HTML plugin (with "agreement_page.html"), so that it is possible to use checkbox and check agreement with a function (alert if clicking something else)
         let consent_form = {
@@ -328,8 +324,6 @@
                     jsPsych.data.correctResponse = "arrowright"
                 else
                     jsPsych.data.correctResponse = "arrowleft"
-                // - couple of graphs (added to data only when subject gives final answer)
-                jsPsych.data.graphsCouple = currentExperiment.graphsToDisplay[blockIndex][presentationIndex]
             }
 
             return drawCanvas
@@ -357,7 +351,8 @@
                         presentation_index: presentationIndex,
                         // graphs parameters:
                         clique_size: currentExperiment.arrayOfCliqueSizes[presentationIndex],
-                        graph_size: currentExperiment.graphSize
+                        graph_size: currentExperiment.graphSize,
+                        graphs_names: [currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0][currentExperiment.graphSize].graph_name, currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1][currentExperiment.graphSize].graph_name]
                     },
                     on_start: function (currentTrial) {
                         // accessing the data stored up to now (it will increase progressively):
