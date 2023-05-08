@@ -134,7 +134,7 @@
 
 
         /* FUNCTION TO DRAW STIMULI (left: standard; right: shuffled) ON CANVAS */
-        function generateDrawStimuli(graphsToDraw, shuffledOrderOfNodes, presentationIndex) {
+        function generateDrawStimuli(graphsToDraw, shuffledOrderOfNodes, presentationIndex, feedbackStringScoreArray) {
 
             function drawStimuli(c) {
                 /* INPUT: 
@@ -211,7 +211,7 @@
                                 // black if first visualization
                                 ctx.fillStyle = "#000000";
                                 ctx.fill();
-                            } else if (presentationIndex == 1) {
+                            } else if (presentationIndex >= 1) {
                                 // red if second visualization
                                 ctx.fillStyle = "#ff0000";
                                 ctx.fill();
@@ -280,7 +280,7 @@
                                 // black if first visualization
                                 ctx.fillStyle = "#000000";
                                 ctx.fill();
-                            } else if (presentationIndex == 1) {
+                            } else if (presentationIndex >= 1) {
                                 // red if second visualization
                                 ctx.fillStyle = "#ff0000";
                                 ctx.fill();
@@ -298,25 +298,38 @@
                     }
                 }
 
-                // SCORE:
+                // TRIAL NUMBER (right side of screen):
                 //creating string to be displayed as feedback:
-                let feedbackStringScore = "SCORE: " + 0 + "/" + 1
-                //rect (differentiating color (green / red) based on correctness / incorrectness of last response)
-                // if no response has been given, choosing a "neutral" color
-                //ctx.fillStyle = "orange";
-                // if response was correct, green:
-                //ctx.fillStyle = "lawngreen";
-                // if response was wrong, red:
-                ctx.fillStyle = "red";
-                ctx.fillRect((c.width - (c.width / 4.5)), (c.height) / 16, (c.width / 7), (c.height / 14));
+                let feedbackStringTrials = "TRIAL: " + 1 + " / " + 30
                 // text on the canvas:
                 ctx.fillStyle = "black"
+                ctx.font = "bold 2rem system-ui";
+                ctx.fillText(feedbackStringTrials, ((c.width) - ((c.width) / 5)), (c.height) / 8.5);
+
+                // SCORE (right side of screen):
+                //creating string to be displayed as feedback based on the value of "trialType":
+                let feedbackStringScore = feedbackStringScoreArray[presentationIndex]
+                //creating rectangle to be filled with different color based on the value of "trialType":
+                if (presentationIndex == 1) {
+                    // for correct trials rectangle is green
+                    ctx.fillStyle = "lawngreen";
+                } else if (presentationIndex == 2) {
+                    // for incorrect trials rectangle is red
+                    ctx.fillStyle = "red";
+                } else {
+                    // in all other cases, rectangle is orange
+                    ctx.fillStyle = "orange";
+                }
+                ctx.fillRect((c.width - (c.width / 4.8)), (c.height) / 6.7, (c.width / 9), (c.height / 14));
+                // drawing text on the canvas:
+                ctx.fillStyle = "black"
                 ctx.font = "bold 1.7em system-ui";
-                ctx.fillText(feedbackStringScore, (c.width - (c.width / 5)), (c.height) / 8.5);
+                ctx.fillText(feedbackStringScore, (c.width - (c.width / 5)), (c.height) / 5);
+
 
                 // MOVES:
                 //creating string to be displayed as feedback:
-                let movesLeft = "2" // TO CHANGE
+                let movesLeft = "0" // TO CHANGE
                 let feedbackStringMoves = "SHUFFLES LEFT: " + movesLeft
                 // text on canvas (increasing red hue when the remaining randomizations decrease. No randomization requested -> black; no randomizations left -> red ):
                 if (movesLeft == "2") {
@@ -352,8 +365,9 @@
 
 
         /* ACTUAL JSPSYCH SCRIPT: */
+        let feedbackStringScoreArray = ["SCORE: " + 0, "SCORE: " + 1, "SCORE: " + 0]
         // creating the trials for the experiment
-        for (let presentationIndex = 0; presentationIndex < 2; presentationIndex++) {
+        for (let presentationIndex = 0; presentationIndex < 3; presentationIndex++) {
             // defining the current trial
             let currentTrial = {
                 type: jsPsychCanvasButtonResponse,
@@ -365,7 +379,7 @@
 
             // adding the stimulus to the timeline of the trial
             // NB: shuffling of nodes is done inside draw function
-            currentTrial.timeline.push({ stimulus: generateDrawStimuli(graphsToDraw, shuffledOrderOfNodes, presentationIndex) })
+            currentTrial.timeline.push({ stimulus: generateDrawStimuli(graphsToDraw, shuffledOrderOfNodes, presentationIndex, feedbackStringScoreArray) })
 
             // adding the trial to the timeline
             timeline.push(currentTrial)

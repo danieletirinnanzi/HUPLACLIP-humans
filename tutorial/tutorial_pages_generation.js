@@ -9,12 +9,12 @@ const instructionsObject = {
     3: ["Now let's consider a 20 by 20 checkerboard.", "03_standard_square_chessboard_N20_1"],
     4: ["In this checkerboard, if we switch these rows and columns...", "04_highlighted_square_chessboard_N20_1_firstSwap"],
     5: ["...we obtain a different checkerboard (remember that you can flick through the images using the arrows).", "05_swapped_square_chessboard_N20_1"],
-    6: ["By switching the two rows and the two columns, we transformed the initial checkerboard.", "06_20nodes_square_sidebyside_firstSwap"],
+    6: ["Switching the two rows and the two columns transforms the initial checkerboard.", "06_20nodes_square_sidebyside_firstSwap"],
     // second switch:
     7: ["Let's consider again our standard 20x20 checkerboard.", "07_standard_square_chessboard_N20_1"],
     8: ["Now let's switch two different rows and columns...", "08_highlighted_square_chessboard_N20_1_secondSwap"],
     9: ["...we obtain another different checkerboard (remember that you can flick through the images using the arrows).", "09_swapped_square_chessboard_N20_1_secondSwap"],
-    10: ["By switching the two rows and the two columns, we transformed the initial checkerboard.", "10_20nodes_square_sidebyside_secondSwap"],
+    10: ["Switching the two rows and the two columns transforms the initial checkerboard.", "10_20nodes_square_sidebyside_secondSwap"],
 
     // square - triangle transition
     11: ["Until now, we have seen square checkerboards.", "11_standard_square_chessboard_N20_1_without_frame"],
@@ -32,24 +32,24 @@ const instructionsObject = {
     20: ["We can also switch rows and columns in triangles.", "20_triangular_chessboard_N20_1_firstSwap"],
     21: ["For example, if we switch these rows and columns...", "21_highlighted_triangular_chessboard_N20_1_firstSwap"],
     22: ["..we obtain a different triangle (remember that you can flick through the images using the arrows).", "22_swapped_triangular_chessboard_N20_1_firstSwap"],
-    23: ["By switching the two rows and columns, we transformed the initial triangle.", "23_20nodes_triangular_firstSwap"],
+    23: ["Switching the two rows and columns transforms the initial triangle.", "23_20nodes_triangular_firstSwap"],
     // second switch:    
     24: ["Let's consider again the initial triangle.", "24_triangular_chessboard_N20_1_secondSwap"],
     25: ["If we switch two different rows and columns...", "25_highlighted_triangular_chessboard_N20_1_secondSwap"],
     26: ["...we obtain another different triangle (remember that you can flick through the images using the arrows).", "26_swapped_triangular_chessboard_N20_1_secondSwap"],
-    27: ["By switching the two rows and columns, we transformed the initial triangle.", "27_20nodes_triangular_secondSwap"],
+    27: ["Switching the two rows and columns transforms the initial triangle.", "27_20nodes_triangular_secondSwap"],
 
     // horizontal - vertical transition 
     // first switch 
     28: ["The same triangle can also be represented vertically.", "28_vertical_standard_triangular_chessboard_N20_1_firstSwap"],
-    29: ["We can transform a vertical triangle similarly: by switching rows and columns...", "29_vertical_highlighted_triangular_chessboard_N20_1_firstSwap"],
+    29: ["We can transform a vertical triangle similarly: if we switch these two rows and columns...", "29_vertical_highlighted_triangular_chessboard_N20_1_firstSwap"],
     30: ["...we obtain a different triangle (remember that you can flick through the images using the arrows).", "30_vertical_swapped_triangular_chessboard_N20_1_firstSwap"],
-    31: ["Switching two rows and columns transformed the initial triangle.", "31_20nodes_vertical_firstSwap"],
+    31: ["Switching two rows and columns transforms the initial triangle.", "31_20nodes_vertical_firstSwap"],
     // second switch:     
-    32: ["Let's consider again the initial vertical triangle.", "32_vertical_standard_triangular_chessboard_N20_1_secondSwap"],
-    33: ["If we switch two different rows and columns...", "33_vertical_highlighted_triangular_chessboard_N20_1_secondSwap"],
-    34: ["...we obtain another different triangle (remember that you can flick through the images using the arrows).", "34_vertical_swapped_triangular_chessboard_N20_1_secondSwap"],
-    35: ["Also in this case, switching two rows and columns transformed the initial triangle.", "35_20nodes_vertical_secondSwap"],
+    32: ["Let's consider now a flipped version of the initial vertical triangle.", "32_vertical_standard_triangular_chessboard_N20_1_secondSwap"],
+    33: ["Again, if we switch two rows and columns...", "33_vertical_highlighted_triangular_chessboard_N20_1_secondSwap"],
+    34: ["...we obtain a different triangle (remember that you can flick through the images using the arrows).", "34_vertical_swapped_triangular_chessboard_N20_1_secondSwap"],
+    35: ["Also in this case, switching two rows and columns transforms the initial triangle.", "35_20nodes_vertical_secondSwap"],
 
     // spreading clique (color coded)    
     // N20_K14 (regular checkerboard - progression)
@@ -62,32 +62,32 @@ const instructionsObject = {
     // N20_K14 (irregular chessboard)
     42: ["It is also possible to shuffle triangles where the black and white tiles are not regular.", "42_N20_K14_irregular_standard"],
     43: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "43_N20_K14_irregular_shuffled"],
-    44: ["A <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating switches of rows and columns.", "44_N20_K14_sidebyside"],
+    44: ["Also in this case, a <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating switches of rows and columns.", "44_N20_K14_sidebyside"],
     // N80_K30
-    45: ["Let's see an example of a <b>shuffle</b> in a bigger triangle.", "45_N80_K30_grouped"],
+    45: ["Let's see an example of a <b>shuffle</b> in a triangle that has more tiles.", "45_N80_K30_grouped"],
     46: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "46_N80_K30_shuffled"],
     47: ["Again, a <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), as shown before.", "47_N80_K30_sidebyside"],
     // N160_K70
-    48: ["Let's see an example of a <b>shuffle</b> in an even bigger triangle.", "48_N160_K70_grouped"],
+    48: ["Let's see an example of a <b>shuffle</b> in a triangle having even more tiles.", "48_N160_K70_grouped"],
     49: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "49_N160_K70_shuffled"],
     50: ["Again, a <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), as shown before.", "50_N160_K70_sidebyside"],
     // N300_K120
-    51: ["Let's see one last example of a <b>shuffle</b> in an even bigger triangle. This is the size of the largest triangle you will see in the experiment.", "51_N300_K120_grouped"],
+    51: ["Let's see one last example of a <b>shuffle</b> in a triangle having even more tiles. Triangles in the experiment will look like this.", "51_N300_K120_grouped"],
     52: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "52_N300_K120_shuffled"],
     53: ["Again, a <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), as shown before.", "53_N300_K120_sidebyside"],
     // single - paired stimuli transition (N=300):
     // N300_K160
-    54: ["During the experiment, you will see two triangles next to each other: one on the <b>left</b>...", "54_N300_K160_grouped_red_1"],
-    55: ["...and one on the <b>right</b>. One of the triangles contains some red tiles: in this case, the <b>left</b> one does.", "55_N300_K160_grouped_red"],
+    54: ["During the experiment, you will see two triangles next to each other:<br>one on the <b>left</b>...", "54_N300_K160_grouped_red_1"],
+    55: ["...and one on the <b>right</b>.<br>One of the triangles contains some red tiles: in this case, the <b>left</b> one does.", "55_N300_K160_grouped_red"],
     56: ["Let's <b>shuffle</b> both triangles: <br>as we have seen before, the red tiles spread inside the left one.", "56_N300_K160_shuffled_red"],
     57: ["Now let's change the color of the <b>red tiles to black</b>: this is what you will see during the experiment.<br>Your task is to indicate which of the two triangles contained a group of red tiles before the shuffle and the color change.", "57_N300_K160_shuffled_black"],
     58: ["In this case, the correct answer is <b>left</b>. <br>Move on to see another example.", "58_N300_K160_correct_response"],
     // N300_K110    
-    59: ["During the experiment, you will see two triangles: one on the <b>left</b>...", "59_N300_K110_grouped_red_1"],
-    60: ["...and one on the <b>right</b>. In this case, the <b>right</b> triangle contains the red tiles, while the left one does not.", "60_N300_K110_grouped_red"],
+    59: ["During the experiment, you will see two triangles:<br>one on the <b>left</b>...", "59_N300_K110_grouped_red_1"],
+    60: ["...and one on the <b>right</b>.<br>In this case, the <b>right</b> triangle contains the red tiles, while the left one does not.", "60_N300_K110_grouped_red"],
     61: ["As we did before, let's <b>shuffle</b> the two triangles: <br> the red tiles spread inside the right one.", "61_N300_K110_shuffled_red"],
     62: ["If we now turn the <b>red tiles to black</b>, we see the stimuli as they will appear during the experiment.<br>Which of the two triangles contained the group of red tiles before the shuffle and the color change?", "62_N300_K110_shuffled_black"],
-    63: ["In this case, the right one did, so the correct answer is <b>right</b>. <br> Move on to end the instruction phase.", "63_N300_K110_correct_response"],
+    63: ["In this case, the right one did, so the correct answer is <b>right</b>. <br> Move on to end the instructions phase: if you do so, <b>it will not be possible to go back to the instructions</b>.", "63_N300_K110_correct_response"],
 }
 
 
@@ -141,34 +141,34 @@ let taskFamiliarizationObject_part1 = {
 
     // without background information
     // N300_K170
-    1: ["Try to identify which triangle had the group of red tiles. <br> Press <b>space</b> to <b>shuffle</b> the triangles: this will help you in identifying which is the correct triangle. ", "1_N300_K170_cliqueRight_question1"],
-    2: ["To <b>shuffle</b> the triangles again,<br> Press <b>space</b>.", "2_N300_K170_cliqueRight_question2"],
-    3: ["To indicate which of the two triangles had the group of red tiles,<br> Press the <b>right</b> or <b>left</b> arrow.", "3_N300_K170_cliqueRight_question3"],
-    4: ["ArrowRight", "<b>Correct!</b> <br>Press <b>space</b> to move to the next example.", "<b>Wrong!</b> The triangle was the <b>right</b> one.<br>Press <b>space</b> to move to the next example.", "4_N300_K170_cliqueRight_solution"], // correct answer: ArrowRight
+    1: ["Try to identify which triangle had the group of red tiles. <br> Press <b>space</b> to <b>shuffle</b> the triangles: this will help you in identifying which is the correct triangle. ", "01_N300_K170_cliqueRight_question1"],
+    2: ["To <b>shuffle</b> the triangles again,<br> Press <b>space</b>.", "02_N300_K170_cliqueRight_question2"],
+    3: ["To indicate which of the two triangles had the group of red tiles,<br> Press the <b>left</b> or <b>right</b> arrow.", "03_N300_K170_cliqueRight_question3"],
+    4: ["ArrowRight", "<b>Correct!</b> <br>Press <b>space</b> to move to the next example.", "<b>Wrong!</b> The triangle was the <b>right</b> one.<br>Press <b>space</b> to move to the next example.", "04_N300_K170_cliqueRight_solution"], // correct answer: ArrowRight
     // N300_K120
-    5: ["Try to identify which triangle had the group of tiles in this other example.<br> Press <b>space</b> to shuffle the triangles.", "5_N300_K120_cliqueRight_question1"],
-    6: ["To <b>shuffle</b> the triangles again,<br> Press <b>space</b>.", "6_N300_K120_cliqueRight_question2"],
-    7: ["To indicate which of the two triangles had the group of red tiles,<br> Press the <b>right</b> or <b>left</b> arrow.", "7_N300_K120_cliqueRight_question3"],
-    8: ["ArrowRight", "<b>Correct!</b> <br>Press <b>space</b> to move to the next example.", "<b>Wrong!</b> The triangle was the <b>right</b> one.<br>Press <b>space</b> to move to the next example.", "8_N300_K120_cliqueRight_solution"], // correct answer: ArrowRight
+    5: ["Try to identify which triangle had the group of tiles in this other example.<br> Press <b>space</b> to shuffle the triangles.", "05_N300_K120_cliqueRight_question1"],
+    6: ["To <b>shuffle</b> the triangles again,<br> Press <b>space</b>.", "06_N300_K120_cliqueRight_question2"],
+    7: ["To indicate which of the two triangles had the group of red tiles,<br> Press the <b>left</b> or <b>right</b> arrow.", "07_N300_K120_cliqueRight_question3"],
+    8: ["ArrowRight", "<b>Correct!</b> <br>Press <b>space</b> to move to the next example.", "<b>Wrong!</b> The triangle was the <b>right</b> one.<br>Press <b>space</b> to move to the next example.", "08_N300_K120_cliqueRight_solution"], // correct answer: ArrowRight
     // N300_K90
-    9: ["Try to identify which triangle had the group of tiles in this other example.<br> Press <b>space</b> to shuffle the triangles.", "9_N300_K90_cliqueLeft_question1"],
+    9: ["Try to identify which triangle had the group of tiles in this other example.<br> Press <b>space</b> to shuffle the triangles.", "09_N300_K90_cliqueLeft_question1"],
     10: ["To <b>shuffle</b> the triangles again,<br> Press <b>space</b>.", "10_N300_K90_cliqueLeft_question2"],
-    11: ["To indicate which of the two triangles had the group of red tiles,<br> Press the <b>right</b> or <b>left</b> arrow.", "11_N300_K90_cliqueLeft_question3"],
+    11: ["To indicate which of the two triangles had the group of red tiles,<br> Press the <b>left</b> or <b>right</b> arrow.", "11_N300_K90_cliqueLeft_question3"],
     12: ["ArrowLeft", "<b>Correct!</b> <br>Press <b>space</b> to move to the next example.", "<b>Wrong!</b> The triangle was the <b>left</b> one.<br>Press <b>space</b> to move to the next example.", "12_N300_K90_cliqueLeft_solution"], // correct answer: ArrowLeft
     // N300_K140
     13: ["Try to identify which triangle had the group of tiles in this other example.<br> Press <b>space</b> to shuffle the triangles.", "13_N300_K140_cliqueLeft_question1"],
     14: ["To <b>shuffle</b> the triangles again,<br> Press <b>space</b>.", "14_N300_K140_cliqueLeft_question2"],
-    15: ["To indicate which of the two triangles had the group of red tiles,<br> Press the <b>right</b> or <b>left</b> arrow.", "15_N300_K140_cliqueLeft_question3"],
+    15: ["To indicate which of the two triangles had the group of red tiles,<br> Press the <b>left</b> or <b>right</b> arrow.", "15_N300_K140_cliqueLeft_question3"],
     16: ["ArrowLeft", "<b>Correct!</b> <br>Press <b>space</b> to move to the next example.", "<b>Wrong!</b> The triangle was the <b>left</b> one.<br>Press <b>space</b> to move to the next example.", "16_N300_K140_cliqueLeft_solution"], // correct answer: ArrowLeft
     // N300_K70
-    17: ["Try to identify which triangle had the group of tiles in this difficult example.<br> Press <b>space</b> to shuffle the triangles.", "17_N300_K70_cliqueRight_question1"],
+    17: ["This is a <b>more difficult</b> example: try to identify which triangle had the group of tiles.<br> Press <b>space</b> to shuffle the triangles.", "17_N300_K70_cliqueRight_question1"],
     18: ["To <b>shuffle</b> the triangles again,<br> Press <b>space</b>.", "18_N300_K70_cliqueRight_question2"],
-    19: ["To indicate which of the two triangles had the group of red tiles,<br> Press the <b>right</b> or <b>left</b> arrow.", "19_N300_K70_cliqueRight_question3"],
+    19: ["To indicate which of the two triangles had the group of red tiles,<br> Press the <b>left</b> or <b>right</b> arrow.", "19_N300_K70_cliqueRight_question3"],
     20: ["ArrowRight", "<b>Correct!</b> <br>Press <b>space</b> to see the last example.", "<b>Wrong!</b> The triangle was the <b>right</b> one.<br>Press <b>space</b> to see the last example.", "20_N300_K70_cliqueRight_solution"], // correct answer: ArrowRight
     // N300_K100
     21: ["Let's see an easier example.<br> Press <b>space</b> to shuffle the triangles.", "21_N300_K100_cliqueLeft_question1"],
     22: ["To <b>shuffle</b> the triangles again,<br> Press <b>space</b>.", "22_N300_K100_cliqueLeft_question2"],
-    23: ["To indicate which of the two triangles had the group of red tiles,<br> Press the <b>right</b> or <b>left</b> arrow.", "23_N300_K100_cliqueLeft_question3"],
+    23: ["To indicate which of the two triangles had the group of red tiles,<br> Press the <b>left</b> or <b>right</b> arrow.", "23_N300_K100_cliqueLeft_question3"],
     24: ["ArrowLeft", "<b>Correct!</b> <br>Press <b>space</b> to move to the next phase.", "<b>Wrong!</b> The triangle was the <b>left</b> one.<br>Press <b>space</b> to move to the next phase.", "24_N300_K100_cliqueLeft_solution"], // correct answer: ArrowLeft    
 }
 
@@ -187,8 +187,8 @@ let taskFamiliarizationObject_part2 = {
     // with background information
     // N300_K120
     1: ["During the real experiment, you will see the remaining <b>shuffles</b> on the top-left and your <b>score</b> on the top-right.<br> By pressing <b>space</b>, you use one shuffle.", "1_300_120_cliqueLeft_withFeedback_1"],
-    2: ["<b>Shuffles</b> will help you in the task, but they will be limited. If you run out of them, you will be forced to give an answer.<br> Press <b>space</b> again to use the last shuffle", "2_300_120_cliqueLeft_withFeedback_2"],
-    3: ["To indicate which of the triangles had the group of tiles,<br> Press the <b>right</b> or <b>left</b> arrow.", "3_300_120_cliqueLeft_withFeedback_3"],
+    2: ["<b>Shuffles</b> will help you in the task, but you will only have 10 for each couple of graphs. If you run out of them, you will be forced to give an answer.<br> Press <b>space</b> again to use the last shuffle", "2_300_120_cliqueLeft_withFeedback_2"],
+    3: ["To indicate which of the triangles had the group of tiles,<br> Press the <b>left</b> or <b>right</b> arrow.", "3_300_120_cliqueLeft_withFeedback_3"],
     4: ["As you can see, the <b>left</b> triangle contained the red tiles.<br> Press <b>space</b> to see the feedback for your response.", "4_300_120_cliqueLeft_withFeedback_solution"],
     5: ["ArrowLeft", // correct answer: ArrowLeft
         //PROMPT:
@@ -204,8 +204,8 @@ let taskFamiliarizationObject_part2 = {
     ],
     // N300_K95
     6: ["Let's re-set the remaining <b>shuffles</b> and the <b>score</b> to their initial values.<br> As we said, by pressing <b>space</b>, you use one shuffle.", "6_300_95_cliqueRight_withFeedback_1"],
-    7: ["Now you only have two <b>shuffles</b>, but in the real experiment you will have more.<br> Press <b>space</b> again to use the last shuffle.", "7_300_95_cliqueRight_withFeedback_2"],
-    8: ["When you have taken a decision, indicate which triangle contained the red tiles.<br> Press the <b>right</b> or <b>left</b> arrow to do so.", "8_300_95_cliqueRight_withFeedback_3"],
+    7: ["Now you only have two <b>shuffles</b>, but in the real experiment you will have 10 shuffles for each couple of graphs.<br> Press <b>space</b> again to use the last shuffle.", "7_300_95_cliqueRight_withFeedback_2"],
+    8: ["When you have taken a decision, indicate which triangle contained the red tiles.<br> Press the <b>left</b> or <b>right</b> arrow to do so.", "8_300_95_cliqueRight_withFeedback_3"],
     9: ["As you can see, the <b>right</b> triangle contained the red tiles.<br> Press <b>space</b> to see the feedback for your response.", "9_300_95_cliqueRight_withFeedback_solution"],
     10: ["ArrowRight", // correct answer: ArrowRight
         //PROMPT:
@@ -222,7 +222,7 @@ let taskFamiliarizationObject_part2 = {
     // N300_K100
     11: ["This is the last example before the real experiment starts. Same as before: <b>shuffles</b> on the top left, score on the top right.<br> Press <b>space</b> to use one shuffle.", "11_300_100_cliqueLeft_withFeedback_1"],
     12: ["As you <b>shuffle</b> the triangles, try to identify which one had the group of red tiles.<br> Press <b>space</b> again to use the last shuffle", "12_300_100_cliqueLeft_withFeedback_2"],
-    13: ["When you are ready to indicate which of the triangles had the group of tiles,<br> Press the <b>right</b> or the <b>left</b> arrow.", "13_300_100_cliqueLeft_withFeedback_3"],
+    13: ["When you are ready to indicate which of the triangles had the group of tiles,<br> Press the <b>left</b> or <b>right</b> arrow.", "13_300_100_cliqueLeft_withFeedback_3"],
     14: ["In this case, the <b>left</b> triangle contained the red tiles.<br> Press <b>space</b> to see the feedback for your response.", "14_300_100_cliqueLeft_solution"],
     15: ["ArrowLeft", // correct answer: ArrowLeft
         //PROMPT:

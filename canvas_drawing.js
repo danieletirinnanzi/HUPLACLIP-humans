@@ -16,9 +16,6 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
     // defining graph to draw:
     let graphToDraw = side === "left" ? currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0] : currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1];
 
-    // DEBUG:
-    console.log(graphToDraw[300])
-
     // for loops that draws the squares and colors them
     let squareIndex = 0   //to correctly identify which square is being drawn and filling it correctly
     for (let firstIndex = 0; firstIndex < (currentExperiment.graphSize - 1); firstIndex++) {
@@ -113,13 +110,13 @@ function drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray) {
             // increasing the number of shuffles already performed
             shufflesPerformed += 1
 
-        // SCORE: isolating the trials for current block where arrow press was done (they have the "accuracy" property and are used to calculate the score)
+        // SCORE: isolating the trials for current block where arrow press was done (they have the "accuracy" property and are used to determine the number of completed trials and the score)
         if (element.block_index == blockIndex && element.hasOwnProperty('accuracy'))
             arrayOfResponses.push(element.accuracy)
 
     });
 
-    // SHUFFLES LEFT:
+    // SHUFFLES LEFT (left side of screen):
     // computing the number of shuffles left:
     let remainingShuffles = currentExperiment.maximumNumberOfShuffles - shufflesPerformed
     //creating string to be displayed as feedback:
@@ -129,10 +126,19 @@ function drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray) {
     ctx.font = "bold 2rem system-ui";
     ctx.fillText(feedbackStringShuffle, 0, (currentExperiment.canvasDimensions[0]) / 7.5);
 
-    // SCORE:
+    // TRIAL NUMBER (right side of screen):
+    let numberOfFinalResponses = arrayOfResponses.length + 1
+    //creating string to be displayed as feedback:
+    let feedbackStringTrials = "TRIAL: " + numberOfFinalResponses + " / " + currentExperiment.numberOfPresentationsPerBlock
+    // text on the canvas:
+    ctx.fillStyle = "black"
+    ctx.font = "bold 2rem system-ui";
+    ctx.fillText(feedbackStringTrials, (currentExperiment.canvasDimensions[1] - (currentExperiment.canvasDimensions[1] / 5)), (currentExperiment.canvasDimensions[0]) / 8.5);
+
+    // SCORE (right side of screen):
     let numberOfCorrectResponses = arrayOfResponses.reduce((a, b) => a + b, 0)
     //creating string to be displayed as feedback:
-    let feedbackStringScore = "SCORE: " + numberOfCorrectResponses + "/" + presentationIndex
+    let feedbackStringScore = "SCORE: " + numberOfCorrectResponses
     //rect (differentiating color (green / red) based on correctness / incorrectness of last response)
     if (arrayOfResponses.length == 0)
         // if no response has been given, choosing a "neutral" color
@@ -142,11 +148,11 @@ function drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray) {
             ctx.fillStyle = "lawngreen";
         else
             ctx.fillStyle = "red";
-    ctx.fillRect((currentExperiment.canvasDimensions[1] - (currentExperiment.canvasDimensions[1] / 4.5)), (currentExperiment.canvasDimensions[0]) / 16, (currentExperiment.canvasDimensions[1] / 7), (currentExperiment.canvasDimensions[0]) / 14);
+    ctx.fillRect((currentExperiment.canvasDimensions[1] - (currentExperiment.canvasDimensions[1] / 4.8)), (currentExperiment.canvasDimensions[0]) / 6.7, (currentExperiment.canvasDimensions[1] / 9), (currentExperiment.canvasDimensions[0]) / 14);
     // text on the canvas:
     ctx.fillStyle = "black"
     ctx.font = "bold 2rem system-ui";
-    ctx.fillText(feedbackStringScore, (currentExperiment.canvasDimensions[1] - (currentExperiment.canvasDimensions[1] / 5)), (currentExperiment.canvasDimensions[0]) / 8.5);
+    ctx.fillText(feedbackStringScore, (currentExperiment.canvasDimensions[1] - (currentExperiment.canvasDimensions[1] / 5)), (currentExperiment.canvasDimensions[0]) / 5);
 }
 
 
