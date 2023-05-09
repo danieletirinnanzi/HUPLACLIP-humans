@@ -113,7 +113,6 @@
 
 
         /* INTRODUCTIVE PAGES */
-        /*
         // showing informative pages about the study (informed consent, aim, privacy)
         let introduction = {
             type: jsPsychInstructions,
@@ -125,7 +124,6 @@
 
 
         /* INSTRUCTIONS */
-        /*
         // PRELOADING instructions images:
         // calling function to create filepaths for all instructions images
         let instructions_ImagesArray = createArrayOfFilePaths(instructionsObject, 0)
@@ -147,7 +145,6 @@
 
 
         /* AGREEMENT TO MOVE TO TASK FAMILIARIZATION */
-        /*
         let move_to_familiarization_form = {
             type: jsPsychInstructions,
             pages: [`<p> Now it's your turn! <br>
@@ -161,7 +158,6 @@
 
 
         /* TASK FAMILIARIZATION */
-        /*
         // PART 1: WITHOUT BACKGROUND INFORMATION
         // PRELOADING images:
         // calling function to create filepaths for all images
@@ -223,10 +219,10 @@
         timeline.push(preloadTaskFamiliarization2)
 
         // creating the trials for the second part of the task familiarization        
-        for (let index = 0; index < Object.keys(taskFamiliarizationObject_part2).length; index += 5) {
-            // NB: index increases by 5 at every iteration
+        for (let index = 0; index < Object.keys(taskFamiliarizationObject_part2).length; index += 4) {
+            // NB: index increases by 4 at every iteration
 
-            // calling function that generates an array containing a single block of 4 trials (visualization 1, visualization 2, choice, solution)
+            // calling function that generates an array containing a single block of 3 trials (visualization 1, visualization 2, choice)
             let currentBlockOfTrialsArray_part2 = generateBlockOfFamiliarizationTrials(2, index, taskFamiliarizationObject_part2)
 
             // creating the feedback trial and adding it to the array
@@ -241,14 +237,15 @@
                 on_start: (function (index) {
                     return function (currentFeedbackTrial) {
                         // accessing second to last trial:
-                        let second_to_last_trial = jsPsych.data.get().last(2).values()[0];
+                        let second_to_last_trial = jsPsych.data.get().last(1).values()[0];
+                        console.log(second_to_last_trial)
                         // changing prompt according to correctness of last choice:
-                        if (second_to_last_trial.response == taskFamiliarizationObject_part2[index + 5][0].toLowerCase()) {
-                            currentFeedbackTrial.stimulus = `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index + 5][3]}.PNG`;
-                            currentFeedbackTrial.prompt = `<br><br><br> ${taskFamiliarizationObject_part2[index + 5][1]}`;
+                        if (second_to_last_trial.response == taskFamiliarizationObject_part2[index + 4][0].toLowerCase()) {
+                            currentFeedbackTrial.stimulus = `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index + 4][3]}.PNG`;
+                            currentFeedbackTrial.prompt = `<br><br><br> ${taskFamiliarizationObject_part2[index + 4][1]}`;
                         } else {
-                            currentFeedbackTrial.stimulus = `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index + 5][4]}.PNG`;
-                            currentFeedbackTrial.prompt = `<br><br><br> ${taskFamiliarizationObject_part2[index + 5][2]}`;
+                            currentFeedbackTrial.stimulus = `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index + 4][4]}.PNG`;
+                            currentFeedbackTrial.prompt = `<br><br><br> ${taskFamiliarizationObject_part2[index + 4][2]}`;
                         }
                     };
                 })(index)
@@ -264,7 +261,6 @@
 
 
         /* AGREEMENT TO START EXPERIMENT */
-        /*
         // informing that the experiment will start and subject agrees
         // POSSIBLE IMPROVEMENT: use external-HTML plugin (with "agreement_page.html"), so that it is possible to use checkbox and check agreement with a function (alert if clicking something else)
         let consent_form = {

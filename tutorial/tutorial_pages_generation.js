@@ -179,71 +179,66 @@ let taskFamiliarizationObject_part2 = {
     In every group of four images:
     1: visualization trial n. 1 (image: 2 moves left; orange score)
     2: visualization trial n. 2 (image: 1 moves left; orange score)
-    3: choice trial (image: no move left; orange score)
-    4: solution trial (image: 0 move left; orange score; red clique)
-    5: feedback trial (image: 2 moves left; red/green score)
+    3: choice trial (image: no moves left; orange score)
+    4: feedback trial (image: 0 moves left; red/green score)
     */
 
     // with background information
     // N300_K120
-    1: ["During the real experiment, you will see the remaining <b>shuffles</b> on the top-left and your <b>score</b> on the top-right.<br> By pressing <b>space</b>, you use one shuffle.", "1_300_120_cliqueLeft_withFeedback_1"],
-    2: ["<b>Shuffles</b> will help you in the task, but you will only have 10 for each couple of graphs. If you run out of them, you will be forced to give an answer.<br> Press <b>space</b> again to use the last shuffle", "2_300_120_cliqueLeft_withFeedback_2"],
-    3: ["To indicate which of the triangles had the group of tiles,<br> Press the <b>left</b> or <b>right</b> arrow.", "3_300_120_cliqueLeft_withFeedback_3"],
-    4: ["As you can see, the <b>left</b> triangle contained the red tiles.<br> Press <b>space</b> to see the feedback for your response.", "4_300_120_cliqueLeft_withFeedback_solution"],
-    5: ["ArrowLeft", // correct answer: ArrowLeft
+    1: ["During the real experiment, you will see: the remaining <b>shuffles</b> on the top-left; the <b>trial counter</b> and your <b>score</b> on the top-right.<br> By pressing <b>space</b>, you use one shuffle.", "01_300_120_cliqueLeft_withFeedback_1"],
+    2: ["<b>Shuffles</b> will help you in the task, but will be limited. When you run out of them, you will be forced to give an answer.<br> Press <b>space</b> again to use the last shuffle of the trial.", "02_300_120_cliqueLeft_withFeedback_2"],
+    3: ["To indicate which of the triangles had the group of tiles,<br> Press the <b>left</b> or <b>right</b> arrow.", "03_300_120_cliqueLeft_withFeedback_3"],
+    4: ["ArrowLeft", // correct answer: ArrowLeft
         //PROMPT:
         //correct answer
-        "Since your answer was <b>correct</b>, the score has increased and has turned green.<br> Press <b>space</b> to try another example.",
+        "As you can see, the <b>left</b> triangle contained the red tiles. When your answer is <b>correct</b>, the score increases and turns green.<br> Press <b>space</b> to start a new example.",
         //wrong answer
-        "Since your answer was <b>wrong</b>, the score has not increased and has turned red.<br> Press <b>space</b> to try another example.",
+        "As you can see, the <b>left</b> triangle contained the red tiles. When your answer is <b>wrong</b>, the score does not increase and turns red.<br> Press <b>space</b> to start a new example.",
         //IMAGE:
         //correct answer
-        "5_300_120_cliqueLeft_withFeedback_correctAnswer",
+        "04_300_120_cliqueLeft_withFeedback_correct",
         //wrong answer
-        "5_300_120_cliqueLeft_withFeedback_wrongAnswer",
+        "04_300_120_cliqueLeft_withFeedback_wrong",
     ],
     // N300_K95
-    6: ["Let's re-set the remaining <b>shuffles</b> and the <b>score</b> to their initial values.<br> As we said, by pressing <b>space</b>, you use one shuffle.", "6_300_95_cliqueRight_withFeedback_1"],
-    7: ["Now you only have two <b>shuffles</b>, but in the real experiment you will have 10 shuffles for each couple of graphs.<br> Press <b>space</b> again to use the last shuffle.", "7_300_95_cliqueRight_withFeedback_2"],
-    8: ["When you have taken a decision, indicate which triangle contained the red tiles.<br> Press the <b>left</b> or <b>right</b> arrow to do so.", "8_300_95_cliqueRight_withFeedback_3"],
-    9: ["As you can see, the <b>right</b> triangle contained the red tiles.<br> Press <b>space</b> to see the feedback for your response.", "9_300_95_cliqueRight_withFeedback_solution"],
-    10: ["ArrowRight", // correct answer: ArrowRight
+    5: ["Let's re-set the remaining <b>shuffles</b> and the <b>score</b> to their initial values and colors.<br> As we said, by pressing <b>space</b>, you use one shuffle.", "05_300_95_cliqueRight_withFeedback_1"],
+    6: ["Now you only have <b>2 shuffles per trial</b>, but in the real experiment you will have <b>10</b>.<br> Press <b>space</b> again to use the last shuffle of the trial.", "06_300_95_cliqueRight_withFeedback_2"],
+    7: ["When you have taken a decision, indicate which triangle contained the red tiles.<br> Press the <b>left</b> or <b>right</b> arrow to do so.", "07_300_95_cliqueRight_withFeedback_3"],
+    8: ["ArrowRight", // correct answer: ArrowRight
         //PROMPT:
         //correct answer
-        "Since your answer was <b>correct</b>, the score has increased and has turned green.<br> Press <b>space</b> to try one last example.",
+        "In this case, the <b>right</b> triangle contained the red tiles. When your answer is <b>correct</b>, the score increases and turns green.<br> Press <b>space</b> to start the last example.",
         //wrong answer
-        "Since your answer was <b>wrong</b>, the score has not increased and has turned red.<br> Press <b>space</b> to try one last example.",
+        "In this case, the <b>right</b> triangle contained the red tiles. When your answer is <b>wrong</b>, the score does not increase turns red.<br> Press <b>space</b> to start the last example.",
         //IMAGE:
         //correct answer
-        "10_300_95_cliqueRight_withFeedback_correctAnswer",
+        "08_300_95_cliqueRight_withFeedback_correct",
         //wrong answer
-        "10_300_95_cliqueRight_withFeedback_wrongAnswer",
+        "08_300_95_cliqueRight_withFeedback_wrong",
     ],
     // N300_K100
-    11: ["This is the last example before the real experiment starts. Same as before: <b>shuffles</b> on the top left, score on the top right.<br> Press <b>space</b> to use one shuffle.", "11_300_100_cliqueLeft_withFeedback_1"],
-    12: ["As you <b>shuffle</b> the triangles, try to identify which one had the group of red tiles.<br> Press <b>space</b> again to use the last shuffle", "12_300_100_cliqueLeft_withFeedback_2"],
-    13: ["When you are ready to indicate which of the triangles had the group of tiles,<br> Press the <b>left</b> or <b>right</b> arrow.", "13_300_100_cliqueLeft_withFeedback_3"],
-    14: ["In this case, the <b>left</b> triangle contained the red tiles.<br> Press <b>space</b> to see the feedback for your response.", "14_300_100_cliqueLeft_solution"],
-    15: ["ArrowLeft", // correct answer: ArrowLeft
+    9: ["This is the last example. Same as before: <b>shuffles</b> on the top left, <b>trial counter</b> and <b>score</b> on the top right.<br> Press <b>space</b> to use one shuffle.", "09_300_100_cliqueLeft_withFeedback_1"],
+    10: ["As you <b>shuffle</b> the triangles, try to identify which one had the group of red tiles.<br> Press <b>space</b> again to use the last shuffle of the trial.", "10_300_100_cliqueLeft_withFeedback_2"],
+    11: ["When you are ready to indicate which of the triangles had the group of tiles,<br> Press the <b>left</b> or <b>right</b> arrow.", "11_300_100_cliqueLeft_withFeedback_3"],
+    12: ["ArrowLeft", // correct answer: ArrowLeft
         //PROMPT:
         //correct answer
-        "Since your answer was <b>correct</b>, the score has increased and has turned green.<br> Press <b>space</b> to end the trial run of the experiment.",
+        "In this case, the <b>left</b> triangle contained the red tiles. When your answer is <b>correct</b>, the score increases and turns green.<br> Press <b>space</b> to end the trial run of the experiment.",
         //wrong answer
-        "Since your answer was <b>wrong</b>, the score has not increased and has turned red.<br> Press <b>space</b> to end the trial run of the experiment.",
+        "In this case, the <b>left</b> triangle contained the red tiles. When your answer is <b>wrong</b>, the score does not increase and turns red.<br> Press <b>space</b> to end the trial run of the experiment.",
         //IMAGE:
         //correct answer
-        "15_300_100_cliqueLeft_correctAnswer",
+        "12_300_100_cliqueLeft_withFeedback_correct",
         //wrong answer
-        "15_300_100_cliqueLeft_wrongAnswer",
+        "12_300_100_cliqueLeft_withFeedback_wrong",
     ]
-
 }
 
 
 // FUNCTION THAT GENERATES THE FAMILIARIZATION TRIALS FOR PART 1 AND PART 2 (all except feedback trial, added from main)
 function generateBlockOfFamiliarizationTrials(part, index, taskFamiliarizationObject) {
     /* INPUT:
-    - part: identifies if the familiarization trials are produced for part 1 (3 trials for each block) or 2 (4 trials for each block)
+    - part: identifies if the familiarization trials are produced for part 1 or 2
     - index: identifies the number of the block of trials (first call: trials 1-3 (part 1) / 1-4 (part 2); second call: trials 5-7 (part 1) / 6...)
     - taskFamiliarizationObject: taskFamiliarizationObject_part1/_part2
 
@@ -283,17 +278,6 @@ function generateBlockOfFamiliarizationTrials(part, index, taskFamiliarizationOb
     };
     currentBlockOfTrialsArray.push(choice_trial)
 
-    // if function is called for part 2, the solution trial has to be added to the array
-    if (part == 2) {
-        let solution_trial = {
-            type: jsPsychImageKeyboardResponse,
-            stimulus: `tutorial/task_familiarization_images/part ${part}/${taskFamiliarizationObject[index + 4][1]}.PNG`,
-            prompt: `<br><br><br> ${taskFamiliarizationObject[index + 4][0]}`,
-            choices: [' '],
-            stimulus_height: currentExperiment.canvasDimensions[0] / 1.6,
-        };
-        currentBlockOfTrialsArray.push(solution_trial)
-    }
     //returning the array 
     return currentBlockOfTrialsArray
 }
