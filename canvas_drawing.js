@@ -133,7 +133,7 @@ function drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray) {
     // text on the canvas:
     ctx.fillStyle = "black"
     ctx.font = "bold 2rem system-ui";
-    ctx.fillText(feedbackStringTrials, (currentExperiment.canvasDimensions[1] - (currentExperiment.canvasDimensions[1] / 5)), (currentExperiment.canvasDimensions[0]) / 8.5);
+    ctx.fillText(feedbackStringTrials, (currentExperiment.canvasDimensions[1] - (currentExperiment.canvasDimensions[1] / 4.8)), (currentExperiment.canvasDimensions[0]) / 8.5);
 
     // SCORE (right side of screen):
     let numberOfCorrectResponses = arrayOfResponses.reduce((a, b) => a + b, 0)
@@ -148,7 +148,7 @@ function drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray) {
             ctx.fillStyle = "lawngreen";
         else
             ctx.fillStyle = "red";
-    ctx.fillRect((currentExperiment.canvasDimensions[1] - (currentExperiment.canvasDimensions[1] / 4.8)), (currentExperiment.canvasDimensions[0]) / 6.7, (currentExperiment.canvasDimensions[1] / 9), (currentExperiment.canvasDimensions[0]) / 14);
+    ctx.fillRect((currentExperiment.canvasDimensions[1] - (currentExperiment.canvasDimensions[1] / 4.8)), (currentExperiment.canvasDimensions[0]) / 6.7, (currentExperiment.canvasDimensions[1] / 8.5), (currentExperiment.canvasDimensions[0]) / 14);
     // text on the canvas:
     ctx.fillStyle = "black"
     ctx.font = "bold 2rem system-ui";

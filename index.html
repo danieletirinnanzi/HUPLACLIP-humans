@@ -127,7 +127,6 @@
 
 
         /* INSTRUCTIONS */
-        /*
         // PRELOADING instructions images:
         // calling function to create filepaths for all instructions images
         let instructions_ImagesArray = createArrayOfFilePaths(instructionsObject, 0)
@@ -149,7 +148,6 @@
 
 
         /* AGREEMENT TO MOVE TO TASK FAMILIARIZATION */
-        /*
         let move_to_familiarization_form = {
             type: jsPsychInstructions,
             pages: [`<p> Now it's your turn! <br>
@@ -163,7 +161,6 @@
 
 
         /* TASK FAMILIARIZATION */
-        /*
         // PART 1: WITHOUT BACKGROUND INFORMATION
         // PRELOADING images:
         // calling function to create filepaths for all images
@@ -289,7 +286,6 @@
 
 
         /* AGREEMENT TO START EXPERIMENT */
-        /*
         // informing that the experiment will start and subject agrees
         // POSSIBLE IMPROVEMENT: use external-HTML plugin (with "agreement_page.html"), so that it is possible to use checkbox and check agreement with a function (alert if clicking something else)
         let consent_form = {
@@ -420,7 +416,7 @@
 
             // after each block, present break page
             switch (blockIndex) {
-                // if last block just presented, showing final page
+                // if last block just presented, final page will be different
                 case (currentExperiment.numberOfBlocks - 1):
                     /* FINAL PAGE */
                     let final_page = {
@@ -430,29 +426,40 @@
                         on_start: function (final_page) {
                             // accessing the array of all the trials completed up to now:
                             let currentTrialsArray = jsPsych.data.get().trials
-                            let arrayOfResponses = []
+                            let arrayOfResponsesLastBlock = []  //to compute block score
+                            let arrayOfResponses = []   //to compute total score
                             currentTrialsArray.forEach(element => {
+                                // creating array of final responses for current block:
+                                if (element.block_index == blockIndex && element.hasOwnProperty('accuracy'))
+                                    arrayOfResponsesLastBlock.push(element.accuracy)
                                 // creating array of all final responses:
                                 if (element.hasOwnProperty('accuracy'))
                                     arrayOfResponses.push(element.accuracy)
                             })
-                            // calculating accuracy:
+                            // computing score:
+                            // - last block score:
+                            let numberOfCorrectResponsesLastBlock = arrayOfResponsesLastBlock.reduce((a, b) => a + b, 0)
+                            let numberOfFinalResponsesLastBlock = arrayOfResponsesLastBlock.length
+                            // - total score:
                             let numberOfCorrectResponses = arrayOfResponses.reduce((a, b) => a + b, 0)
                             let numberOfFinalResponses = arrayOfResponses.length
-                            // last trial feedaback: creating paragraph to put into final feeedback page based on correctness of last response:
-                            let feedbackParagraph = ``
-                            if (arrayOfResponses[arrayOfResponses.length - 1]) {
-                                feedbackParagraph = `<p><b>The last trial was <span style="font-size:large;border-top:thick lawngreen solid;border-bottom:thick lawngreen solid;border-left:thick lawngreen solid;border-right:thick lawngreen solid;padding-left:1px;padding-right:1px;">CORRECT</span></b></p><br>`
+                            // last trial feedaback: changing background color of SCORE based on correctness of last response
+                            let scoreColor = "black"
+                            if (arrayOfResponsesLastBlock[arrayOfResponsesLastBlock.length - 1]) {
+                                scoreColor = "lawngreen"
                             } else {
-                                feedbackParagraph = `<p><b>The last trial was <span style="font-size:large;border-top:thick red solid;border-bottom:thick red solid;border-left:thick red solid;border-right:thick red solid;padding-left:1px;padding-right:1px;">INCORRECT</span ></b></p><br> `
+                                scoreColor = "red"
                             }
                             final_page.pages = [
-                                feedbackParagraph +
-                                `<p> You completed all the ${currentExperiment.numberOfBlocks} blocks of the experiment. <br>
-                                Your overall score was <b> ${numberOfCorrectResponses} / ${numberOfFinalResponses} </b>.<br><br>
+                                `<p> 
+                                    <div style="font-weight:bold;font-family:system-ui;font-size:2rem;padding-left:1rem;padding-right:1rem;padding-top:1rem;padding-bottom:1rem;background-color:${scoreColor};color:black;display:inline-block;">SCORE: ${numberOfCorrectResponsesLastBlock} / ${numberOfFinalResponsesLastBlock}</div>
+                                <br><br><br>                             
+                                You completed all the <b> ${currentExperiment.numberOfBlocks}</b> blocks of the experiment. <br><br>
+                                    <div style="font-weight:bold;font-family:system-ui;font-size:2rem;padding-left:1rem;padding-right:1rem;padding-top:1rem;padding-bottom:1rem;background-color:gold;color:black;display:inline-block;">TOTAL SCORE: ${numberOfCorrectResponses} / ${numberOfFinalResponses}</div>
+                                <br><br>
                                 Thank you for your time.
                                 <br><br>
-                                Press <b>space</b> to exit.<br>
+                                Press <b>space</b> to exit.
                                 </p>`]
                         }
                     };
@@ -473,30 +480,28 @@
                                 if (element.block_index == blockIndex && element.hasOwnProperty('accuracy'))
                                     arrayOfResponsesPerBlock.push(element.accuracy)
                             })
-                            // calculating accuracy:
+                            // calculating accuracy for current block:
                             let numberOfCorrectResponsesPerBlock = arrayOfResponsesPerBlock.reduce((a, b) => a + b, 0)
                             let numberOfFinalResponsesPerBlock = arrayOfResponsesPerBlock.length
-                            // last trial feedaback: creating paragraph to put into block feeedback page based on correctness of last response:
-                            // DEBUG
-                            let feedbackParagraph = ``
-                            console.log(arrayOfResponsesPerBlock)
+                            // last trial feedback: changing background color of SCORE based on correctness of last response
+                            let scoreColor = "black"
                             if (arrayOfResponsesPerBlock[arrayOfResponsesPerBlock.length - 1]) {
-                                feedbackParagraph = `<p><b>The last trial was <span style="font-size:large;border-top:thick lawngreen solid;border-bottom:thick lawngreen solid;border-left:thick lawngreen solid;border-right:thick lawngreen solid;padding-left:1px;padding-right:1px;">CORRECT</span></b></p><br>`
+                                scoreColor = "lawngreen"
                             } else {
-                                feedbackParagraph = `<p><b>The last trial was <span style="font-size:large;border-top:thick red solid;border-bottom:thick red solid;border-left:thick red solid;border-right:thick red solid;padding-left:1px;padding-right:1px;">INCORRECT</span ></b></p><br> `
+                                scoreColor = "red"
                             }
                             move_to_next_block.pages = [
-                                feedbackParagraph +
-                                `<p> You completed one block. <br>
-                                Your score for this block was <b> ${numberOfCorrectResponsesPerBlock} / ${numberOfFinalResponsesPerBlock} </b>.<br>
-                                So far, you have completed <b> ${(blockIndex + 1)} </b> out of <b>${currentExperiment.numberOfBlocks}</b> blocks. <br>
-                                You still have <b> ${currentExperiment.numberOfBlocks - (blockIndex + 1)} </b> to go.
-                                <br><br>
-                                Remember: <br>
-                                - Press <b> LEFT / RIGHT arrow </b> to choose the triangle with the hidden red tiles. <br>
-                                - Press <b> SPACE </b> to shuffle the triangles. <br><br>
-                                When you feel ready, press <b>space</b> to move to the next block.<br>
-                                </p>`]
+                                `<p> 
+                                    <div style="font-weight:bold;font-family:system-ui;font-size:2rem;padding-left:1rem;padding-right:1rem;padding-top:1rem;padding-bottom:1rem;background-color:${scoreColor};color:black;display:inline-block;">SCORE: ${numberOfCorrectResponsesPerBlock} / ${numberOfFinalResponsesPerBlock}</div>
+                                    <br><br>
+                                    So far, you have completed <b> ${(blockIndex + 1)} </b> out of <b>${currentExperiment.numberOfBlocks}</b> blocks. <br>
+                                    You still have <b> ${currentExperiment.numberOfBlocks - (blockIndex + 1)} </b> to go.
+                                    <br><br>
+                                    Remember: <br>
+                                    - Press <b> LEFT / RIGHT arrow </b> to choose the triangle with the hidden red tiles. <br>
+                                    - Press <b> SPACE </b> to shuffle the triangles. <br><br>
+                                    When you feel ready, press <b>space</b> to move to the next block.
+                                  </p>`]
                         }
                     };
                     timeline.push(move_to_next_block)
