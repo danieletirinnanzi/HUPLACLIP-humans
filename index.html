@@ -116,7 +116,6 @@
 
 
         /* INTRODUCTIVE PAGES */
-        /*
         // showing informative pages about the study (informed consent, aim, privacy)
         let introduction = {
             type: jsPsychInstructions,
@@ -267,22 +266,23 @@
 
 
         /* EXPERIMENT STRUCTURE IMAGE */
-        /*
         // PRELOADING experiment structure image:
         // adding preload plugin to timeline
         let preloadExpStructureImage = {
             type: jsPsychPreload,
-            images: [],
+            images: [`tutorial/experiment_structure_images/HUPLACLIP-structure.PNG`],
         }
         timeline.push(preloadExpStructureImage)
 
         // SHOWING experiment structure image:
         let experiment_structure_image = {
             type: jsPsychInstructions,
-            pages: [`<font size="+2"><b> EXPERIMENT OUTLINE (DELETE??) </b></font><br><br>
-                    <img src="tutorial/experiment_structure_images/.PNG" alt="Could not upload image" height="${currentExperiment.canvasDimensions[0] / 2}"><br><br>
-                    (DESCRIPTION CAN GO HERE, OTHERWISE DELETE)<br><br>
-                    <i><b>Press right arrow to go forward ></b></i>`],
+            pages: [`<font size="+2"><b> EXPERIMENT STRUCTURE</b></font><br><br>
+                    <img src="tutorial/experiment_structure_images/HUPLACLIP-structure.PNG" alt="Could not upload image" height="${currentExperiment.canvasDimensions[0] / 1.5}"><br><br>
+                    The experiment is divided in 6 blocsk of 30 trials each. The difficulty of the task will gradually increase as you progress through each block. 
+                    There is no penalty in using shuffles, and you will have 10 shuffles for each trial. 
+                    Remember that you can use them, especially in harder trials. There is no time limit for completing the task.<br><br>
+                    <i><b>Press right arrow to move on ></b></i>`],
             key_forward: "ArrowRight"
         }
         timeline.push(experiment_structure_image)
@@ -439,7 +439,16 @@
                             // calculating accuracy:
                             let numberOfCorrectResponses = arrayOfResponses.reduce((a, b) => a + b, 0)
                             let numberOfFinalResponses = arrayOfResponses.length
-                            final_page.pages = [`<p> You completed all the ${currentExperiment.numberOfBlocks} blocks of the experiment. <br>
+                            // last trial feedaback: creating paragraph to put into final feeedback page based on correctness of last response:
+                            let feedbackParagraph = ``
+                            if (arrayOfResponses[arrayOfResponses.length - 1]) {
+                                feedbackParagraph = `<p><b>The last trial was <span style="font-size:large;border-top:thick lawngreen solid;border-bottom:thick lawngreen solid;border-left:thick lawngreen solid;border-right:thick lawngreen solid;padding-left:1px;padding-right:1px;">CORRECT</span></b></p><br>`
+                            } else {
+                                feedbackParagraph = `<p><b>The last trial was <span style="font-size:large;border-top:thick red solid;border-bottom:thick red solid;border-left:thick red solid;border-right:thick red solid;padding-left:1px;padding-right:1px;">INCORRECT</span ></b></p><br> `
+                            }
+                            final_page.pages = [
+                                feedbackParagraph +
+                                `<p> You completed all the ${currentExperiment.numberOfBlocks} blocks of the experiment. <br>
                                 Your overall score was <b> ${numberOfCorrectResponses} / ${numberOfFinalResponses} </b>.<br><br>
                                 Thank you for your time.
                                 <br><br>
@@ -467,8 +476,18 @@
                             // calculating accuracy:
                             let numberOfCorrectResponsesPerBlock = arrayOfResponsesPerBlock.reduce((a, b) => a + b, 0)
                             let numberOfFinalResponsesPerBlock = arrayOfResponsesPerBlock.length
-
-                            move_to_next_block.pages = [`<p> You completed one block. <br>
+                            // last trial feedaback: creating paragraph to put into block feeedback page based on correctness of last response:
+                            // DEBUG
+                            let feedbackParagraph = ``
+                            console.log(arrayOfResponsesPerBlock)
+                            if (arrayOfResponsesPerBlock[arrayOfResponsesPerBlock.length - 1]) {
+                                feedbackParagraph = `<p><b>The last trial was <span style="font-size:large;border-top:thick lawngreen solid;border-bottom:thick lawngreen solid;border-left:thick lawngreen solid;border-right:thick lawngreen solid;padding-left:1px;padding-right:1px;">CORRECT</span></b></p><br>`
+                            } else {
+                                feedbackParagraph = `<p><b>The last trial was <span style="font-size:large;border-top:thick red solid;border-bottom:thick red solid;border-left:thick red solid;border-right:thick red solid;padding-left:1px;padding-right:1px;">INCORRECT</span ></b></p><br> `
+                            }
+                            move_to_next_block.pages = [
+                                feedbackParagraph +
+                                `<p> You completed one block. <br>
                                 Your score for this block was <b> ${numberOfCorrectResponsesPerBlock} / ${numberOfFinalResponsesPerBlock} </b>.<br>
                                 So far, you have completed <b> ${(blockIndex + 1)} </b> out of <b>${currentExperiment.numberOfBlocks}</b> blocks. <br>
                                 You still have <b> ${currentExperiment.numberOfBlocks - (blockIndex + 1)} </b> to go.
