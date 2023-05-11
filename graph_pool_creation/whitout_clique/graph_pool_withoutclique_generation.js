@@ -56,7 +56,7 @@ function generateGraphsWithOutClique(cliqueSize) {
                 }
             }
             // adding to the matrix the name of the graph and indications about the absence of the clique:
-            singleGraph[currentExperiment.graphSize] = { 'graph_name': `${(graphIndex + 1).toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${cliqueSize}_NOCLIQUE`, 'clique_size': cliqueSize.toString().padStart(3, '0'), 'clique_array': "clique is absent" }
+            singleGraph[currentExperiment.graphSize] = { 'graph_name': `${(graphIndex + 1).toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${cliqueSize.toString().padStart(3, '0')}_NOCLIQUE`, 'clique_size': cliqueSize, 'clique_array': "clique is absent" }
             //adding to the object the property (the connections of the current node in the triangular matrix)
             singleGraph[rowIndex] = currentRowAssociations;
         }
