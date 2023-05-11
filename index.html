@@ -91,6 +91,9 @@
             // maximum width of experiment pages
             experiment_width: currentExperiment.canvasDimensions[1],
 
+            // Audio will be played through HTML5, not through WebAudio API
+            use_webaudio: false,
+
             on_finish: function (data) {
                 // displaying data:
                 jsPsych.data.displayData();
@@ -274,11 +277,12 @@
         // SHOWING experiment structure image:
         let experiment_structure_image = {
             type: jsPsychInstructions,
-            pages: [`<font size="+2"><b> EXPERIMENT STRUCTURE</b></font><br><br>
+            pages: [`<font size="+2"><b> EXPERIMENT STRUCTURE</b></font><br>
                     <img src="tutorial/experiment_structure_images/HUPLACLIP-structure.PNG" alt="Could not upload image" height="${currentExperiment.canvasDimensions[0] / 1.5}"><br><br>
-                    The experiment is divided in 6 blocsk of 30 trials each. The difficulty of the task will gradually increase as you progress through each block. 
-                    There is no penalty in using shuffles, and you will have 10 shuffles for each trial. 
-                    Remember that you can use them, especially in harder trials. There is no time limit for completing the task.<br><br>
+                    The experiment is divided in <b>6 blocks</b> of <b>30 trials</b> each. The difficulty of the task will gradually increase as you progress through each block. 
+                    There is no penalty in using shuffles, and you will have <b>10 shuffles for each trial</b>. 
+                    Remember that you can use them, especially in harder trials. There is no time limit for completing the task.<br>
+                    If you can, raise the volume of your device: the experiment includes audio feedback.<br><br>
                     <i><b>Press right arrow to move on ></b></i>`],
             key_forward: "ArrowRight"
         }
@@ -386,7 +390,22 @@
                         // if no more shuffles are available, only allowing final answers (arrow presses):
                         if (currentData.trials.filter(element => element.block_index == blockIndex && element.presentation_index == presentationIndex).length == currentExperiment.maximumNumberOfShuffles)
                             currentTrial.choices = ['ArrowLeft', 'ArrowRight']
-                    }
+                    },
+                    on_finish: function (data) {
+                        // providing audio feedback based on last response (shuffle, correct answer, wrong answer) (ALTERNATIVE: using JSPsych audioKeboard plugin (https://groups.google.com/g/jspsych/c/y0qYDhKVOXw) ):
+                        let lastTrial = jsPsych.data.get().last(1).values()[0]
+                        let audioFilePath = ''
+                        if (lastTrial.response == " ")
+                            audioFilePath = 'audio_feedback/shuffles/shuffle01.mp3'
+                        else
+                            // if final answer, play sound based on correct / wrong answer
+                            if (lastTrial.accuracy)
+                                audioFilePath = 'audio_feedback/right/coin01.mp3'
+                            else
+                                audioFilePath = 'audio_feedback/wrong/error01.mp3'
+                        let feedbackAudio = new Audio(audioFilePath);
+                        feedbackAudio.play();
+                    },
                 }
 
                 // adding the stimulus to the timeline of the trial
@@ -516,16 +535,16 @@
             type: jsPsychPavlovia,
             command: "finish",
             participantId: "JSPSYCH-DEMO",
-
+ 
             //NECESSARY WHEN ADDING PROLIFIC:
             //completedCallback: function (){
             //    window.location.replace('https://app.prolific.co/submissions/complete?cc=C180BZKR');
             //},
-
+ 
         };
         timeline.push(pavlovia_finish)
-
-
+ 
+ 
         /* start the experiment */
         jsPsych.run(timeline);
 
