@@ -30,59 +30,66 @@
 
     <script type="module">
 
-        /* importing graph pools and extracting the ones that will be shown*/
-        let graphsWithCliquePool = await getData('graph_pools/graphs_with_clique_pool.json');
-        let graphsWithoutCliquePool = await getData('graph_pools/graphs_without_clique_pool.json');
-        // controlling that dimensions of graph pool match experiment parameters (2 graphs per clique size for each block):
-        if (currentExperiment.numberOfPresentationsPerBlock / currentExperiment.numberOfGraphsPerCliqueSize != graphsWithCliquePool.length) {
-            alert("dimensions of graphs_with_clique pool don't match experiment parameters")
-        } else if (currentExperiment.numberOfPresentationsPerBlock / currentExperiment.numberOfGraphsPerCliqueSize != graphsWithoutCliquePool.length) {
-            alert("dimensions of graphs_without_clique pool don't match experiment parameters")
-        }
+        /* extract indices of graphs to display */
+        let graphsWithCliqueIndices = extractIndices()
+        let graphsWithoutCliqueIndices = extractIndices()
 
-
-        // INSERT IN INDEPENDENT FUNCTION inside "graphs_function.js" (+ DELETE "graphs_generation.js")
-        // randomly extracting the graphs that will be shown in each block 
-        let maxValue = graphsWithCliquePool[0].length   //this number will be excluded from the extraction
+        /* retrieving graphs from graph pool and puttinG them into currentExperiment object */
         // empty array that will contain the couples of triangular matrices (objects) to be displayed
         let graphsToDisplay = [];
+
         // number of blocks:
         for (let blockIndex = 0; blockIndex < currentExperiment.numberOfBlocks; blockIndex++) {
+
             let graphsForCurrentBlock = []
-            // couples of graphs for a single block
-            for (let cliqueSizeIndex = 0; cliqueSizeIndex < (currentExperiment.numberOfPresentationsPerBlock / currentExperiment.numberOfGraphsPerCliqueSize); cliqueSizeIndex++) {
-                // for each clique size, extracting two couples of graphs: 
-                for (let graphIndex = 0; graphIndex < currentExperiment.numberOfGraphsPerCliqueSize; graphIndex++) {
-                    // 1. Extracting graph WITH CLIQUE:
-                    // randomly extracting index for graph with clique:
-                    let randIndex1 = Math.random() * maxValue;
-                    randIndex1 = Math.floor(randIndex1);
-                    let graphWithClique = graphsWithCliquePool[cliqueSizeIndex][randIndex1]
 
-                    // 2. Extracting graph WITHOUT CLIQUE:
-                    // randomly extracting index for graph without clique:
-                    let randIndex2 = Math.random() * maxValue;
-                    randIndex2 = Math.floor(randIndex2);
-                    let graphWithoutClique = graphsWithoutCliquePool[cliqueSizeIndex][randIndex2]
+            for (const element of currentExperiment.uniqueCliqueSizes) {
 
-                    // Adding the two graphs to the array for the current trial (random choice of which one is the first in the couple) and pushing this array into the array relative to the current block
-                    if (Math.round(Math.random())) {
-                        graphsForCurrentBlock.push([graphWithClique, graphWithoutClique])
-                    } else {
-                        graphsForCurrentBlock.push([graphWithoutClique, graphWithClique])
-                    }
+                // GRAPH WITH CLIQUE, trial 1:
+                // - creating URL:
+                let graphWithClique_trial1_url = `graph_pools/single_files/CLIQUE/${element.toString().padStart(3, '0')}/${graphsWithCliqueIndices[element][blockIndex * 2].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(3, '0')}_CLIQUE.json`
+                // - reading file:
+                let graphWithClique1 = await getGraph(graphWithClique_trial1_url)
+                // GRAPH WITHOUT CLIQUE, trial 1:
+                // - creating URL:            
+                let graphWithoutClique_trial1_url = `graph_pools/single_files/NO_CLIQUE/${element.toString().padStart(3, '0')}/${graphsWithoutCliqueIndices[element][blockIndex * 2].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(3, '0')}_NOCLIQUE.json`
+                // - reading file:
+                let graphWithoutClique1 = await getGraph(graphWithoutClique_trial1_url)
 
+                // Adding the two graphs to the array for the current trial (random choice of which one is the first in the couple) and pushing this array into the array relative to the current block
+                if (Math.round(Math.random())) {
+                    graphsForCurrentBlock.push([graphWithClique1, graphWithoutClique1])
+                } else {
+                    graphsForCurrentBlock.push([graphWithoutClique1, graphWithClique1])
                 }
 
+                // GRAPH WITH CLIQUE, trial 2:
+                // - creating URL:
+                let graphWithClique_trial2_url = `graph_pools/single_files/CLIQUE/${element.toString().padStart(3, '0')}/${graphsWithCliqueIndices[element][blockIndex * 2 + 1].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(3, '0')}_CLIQUE.json`
+                // - reading file:
+                let graphWithClique2 = await getGraph(graphWithClique_trial2_url)
+                // GRAPH WITHOUT CLIQUE, trial 2:
+                // - creating URL:            
+                let graphWithoutClique_trial2_url = `graph_pools/single_files/NO_CLIQUE/${element.toString().padStart(3, '0')}/${graphsWithoutCliqueIndices[element][blockIndex * 2 + 1].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(3, '0')}_NOCLIQUE.json`
+                // - reading file:
+                let graphWithoutClique2 = await getGraph(graphWithoutClique_trial2_url)
+
+                // Adding the two graphs to the array for the current trial (random choice of which one is the first in the couple) and pushing this array into the array relative to the current block
+                if (Math.round(Math.random())) {
+                    graphsForCurrentBlock.push([graphWithClique2, graphWithoutClique2])
+                } else {
+                    graphsForCurrentBlock.push([graphWithoutClique2, graphWithClique2])
+                }
             }
 
             // adding array of graphs for current block to array of all graphs
             graphsToDisplay.push(graphsForCurrentBlock)
 
         }
-        // adding the extracted graphs to the currentExperiment object:
+
+        // adding array of graphs to display to currentExperiment object:
         currentExperiment.graphsToDisplay = graphsToDisplay
-        console.log(currentExperiment.graphsToDisplay)
+        console.log(graphsToDisplay)
 
 
         /* initializing jspsych */
@@ -244,7 +251,6 @@
                     return function (currentFeedbackTrial) {
                         // accessing second to last trial:
                         let second_to_last_trial = jsPsych.data.get().last(1).values()[0];
-                        console.log(second_to_last_trial)
                         // changing prompt according to correctness of last choice:
                         if (second_to_last_trial.response == taskFamiliarizationObject_part2[index + 4][0].toLowerCase()) {
                             currentFeedbackTrial.stimulus = `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index + 4][3]}.PNG`;

@@ -16,6 +16,9 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
     // defining graph to draw:
     let graphToDraw = side === "left" ? currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0] : currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1];
 
+    // DEBUG:
+    console.log(graphToDraw[300].graph_name)
+
     // for loops that draws the squares and colors them
     let squareIndex = 0   //to correctly identify which square is being drawn and filling it correctly
     for (let firstIndex = 0; firstIndex < (currentExperiment.graphSize - 1); firstIndex++) {

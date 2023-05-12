@@ -6,7 +6,7 @@ let canvasWidth = window.innerWidth
 // CREATING OBJECT FOR CURRENT EXPERIMENT:
 let currentExperiment = {
     // experiment parameters:
-    numberOfBlocks: 4,
+    numberOfBlocks: 6,
     numberOfPresentationsPerBlock: 30, // single presentation = single couple of graphs, presented once and reordered through space bar presses)
     numberOfGraphsPerCliqueSize: 2, // number of graphs for each clique size in each block
     maximumNumberOfShuffles: 10, // maximum number of randomizations allowed for a single couple of matrices 
@@ -34,6 +34,8 @@ currentExperiment.standardOrderOfNodes = standardOrderOfNodes
 // - ARRAY OF CLIQUE SIZES
 currentExperiment.arrayOfCliqueSizes = createArrayOfCliqueSizes(currentExperiment.initialCliqueSize, currentExperiment.numberOfPresentationsPerBlock)
 
+// - UNIQUE CLIQUE SIZES:
+currentExperiment.uniqueCliqueSizes = currentExperiment.arrayOfCliqueSizes.filter((x, i, a) => a.indexOf(x) == i)
 
 // - COORDINATES OF LEFT AND RIGHT TRIANGLES
 // calculating drawing parameters:
