@@ -15,6 +15,7 @@
     <script type="text/javascript" src="jspsych/dist/plugin-instructions.js"></script>
     <script type="text/javascript" src="jspsych/dist/plugin-image-keyboard-response.js"></script>
     <script type="text/javascript" src="jspsych/dist/plugin-preload.js"></script>
+    <script type="text/javascript" src="jspsych/dist/plugin-survey-html-form.js"></script>
     <!-- Customized plugin -->
     <script type="text/javascript" src="jspsych/dist/my-plugin-canvas-keyboard-response.js"></script>
     <!-- Pavlovia connection (COMMENTED FOR OFFLINE VERSION)
@@ -295,25 +296,25 @@
         timeline.push(experiment_structure_image)
 
 
-        /* AGREEMENT TO START EXPERIMENT */
-        // informing that the experiment will start and subject agrees
-        // POSSIBLE IMPROVEMENT: use external-HTML plugin (with "agreement_page.html"), so that it is possible to use checkbox and check agreement with a function (alert if clicking something else)
-        let consent_form = {
-            type: jsPsychInstructions,
-            pages: [`<p> You have completed the training: after this page, the real experiment will start and your score will be recorded. <br><br>
-               By pressing <b>space</b> you are expressing your consent in taking part in the study, and you confirm to: <br>
-             - have carefully read the explanations regarding this study and the full experimental procedure;<br>
-             - have been informed regarding the aims of the present research;<br>
-             - have had the possibility of asking questions regarding any aspect of the experimental procedure and to have obtained satisfying answers;<br>
-             - be aware of the possible risks related with the experiment;<br>
-             - have received satisfying assurance regarding the confidentiality of the information collected through the testing of your data;<br>
-             - be aware that you can withdraw in any phase of the study.<br><br> 
-             Press <b>space</b> to start the experiment.
-             </p>`],
-            key_forward: " "
-        };
-        timeline.push(consent_form)
+        /* CONSENT FORM and AGREEMENT TO START EXPERIMENT */
+        const consent_form = {
+            type: jsPsychSurveyHtmlForm,
+            preamble: `<p> You have completed the training: after this page, the real experiment will start and your score will be recorded. <br><br>
+                        By pressing <b>space</b> you are expressing your consent in taking part in the study, and you <b>confirm</b> that: <br>`,
+            html:
+                `<ul style="list-style: none; padding-left: 0;">
+                    <li><label><input type="checkbox" name="consent" value="read_explanations" required> You have carefully read the explanations regarding this study and the full experimental procedure.</label></li><br>
+                    <li><label><input type="checkbox" name="consent" value="informed_about_aims" required> You have been informed regarding the aims of the present research.</label></li><br>
+                    <li><label><input type="checkbox" name="consent" value="possibility_of_questions" required> You have had the possibility of asking questions regarding any aspect of the experimental procedure and to have obtained satisfying answers.</label></li><br>
+                    <li><label><input type="checkbox" name="consent" value="aware_of_risks" required> You are aware of the possible risks related to the experiment.</label></li><br>
+                    <li><label><input type="checkbox" name="consent" value="assurance_of_confidentiality" required> You have received satisfying assurance regarding the confidentiality of the information collected through the testing of your data.</label></li><br>
+                    <li><label><input type="checkbox" name="consent" value="aware_of_withdrawal" required> You are aware that you can withdraw in any phase of the study.</label></li><br>
+                </ul>`,
+            button_label: "Start Experiment"
+        }
 
+
+        timeline.push(consent_form);
 
 
         /* ACTUAL EXPERIMENT: */
