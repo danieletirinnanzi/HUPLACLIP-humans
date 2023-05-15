@@ -15,7 +15,6 @@
     <script type="text/javascript" src="jspsych/dist/plugin-instructions.js"></script>
     <script type="text/javascript" src="jspsych/dist/plugin-image-keyboard-response.js"></script>
     <script type="text/javascript" src="jspsych/dist/plugin-preload.js"></script>
-    <script type="text/javascript" src="jspsych/dist/plugin-survey-html-form.js"></script>
     <!-- Customized plugin -->
     <script type="text/javascript" src="jspsych/dist/my-plugin-canvas-keyboard-response.js"></script>
     <!-- Pavlovia connection (COMMENTED FOR OFFLINE VERSION)
@@ -35,7 +34,7 @@
         let graphsWithCliqueIndices = extractIndices()
         let graphsWithoutCliqueIndices = extractIndices()
 
-        /* retrieving graphs from graph pool and puttinG them into currentExperiment object */
+        /* generating names of graphs to display and storing them in currentExperiment object  */
         // empty array that will contain the couples of triangular matrices (objects) to be displayed
         let graphsToDisplay = [];
 
@@ -48,38 +47,38 @@
 
                 // GRAPH WITH CLIQUE, trial 1:
                 // - creating URL:
-                let graphWithClique_trial1_url = `graph_pools/single_files/CLIQUE/${element.toString().padStart(3, '0')}/${graphsWithCliqueIndices[element][blockIndex * 2].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(3, '0')}_CLIQUE.json`
+                let graphWithClique_trial1_url = `graph_pools/CLIQUE/${element.toString().padStart(3, '0')}/${graphsWithCliqueIndices[element][blockIndex * 2].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(3, '0')}_CLIQUE.json`
                 // - reading file:
-                let graphWithClique1 = await getGraph(graphWithClique_trial1_url)
+                //let graphWithClique1 = await getGraph(graphWithClique_trial1_url)
                 // GRAPH WITHOUT CLIQUE, trial 1:
                 // - creating URL:            
-                let graphWithoutClique_trial1_url = `graph_pools/single_files/NO_CLIQUE/${element.toString().padStart(3, '0')}/${graphsWithoutCliqueIndices[element][blockIndex * 2].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(3, '0')}_NOCLIQUE.json`
+                let graphWithoutClique_trial1_url = `graph_pools/NO_CLIQUE/${element.toString().padStart(3, '0')}/${graphsWithoutCliqueIndices[element][blockIndex * 2].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(3, '0')}_NOCLIQUE.json`
                 // - reading file:
-                let graphWithoutClique1 = await getGraph(graphWithoutClique_trial1_url)
+                //let graphWithoutClique1 = await getGraph(graphWithoutClique_trial1_url)
 
                 // Adding the two graphs to the array for the current trial (random choice of which one is the first in the couple) and pushing this array into the array relative to the current block
                 if (Math.round(Math.random())) {
-                    graphsForCurrentBlock.push([graphWithClique1, graphWithoutClique1])
+                    graphsForCurrentBlock.push([graphWithClique_trial1_url, graphWithoutClique_trial1_url])
                 } else {
-                    graphsForCurrentBlock.push([graphWithoutClique1, graphWithClique1])
+                    graphsForCurrentBlock.push([graphWithoutClique_trial1_url, graphWithClique_trial1_url])
                 }
 
                 // GRAPH WITH CLIQUE, trial 2:
                 // - creating URL:
-                let graphWithClique_trial2_url = `graph_pools/single_files/CLIQUE/${element.toString().padStart(3, '0')}/${graphsWithCliqueIndices[element][blockIndex * 2 + 1].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(3, '0')}_CLIQUE.json`
+                let graphWithClique_trial2_url = `graph_pools/CLIQUE/${element.toString().padStart(3, '0')}/${graphsWithCliqueIndices[element][blockIndex * 2 + 1].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(3, '0')}_CLIQUE.json`
                 // - reading file:
-                let graphWithClique2 = await getGraph(graphWithClique_trial2_url)
+                //let graphWithClique2 = await getGraph(graphWithClique_trial2_url)
                 // GRAPH WITHOUT CLIQUE, trial 2:
                 // - creating URL:            
-                let graphWithoutClique_trial2_url = `graph_pools/single_files/NO_CLIQUE/${element.toString().padStart(3, '0')}/${graphsWithoutCliqueIndices[element][blockIndex * 2 + 1].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(3, '0')}_NOCLIQUE.json`
+                let graphWithoutClique_trial2_url = `graph_pools/NO_CLIQUE/${element.toString().padStart(3, '0')}/${graphsWithoutCliqueIndices[element][blockIndex * 2 + 1].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(3, '0')}_NOCLIQUE.json`
                 // - reading file:
-                let graphWithoutClique2 = await getGraph(graphWithoutClique_trial2_url)
+                //let graphWithoutClique2 = await getGraph(graphWithoutClique_trial2_url)
 
                 // Adding the two graphs to the array for the current trial (random choice of which one is the first in the couple) and pushing this array into the array relative to the current block
                 if (Math.round(Math.random())) {
-                    graphsForCurrentBlock.push([graphWithClique2, graphWithoutClique2])
+                    graphsForCurrentBlock.push([graphWithClique_trial2_url, graphWithoutClique_trial2_url])
                 } else {
-                    graphsForCurrentBlock.push([graphWithoutClique2, graphWithClique2])
+                    graphsForCurrentBlock.push([graphWithoutClique_trial2_url, graphWithClique_trial2_url])
                 }
             }
 
@@ -127,6 +126,7 @@
 
 
         /* INTRODUCTIVE PAGES */
+        /*
         // showing informative pages about the study (informed consent, aim, privacy)
         let introduction = {
             type: jsPsychInstructions,
@@ -138,6 +138,7 @@
 
 
         /* INSTRUCTIONS */
+        /*
         // PRELOADING instructions images:
         // calling function to create filepaths for all instructions images
         let instructions_ImagesArray = createArrayOfFilePaths(instructionsObject, 0)
@@ -159,6 +160,7 @@
 
 
         /* AGREEMENT TO MOVE TO TASK FAMILIARIZATION */
+        /*
         let move_to_familiarization_form = {
             type: jsPsychInstructions,
             pages: [`<p> Now it's your turn! <br>
@@ -172,6 +174,7 @@
 
 
         /* TASK FAMILIARIZATION */
+        /*
         // PART 1: WITHOUT BACKGROUND INFORMATION
         // PRELOADING images:
         // calling function to create filepaths for all images
@@ -273,6 +276,7 @@
 
 
         /* EXPERIMENT STRUCTURE IMAGE */
+        /*
         // PRELOADING experiment structure image:
         // adding preload plugin to timeline
         let preloadExpStructureImage = {
@@ -297,24 +301,24 @@
 
 
         /* CONSENT FORM and AGREEMENT TO START EXPERIMENT */
-        const consent_form = {
-            type: jsPsychSurveyHtmlForm,
-            preamble: `<p> You have completed the training: after this page, the real experiment will start and your score will be recorded. <br><br>
-                        By pressing <b>space</b> you are expressing your consent in taking part in the study, and you <b>confirm</b> that: <br>`,
-            html:
-                `<ul style="list-style: none; padding-left: 0;">
-                    <li><label><input type="checkbox" name="consent" value="read_explanations" required> You have carefully read the explanations regarding this study and the full experimental procedure.</label></li><br>
-                    <li><label><input type="checkbox" name="consent" value="informed_about_aims" required> You have been informed regarding the aims of the present research.</label></li><br>
-                    <li><label><input type="checkbox" name="consent" value="possibility_of_questions" required> You have had the possibility of asking questions regarding any aspect of the experimental procedure and to have obtained satisfying answers.</label></li><br>
-                    <li><label><input type="checkbox" name="consent" value="aware_of_risks" required> You are aware of the possible risks related to the experiment.</label></li><br>
-                    <li><label><input type="checkbox" name="consent" value="assurance_of_confidentiality" required> You have received satisfying assurance regarding the confidentiality of the information collected through the testing of your data.</label></li><br>
-                    <li><label><input type="checkbox" name="consent" value="aware_of_withdrawal" required> You are aware that you can withdraw in any phase of the study.</label></li><br>
-                </ul>`,
-            button_label: "Start Experiment"
-        }
-
-
-        timeline.push(consent_form);
+        /*
+        // informing that the experiment will start and subject agrees
+        // POSSIBLE IMPROVEMENT: use external-HTML plugin (with "agreement_page.html"), so that it is possible to use checkbox and check agreement with a function (alert if clicking something else)
+        let consent_form = {
+            type: jsPsychInstructions,
+            pages: [`<p> You have completed the training: after this page, the real experiment will start and your score will be recorded. <br><br>
+               By pressing <b>space</b> you are expressing your consent in taking part in the study, and you confirm to: <br>
+             - have carefully read the explanations regarding this study and the full experimental procedure;<br>
+             - have been informed regarding the aims of the present research;<br>
+             - have had the possibility of asking questions regarding any aspect of the experimental procedure and to have obtained satisfying answers;<br>
+             - be aware of the possible risks related with the experiment;<br>
+             - have received satisfying assurance regarding the confidentiality of the information collected through the testing of your data;<br>
+             - be aware that you can withdraw in any phase of the study.<br><br> 
+             Press <b>space</b> to start the experiment.
+             </p>`],
+            key_forward: " "
+        };
+        timeline.push(consent_form)
 
 
         /* ACTUAL EXPERIMENT: */
@@ -323,6 +327,7 @@
         // FUNCTION THAT WILL DRAW THE STIMULI GIVEN THE CHOSEN ORDER OF THE NODES:
         function generateDrawCanvas(blockIndex, presentationIndex) {
             /* INPUT: 
+            - blockIndex (the number that identifies the current block)
             - presentationIndex (the number that identifies the couple of graphs that is being displayed)
 
             OUTPUT:
@@ -330,7 +335,11 @@
             */
 
             // function that generates the stimuli:
-            function drawCanvas(c) {
+            async function drawCanvas(c) {
+
+                // READING THE GRAPHS THAT WILL BE DISPLAYED:
+                let leftGraph = await getGraph(currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0])
+                let rightGraph = await getGraph(currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1])
 
                 // addressing canvas
                 let ctx = c.getContext("2d");
@@ -343,9 +352,9 @@
 
                 // DRAWING ON CANVAS:               
                 //left stimulus:
-                drawStimulus("left", ctx, blockIndex, presentationIndex, currentTrialOrder)
+                drawStimulus("left", ctx, leftGraph, currentTrialOrder)
                 // right stimulus:
-                drawStimulus("right", ctx, blockIndex, presentationIndex, currentTrialOrder)
+                drawStimulus("right", ctx, rightGraph, currentTrialOrder)
                 // accuracy and number of remaining randomizations:
                 drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray)
                 // instructions reminder:
@@ -356,7 +365,7 @@
                 jsPsych.data.presentedOrder = currentTrialOrder
                 // variables that do not change from trial to trial but are used when subject gives final answer:
                 // - correct answer (its value is read to compute the "accuracy" variable)
-                if (currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0][currentExperiment.graphSize].clique_array == "clique is absent")
+                if (leftGraph[currentExperiment.graphSize].clique_array == "clique is absent")
                     //if first stimulus doesn't have the clique, then the graph with the clique (correct answer) is on the right side
                     jsPsych.data.correctResponse = "arrowright"
                 else
@@ -389,12 +398,12 @@
                         // graphs parameters:
                         clique_size: currentExperiment.arrayOfCliqueSizes[presentationIndex],
                         graph_size: currentExperiment.graphSize,
-                        graphs_names: [currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0][currentExperiment.graphSize].graph_name, currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1][currentExperiment.graphSize].graph_name]
+                        graphs_names: [currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0], currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1]]
                     },
                     on_start: function (currentTrial) {
-                        // accessing the data stored up to now (it will increase progressively):
+                        // - accessing the data stored up to now (it will increase progressively):
                         let currentData = jsPsych.data.get()
-                        // if no more shuffles are available, only allowing final answers (arrow presses):
+                        // - if no more shuffles are available, only allowing final answers (arrow presses):
                         if (currentData.trials.filter(element => element.block_index == blockIndex && element.presentation_index == presentationIndex).length == currentExperiment.maximumNumberOfShuffles)
                             currentTrial.choices = ['ArrowLeft', 'ArrowRight']
                     },
@@ -415,7 +424,7 @@
                     },
                 }
 
-                // adding the stimulus to the timeline of the trial
+                // adding the stimuli to the timeline of the trial
                 // NB: shuffling of nodes is done inside draw function
                 currentTrial.timeline.push({ stimulus: generateDrawCanvas(blockIndex, presentationIndex) })
 
@@ -432,6 +441,7 @@
                             // if last response was on left/right arrow, moving to next trial
                             return false
                         }
+
                     }
                 }
 

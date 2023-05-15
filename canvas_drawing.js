@@ -1,10 +1,9 @@
 /* FUNCTION TO DRAW SINGLE STIMULUS ON CANVAS */
-function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrder) {
+function drawStimulus(side, ctx, graphToDraw, currentTrialOrder) {
     /* INPUT: 
     - side (left/right: indication of which stimulus has to be drawn, whether the left one or the right one)
     - ctx (reference to the canvas on which stimuli will be drawn)
-    - blockIndex (the number that identifies the current block)
-    - presentationIndex (the number that identifies the couple of graphs that is being displayed)
+    - graphToDraw (graph that will be displayed)
     - currentTrialOrder (order in which the nodes are displayed on the screen)
 
     OUTPUT:
@@ -14,9 +13,8 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
 
     // Drawing stimulus:
     // defining graph to draw:
-    let graphToDraw = side === "left" ? currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0] : currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1];
+    //let graphToDraw = side === "left" ? currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0] : currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1];
 
-    // DEBUG:
     console.log(graphToDraw[300].graph_name)
 
     // for loops that draws the squares and colors them
