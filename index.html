@@ -125,7 +125,6 @@
 
                 console.log("finished reading graphs for block number: " + blockIndex)
 
-                console.log("property added? " + currentExperiment.hasOwnProperty("graphsToDisplay"))
 
             }
 
@@ -133,8 +132,6 @@
             console.log(graphsToDisplay)
             // adding array of graphs to display to currentExperiment object:
             currentExperiment.graphsToDisplay = graphsToDisplay
-
-            console.log("property added? " + currentExperiment.hasOwnProperty("graphsToDisplay"))
 
         }
 
@@ -178,15 +175,12 @@
             type: jsPsychInstructions,
             pages: generateIntroductionPages(),
             key_forward: "ArrowRight",
-            // call the readGraphFiles function when instructions start:
-            on_start: readGraphFiles
         }
         timeline.push(introduction)
 
 
 
         /* INSTRUCTIONS */
-        /*        
         // PRELOADING instructions images:
         // calling function to create filepaths for all instructions images
         let instructions_ImagesArray = createArrayOfFilePaths(instructionsObject, 0)
@@ -202,14 +196,14 @@
             type: jsPsychInstructions,
             pages: generateInstructionsPages(),
             key_forward: "ArrowRight",
-
+            // call the readGraphFiles function when instructions start:
+            on_start: readGraphFiles
         }
         timeline.push(instructions)
 
 
 
         /* AGREEMENT TO MOVE TO TASK FAMILIARIZATION */
-        /*
         let move_to_familiarization_form = {
             type: jsPsychInstructions,
             pages: [`<p> Now it's your turn! <br>
@@ -223,7 +217,6 @@
 
 
         /* TASK FAMILIARIZATION */
-        /*
         // PART 1: WITHOUT BACKGROUND INFORMATION
         // PRELOADING images:
         // calling function to create filepaths for all images
@@ -325,7 +318,6 @@
 
 
         /* EXPERIMENT STRUCTURE IMAGE */
-        /*
         // PRELOADING experiment structure image:
         // adding preload plugin to timeline
         let preloadExpStructureImage = {
@@ -375,7 +367,7 @@
         var loading_page = {
             type: jsPsychHtmlKeyboardResponse,
             stimulus: 'Please wait while the experiment is loading...',
-            trial_duration: 50  //brief presentation so that the loop condition is evaluated continuously
+            trial_duration: 100  //brief presentation so that the loop condition is evaluated continuously
         }
         // loop node:
         let loop_node = {
