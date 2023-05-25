@@ -17,6 +17,7 @@
     <script type="text/javascript" src="jspsych/dist/plugin-survey-html-form.js"></script>
     <script type="text/javascript" src="jspsych/dist/plugin-html-keyboard-response.js"></script>
     <script type="text/javascript" src="jspsych/dist/plugin-preload.js"></script>
+    <script type="text/javascript" src="jspsych/dist/plugin-html-keyboard-response.js"></script>
     <!-- Customized plugin -->
     <script type="text/javascript" src="jspsych/dist/my-plugin-canvas-keyboard-response.js"></script>
     <!-- Pavlovia connection (COMMENTED FOR OFFLINE VERSION)
@@ -128,6 +129,7 @@
                 graphsToDisplay.push(graphsForCurrentBlock)
 
                 console.log("finished reading graphs for block number: " + blockIndex)
+
 
             }
 
@@ -432,7 +434,6 @@
             }
         };
         timeline.push(if_node);
-
 
 
         /* ACTUAL EXPERIMENT: */
