@@ -14,6 +14,8 @@
     <!-- Standard plugins -->
     <script type="text/javascript" src="jspsych/dist/plugin-instructions.js"></script>
     <script type="text/javascript" src="jspsych/dist/plugin-image-keyboard-response.js"></script>
+    <script type="text/javascript" src="jspsych/dist/plugin-survey-html-form.js"></script>
+    <script type="text/javascript" src="jspsych/dist/plugin-html-keyboard-response.js"></script>
     <script type="text/javascript" src="jspsych/dist/plugin-preload.js"></script>
     <!-- Customized plugin -->
     <script type="text/javascript" src="jspsych/dist/my-plugin-canvas-keyboard-response.js"></script>
@@ -25,8 +27,11 @@
     <link href="jspsych/dist/jspsych.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body style="overflow:hidden">
-    <!-- The 'overflow: hidden' css property above prevents scrollbar to be shown on screen -->
+<style>
+    /* styling can be modified here */
+</style>
+
+<body>
 
     <script type="module">
 
@@ -126,8 +131,7 @@
 
             }
 
-            console.log("finished reading graphs!")
-            console.log(graphsToDisplay)
+            console.log("finished reading graphs")
             // adding array of graphs to display to currentExperiment object:
             currentExperiment.graphsToDisplay = graphsToDisplay
 
@@ -177,8 +181,8 @@
         timeline.push(introduction)
 
 
-
         /* INSTRUCTIONS */
+        /*
         // PRELOADING instructions images:
         // calling function to create filepaths for all instructions images
         let instructions_ImagesArray = createArrayOfFilePaths(instructionsObject, 0)
@@ -202,6 +206,7 @@
 
 
         /* AGREEMENT TO MOVE TO TASK FAMILIARIZATION */
+        /*
         let move_to_familiarization_form = {
             type: jsPsychInstructions,
             pages: [`<p> Now it's your turn! <br>
@@ -215,6 +220,7 @@
 
 
         /* TASK FAMILIARIZATION */
+        /*
         // PART 1: WITHOUT BACKGROUND INFORMATION
         // PRELOADING images:
         // calling function to create filepaths for all images
@@ -314,7 +320,6 @@
             });
         }
 
-
         /* EXPERIMENT STRUCTURE IMAGE */
         // PRELOADING experiment structure image:
         // adding preload plugin to timeline
@@ -339,6 +344,29 @@
         timeline.push(experiment_structure_image)
 
 
+        /* COLLECTING DEMOGRAPHIC DATA: */
+        var demographic_survey = {
+            type: jsPsychSurveyHtmlForm,
+            preamble: '<p>Please answer the following questions:</p>',
+            html: `
+            <label for="gender">Indicate your gender:</label>
+            <select id="gender" name="gender" required>
+                <option value="" disabled selected>Select an option</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="transgender">Transgender</option>
+                <option value="other">Other</option>
+                <option value="not-specified">Prefer not to say</option>
+            </select>
+            <br><br><br>
+            <label for="age">Indicate your age:</label>
+            <input type="text" id="age" name="age" required>
+            <br><br>
+            `
+        };
+        timeline.push(demographic_survey)
+
+
         /* CONSENT FORM and AGREEMENT TO START EXPERIMENT */
         // informing that the experiment will start and subject agrees
         // POSSIBLE IMPROVEMENT: use external-HTML plugin (with "agreement_page.html"), so that it is possible to use checkbox and check agreement with a function (alert if clicking something else)
@@ -354,9 +382,57 @@
              - be aware that you can withdraw in any phase of the study.<br><br> 
              Press <b>space</b> to start the experiment.
              </p>`],
-            key_forward: " "
+            key_forward: " ",
+            on_finish: function () {
+                // Select the element with class "jspsych-display-element"
+                var displayElement = document.querySelector('.jspsych-display-element');
+                // Add the style attribute with overflow:hidden to prevent subject from scrolling during experiment
+                displayElement.style.overflow = 'hidden';
+            }
         };
         timeline.push(consent_form)
+
+
+        /* CONTROLLING THAT FILES HAVE BEEN SUCCESSFULLY LOADED */
+        //NB: will only be visualized if graphs have not been loaded yet
+        // loading page:
+        var loading_page = {
+            type: jsPsychHtmlKeyboardResponse,
+            stimulus: 'Please wait while the experiment is loading...<br><br> (This could take from seconds to a few minutes)',
+            trial_duration: 100  //brief presentation so that the loop condition is evaluated continuously
+        }
+        // loop node:
+        let loop_node = {
+            timeline: [loading_page],
+            loop_function: function () {
+                // while currentExperiment.graphsToDisplay has not been completely populated, present the loading page:
+                if (!(currentExperiment.hasOwnProperty('graphsToDisplay'))) {
+                    console.log("graphs still loading")
+                    return true
+                }
+                else {
+                    return false
+                }
+            }
+        }
+        // loading completed page:
+        var post_loading_page = {
+            type: jsPsychHtmlKeyboardResponse,
+            stimulus: 'Experiment has finished loading.<br><br>Press <b>any key</b> to start.',
+        }
+        // adding the loop node to the timeline only if currentExperiment.graphsToDisplay has not been completely populated (otherwise it is skipped)
+        var if_node = {
+            timeline: [loop_node, post_loading_page],
+            conditional_function: function () {
+                if (!(currentExperiment.hasOwnProperty('graphsToDisplay'))) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        };
+        timeline.push(if_node);
+
 
 
         /* ACTUAL EXPERIMENT: */
@@ -374,10 +450,6 @@
 
             // function that generates the stimuli:
             async function drawCanvas(c) {
-
-                // // READING THE GRAPHS THAT WILL BE DISPLAYED:
-                //let leftGraph = await getGraph(currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0])
-                //let rightGraph = await getGraph(currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1])
 
                 // addressing canvas
                 let ctx = c.getContext("2d");
