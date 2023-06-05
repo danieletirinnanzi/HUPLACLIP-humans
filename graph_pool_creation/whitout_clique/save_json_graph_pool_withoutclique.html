@@ -13,6 +13,9 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"> </script>
     <!-- Zipping files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
+    <!-- Compressing json files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.11/pako.min.js"></script>
+
 </head>
 
 <body>
@@ -25,10 +28,10 @@
         // CREATING graphPoolObject OBJECT:
         const graphPoolObject = {
             // pool size (experiment and graphs parameters are already stored)
-            numberOfGraphsPerCliqueSize: 100,
+            numberOfGraphsPerCliqueSize: 20,
         }
 
-        let cliqueSize = prompt("Insert the clique size for which you want to generate the graphs WITHOUT the clique (N=300):")
+        let cliqueSize = prompt("Insert the clique size for which you want to generate the graphs WITHOUT the clique (N=2000):")
 
         // Generating the array of graphs and adding them to the object
         graphPoolObject.graphsToSave = generateGraphsWithOutClique(cliqueSize)
@@ -40,15 +43,39 @@
         function CreateJSONGraphPoolZipFile_WITHOUTCLIQUE(arrayOfGraphsToSave) {
             const zip = new JSZip();
 
-            for (let graphIndex = 0; graphIndex < arrayOfGraphsToSave.length; graphIndex++) {
-                const json = JSON.stringify(arrayOfGraphsToSave[graphIndex]);
-                zip.file(`${arrayOfGraphsToSave[graphIndex][300].graph_name}.json`, json);
+            // Create a function to add the next file to the zip
+            function addNextFile(index) {
+                if (index >= arrayOfGraphsToSave.length) {
+                    // All files added, generate the zip
+                    zip.generateAsync({ type: "blob" }).then(function (content) {
+                        saveAs(content, `${cliqueSize.toString().padStart(4, '0')}`);
+                    });
+                    return;
+                }
+
+                // read single json file
+                const json = JSON.stringify(arrayOfGraphsToSave[index]);
+
+                // Compress the JSON data using pako
+                const compressedJson = pako.gzip(json);
+
+                // Convert the compressed data to a Uint8Array
+                const compressedData = new Uint8Array(compressedJson);
+
+                // Convert the Uint8Array to a Blob
+                const blob = new Blob([compressedData], { type: "application/octet-stream" });
+
+                // Add the file to the zip
+                zip.file(`${arrayOfGraphsToSave[index][2000].graph_name}.json`, blob);
+
+                // Add the next file
+                addNextFile(index + 1);
             }
 
-            zip.generateAsync({ type: "blob" }).then(function (content) {
-                saveAs(content, `graphs_without_clique_${cliqueSize}`);
-            });
+            // Start adding the files
+            addNextFile(0);
         }
+
 
 
     </script>

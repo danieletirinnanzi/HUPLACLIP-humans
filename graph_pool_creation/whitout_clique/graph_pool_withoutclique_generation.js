@@ -41,8 +41,6 @@ function generateGraphsWithOutClique(cliqueSize) {
         // increasing the value of p so that the two graphs will have the same average degree (pCorr = p + (K*(K-1)/N*(N-1)) * (1-p) )
         let correctedProbabilityForCurrentGraph = currentExperiment.probabilityOfAssociation + (((cliqueSize * (cliqueSize - 1)) / (currentExperiment.graphSize * (currentExperiment.graphSize - 1))) * (1 - currentExperiment.probabilityOfAssociation))
 
-        console.log(cliqueSize)
-
         // defining the values of the triangular adjacency matrix:
         for (let rowIndex = 1; rowIndex < currentExperiment.graphSize; rowIndex++) {
             //defining empty array that will contain the connections for the current row
@@ -56,7 +54,7 @@ function generateGraphsWithOutClique(cliqueSize) {
                 }
             }
             // adding to the matrix the name of the graph and indications about the absence of the clique:
-            singleGraph[currentExperiment.graphSize] = { 'graph_name': `${(graphIndex + 1).toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${cliqueSize.toString().padStart(3, '0')}_NOCLIQUE`, 'clique_size': cliqueSize, 'clique_array': "clique is absent" }
+            singleGraph[currentExperiment.graphSize] = { 'graph_name': `${(graphIndex + 1).toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${cliqueSize.toString().padStart(4, '0')}_NOCLIQUE`, 'clique_size': cliqueSize, 'clique_array': "clique is absent" }
             //adding to the object the property (the connections of the current node in the triangular matrix)
             singleGraph[rowIndex] = currentRowAssociations;
         }

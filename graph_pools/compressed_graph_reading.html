@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HUPLACLIP experiment</title>
+
+    <!-- Reading zipped files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
+    <!-- Compressing json files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.11/pako.min.js"></script>
+
+</head>
+
+<style>
+    /* styling can be modified here */
+</style>
+
+<body>
+
+    <script type="module">
+
+        // Function to read a compressed file and return a Promise
+        function readCompressedGraphFile(url) {
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.responseType = 'arraybuffer';
+
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        // File successfully loaded
+                        const compressedData = new Uint8Array(xhr.response);
+
+                        // Decompress the data using pako
+                        const decompressedData = pako.inflate(compressedData, { to: 'string' });
+
+                        // Parse the decompressed JSON data
+                        const graph = JSON.parse(decompressedData);
+                        resolve(graph);
+                    } else {
+                        // File loading failed
+                        reject(new Error(`Failed to load file: ${url}`));
+                    }
+                };
+
+                xhr.onerror = function () {
+                    reject(new Error(`Failed to load file: ${url}`));
+                };
+
+                xhr.open('GET', url, true);
+                xhr.send();
+            });
+        }
+
+
+  // trying function:
+
+
+
+    </script>
+
+</body>
+
+</html>

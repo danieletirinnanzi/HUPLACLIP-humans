@@ -45,9 +45,9 @@ function extractIndices() {
 
     // in the whole exp: for each clique size, 12 graphs with clique and 12 without (2 graphs per block * 6 blocks)
     currentExperiment.uniqueCliqueSizes.forEach(element => {
-        // creating array of numbers from 1 to 100:
+        // creating array of numbers from 1 to 20 (WILL BE 100):
         let arr = Array.from(
-            { length: 100 },
+            { length: 20 }, //DEBUG (will be 100)
             (_, index) => index + 1
         );
 

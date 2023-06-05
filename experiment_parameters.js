@@ -12,8 +12,8 @@ let currentExperiment = {
     maximumNumberOfShuffles: 10, // maximum number of randomizations allowed for a single couple of matrices 
     canvasDimensions: [canvasHeight, canvasWidth], // [height,width]
     // graphs parameters:
-    graphSize: 300,
-    initialCliqueSize: 175,  // maximum dimension of the clique (will decrease within the block, increasing the difficulty of the task)                       
+    graphSize: 2000,
+    initialCliqueSize: 1160,  // maximum dimension of the clique (will decrease within the block, increasing the difficulty of the task)                       
     probabilityOfAssociation: 0.5
 }
 
@@ -33,6 +33,7 @@ currentExperiment.standardOrderOfNodes = standardOrderOfNodes
 
 // - ARRAY OF CLIQUE SIZES
 currentExperiment.arrayOfCliqueSizes = createArrayOfCliqueSizes(currentExperiment.initialCliqueSize, currentExperiment.numberOfPresentationsPerBlock)
+console.log(currentExperiment.arrayOfCliqueSizes)
 
 // - UNIQUE CLIQUE SIZES:
 currentExperiment.uniqueCliqueSizes = currentExperiment.arrayOfCliqueSizes.filter((x, i, a) => a.indexOf(x) == i)

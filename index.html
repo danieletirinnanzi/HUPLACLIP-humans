@@ -85,10 +85,10 @@
 
                     // GRAPH WITH CLIQUE, trial 1:
                     // - creating URL:
-                    let graphWithClique_trial1_url = `graph_pools/CLIQUE/${element.toString().padStart(3, '0')}/${graphsWithCliqueIndices[element][blockIndex * 2].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(3, '0')}_CLIQUE.json`
+                    let graphWithClique_trial1_url = `graph_pools/CLIQUE/${element.toString().padStart(4, '0')}/${graphsWithCliqueIndices[element][blockIndex * 2].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(4, '0')}_CLIQUE.json`
                     // GRAPH WITHOUT CLIQUE, trial 1:
                     // - creating URL:            
-                    let graphWithoutClique_trial1_url = `graph_pools/NO_CLIQUE/${element.toString().padStart(3, '0')}/${graphsWithoutCliqueIndices[element][blockIndex * 2].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(3, '0')}_NOCLIQUE.json`
+                    let graphWithoutClique_trial1_url = `graph_pools/NO_CLIQUE/${element.toString().padStart(4, '0')}/${graphsWithoutCliqueIndices[element][blockIndex * 2].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(4, '0')}_NOCLIQUE.json`
 
                     // Start reading the files in the background
                     const [graphWithClique1, graphWithoutClique1] = await Promise.all([
@@ -105,10 +105,10 @@
 
                     // GRAPH WITH CLIQUE, trial 2:
                     // - creating URL:
-                    let graphWithClique_trial2_url = `graph_pools/CLIQUE/${element.toString().padStart(3, '0')}/${graphsWithCliqueIndices[element][blockIndex * 2 + 1].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(3, '0')}_CLIQUE.json`
+                    let graphWithClique_trial2_url = `graph_pools/CLIQUE/${element.toString().padStart(4, '0')}/${graphsWithCliqueIndices[element][blockIndex * 2 + 1].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(4, '0')}_CLIQUE.json`
                     // GRAPH WITHOUT CLIQUE, trial 2:
                     // - creating URL:            
-                    let graphWithoutClique_trial2_url = `graph_pools/NO_CLIQUE/${element.toString().padStart(3, '0')}/${graphsWithoutCliqueIndices[element][blockIndex * 2 + 1].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(3, '0')}_NOCLIQUE.json`
+                    let graphWithoutClique_trial2_url = `graph_pools/NO_CLIQUE/${element.toString().padStart(4, '0')}/${graphsWithoutCliqueIndices[element][blockIndex * 2 + 1].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(4, '0')}_NOCLIQUE.json`
 
                     // Start reading the files in the background
                     const [graphWithClique2, graphWithoutClique2] = await Promise.all([
@@ -179,11 +179,14 @@
             type: jsPsychInstructions,
             pages: generateIntroductionPages(),
             key_forward: "ArrowRight",
+            // call the readGraphFiles function when instructions start:
+            on_start: readGraphFiles
         }
         timeline.push(introduction)
 
 
         /* INSTRUCTIONS */
+        /*
         // PRELOADING instructions images:
         // calling function to create filepaths for all instructions images
         let instructions_ImagesArray = createArrayOfFilePaths(instructionsObject, 0)
@@ -199,14 +202,13 @@
             type: jsPsychInstructions,
             pages: generateInstructionsPages(),
             key_forward: "ArrowRight",
-            // call the readGraphFiles function when instructions start:
-            on_start: readGraphFiles
         }
         timeline.push(instructions)
 
 
 
         /* AGREEMENT TO MOVE TO TASK FAMILIARIZATION */
+        /*
         let move_to_familiarization_form = {
             type: jsPsychInstructions,
             pages: [`<p> Now it's your turn! <br>
@@ -220,6 +222,7 @@
 
 
         /* TASK FAMILIARIZATION */
+        /*
         // PART 1: WITHOUT BACKGROUND INFORMATION
         // PRELOADING images:
         // calling function to create filepaths for all images
@@ -320,6 +323,7 @@
         }
 
         /* EXPERIMENT STRUCTURE IMAGE */
+        /*
         // PRELOADING experiment structure image:
         // adding preload plugin to timeline
         let preloadExpStructureImage = {
@@ -344,6 +348,7 @@
 
 
         /* COLLECTING DEMOGRAPHIC DATA: */
+        /*
         var demographic_survey = {
             type: jsPsychSurveyHtmlForm,
             preamble: '<p>Please answer the following questions:</p>',
@@ -367,6 +372,7 @@
 
 
         /* CONSENT FORM and AGREEMENT TO START EXPERIMENT */
+        /*
         // informing that the experiment will start and subject agrees
         // POSSIBLE IMPROVEMENT: use external-HTML plugin (with "agreement_page.html"), so that it is possible to use checkbox and check agreement with a function (alert if clicking something else)
         let consent_form = {
