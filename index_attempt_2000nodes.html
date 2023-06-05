@@ -70,8 +70,6 @@
 
             });
 
-            console.log(graphsIndices)
-
             return graphsIndices
 
         }
@@ -240,7 +238,9 @@
                 let ctx = c.getContext("2d");
 
                 // for each presentation, shuffling the standard order of the nodes (used to draw the stimuli)
+                console.log("started shuffling")
                 let currentTrialOrder = shuffleNodes(currentExperiment.standardOrderOfNodes.slice())    //using "slice()" so that the value of "currentExperiment.standardOrderOfNodes" is not modified)
+                console.log("finished shuffling")
 
                 // accessing the array of the trials completed up to now (used to draw the feedback):
                 let currentTrialsArray = jsPsych.data.get().trials
