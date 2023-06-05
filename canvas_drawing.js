@@ -15,11 +15,14 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
     // Drawing stimulus:
     // defining graph to draw:
     let graphToDraw = side === "left" ? currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0] : currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1];
+    console.log("retrieved graph")
+    console.log(graphToDraw)
 
     // for loops that draws the squares and colors them
     let squareIndex = 0   //to correctly identify which square is being drawn and filling it correctly
     for (let firstIndex = 0; firstIndex < (currentExperiment.graphSize - 1); firstIndex++) {
         for (let secondIndex = 0; secondIndex < firstIndex + 1; secondIndex++) {
+
             // drawing the square
             ctx.beginPath();
             switch (side) {
@@ -82,6 +85,8 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
         }
 
     }
+
+    console.log("finished drawing")
 
 }
 
