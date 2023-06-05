@@ -68,6 +68,9 @@ function generateGraphsWithClique(cliqueSize) {
 
         // adding the graph to the array:
         graphsWithClique.push(singleGraph)
+
+        //printing progress:
+        console.log('added graph number: ' + graphIndex)
     }
 
     return graphsWithClique

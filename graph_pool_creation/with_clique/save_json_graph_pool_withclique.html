@@ -14,13 +14,13 @@
     <!-- Zipping files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
     <!-- Compressing json files -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.1/pako.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.11/pako.min.js"></script>
 </head>
 
 <body>
     <h2>Create a number of single graphs with the clique, of the given clique size, and saving them to local computer
         using <i>FileSaver</i> JavaScript Library.</h2>
-    <button type="button" onclick="CreateJSONGraphsZipped_WITHCLIQUE(graphPoolObject.graphsToSave);">Create JSON
+    <button type="button" onclick="CreateJSONGraphPoolZipFile_WITHCLIQUE(graphPoolObject.graphsToSave);">Create JSON
         File
         of graphs WITH
         CLIQUE</button>
@@ -30,7 +30,7 @@
         // CREATING graphPoolObject OBJECT:
         const graphPoolObject = {
             // pool size (experiment and graphs parameters are already stored)
-            numberOfGraphsPerCliqueSize: 20,
+            numberOfGraphsPerCliqueSize: 100,
         }
 
         let cliqueSize = prompt("Insert the clique size for which you want to generate the graphs WITH the clique (N=2000):")
@@ -42,16 +42,40 @@
 
         /* SAVING GRAPHS AS SINGLE JSON FILES IF BUTTON IS PRESSED */
         // transforming each graph into .json format to export it
-        function CreateJSONGraphsZipped_WITHCLIQUE(arrayOfGraphsToSave) {
+        function CreateJSONGraphPoolZipFile_WITHCLIQUE(arrayOfGraphsToSave) {
+            const zip = new JSZip();
 
-            for (let graphIndex = 0; graphIndex < arrayOfGraphsToSave.length; graphIndex++) {
-                const zip = new JSZip();
-                const json = JSON.stringify(arrayOfGraphsToSave[graphIndex]);
-                zip.file(`${arrayOfGraphsToSave[graphIndex][2000].graph_name}.json`, json);
-                zip.generateAsync({ type: "blob" }).then(function (content) {
-                    saveAs(content, `${(graphIndex + 1).toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${cliqueSize.toString().padStart(4, '0')}_CLIQUE.zip`);
-                });
+            // Create a function to add the next file to the zip
+            function addNextFile(index) {
+                if (index >= arrayOfGraphsToSave.length) {
+                    // All files added, generate the zip
+                    zip.generateAsync({ type: "blob" }).then(function (content) {
+                        saveAs(content, `${cliqueSize.toString().padStart(4, '0')}`);
+                    });
+                    return;
+                }
+
+                // read single json file
+                const json = JSON.stringify(arrayOfGraphsToSave[index]);
+
+                // Compress the JSON data using pako
+                const compressedJson = pako.gzip(json);
+
+                // Convert the compressed data to a Uint8Array
+                const compressedData = new Uint8Array(compressedJson);
+
+                // Convert the Uint8Array to a Blob
+                const blob = new Blob([compressedData], { type: "application/octet-stream" });
+
+                // Add the file to the zip
+                zip.file(`${arrayOfGraphsToSave[index][2000].graph_name}.json`, blob);
+
+                // Add the next file
+                addNextFile(index + 1);
             }
+
+            // Start adding the files
+            addNextFile(0);
         }
 
 

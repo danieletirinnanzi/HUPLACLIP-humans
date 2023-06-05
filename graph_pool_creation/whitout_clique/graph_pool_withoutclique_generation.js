@@ -61,6 +61,10 @@ function generateGraphsWithOutClique(cliqueSize) {
 
         // adding the graph to the array:
         graphsWithoutClique.push(singleGraph)
+
+        //printing progress:
+        console.log('added graph number: ' + graphIndex)
+
     }
 
     return graphsWithoutClique

@@ -28,7 +28,7 @@ function extractIndices() {
     - none
 
     OUTPUT:
-    - array of graphs that will be shown during the experiment
+    - array of the indices of the graphs that will be shown during the experiment
 
     ARRAY STRUCTURE: 
     [ experiment
@@ -45,14 +45,13 @@ function extractIndices() {
 
     // in the whole exp: for each clique size, 12 graphs with clique and 12 without (2 graphs per block * 6 blocks)
     currentExperiment.uniqueCliqueSizes.forEach(element => {
-        // creating array of numbers from 1 to 20 (WILL BE 100):
+        // creating array of numbers from 1 to 100:
         let arr = Array.from(
-            { length: 20 }, //DEBUG (will be 100)
+            { length: 100 },
             (_, index) => index + 1
         );
 
         // for each clique size, shuffling the array, extracting the first 12 indices and inserting them in the object:
-        // - WITH CLIQUE  
         graphsIndices[element] = shuffleNodes(arr.slice()).slice(0, 12)
 
     });
