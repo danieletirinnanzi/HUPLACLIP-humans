@@ -60,7 +60,7 @@ function generateGraphsWithClique(cliqueSize) {
                 }
             }
             //adding to the matrix information about the clique: size and array of nodes that are part of it
-            singleGraph[currentExperiment.graphSize] = { 'graph_name': `${(graphIndex + 1).toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${cliqueSize.toString().padStart(3, '0')}_CLIQUE`, 'clique_size': cliqueArray.length, 'clique_array': cliqueArray }
+            singleGraph[currentExperiment.graphSize] = { 'graph_name': `${(graphIndex + 1).toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${cliqueSize.toString().padStart(4, '0')}_CLIQUE`, 'clique_size': cliqueArray.length, 'clique_array': cliqueArray }
 
             //adding to the object the property (the connections of the current node in the triangular matrix)
             singleGraph[rowIndex] = currentRowAssociations;
