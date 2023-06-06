@@ -13,36 +13,41 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
     */
 
     // Drawing stimulus:
-    // defining graph to draw:
+    // retrieving graph to draw:
     let graphToDraw = side === "left" ? currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0] : currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1];
     console.log("retrieved graph")
-    console.log(graphToDraw)
 
-    // for loops that draws the squares and colors them
+    console.log()
+
+    /*
+    TO DO: 
+    SELECT THE PORTION OF THE GRAPH TO REPRESENT 
+    */
+
+    // the outline
+    ctx.lineWidth = .2;
+    ctx.strokeStyle = '#666666';
+
+    // for loops that draw the squares and color them
     let squareIndex = 0   //to correctly identify which square is being drawn and filling it correctly
-    for (let firstIndex = 0; firstIndex < (currentExperiment.graphSize - 1); firstIndex++) {
-        for (let secondIndex = 0; secondIndex < firstIndex + 1; secondIndex++) {
-
+    for (let firstIndex = 0; firstIndex < (currentExperiment.windowSize - 1); firstIndex++) {
+        let maxSecondIndex = firstIndex + 1
+        for (let secondIndex = 0; secondIndex < maxSecondIndex; secondIndex++) {
             // drawing the square
             ctx.beginPath();
             switch (side) {
                 case "left":
                     // drawing left square
-                    ctx.moveTo(currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][0][0], currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][0][1]); //starting point (top angle)
-                    ctx.lineTo(currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][1][0], currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][1][1]); //going left-right (right angle)
-                    ctx.lineTo(currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][2][0], currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][2][1]); //going down-left (bottom angle)
-                    ctx.lineTo(currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][3][0], currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][3][1]); //going up-left (left angle)
-                    ctx.lineTo(currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][4][0], currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][4][1]); //closing square (top angle) (same coordinates of starting point)
+                    ctx.fillRect(currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][0], currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][1], currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][2], currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][2])
                     break;
                 case "right":
-                    // drawing right square:
-                    ctx.moveTo(currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][0][0], currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][0][1]); //starting point (top angle)
-                    ctx.lineTo(currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][1][0], currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][1][1]); //going left-right (right angle)
-                    ctx.lineTo(currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][2][0], currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][2][1]); //going down-left (bottom angle)
-                    ctx.lineTo(currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][3][0], currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][3][1]); //going up-left (left angle)
-                    ctx.lineTo(currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][4][0], currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][4][1]); //closing square (top angle) (same coordinates of starting point)
+                    // drawing right square
+                    ctx.fillRect(currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][0], currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][1], currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][2], currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][2])
                     break;
             }
+
+            /*
+            ADAPT THIS PART ACCORDING TO THE PART REPRESENTED IN THE WINDOW
 
             // Determining whether the two nodes are associated:
             let presentAssociation = false // will be changed to "true" if association is present in the considered instance 
@@ -78,6 +83,8 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
                 ctx.fillStyle = "#FFFFFF";
                 ctx.fill();
             }
+
+            */
 
             // incrementing squareIndex:
             squareIndex += 1

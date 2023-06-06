@@ -213,7 +213,13 @@
             pages: ['hi'],
             key_forward: "ArrowRight",
             // call the readGraphFiles function when instructions start:
-            on_start: readGraphFiles
+            on_start: readGraphFiles,
+            on_finish: function () {
+                // Select the element with class "jspsych-display-element"
+                var displayElement = document.querySelector('.jspsych-display-element');
+                // Add the style attribute with overflow:hidden to prevent subject from scrolling during experiment
+                displayElement.style.overflow = 'hidden';
+            }
         }
         timeline.push(introduction)
 
