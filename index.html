@@ -13,6 +13,7 @@
     <script type="text/javascript" src="jspsych/dist/jspsych.js"></script>
     <!-- Standard plugins -->
     <script type="text/javascript" src="jspsych/dist/plugin-instructions.js"></script>
+    <script type="text/javascript" src="jspsych/dist/plugin-fullscreen.js"></script>
     <script type="text/javascript" src="jspsych/dist/plugin-image-keyboard-response.js"></script>
     <script type="text/javascript" src="jspsych/dist/plugin-survey-html-form.js"></script>
     <script type="text/javascript" src="jspsych/dist/plugin-html-keyboard-response.js"></script>
@@ -143,6 +144,14 @@
             currentExperiment.graphsToDisplay = graphsToDisplay
 
         }
+
+
+        // CHECKING DEVICE REQUIREMENTS:
+        // - vertical resolution is at least 1080px
+        if (currentExperiment.canvasDimensions[0] < 1080) alert("The vertical resolution of your device is not sufficient for performing the experiment. Please open it with on a different device.")
+        // - browser is different from Safari (does not allow keboard input when in FullScreen mode)
+        let isSafari = window.safari !== undefined
+        if (isSafari) alert("Please open the experiment in a browser different from Safari.")
 
 
         /* initializing jspsych */
@@ -377,7 +386,6 @@
 
 
         /* CONSENT FORM and AGREEMENT TO START EXPERIMENT */
-        /*
         // informing that the experiment will start and subject agrees
         // POSSIBLE IMPROVEMENT: use external-HTML plugin (with "agreement_page.html"), so that it is possible to use checkbox and check agreement with a function (alert if clicking something else)
         let consent_form = {
@@ -442,6 +450,14 @@
             }
         };
         timeline.push(if_node);
+
+
+        // entering FullScreen before experiment:
+        var enter_fullscreen = {
+            type: jsPsychFullscreen,
+            fullscreen_mode: true
+        }
+        timeline.push(enter_fullscreen)
 
 
         /* ACTUAL EXPERIMENT: */
@@ -666,6 +682,14 @@
         }
 
 
+        // exiting fullscreen after experiment:
+        var exit_fullscreen = {
+            type: jsPsychFullscreen,
+            fullscreen_mode: false,
+            delay_after: 0
+        }
+        timeline.push(exit_fullscreen)
+
         /* finish connection with pavlovia.org */
         /*
         var pavlovia_finish = {
@@ -680,8 +704,9 @@
  
         };
         timeline.push(pavlovia_finish)
- 
- 
+        */
+
+
         /* start the experiment */
         jsPsych.run(timeline);
 

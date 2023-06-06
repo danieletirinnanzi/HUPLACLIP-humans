@@ -7,14 +7,13 @@ let canvasWidth = window.screen.width;
 let currentExperiment = {
     // experiment parameters:
     numberOfBlocks: 6,
-    numberOfPresentationsPerBlock: 30, // single presentation = single couple of graphs, presented once and reordered through space bar presses)
+    numberOfPresentationsPerBlock: 20, // single presentation = single couple of graphs, presented once and reordered through space bar presses)
     numberOfGraphsPerCliqueSize: 2, // number of graphs for each clique size in each block
     maximumNumberOfShuffles: 10, // maximum number of randomizations allowed for a single couple of matrices 
     canvasDimensions: [canvasHeight, canvasWidth], // [height,width]
     // graphs parameters:
     graphSize: 2000,
-    initialCliqueSize: 1160,  // maximum dimension of the clique (will decrease within the block, increasing the difficulty of the task)
-    windowSize: 700,   // dimension of the window shown on the screen                       
+    windowSize: 1000,   // dimension of the window shown on the screen                       
     probabilityOfAssociation: 0.5
 }
 
@@ -33,7 +32,7 @@ for (let index = 0; index < currentExperiment.graphSize; index++) {
 currentExperiment.standardOrderOfNodes = standardOrderOfNodes
 
 // - ARRAY OF CLIQUE SIZES
-currentExperiment.arrayOfCliqueSizes = createArrayOfCliqueSizes(currentExperiment.initialCliqueSize, currentExperiment.numberOfPresentationsPerBlock)
+currentExperiment.arrayOfCliqueSizes = [1000, 1000, 512, 512, 256, 256, 128, 128, 96, 96, 64, 64, 32, 32, 27, 27, 25, 25, 22, 22];
 
 // - UNIQUE CLIQUE SIZES:
 currentExperiment.uniqueCliqueSizes = currentExperiment.arrayOfCliqueSizes.filter((x, i, a) => a.indexOf(x) == i)
