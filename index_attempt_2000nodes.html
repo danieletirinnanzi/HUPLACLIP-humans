@@ -181,6 +181,13 @@
 
         }
 
+        // CHECKING DEVICE REQUIREMENTS:
+        // - vertical resolution is at least 1080px
+        if (currentExperiment.canvasDimensions[0] < 1080) alert("The vertical resolution of your device is not sufficient for performing the experiment. Please open it with on a different device.")
+        // - browser is different from Safari (does not allow keboard input when in FullScreen mode)
+        let isSafari = window.safari !== undefined
+        if (isSafari) alert("Please open the experiment in a browser different from Safari.")
+
 
         /* initializing jspsych */
         var jsPsych = initJsPsych({
@@ -222,6 +229,10 @@
             }
         }
         timeline.push(introduction)
+
+
+        // entering FullScreen before experiment:
+
 
 
         /* ACTUAL EXPERIMENT: */

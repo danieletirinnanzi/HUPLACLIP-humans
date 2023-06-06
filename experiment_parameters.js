@@ -1,7 +1,7 @@
 /* EXPERIMENT PARAMETERS: */
 // defining canvas dimensions (sizes of canvas = sizes of whole window):
-let canvasHeight = innerHeight  //height is the dimension that regulates the size of the stimuli (on which the "step" is calculated)
-let canvasWidth = innerWidth
+let canvasHeight = window.screen.height;  //height is the dimension that regulates the size of the stimuli (on which the "step" is calculated)
+let canvasWidth = window.screen.width;
 
 // CREATING OBJECT FOR CURRENT EXPERIMENT:
 let currentExperiment = {
@@ -49,8 +49,6 @@ console.log(yStartingPoint)
 // calculating starting point on x axis:
 let xStartingPointLeft = (currentExperiment.canvasDimensions[1] / 2) - ((currentExperiment.canvasDimensions[0] - 50) / 2)
 console.log(xStartingPointLeft)
-
-console.log(currentExperiment.canvasDimensions)
 
 // left triangle COORDINATES:
 let leftTriangleCoordinatesArray = []
