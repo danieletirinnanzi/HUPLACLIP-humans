@@ -15,6 +15,7 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
     // Drawing stimulus:
     // retrieving graph to draw:
     let graphToDraw = side === "left" ? currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0] : currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1];
+    let triangleCoordinates = side === "left" ? currentExperiment.stimuliCoordinates.leftTriangle : currentExperiment.stimuliCoordinates.rightTriangle;
     console.log("retrieved graph on the " + side)
 
     // for loops that draw the squares and color them
@@ -22,53 +23,35 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
     for (let firstIndex = 0; firstIndex < (currentExperiment.windowSize - 1); firstIndex++) {
         let maxSecondIndex = firstIndex + 1
         for (let secondIndex = 0; secondIndex < maxSecondIndex; secondIndex++) {
-            // drawing the square
-            ctx.beginPath();
-            switch (side) {
-                case "left":
-                    // drawing left square
-                    ctx.fillRect(currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][0], currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][1], currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][2], currentExperiment.stimuliCoordinates.leftTriangle[squareIndex][2])
-                    break;
-                case "right":
-                    // drawing right square
-                    ctx.fillRect(currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][0], currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][1], currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][2], currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][2])
-                    break;
-            }
+            // drawing left square
+            ctx.fillRect(triangleCoordinates[squareIndex][0], triangleCoordinates[squareIndex][1], triangleCoordinates[squareIndex][2], triangleCoordinates[squareIndex][2])
 
-            // Determining whether the two nodes are associated:
-            let presentAssociation = false // will be changed to "true" if association is present in the considered instance 
-            // dealing with associations for node "0":
+            // Setting fill color to white (unassociated nodes)
+            ctx.fillStyle = "#FFFFFF";
+            // Determining whether the two nodes are associated and changing the color to black if they are:
+            // - dealing with associations for node "0":
             if (currentTrialOrder[firstIndex + 1] == 0) {
-                //first node was zero, reading 0th column of element
+                // - first node was zero, reading 0th column of element
                 if (graphToDraw[(currentTrialOrder[secondIndex])][0] == 1)
-                    presentAssociation = true
+                    ctx.fillStyle = "#000000";
             } else if (currentTrialOrder[secondIndex] == 0) {
-                //second node was zero, reading 0th column of element
+                // - second node was zero, reading 0th column of element
                 if (graphToDraw[(currentTrialOrder[firstIndex + 1])][0] == 1)
-                    presentAssociation = true
+                    ctx.fillStyle = "#000000";
             } else {
-                // when dealing with non-zero nodes, always reading the value from bigger node (constraint since matrix is triangular)
+                // - when dealing with non-zero nodes, always reading the value from bigger node (constraint since matrix is triangular)
                 if (currentTrialOrder[firstIndex + 1] < currentTrialOrder[secondIndex]) {
-                    //second element is bigger
+                    // - second element is bigger
                     if (graphToDraw[currentTrialOrder[secondIndex]][currentTrialOrder[firstIndex + 1]] == 1)
-                        presentAssociation = true
+                        ctx.fillStyle = "#000000";
                 } else {
-                    //second element is smaller
+                    // - second element is smaller
                     if (graphToDraw[currentTrialOrder[firstIndex + 1]][currentTrialOrder[secondIndex]] == 1)
-                        presentAssociation = true
+                        ctx.fillStyle = "#000000";
                 }
             }
-
-            //filling the square according to the choice just made
-            if (presentAssociation) {
-                // black if nodes are associated
-                ctx.fillStyle = "#000000";
-                ctx.fill();
-            } else {
-                // white if nodes are unassociated
-                ctx.fillStyle = "#FFFFFF";
-                ctx.fill();
-            }
+            // filling the square with the color just defined:
+            ctx.fill();
 
             // incrementing squareIndex:
             squareIndex += 1
