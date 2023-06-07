@@ -193,7 +193,7 @@
             type: jsPsychInstructions,
             pages: generateIntroductionPages(),
             key_forward: "ArrowRight",
-            // call the readGraphFiles function when instructions start:
+            // call the readGraphFiles function when introduction pages are read:
             on_start: readGraphFiles
         }
         timeline.push(introduction)
@@ -452,7 +452,7 @@
         timeline.push(if_node);
 
 
-        // entering FullScreen before experiment:
+        /* entering fullscreen before experiment: */
         var enter_fullscreen = {
             type: jsPsychFullscreen,
             fullscreen_mode: true
@@ -479,8 +479,9 @@
                 // addressing canvas
                 let ctx = c.getContext("2d");
 
-                // for each presentation, shuffling the standard order of the nodes (used to draw the stimuli)
-                let currentTrialOrder = shuffleNodes(currentExperiment.standardOrderOfNodes.slice())    //using "slice()" so that the value of "currentExperiment.standardOrderOfNodes" is not modified)
+                // for each presentation, shuffling the standard order of the nodes and isolating the subset presented in the triangular window
+                let currentTrialOrder = shuffleNodes(currentExperiment.standardOrderOfNodes.slice()).slice(0, currentExperiment.windowSize)    //using "standardOderOfNodes.slice()" so that the value of "currentExperiment.standardOrderOfNodes" is not modified)
+                console.log("defined order of 1000 nodes for current visualization")
 
                 // accessing the array of the trials completed up to now (used to draw the feedback):
                 let currentTrialsArray = jsPsych.data.get().trials
@@ -490,6 +491,8 @@
                 drawStimulus("left", ctx, blockIndex, presentationIndex, currentTrialOrder)
                 // right stimulus:
                 drawStimulus("right", ctx, blockIndex, presentationIndex, currentTrialOrder)
+                // red diagonal to separate the two matrices:
+                drawDiagonal(ctx)
                 // accuracy and number of remaining randomizations:
                 drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray)
                 // instructions reminder:
@@ -682,13 +685,14 @@
         }
 
 
-        // exiting fullscreen after experiment:
+        /* exiting fullscreen after experiment: */
         var exit_fullscreen = {
             type: jsPsychFullscreen,
             fullscreen_mode: false,
             delay_after: 0
         }
         timeline.push(exit_fullscreen)
+
 
         /* finish connection with pavlovia.org */
         /*

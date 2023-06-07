@@ -39,15 +39,15 @@ currentExperiment.uniqueCliqueSizes = currentExperiment.arrayOfCliqueSizes.filte
 
 // - COORDINATES OF LEFT AND RIGHT TRIANGLES
 // calculating drawing parameters:
-// single step size (single displacement on x or y axes. Each square spans two steps)
-let singleStepSize = (currentExperiment.canvasDimensions[0] - 50) / (currentExperiment.windowSize)  // NB: browser window should be > 700px (leaving 25 px below and above the squares)
-console.log(singleStepSize)
-// calculating starting points on y axis:
-let yStartingPoint = 25  //NB: starting to draw not from top of window, but leaving 25px above and below the squares
-console.log(yStartingPoint)
-// calculating starting point on x axis:
+// - square side dimension:
+let squareSideDimension = (currentExperiment.canvasDimensions[0] - 50) / (currentExperiment.windowSize)  // NB: browser window should be > 700px (leaving 25 px below and above the squares)
+console.log("the side dimension of single squares is: " + squareSideDimension)
+// - calculating starting point on x axis:
 let xStartingPointLeft = (currentExperiment.canvasDimensions[1] / 2) - ((currentExperiment.canvasDimensions[0] - 50) / 2)
-console.log(xStartingPointLeft)
+// - calculating starting points on y axis:
+let yStartingPoint = 25  //NB: starting to draw not from top of window, but leaving 25px above and below the squares
+// storing the starting points and the square size in currentExperiment object (used to draw red diagonal):
+currentExperiment.fixedDrawingParameters = [xStartingPointLeft, yStartingPoint, squareSideDimension]
 
 // left triangle COORDINATES:
 let leftTriangleCoordinatesArray = []
@@ -55,10 +55,10 @@ for (let firstIndex = 0; firstIndex < (currentExperiment.windowSize - 1); firstI
     let maxSecondIndex = firstIndex + 1
     for (let secondIndex = 0; secondIndex < maxSecondIndex; secondIndex++) {
         // calculating starting points of fillRect for each square:
-        let xStart = xStartingPointLeft + (singleStepSize * secondIndex)
-        let yStart = yStartingPoint + (singleStepSize * (firstIndex + 1))
+        let xStart = xStartingPointLeft + (squareSideDimension * secondIndex)
+        let yStart = yStartingPoint + (squareSideDimension * (firstIndex + 1))
         // pushing starting points of squares into array:
-        leftTriangleCoordinatesArray.push([xStart, yStart, singleStepSize]);
+        leftTriangleCoordinatesArray.push([xStart, yStart, squareSideDimension]);
     }
 }
 
@@ -68,10 +68,10 @@ for (let firstIndex = 0; firstIndex < (currentExperiment.windowSize - 1); firstI
     let maxSecondIndex = firstIndex + 1
     for (let secondIndex = 0; secondIndex < maxSecondIndex; secondIndex++) {
         // calculating starting points of fillRect for each square:
-        let xStart = xStartingPointLeft + (singleStepSize * (firstIndex + 1))
-        let yStart = yStartingPoint + (singleStepSize * secondIndex)
+        let xStart = xStartingPointLeft + (squareSideDimension * (firstIndex + 1))
+        let yStart = yStartingPoint + (squareSideDimension * secondIndex)
         // pushing starting points of squares into array:
-        rightTriangleCoordinatesArray.push([xStart, yStart, singleStepSize]);
+        rightTriangleCoordinatesArray.push([xStart, yStart, squareSideDimension]);
     }
 }
 // adding coordinates to currentExperiment object

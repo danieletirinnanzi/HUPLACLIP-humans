@@ -5,7 +5,7 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
     - ctx (reference to the canvas on which stimuli will be drawn)
     - blockIndex (the number that identifies the current block)
     - presentationIndex (the number that identifies the couple of graphs that is being displayed)    
-    - currentTrialOrder (order in which the nodes are displayed on the screen)
+    - currentTrialOrder (order in which the 1000 nodes are displayed on the screen for the current trial)
 
     OUTPUT:
     - display of single stimulus on the screen
@@ -16,17 +16,6 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
     // retrieving graph to draw:
     let graphToDraw = side === "left" ? currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0] : currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1];
     console.log("retrieved graph")
-
-    console.log()
-
-    /*
-    TO DO: 
-    SELECT THE PORTION OF THE GRAPH TO REPRESENT 
-    */
-
-    // the outline
-    ctx.lineWidth = .2;
-    ctx.strokeStyle = '#666666';
 
     // for loops that draw the squares and color them
     let squareIndex = 0   //to correctly identify which square is being drawn and filling it correctly
@@ -45,9 +34,6 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
                     ctx.fillRect(currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][0], currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][1], currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][2], currentExperiment.stimuliCoordinates.rightTriangle[squareIndex][2])
                     break;
             }
-
-            /*
-            ADAPT THIS PART ACCORDING TO THE PART REPRESENTED IN THE WINDOW
 
             // Determining whether the two nodes are associated:
             let presentAssociation = false // will be changed to "true" if association is present in the considered instance 
@@ -84,8 +70,6 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
                 ctx.fill();
             }
 
-            */
-
             // incrementing squareIndex:
             squareIndex += 1
 
@@ -93,7 +77,29 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
 
     }
 
-    console.log("finished drawing")
+    //DEBUG
+    console.log("finished drawing graph on the: " + side)
+
+}
+
+/* FUNCTION TO DRAW THE RED DIAGONAL THAT SEPARATES THE TWO MATRICES*/
+function drawDiagonal(ctx) {
+    /* INPUT: 
+    - ctx (reference to the canvas on which the diagonal will be drawn)
+
+    OUTPUT:
+    - display of red diagonal between the two matrices
+    */
+
+    // for loop to generate the diagonal:
+    for (let index = 0; index < (currentExperiment.windowSize); index++) {
+        // drawing square of diagonal (x, y, width, height)
+        ctx.fillRect(currentExperiment.fixedDrawingParameters[0] + (currentExperiment.fixedDrawingParameters[2] * index), currentExperiment.fixedDrawingParameters[1] + (currentExperiment.fixedDrawingParameters[2] * index), currentExperiment.fixedDrawingParameters[2], currentExperiment.fixedDrawingParameters[2])
+        // filling square in red
+        ctx.fillStyle = "#ff0000";
+        ctx.fill();
+    }
+
 
 }
 
