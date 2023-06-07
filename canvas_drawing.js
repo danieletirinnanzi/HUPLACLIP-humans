@@ -15,7 +15,7 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
     // Drawing stimulus:
     // retrieving graph to draw:
     let graphToDraw = side === "left" ? currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0] : currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1];
-    console.log("retrieved graph")
+    console.log("retrieved graph on the " + side)
 
     // for loops that draw the squares and color them
     let squareIndex = 0   //to correctly identify which square is being drawn and filling it correctly

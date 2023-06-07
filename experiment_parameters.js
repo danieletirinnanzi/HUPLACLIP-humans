@@ -13,7 +13,7 @@ let currentExperiment = {
     canvasDimensions: [canvasHeight, canvasWidth], // [height,width]
     // graphs parameters:
     graphSize: 2000,
-    windowSize: 700,   // dimension of the window shown on the screen                       
+    windowSize: 1000,   // dimension of the window shown on the screen                       
     probabilityOfAssociation: 0.5
 }
 
@@ -42,10 +42,11 @@ currentExperiment.uniqueCliqueSizes = currentExperiment.arrayOfCliqueSizes.filte
 
 // - COORDINATES OF LEFT AND RIGHT TRIANGLES
 // calculating drawing parameters:
-let topAndBottomMargin = 5 //in pixels (CHANGE HERE TO INCREASE/DECREASE)
-// - square side dimension:
-let squareSideDimension = (currentExperiment.canvasDimensions[0] - topAndBottomMargin) / (currentExperiment.windowSize)
+// - square side dimension (scales with screen resolution)
+let squareSideDimension = Math.floor((currentExperiment.canvasDimensions[0] / currentExperiment.windowSize)) // rounding it to the closest lower integer to avoid aliasing (1.6px becomes 1px; 3.9px becomes 3px)
 console.log("the side dimension of single squares is: " + squareSideDimension)
+// - top and bottom margin (centering the square in the available space)
+let topAndBottomMargin = (currentExperiment.canvasDimensions[0] - (squareSideDimension * currentExperiment.windowSize)) / 2
 // - calculating starting point on x axis:
 let xStartingPointLeft = (currentExperiment.canvasDimensions[1] / 2) - ((currentExperiment.canvasDimensions[0] - topAndBottomMargin * 2) / 2)
 // - calculating starting points on y axis:
