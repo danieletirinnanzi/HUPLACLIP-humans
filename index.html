@@ -168,8 +168,8 @@
                 jsPsych.data.displayData();
                 // local save:
                 let currentDate = new Date();
-                let fileName = `HUPLACLIP_pilot_${currentDate.getDate()}.${(currentDate.getMonth() + 1)}.${currentDate.getFullYear()}_${currentDate.getHours()}.${currentDate.getMinutes()}.${currentDate.getSeconds()}.json`
-                jsPsych.data.get().localSave('json', fileName);
+                let fileName = `HUPLACLIP_pilot_${currentDate.getDate()}.${(currentDate.getMonth() + 1)}.${currentDate.getFullYear()}_${currentDate.getHours()}.${currentDate.getMinutes()}.${currentDate.getSeconds()}.csv`
+                jsPsych.data.get().localSave('csv', fileName);
             }
         });
 
@@ -481,7 +481,7 @@
 
                 // for each presentation, shuffling the standard order of the nodes and isolating the subset presented in the triangular window
                 let currentTrialOrder = shuffleNodes(currentExperiment.standardOrderOfNodes.slice()).slice(0, currentExperiment.windowSize)    //using "standardOderOfNodes.slice()" so that the value of "currentExperiment.standardOrderOfNodes" is not modified)
-                console.log("defined order of 1000 nodes for current visualization")
+                console.log("defined order of subset of nodes for current visualization")
 
                 // accessing the array of the trials completed up to now (used to draw the feedback):
                 let currentTrialsArray = jsPsych.data.get().trials
