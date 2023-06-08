@@ -475,52 +475,62 @@
 
             // function that generates the stimuli:
             function drawCanvas(c) {
-
                 // addressing canvas
                 let ctx = c.getContext("2d");
 
                 // for each presentation, shuffling the standard order of the nodes and isolating the subset presented in the triangular window
-                let currentTrialOrder = shuffleNodes(currentExperiment.standardOrderOfNodes.slice()).slice(0, currentExperiment.windowSize)    //using "standardOderOfNodes.slice()" so that the value of "currentExperiment.standardOrderOfNodes" is not modified)
+                let currentTrialOrder = shuffleNodes(currentExperiment.standardOrderOfNodes.slice()).slice(0, currentExperiment.windowSize);
 
                 // accessing the array of the trials completed up to now (used to draw the feedback):
-                let currentTrialsArray = jsPsych.data.get().trials
+                let currentTrialsArray = jsPsych.data.get().trials;
 
                 // DRAWING ON CANVAS:
                 // - wrapping each function call in a promise
-                let promises = [
-                    new Promise((resolve) => {
-                        drawStimulus("left", ctx, blockIndex, presentationIndex, currentTrialOrder);
-                        resolve();
-                    }),
-                    new Promise((resolve) => {
-                        drawStimulus("right", ctx, blockIndex, presentationIndex, currentTrialOrder);
-                        resolve();
-                    }),
-                    new Promise((resolve) => {
-                        drawDiagonal(ctx);
-                        resolve();
-                    }),
-                    new Promise((resolve) => {
-                        drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray);
-                        resolve();
-                    }),
-                    new Promise((resolve) => {
-                        drawInstructionsReminder(ctx);
-                        resolve();
-                    })
-                ];
+                let drawStimulusLeftPromise = new Promise((resolve) => {
+                    drawStimulus("left", ctx, blockIndex, presentationIndex, currentTrialOrder);
+                    resolve();
+                });
+
+                let drawStimulusRightPromise = new Promise((resolve) => {
+                    drawStimulus("right", ctx, blockIndex, presentationIndex, currentTrialOrder);
+                    resolve();
+                });
+
+                let drawDiagonalPromise = new Promise((resolve) => {
+                    drawDiagonal(ctx);
+                    resolve();
+                });
+
+                let drawFeedbackPromise = new Promise((resolve) => {
+                    drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray);
+                    resolve();
+                });
+
+                let drawInstructionsReminderPromise = new Promise((resolve) => {
+                    drawInstructionsReminder(ctx);
+                    resolve();
+                });
+
                 // - executing all the promises in parallel and storing variables:
-                return Promise.all(promises).then(() => {
+                return Promise.all([
+                    drawStimulusLeftPromise,
+                    drawStimulusRightPromise,
+                    drawDiagonalPromise,
+                    drawFeedbackPromise,
+                    drawInstructionsReminderPromise
+                ]).then(() => {
                     // - order of the nodes (changes from trial to trial and is read in "my-plugin-canvas-keyboard-response.js")
                     jsPsych.data.presentedOrder = currentTrialOrder;
-                    // - correct answer (its value is read to compute the "accuracy" variable, does not change from trial to trial but is read to compute "accuracy" variable from plugin)                    
-                    if (currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0][currentExperiment.graphSize].clique_array == "clique is absent")
-                        //if first stimulus doesn't have the clique, then the graph with the clique (correct answer) is on the right side
+                    // - correct answer (its value is read to compute the "accuracy" variable, does not change from trial to trial but is read to compute "accuracy" variable from plugin)
+                    if (currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0][currentExperiment.graphSize].clique_array === "clique is absent") {
+                        // if the first stimulus doesn't have the clique, then the graph with the clique (correct answer) is on the right side
                         jsPsych.data.correctResponse = "arrowright";
-                    else
+                    } else {
                         jsPsych.data.correctResponse = "arrowleft";
+                    }
                 });
             }
+
 
             return drawCanvas
 

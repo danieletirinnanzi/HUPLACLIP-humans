@@ -1,3 +1,35 @@
+/* FUNCTION TO DETERMINE COLOR OF SINGLE SQUARE */
+function determineAssociation(firstNode, secondNode, graphToDraw) {
+    /* INPUT:     
+    - firstNode (first node considered)
+    - secondNode (second node considered)
+    - graphToDraw (original graph to be displayed)
+
+    OUTPUT:
+    - color of the current square representing the edge between firstNode and secondNode
+    */
+
+    // Determining whether the two nodes are associated and changing the color accordingly:
+    // - dealing with associations for node "0":
+    if (firstNode == 0) {
+        // - first node was zero, reading 0th column of element (if associated, color is black, otherwise white)
+        return graphToDraw[secondNode][0] === 1 ? "#000000" : "#FFFFFF";
+    } else if (secondNode == 0) {
+        // - second node was zero, reading 0th column of element (if associated, color is black, otherwise white)
+        return graphToDraw[firstNode][0] === 1 ? "#000000" : "#FFFFFF";
+    } else {
+        // - when dealing with non-zero nodes, always reading the value from bigger node (constraint since matrix is triangular)
+        return firstNode < secondNode ?
+            // - second element is bigger  
+            graphToDraw[secondNode][firstNode] === 1 ? "#000000" : "#FFFFFF"
+            :
+            // - second element is smaller
+            graphToDraw[firstNode][secondNode] === 1 ? "#000000" : "#FFFFFF";
+    }
+}
+
+
+
 /* FUNCTION TO DRAW SINGLE STIMULUS ON CANVAS */
 function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrder) {
     /* INPUT: 
@@ -11,12 +43,17 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
     - display of single stimulus on the screen
     NB: coordinates for where to draw the stimuli are calculated in "experiment_parameters.js"
     */
-
+    (console.log("entered drawing function"))
     // Drawing stimulus:
     // retrieving graph to draw:
-    let graphToDraw = side === "left" ? currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0] : currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1];
-    let triangleCoordinates = side === "left" ? currentExperiment.stimuliCoordinates.leftTriangle : currentExperiment.stimuliCoordinates.rightTriangle;
-    console.log("retrieved graph on the " + side)
+    let graphToDraw = side === "left" ?
+        currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0] :
+        currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1];
+    // retrieving coordinates:
+    let triangleCoordinates = side === "left" ?
+        currentExperiment.stimuliCoordinates.leftTriangle :
+        currentExperiment.stimuliCoordinates.rightTriangle;
+    console.log("retrieved graph and coordinates")
 
     // for loops that draw the squares and color them
     let squareIndex = 0   //to correctly identify which square is being drawn and filling it correctly
@@ -24,32 +61,16 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
         let maxSecondIndex = firstIndex + 1
         for (let secondIndex = 0; secondIndex < maxSecondIndex; secondIndex++) {
             // drawing left square
-            ctx.fillRect(triangleCoordinates[squareIndex][0], triangleCoordinates[squareIndex][1], triangleCoordinates[squareIndex][2], triangleCoordinates[squareIndex][2])
+            ctx.fillRect(
+                triangleCoordinates[squareIndex][0],
+                triangleCoordinates[squareIndex][1],
+                triangleCoordinates[squareIndex][2],
+                triangleCoordinates[squareIndex][2]
+            );
 
-            // Setting fill color to white (unassociated nodes)
-            ctx.fillStyle = "#FFFFFF";
-            // Determining whether the two nodes are associated and changing the color to black if they are:
-            // - dealing with associations for node "0":
-            if (currentTrialOrder[firstIndex + 1] == 0) {
-                // - first node was zero, reading 0th column of element
-                if (graphToDraw[(currentTrialOrder[secondIndex])][0] == 1)
-                    ctx.fillStyle = "#000000";
-            } else if (currentTrialOrder[secondIndex] == 0) {
-                // - second node was zero, reading 0th column of element
-                if (graphToDraw[(currentTrialOrder[firstIndex + 1])][0] == 1)
-                    ctx.fillStyle = "#000000";
-            } else {
-                // - when dealing with non-zero nodes, always reading the value from bigger node (constraint since matrix is triangular)
-                if (currentTrialOrder[firstIndex + 1] < currentTrialOrder[secondIndex]) {
-                    // - second element is bigger
-                    if (graphToDraw[currentTrialOrder[secondIndex]][currentTrialOrder[firstIndex + 1]] == 1)
-                        ctx.fillStyle = "#000000";
-                } else {
-                    // - second element is smaller
-                    if (graphToDraw[currentTrialOrder[firstIndex + 1]][currentTrialOrder[secondIndex]] == 1)
-                        ctx.fillStyle = "#000000";
-                }
-            }
+            // calling function to determine fill color:
+            ctx.fillStyle = determineAssociation(currentTrialOrder[firstIndex + 1], currentTrialOrder[secondIndex], graphToDraw)
+
             // filling the square with the color just defined:
             ctx.fill();
 
@@ -59,9 +80,6 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
         }
 
     }
-
-    //DEBUG
-    console.log("finished drawing graph on the: " + side)
 
 }
 
