@@ -15,13 +15,6 @@ function shuffleNodes(nodesArray) {
 };
 
 
-// // SINGLE GRAPH IMPORT: 
-// async function getGraph(url) {
-//     const response = await fetch(url);
-//     return response.json();
-// }
-
-
 // GRAPHS INDICES EXTRACTION:
 function extractIndices() {
     /* INPUT:

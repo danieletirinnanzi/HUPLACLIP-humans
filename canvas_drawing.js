@@ -43,12 +43,13 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
     - display of single stimulus on the screen
     NB: coordinates for where to draw the stimuli are calculated in "experiment_parameters.js"
     */
-    (console.log("entered drawing function"))
+    (console.log("entered graph drawing function"))
     // Drawing stimulus:
     // retrieving graph to draw:
     let graphToDraw = side === "left" ?
         currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0] :
         currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1];
+    console.log(graphToDraw[2000].graph_name)
     // retrieving coordinates:
     let triangleCoordinates = side === "left" ?
         currentExperiment.stimuliCoordinates.leftTriangle :
@@ -80,6 +81,8 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
         }
 
     }
+
+    console.log("finished drawing graph")
 
 }
 
