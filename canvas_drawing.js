@@ -17,15 +17,9 @@ function determineAssociation(firstNode, secondNode, graphToDraw) {
     } else if (secondNode == 0) {
         // - second node was zero, reading 0th column of element (if associated, color is black, otherwise white)
         return graphToDraw[firstNode][0] === 1 ? "#000000" : "#FFFFFF";
-    } else {
-        // - when dealing with non-zero nodes, always reading the value from bigger node (constraint since matrix is triangular)
-        return firstNode < secondNode ?
-            // - second element is bigger  
-            graphToDraw[secondNode][firstNode] === 1 ? "#000000" : "#FFFFFF"
-            :
-            // - second element is smaller
-            graphToDraw[firstNode][secondNode] === 1 ? "#000000" : "#FFFFFF";
     }
+    // - when dealing with non-zero nodes, always reading the value from bigger node (constraint since matrix is triangular)
+    return graphToDraw[Math.max(firstNode, secondNode)][Math.min(firstNode, secondNode)] === 1 ? "#000000" : "#FFFFFF";
 }
 
 

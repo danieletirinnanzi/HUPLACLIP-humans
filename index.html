@@ -415,8 +415,8 @@
         // loading page:
         var loading_page = {
             type: jsPsychHtmlKeyboardResponse,
-            stimulus: 'Please wait while the experiment is loading...<br><br> (This could take from seconds to a couple of minutes)',
-            trial_duration: 100  //brief presentation so that the loop condition is evaluated continuously
+            stimulus: 'Please wait while the experiment is loading...<br><br> (This could take a few minutes, if you are on a slow connection)',
+            trial_duration: 1000  //brief presentation (1") so that the loop condition is evaluated continuously
         }
         // loop node:
         let loop_node = {
