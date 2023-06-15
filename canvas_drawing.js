@@ -55,6 +55,10 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
     for (let firstIndex = 0; firstIndex < (currentExperiment.windowSize - 1); firstIndex++) {
         let maxSecondIndex = firstIndex + 1
         for (let secondIndex = 0; secondIndex < maxSecondIndex; secondIndex++) {
+
+            // calling function to determine fill color (has to be determined before calling fillRect() ):
+            ctx.fillStyle = determineAssociation(currentTrialOrder[firstIndex + 1], currentTrialOrder[secondIndex], graphToDraw)
+
             // drawing left square
             ctx.fillRect(
                 triangleCoordinates[squareIndex][0],
@@ -62,9 +66,6 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
                 triangleCoordinates[squareIndex][2],
                 triangleCoordinates[squareIndex][2]
             );
-
-            // calling function to determine fill color:
-            ctx.fillStyle = determineAssociation(currentTrialOrder[firstIndex + 1], currentTrialOrder[secondIndex], graphToDraw)
 
             // filling the square with the color just defined:
             ctx.fill();
