@@ -1,7 +1,7 @@
 /* EXPERIMENT PARAMETERS: */
-// defining canvas dimensions (sizes of canvas = sizes of whole window):
-let canvasHeight = window.screen.height;  //height is the dimension that regulates the size of the stimuli (on which the "step" is calculated)
-let canvasWidth = window.screen.width;
+// defining canvas dimensions (sizes of canvas = sizes of whole screen):
+let canvasHeight = window.screen.height * window.devicePixelRatio;  //height is the dimension that regulates the size of the stimuli (on which the "step" is calculated)
+let canvasWidth = window.screen.width * window.devicePixelRatio;
 
 // CREATING OBJECT FOR CURRENT EXPERIMENT:
 let currentExperiment = {
