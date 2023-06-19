@@ -87,18 +87,17 @@ function drawDiagonal(ctx) {
     - ctx (reference to the canvas on which the diagonal will be drawn)
 
     OUTPUT:
-    - display of red diagonal between the two matrices
+    - display of red diagonal between the two matrices (2 pixels wide)
     */
 
     // for loop to generate the diagonal:
     for (let index = 0; index < (currentExperiment.windowSize); index++) {
         // drawing square of diagonal (x, y, width, height)
-        ctx.fillRect(currentExperiment.fixedDrawingParameters[0] + (currentExperiment.fixedDrawingParameters[2] * index), currentExperiment.fixedDrawingParameters[1] + (currentExperiment.fixedDrawingParameters[2] * index), currentExperiment.fixedDrawingParameters[2], currentExperiment.fixedDrawingParameters[2])
+        ctx.fillRect(currentExperiment.fixedDrawingParameters[0] + (currentExperiment.fixedDrawingParameters[2] * index), currentExperiment.fixedDrawingParameters[1] + (currentExperiment.fixedDrawingParameters[2] * index), currentExperiment.fixedDrawingParameters[2] * 2, currentExperiment.fixedDrawingParameters[2] * 2)
         // filling square in red
         ctx.fillStyle = "#ff0000";
         ctx.fill();
     }
-
 
 }
 

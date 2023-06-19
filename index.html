@@ -147,7 +147,7 @@
 
         // CHECKING DEVICE REQUIREMENTS:
         // - vertical resolution is at least 1080px
-        if (currentExperiment.canvasDimensions[0] < 1080) alert("The vertical resolution of your device is not sufficient for performing the experiment. Please open it with on a different device.")
+        if (currentExperiment.canvasDimensions[0] < 1080) alert("The vertical resolution of your device is lower than 1080px \nPlease open the experiment with a device that has higher vertical resolution.")
         // - browser is different from Safari (does not allow keboard input when in FullScreen mode)
         let isSafari = window.safari !== undefined
         if (isSafari) alert("Please open the experiment in a browser different from Safari.")
@@ -476,6 +476,8 @@
             function drawCanvas(c) {
                 // addressing canvas
                 let ctx = c.getContext("2d");
+
+                ctx.scale(currentExperiment.scalingFactor, currentExperiment.scalingFactor)
 
                 // for each presentation, shuffling the standard order of the nodes and isolating the subset presented in the triangular window
                 let currentTrialOrder = shuffleNodes(currentExperiment.standardOrderOfNodes.slice()).slice(0, currentExperiment.windowSize);

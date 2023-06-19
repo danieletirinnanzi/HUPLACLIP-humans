@@ -2,6 +2,9 @@
 // defining canvas dimensions (sizes of canvas = sizes of whole screen):
 let canvasHeight = window.screen.height * window.devicePixelRatio;  //height is the dimension that regulates the size of the stimuli (on which the "step" is calculated)
 let canvasWidth = window.screen.width * window.devicePixelRatio;
+// defining scaling factor based on Device Pixel Ratio (DPR):
+let scalingFactor = (1 / window.devicePixelRatio);
+console.log(scalingFactor)
 
 // CREATING OBJECT FOR CURRENT EXPERIMENT:
 let currentExperiment = {
@@ -11,6 +14,7 @@ let currentExperiment = {
     numberOfGraphsPerCliqueSize: 2, // number of graphs for each clique size in each block
     maximumNumberOfShuffles: 10, // maximum number of randomizations allowed for a single couple of matrices 
     canvasDimensions: [canvasHeight, canvasWidth], // [height,width]
+    scalingFactor: scalingFactor,
     // graphs parameters:
     graphSize: 2000,
     windowSize: 1000,   // dimension of the window shown on the screen                       
@@ -42,15 +46,15 @@ currentExperiment.uniqueCliqueSizes = currentExperiment.arrayOfCliqueSizes.filte
 
 // - COORDINATES OF LEFT AND RIGHT TRIANGLES
 // calculating drawing parameters:
-// - square side dimension (scales with screen resolution)
-let squareSideDimension = Math.floor((currentExperiment.canvasDimensions[0] / currentExperiment.windowSize)) // rounding it to the closest lower integer to avoid aliasing (1.6px becomes 1px; 3.9px becomes 3px)
+// - square side dimension (scales with screen resolution) -> adding 2 pixels to size of square because the diagonal is 2px wide
+let squareSideDimension = Math.floor((currentExperiment.canvasDimensions[0] / (currentExperiment.windowSize + 2))) // rounding it to the closest lower integer to avoid aliasing (1.6px becomes 1px; 3.9px becomes 3px)
 console.log("the side dimension of single squares is: " + squareSideDimension)
 // - top and bottom margin (centering the square in the available space)
 let topAndBottomMargin = (currentExperiment.canvasDimensions[0] - (squareSideDimension * currentExperiment.windowSize)) / 2
 // - calculating starting point on x axis:
 let xStartingPointLeft = (currentExperiment.canvasDimensions[1] / 2) - ((currentExperiment.canvasDimensions[0] - topAndBottomMargin * 2) / 2)
-// - calculating starting points on y axis:
-let yStartingPoint = topAndBottomMargin  //NB: starting to draw not from top of window, but leaving 5px above and below the squares
+// - calculating starting point on y axis:
+let yStartingPoint = topAndBottomMargin  //NB: starting to draw not from top of window, but leaving margin above and below the square
 // storing the starting points and the square size in currentExperiment object (used to draw red diagonal):
 currentExperiment.fixedDrawingParameters = [xStartingPointLeft, yStartingPoint, squareSideDimension]
 
@@ -61,7 +65,7 @@ for (let firstIndex = 0; firstIndex < (currentExperiment.windowSize - 1); firstI
     for (let secondIndex = 0; secondIndex < maxSecondIndex; secondIndex++) {
         // calculating starting points of fillRect for each square:
         let xStart = xStartingPointLeft + (squareSideDimension * secondIndex)
-        let yStart = yStartingPoint + (squareSideDimension * (firstIndex + 1))
+        let yStart = (yStartingPoint + (squareSideDimension * (firstIndex + 1))) + squareSideDimension   //leaving 1 squareSideDimension of additional space for diagonal
         // pushing starting points of squares into array:
         leftTriangleCoordinatesArray.push([xStart, yStart, squareSideDimension]);
     }
@@ -73,7 +77,7 @@ for (let firstIndex = 0; firstIndex < (currentExperiment.windowSize - 1); firstI
     let maxSecondIndex = firstIndex + 1
     for (let secondIndex = 0; secondIndex < maxSecondIndex; secondIndex++) {
         // calculating starting points of fillRect for each square:
-        let xStart = xStartingPointLeft + (squareSideDimension * (firstIndex + 1))
+        let xStart = (xStartingPointLeft + (squareSideDimension * (firstIndex + 1))) + squareSideDimension //leaving 1 squareSideDimension of additional space for diagonal
         let yStart = yStartingPoint + (squareSideDimension * secondIndex)
         // pushing starting points of squares into array:
         rightTriangleCoordinatesArray.push([xStart, yStart, squareSideDimension]);
