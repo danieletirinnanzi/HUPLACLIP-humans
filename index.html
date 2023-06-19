@@ -147,7 +147,7 @@
 
         // CHECKING DEVICE REQUIREMENTS:
         // - vertical resolution is at least 1080px
-        if (currentExperiment.canvasDimensions[0] < 1080) alert("The vertical resolution of your device is lower than 1080px \nPlease open the experiment with a device that has higher vertical resolution.")
+        if (currentExperiment.canvasDimensions[0] < 1080) alert("The vertical resolution of your device is lower than 1080px \n Please open the experiment with a device that has higher vertical resolution.")
         // - browser is different from Safari (does not allow keboard input when in FullScreen mode)
         let isSafari = window.safari !== undefined
         if (isSafari) alert("Please open the experiment in a browser different from Safari.")
@@ -454,7 +454,9 @@
         /* entering fullscreen before experiment: */
         var enter_fullscreen = {
             type: jsPsychFullscreen,
-            fullscreen_mode: true
+            fullscreen_mode: true,
+            message: `<p>The experiment will switch to full screen mode when you press the button below</p><br><br>
+                      Before pressing the button, make sure that your browser is set at ${currentExperiment.scalingFactor * 100}%.<br><br>`
         }
         timeline.push(enter_fullscreen)
 
@@ -476,8 +478,6 @@
             function drawCanvas(c) {
                 // addressing canvas
                 let ctx = c.getContext("2d");
-
-                ctx.scale(currentExperiment.scalingFactor, currentExperiment.scalingFactor)
 
                 // for each presentation, shuffling the standard order of the nodes and isolating the subset presented in the triangular window
                 let currentTrialOrder = shuffleNodes(currentExperiment.standardOrderOfNodes.slice()).slice(0, currentExperiment.windowSize);

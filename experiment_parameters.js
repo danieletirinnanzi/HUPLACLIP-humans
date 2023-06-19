@@ -4,7 +4,6 @@ let canvasHeight = window.screen.height * window.devicePixelRatio;  //height is 
 let canvasWidth = window.screen.width * window.devicePixelRatio;
 // defining scaling factor based on Device Pixel Ratio (DPR):
 let scalingFactor = (1 / window.devicePixelRatio);
-console.log(scalingFactor)
 
 // CREATING OBJECT FOR CURRENT EXPERIMENT:
 let currentExperiment = {
