@@ -19,6 +19,7 @@ let currentExperiment = {
     windowSize: 1000,   // dimension of the window shown on the screen                       
     probabilityOfAssociation: 0.5
 }
+console.log(currentExperiment.canvasDimensions)
 
 // DEBUG
 console.log(currentExperiment)
