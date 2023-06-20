@@ -1,14 +1,15 @@
 /* EXPERIMENT PARAMETERS: */
 // defining canvas dimensions (sizes of canvas = sizes of whole screen):
-let canvasHeight = window.screen.height * window.devicePixelRatio;  //height is the dimension that regulates the size of the stimuli (on which the "step" is calculated)
-let canvasWidth = window.screen.width * window.devicePixelRatio;
+let canvasHeight = Math.round(screen.height * window.devicePixelRatio);  //height is the dimension that regulates the size of the stimuli (on which the "step" is calculated)
+let canvasWidth = Math.round(screen.width * window.devicePixelRatio);
 // defining scaling factor based on Device Pixel Ratio (DPR):
 let scalingFactor = (1 / window.devicePixelRatio);
+console.log(window.devicePixelRatio)
 
 // CREATING OBJECT FOR CURRENT EXPERIMENT:
 let currentExperiment = {
     // experiment parameters:
-    numberOfBlocks: 6,
+    numberOfBlocks: 1,
     numberOfPresentationsPerBlock: 20, // single presentation = single couple of graphs, presented once and reordered through space bar presses)
     numberOfGraphsPerCliqueSize: 2, // number of graphs for each clique size in each block
     maximumNumberOfShuffles: 10, // maximum number of randomizations allowed for a single couple of matrices 
