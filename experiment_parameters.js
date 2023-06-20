@@ -4,8 +4,6 @@ let canvasHeight = window.screen.height * window.devicePixelRatio;  //height is 
 let canvasWidth = window.screen.width * window.devicePixelRatio;
 // defining scaling factor based on Device Pixel Ratio (DPR):
 let scalingFactor = (1 / window.devicePixelRatio);
-// asking subjects to indicate graph size:
-let graphSize = prompt("Insert graph size: ");
 
 // CREATING OBJECT FOR CURRENT EXPERIMENT:
 let currentExperiment = {
@@ -17,7 +15,8 @@ let currentExperiment = {
     canvasDimensions: [canvasHeight, canvasWidth], // [height,width]
     scalingFactor: scalingFactor,
     // graphs parameters:
-    graphSize: graphSize,
+    graphSize: 2000,
+    windowSize: 1000,
     probabilityOfAssociation: 0.5
 }
 
@@ -40,7 +39,6 @@ for (let index = 0; index < currentExperiment.graphSize; index++) {
 currentExperiment.standardOrderOfNodes = standardOrderOfNodes
 
 // - ARRAY OF CLIQUE SIZES (changes based on "currentExperiment.graphSize"):
-
 currentExperiment.arrayOfCliqueSizes = [1000, 1000, 512, 512, 256, 256, 128, 128, 96, 96, 64, 64, 32, 32, 27, 27, 25, 25, 22, 22];
 
 // - UNIQUE CLIQUE SIZES:
@@ -49,10 +47,10 @@ currentExperiment.uniqueCliqueSizes = currentExperiment.arrayOfCliqueSizes.filte
 // - COORDINATES OF LEFT AND RIGHT TRIANGLES
 // calculating drawing parameters:
 // - square side dimension (scales with screen resolution) -> adding 2 pixels to size of square because the diagonal is 2px wide
-let squareSideDimension = Math.floor((currentExperiment.canvasDimensions[0] / (currentExperiment.graphSize + 2))) // rounding it to the closest lower integer to avoid aliasing (1.6px becomes 1px; 3.9px becomes 3px)
+let squareSideDimension = Math.floor((currentExperiment.canvasDimensions[0] / (currentExperiment.windowSize + 2))) // rounding it to the closest lower integer to avoid aliasing (1.6px becomes 1px; 3.9px becomes 3px)
 console.log("the side dimension of single squares is: " + squareSideDimension)
 // - top and bottom margin (centering the square in the available space)
-let topAndBottomMargin = (currentExperiment.canvasDimensions[0] - (squareSideDimension * currentExperiment.graphSize)) / 2
+let topAndBottomMargin = (currentExperiment.canvasDimensions[0] - (squareSideDimension * currentExperiment.windowSize)) / 2
 // - calculating starting point on x axis:
 let xStartingPointLeft = (currentExperiment.canvasDimensions[1] / 2) - ((currentExperiment.canvasDimensions[0] - topAndBottomMargin * 2) / 2)
 // - calculating starting point on y axis:
@@ -62,7 +60,7 @@ currentExperiment.fixedDrawingParameters = [xStartingPointLeft, yStartingPoint, 
 
 // left triangle COORDINATES:
 let leftTriangleCoordinatesArray = []
-for (let firstIndex = 0; firstIndex < (currentExperiment.graphSize - 1); firstIndex++) {
+for (let firstIndex = 0; firstIndex < (currentExperiment.windowSize - 1); firstIndex++) {
     let maxSecondIndex = firstIndex + 1
     for (let secondIndex = 0; secondIndex < maxSecondIndex; secondIndex++) {
         // calculating starting points of fillRect for each square:
@@ -75,7 +73,7 @@ for (let firstIndex = 0; firstIndex < (currentExperiment.graphSize - 1); firstIn
 
 // right triangle COORDINATES:
 let rightTriangleCoordinatesArray = []
-for (let firstIndex = 0; firstIndex < (currentExperiment.graphSize - 1); firstIndex++) {
+for (let firstIndex = 0; firstIndex < (currentExperiment.windowSize - 1); firstIndex++) {
     let maxSecondIndex = firstIndex + 1
     for (let secondIndex = 0; secondIndex < maxSecondIndex; secondIndex++) {
         // calculating starting points of fillRect for each square:

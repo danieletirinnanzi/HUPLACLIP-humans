@@ -479,8 +479,8 @@
                 // addressing canvas
                 let ctx = c.getContext("2d");
 
-                // for each presentation, shuffling the standard order of the nodes and isolating the subset presented in the triangular window
-                let currentTrialOrder = shuffleNodes(currentExperiment.standardOrderOfNodes.slice()).slice(0, currentExperiment.graphSize);
+                // for each presentation, shuffling the standard order of the nodes:
+                let currentTrialOrder = shuffleNodes(currentExperiment.standardOrderOfNodes.slice()).slice(0,currentExperiment.windowSize);
 
                 // accessing the array of the trials completed up to now (used to draw the feedback):
                 let currentTrialsArray = jsPsych.data.get().trials;
