@@ -4,6 +4,7 @@
 <head>
     <title>HUPLACLIP experiment</title>
     <!-- My scripts -->
+    <script type="text/javascript" src="device_requirements.js"></script>
     <script type="text/javascript" src="graphs_functions.js"></script>
     <script type="text/javascript" src="introduction/introduction_pages_generation.js"></script>
     <script type="text/javascript" src="tutorial/tutorial_pages_generation.js"></script>
@@ -143,19 +144,6 @@
             currentExperiment.graphsToDisplay = graphsToDisplay
 
         }
-
-
-        // CHECKING DEVICE REQUIREMENTS:
-        // - vertical resolution is at least 1080px
-        let validVerticalResolutions = [1024, 1080, 1440, 1964]
-        if (!validVerticalResolutions.includes(currentExperiment.canvasDimensions[0])) {
-            var confirmZoom = confirm("If you are reading this message, <make sure to SET YOUR BROWSER ZOOM TO 100% (you can regulate it in the browser options) and click OK.\nThe page will automatically reload and the messag>e should disappear.\n\nIf it does not, the vertical resolution of your device is probably lower than 1024px. Please open the experiment with a device that has higher vertical resolution, and if you still have problems, get in touch with the experimenter.");
-            if (confirmZoom == true)
-                window.location.reload(); 0
-        }
-        // - browser is different from Safari (does not allow keboard input when in FullScreen mode)
-        let isSafari = window.safari !== undefined
-        if (isSafari) alert("Please open the experiment link in a browser different from Safari.")
 
 
         /* initializing jspsych */
@@ -460,8 +448,7 @@
         var enter_fullscreen = {
             type: jsPsychFullscreen,
             fullscreen_mode: true,
-            message: `<p>The experiment will switch to full screen mode when you press the button below</p><br><br>
-                      Before pressing the button, make sure that your <b>browser zoom</b> is set at <b>${currentExperiment.scalingFactor * 100}%</b> (you can regulate it in the browser options).<br><br>`
+            message: `<p>The experiment will switch to full screen mode when you press the button below</p><br>`
         }
         timeline.push(enter_fullscreen)
 
