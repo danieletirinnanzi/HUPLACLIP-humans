@@ -147,15 +147,15 @@
 
         // CHECKING DEVICE REQUIREMENTS:
         // - vertical resolution is at least 1080px
-        let validVerticalResolutions = [1080, 1440, 1964]
+        let validVerticalResolutions = [1024, 1080, 1440, 1964]
         if (!validVerticalResolutions.includes(currentExperiment.canvasDimensions[0])) {
-            var confirmZoom = confirm("If you are reading this message, make sure to SET YOUR BROWSER ZOOM TO 100% (you can regulate it in the browser options) and click OK.\nThe page will automatically reload and the message should disappear.\n\nIf it does not, the vertical resolution of your device is probably lower than 1080px. Please open the experiment with a device that has higher vertical resolution, or get in touch with the experimenter.");
+            var confirmZoom = confirm("If you are reading this message, make sure to SET YOUR BROWSER ZOOM TO 100% (you can regulate it in the browser options) and click OK.\nThe page will automatically reload and the message should disappear.\n\nIf it does not, the vertical resolution of your device is probably lower than 1024px. Please open the experiment with a device that has higher vertical resolution, and if you still have problems, get in touch with the experimenter.");
             if (confirmZoom == true)
                 window.location.reload(); 0
         }
         // - browser is different from Safari (does not allow keboard input when in FullScreen mode)
         let isSafari = window.safari !== undefined
-        if (isSafari) alert("Please open the experiment in a browser different from Safari.")
+        if (isSafari) alert("Please open the experiment link in a browser different from Safari.")
 
 
         /* initializing jspsych */
