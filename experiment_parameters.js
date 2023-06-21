@@ -1,33 +1,48 @@
 /* EXPERIMENT PARAMETERS: */
-// defining canvas dimensions (sizes of canvas = sizes of whole screen):
-let canvasHeight = Math.round(screen.height * window.devicePixelRatio);  //height is the dimension that regulates the size of the stimuli (on which the "step" is calculated)
-let canvasWidth = Math.round(screen.width * window.devicePixelRatio);
-// defining scaling factor based on Device Pixel Ratio (DPR):
-let scalingFactor = (1 / window.devicePixelRatio);
-console.log(window.devicePixelRatio)
+// calculating dimensions of the whole screen (sizes of canvas = sizes of whole screen):
+let canvasHeight = screen.height * window.devicePixelRatio;  //height is the dimension that regulates the size of the stimuli (on which the "singleSquareSide" is calculated)
+let canvasWidth = screen.width * window.devicePixelRatio;
+// CHECKING DEVICE REQUIREMENTS and notifying user:
+// - vertical resolution is at least 1080px
+let validVerticalResolutions = [1024, 1080, 1440, 1964]
+if (!validVerticalResolutions.includes(canvasHeight)) {
+    var confirmZoom = confirm("If you are reading this message, make sure to SET YOUR BROWSER ZOOM TO 100% (you can regulate it in the browser options) and click OK.\nThe page will automatically reload and the message should disappear.\n\nIf it does not, the vertical resolution of your device is probably lower than 1024px.\nPlease open the experiment with a device that has higher vertical resolution, and if you still encounter problems, get in touch with the experimenter.");
+    if (confirmZoom == true)
+        window.location.reload(); 0
+}
+// - browser is different from Safari (does not allow keboard input when in FullScreen mode + does not support "devicePixelContentBox")
+let isSafari = window.safari !== undefined
+if (isSafari) alert("Please open the experiment link in a browser different from Safari.")
+
+// DEBUG
+console.log("DPR is: " + window.devicePixelRatio)
+console.log("Logical screen height (px) is: " + screen.height)
+console.log("Logical screen width (px) is: " + screen.width)
+console.log("Computed screen height (px) is: " + canvasHeight)
+console.log("Computed screen width (px) is: " + canvasWidth)
+
 
 // CREATING OBJECT FOR CURRENT EXPERIMENT:
 let currentExperiment = {
     // experiment parameters:
     numberOfBlocks: 1,
-    numberOfPresentationsPerBlock: 20, // single presentation = single couple of graphs, presented once and reordered through space bar presses)
+    numberOfPresentationsPerBlock: 30, // single presentation = single couple of graphs, presented once and reordered through space bar presses)
     numberOfGraphsPerCliqueSize: 2, // number of graphs for each clique size in each block
     maximumNumberOfShuffles: 10, // maximum number of randomizations allowed for a single couple of matrices 
     canvasDimensions: [canvasHeight, canvasWidth], // [height,width]
-    scalingFactor: scalingFactor,
     // graphs parameters:
     graphSize: 2000,
     windowSize: 1000,
     probabilityOfAssociation: 0.5
 }
 
-
 // DEBUG
 console.log(currentExperiment)
 
-// checking that the number of presentations is even, so that is possible to have two trials for each value of K
+// controlling that the number of presentations is even, so that is possible to have two trials for each value of K
 if (currentExperiment.numberOfPresentationsPerBlock % 2 != 0)
     alert("number of presentations for each trial must be even")
+
 
 // ADDING PROPERTIES TO THE currentExperiment OBJECT:
 
