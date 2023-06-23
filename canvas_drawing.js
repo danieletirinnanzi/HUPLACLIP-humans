@@ -37,18 +37,15 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
     - display of single stimulus on the screen
     NB: coordinates for where to draw the stimuli are calculated in "experiment_parameters.js"
     */
-    (console.log("entered graph drawing function"))
     // Drawing stimulus:
     // retrieving graph to draw:
     let graphToDraw = side === "left" ?
         currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0] :
         currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1];
-    console.log(graphToDraw[currentExperiment.graphSize].graph_name)
     // retrieving coordinates:
     let triangleCoordinates = side === "left" ?
         currentExperiment.stimuliCoordinates.leftTriangle :
         currentExperiment.stimuliCoordinates.rightTriangle;
-    console.log("retrieved graph and coordinates")
 
     // for loops that draw the squares and color them
     let squareIndex = 0   //to correctly identify which square is being drawn and filling it correctly
@@ -76,8 +73,6 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
         }
 
     }
-
-    console.log("finished drawing graph")
 
 }
 
@@ -149,7 +144,7 @@ function drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray) {
     // text on the canvas:
     ctx.fillStyle = "black"
     ctx.font = "bold 2rem system-ui";
-    ctx.fillText(feedbackStringTrials, (physicalScreenWidth - (physicalScreenWidth / 5.8)), (physicalScreenHeight) / 8.5);
+    ctx.fillText(feedbackStringTrials, (physicalScreenWidth - (physicalScreenWidth / 5)), (physicalScreenHeight) / 8.5);
 
     // SCORE (right side of screen):
     let numberOfCorrectResponses = arrayOfResponses.reduce((a, b) => a + b, 0)
@@ -164,11 +159,11 @@ function drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray) {
             ctx.fillStyle = "lawngreen";
         else
             ctx.fillStyle = "red";
-    ctx.fillRect((physicalScreenWidth - (physicalScreenWidth / 5.8)), (physicalScreenHeight) / 6.7, (physicalScreenWidth / 8.5), (physicalScreenHeight) / 14);
+    ctx.fillRect((physicalScreenWidth - (physicalScreenWidth / 5)), (physicalScreenHeight) / 6.7, (physicalScreenWidth / 8.5), (physicalScreenHeight) / 14);
     // text on the canvas:
     ctx.fillStyle = "black"
     ctx.font = "bold 2rem system-ui";
-    ctx.fillText(feedbackStringScore, (physicalScreenWidth - (physicalScreenWidth / 6.5)), (physicalScreenHeight) / 5);
+    ctx.fillText(feedbackStringScore, (physicalScreenWidth - (physicalScreenWidth / 5.5)), (physicalScreenHeight) / 5);
 }
 
 
