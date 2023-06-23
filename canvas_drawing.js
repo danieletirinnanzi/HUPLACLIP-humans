@@ -140,7 +140,7 @@ function drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray) {
     // text on canvas (increasing red hue when the remaining shuffles decrease. No randomization requested -> black; no shuffles left -> red ):
     ctx.fillStyle = `rgb(${255 - Math.floor(255 / currentExperiment.maximumNumberOfShuffles) * remainingShuffles},0,0)`;
     ctx.font = "bold 2rem system-ui";
-    ctx.fillText(feedbackStringShuffle, 0, (currentExperiment.canvasDimensions[0]) / 7.5);
+    ctx.fillText(feedbackStringShuffle, 0, (physicalScreenHeight) / 7.5);
 
     // TRIAL NUMBER (right side of screen):
     let numberOfFinalResponses = arrayOfResponses.length + 1
@@ -149,7 +149,7 @@ function drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray) {
     // text on the canvas:
     ctx.fillStyle = "black"
     ctx.font = "bold 2rem system-ui";
-    ctx.fillText(feedbackStringTrials, (currentExperiment.canvasDimensions[1] - (currentExperiment.canvasDimensions[1] / 5.8)), (currentExperiment.canvasDimensions[0]) / 8.5);
+    ctx.fillText(feedbackStringTrials, (physicalScreenWidth - (physicalScreenWidth / 5.8)), (physicalScreenHeight) / 8.5);
 
     // SCORE (right side of screen):
     let numberOfCorrectResponses = arrayOfResponses.reduce((a, b) => a + b, 0)
@@ -164,11 +164,11 @@ function drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray) {
             ctx.fillStyle = "lawngreen";
         else
             ctx.fillStyle = "red";
-    ctx.fillRect((currentExperiment.canvasDimensions[1] - (currentExperiment.canvasDimensions[1] / 5.8)), (currentExperiment.canvasDimensions[0]) / 6.7, (currentExperiment.canvasDimensions[1] / 8.5), (currentExperiment.canvasDimensions[0]) / 14);
+    ctx.fillRect((physicalScreenWidth - (physicalScreenWidth / 5.8)), (physicalScreenHeight) / 6.7, (physicalScreenWidth / 8.5), (physicalScreenHeight) / 14);
     // text on the canvas:
     ctx.fillStyle = "black"
     ctx.font = "bold 2rem system-ui";
-    ctx.fillText(feedbackStringScore, (currentExperiment.canvasDimensions[1] - (currentExperiment.canvasDimensions[1] / 6.5)), (currentExperiment.canvasDimensions[0]) / 5);
+    ctx.fillText(feedbackStringScore, (physicalScreenWidth - (physicalScreenWidth / 6.5)), (physicalScreenHeight) / 5);
 }
 
 
@@ -187,24 +187,24 @@ function drawInstructionsReminder(ctx) {
     let reminderString_arrows_label = "LEFT / RIGHT ARROW"
     // text specs (not bold)
     ctx.font = "italic bold 1.3rem system-ui";
-    ctx.fillText(reminderString_arrows_label, 0, (currentExperiment.canvasDimensions[0]) / 4.5);
+    ctx.fillText(reminderString_arrows_label, 0, (physicalScreenHeight) / 4.5);
     // description string:
     let reminderString_arrows_description = "To choose the triangle with the hidden red tiles."
     // text specs (not bold)
     ctx.font = "1.1rem system-ui";
-    ctx.fillText(reminderString_arrows_description, 0, (currentExperiment.canvasDimensions[0]) / 4.1);
+    ctx.fillText(reminderString_arrows_description, 0, (physicalScreenHeight) / 4.1);
 
     // SPACE:
     // key label:
     let reminderString_space_label = "SPACE"
     // text specs (not bold)
     ctx.font = "italic small-caps bold 1.3rem system-ui";
-    ctx.fillText(reminderString_space_label, 0, (currentExperiment.canvasDimensions[0]) / 3.5);
+    ctx.fillText(reminderString_space_label, 0, (physicalScreenHeight) / 3.5);
     // description string:
     let reminderString_space_description = "To shuffle the triangles."
     // text specs (not bold)
     ctx.font = "1.1rem system-ui";
-    ctx.fillText(reminderString_space_description, 0, (currentExperiment.canvasDimensions[0]) / 3.25);
+    ctx.fillText(reminderString_space_description, 0, (physicalScreenHeight) / 3.25);
 }
 
 

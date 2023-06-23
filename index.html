@@ -501,7 +501,6 @@
                     resolve();
                 });
 
-                /*
                 let drawFeedbackPromise = new Promise((resolve) => {
                     drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray);
                     resolve();
@@ -511,7 +510,6 @@
                     drawInstructionsReminder(ctx);
                     resolve();
                 });
-                */
 
                 // - executing all the promises in parallel and storing variables:
                 return Promise.all([
