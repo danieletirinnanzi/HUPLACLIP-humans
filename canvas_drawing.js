@@ -43,7 +43,7 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
     let graphToDraw = side === "left" ?
         currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0] :
         currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1];
-    console.log(graphToDraw[2000].graph_name)
+    console.log(graphToDraw[currentExperiment.graphSize].graph_name)
     // retrieving coordinates:
     let triangleCoordinates = side === "left" ?
         currentExperiment.stimuliCoordinates.leftTriangle :
@@ -52,7 +52,7 @@ function drawStimulus(side, ctx, blockIndex, presentationIndex, currentTrialOrde
 
     // for loops that draw the squares and color them
     let squareIndex = 0   //to correctly identify which square is being drawn and filling it correctly
-    for (let firstIndex = 0; firstIndex < (currentExperiment.windowSize - 1); firstIndex++) {
+    for (let firstIndex = 0; firstIndex < (currentExperiment.graphSize - 1); firstIndex++) {
         let maxSecondIndex = firstIndex + 1
         for (let secondIndex = 0; secondIndex < maxSecondIndex; secondIndex++) {
 
@@ -91,11 +91,11 @@ function drawDiagonal(ctx) {
     */
 
     // for loop to generate the diagonal:
-    for (let index = 0; index < (currentExperiment.windowSize); index++) {
+    for (let index = 0; index < (currentExperiment.graphSize); index++) {
+        // setting color to red:
+        ctx.fillStyle = "#ff0000";
         // drawing square of diagonal (x, y, width, height)
         ctx.fillRect(currentExperiment.fixedDrawingParameters[0] + (currentExperiment.fixedDrawingParameters[2] * index), currentExperiment.fixedDrawingParameters[1] + (currentExperiment.fixedDrawingParameters[2] * index), currentExperiment.fixedDrawingParameters[2] * 2, currentExperiment.fixedDrawingParameters[2] * 2)
-        // filling square in red
-        ctx.fillStyle = "#ff0000";
         ctx.fill();
     }
 
@@ -205,4 +205,28 @@ function drawInstructionsReminder(ctx) {
     // text specs (not bold)
     ctx.font = "1.1rem system-ui";
     ctx.fillText(reminderString_space_description, 0, (currentExperiment.canvasDimensions[0]) / 3.25);
+}
+
+
+/* FUNCTION TO RESIZE THE CANVAS (called before drawing, a new canvas is re-created at every trial) */
+// from: https://stackoverflow.com/questions/47696956/display-pixel-perfect-canvas-on-all-devices 
+
+const px = v => `${v}px`;
+
+function resizeCanvas(canvas) {
+    // how many devicePixels per pixel in the canvas we want
+    // you can set this to 1 if you always want 1 device pixel to 1 canvas pixel
+    const pixelSize = Math.max(1, devicePixelRatio) | 0;
+
+    const rect = canvas.parentElement.getBoundingClientRect();
+    const deviceWidth = rect.width * devicePixelRatio | 0;
+    const deviceHeight = rect.height * devicePixelRatio | 0;
+    const pixelsAcross = deviceWidth / pixelSize | 0;
+    const pixelsDown = deviceHeight / pixelSize | 0;
+    const devicePixelsAcross = pixelsAcross * pixelSize;
+    const devicePixelsDown = pixelsDown * pixelSize;
+    canvas.style.width = px(devicePixelsAcross / devicePixelRatio);
+    canvas.style.height = px(devicePixelsDown / devicePixelRatio);
+    canvas.width = pixelsAcross;
+    canvas.height = pixelsDown;
 }

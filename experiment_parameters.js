@@ -6,7 +6,7 @@ let currentExperiment = {
     numberOfPresentationsPerBlock: 30, // single presentation = single couple of graphs, presented once and reordered through space bar presses)
     numberOfGraphsPerCliqueSize: 2, // number of graphs for each clique size in each block
     maximumNumberOfShuffles: 10, // maximum number of randomizations allowed for a single couple of matrices 
-    canvasDimensions: [canvasHeight, canvasWidth], // [height,width]
+    canvasDimensions: [screen.height, screen.width], // [height,width]
     // graphs parameters:
     graphSize: 1000,
     probabilityOfAssociation: 0.5
@@ -31,51 +31,107 @@ for (let index = 0; index < currentExperiment.graphSize; index++) {
 currentExperiment.standardOrderOfNodes = standardOrderOfNodes
 
 // - ARRAY OF CLIQUE SIZES (changes based on "currentExperiment.graphSize"):
-currentExperiment.arrayOfCliqueSizes = [1000, 1000, 512, 512, 256, 256, 128, 128, 96, 96, 64, 64, 32, 32, 27, 27, 25, 25, 22, 22];
+currentExperiment.arrayOfCliqueSizes = [300, 300, 267, 267, 233, 233, 217, 217, 200, 200, 183, 183, 167, 167, 150, 150, 133, 133, 117, 117, 100, 100, 83, 83, 67, 67, 50, 50, 33, 33];
 
 // - UNIQUE CLIQUE SIZES:
 currentExperiment.uniqueCliqueSizes = currentExperiment.arrayOfCliqueSizes.filter((x, i, a) => a.indexOf(x) == i)
 
+
+
 // - COORDINATES OF LEFT AND RIGHT TRIANGLES
+
+// PHYSICAL  COORDINATES:
 // calculating drawing parameters (LOGICAL COORDINATES):
 // - square side dimension (scales with screen resolution)
-let squareSideDimension = (currentExperiment.canvasDimensions[0] / (currentExperiment.graphSize + 2))
-console.log("the side dimension of single squares is: " + squareSideDimension)
+let squareSideDimensionPhysical = Math.floor((physicalScreenHeight / (currentExperiment.graphSize + 2)))
+let squareSideDimensionLogical = squareSideDimensionPhysical * logicalPhysicalFraction
+console.log("the physical single square dimension is: " + squareSideDimensionPhysical)
+console.log("the corresponding logical dimension is: " + squareSideDimensionLogical)
 // - top and bottom margin (centering the square in the available space)
-let topAndBottomMargin = (currentExperiment.canvasDimensions[0] - (squareSideDimension * currentExperiment.windowSize)) / 2
-// - calculating starting point on x axis:
-let xStartingPointLeft = (currentExperiment.canvasDimensions[1] / 2) - ((currentExperiment.canvasDimensions[0] - topAndBottomMargin * 2) / 2)
-// - calculating starting point on y axis:
-let yStartingPoint = topAndBottomMargin  //NB: starting to draw not from top of window, but leaving margin above and below the square
-// storing the starting points and the square size in currentExperiment object (used to draw red diagonal):
-currentExperiment.fixedDrawingParameters = [xStartingPointLeft, yStartingPoint, squareSideDimension]
+let topAndBottomMarginPhysical = ((physicalScreenHeight - (squareSideDimensionPhysical * currentExperiment.graphSize)) / 2)
+// - calculating LOGICAL starting point on x axis:
+let xStartingPointLeft = ((physicalScreenWidth / 2) - ((physicalScreenHeight - topAndBottomMarginPhysical * 2) / 2))
+// - calculating LOGICAL starting point on y axis:
+let yStartingPoint = topAndBottomMarginPhysical  //NB: starting to draw not from top of window, but leaving margin above and below the square
+// storing the LOGICAL starting points and the square size in currentExperiment object (used to draw red diagonal):
+currentExperiment.fixedDrawingParameters = [xStartingPointLeft, yStartingPoint, squareSideDimensionPhysical]
 
 // left triangle COORDINATES:
 let leftTriangleCoordinatesArray = []
-for (let firstIndex = 0; firstIndex < (currentExperiment.windowSize - 1); firstIndex++) {
+for (let firstIndex = 0; firstIndex < (currentExperiment.graphSize - 1); firstIndex++) {
     let maxSecondIndex = firstIndex + 1
     for (let secondIndex = 0; secondIndex < maxSecondIndex; secondIndex++) {
         // calculating starting points of fillRect for each square:
-        let xStart = xStartingPointLeft + (squareSideDimension * secondIndex)
-        let yStart = (yStartingPoint + (squareSideDimension * (firstIndex + 1))) + squareSideDimension   //leaving 1 squareSideDimension of additional space for diagonal
+        let xStart = xStartingPointLeft + (squareSideDimensionPhysical * secondIndex)
+        let yStart = (yStartingPoint + (squareSideDimensionPhysical * (firstIndex + 1))) + squareSideDimensionPhysical   //leaving 1 squareSideDimension of additional space for diagonal
         // pushing starting points of squares into array:
-        leftTriangleCoordinatesArray.push([xStart, yStart, squareSideDimension]);
+        leftTriangleCoordinatesArray.push([xStart, yStart, squareSideDimensionPhysical]);
     }
 }
 
 // right triangle COORDINATES:
 let rightTriangleCoordinatesArray = []
-for (let firstIndex = 0; firstIndex < (currentExperiment.windowSize - 1); firstIndex++) {
+for (let firstIndex = 0; firstIndex < (currentExperiment.graphSize - 1); firstIndex++) {
     let maxSecondIndex = firstIndex + 1
     for (let secondIndex = 0; secondIndex < maxSecondIndex; secondIndex++) {
         // calculating starting points of fillRect for each square:
-        let xStart = (xStartingPointLeft + (squareSideDimension * (firstIndex + 1))) + squareSideDimension //leaving 1 squareSideDimension of additional space for diagonal
-        let yStart = yStartingPoint + (squareSideDimension * secondIndex)
+        let xStart = (xStartingPointLeft + (squareSideDimensionPhysical * (firstIndex + 1))) + squareSideDimensionPhysical //leaving 1 squareSideDimension of additional space for diagonal
+        let yStart = yStartingPoint + (squareSideDimensionPhysical * secondIndex)
         // pushing starting points of squares into array:
-        rightTriangleCoordinatesArray.push([xStart, yStart, squareSideDimension]);
+        rightTriangleCoordinatesArray.push([xStart, yStart, squareSideDimensionPhysical]);
     }
 }
 // adding coordinates to currentExperiment object
 currentExperiment.stimuliCoordinates = {};
 currentExperiment.stimuliCoordinates.leftTriangle = leftTriangleCoordinatesArray
 currentExperiment.stimuliCoordinates.rightTriangle = rightTriangleCoordinatesArray
+
+
+
+
+// // LOGICAL  COORDINATES:
+// // calculating drawing parameters (LOGICAL COORDINATES):
+// // - square side dimension (scales with screen resolution)
+// let squareSideDimensionPhysical = Math.floor((physicalScreenHeight / (currentExperiment.graphSize + 2)))
+// let squareSideDimensionLogical = squareSideDimensionPhysical * logicalPhysicalFraction
+// console.log("the physical single square dimension is: " + squareSideDimensionPhysical)
+// console.log("the corresponding logical dimension is: " + squareSideDimensionLogical)
+// // - top and bottom margin (centering the square in the available space)
+// let topAndBottomMarginPhysical = ((physicalScreenHeight - (squareSideDimensionPhysical * currentExperiment.graphSize)) / 2)
+// let topAndBottomMarginLogical = topAndBottomMarginPhysical * logicalPhysicalFraction
+// // - calculating LOGICAL starting point on x axis:
+// let xStartingPointLeft = ((physicalScreenWidth / 2) - ((physicalScreenHeight - topAndBottomMarginPhysical * 2) / 2)) * logicalPhysicalFraction
+// // - calculating LOGICAL starting point on y axis:
+// let yStartingPoint = topAndBottomMarginPhysical * logicalPhysicalFraction  //NB: starting to draw not from top of window, but leaving margin above and below the square
+// // storing the LOGICAL starting points and the square size in currentExperiment object (used to draw red diagonal):
+// currentExperiment.fixedDrawingParameters = [xStartingPointLeft, yStartingPoint, squareSideDimensionLogical]
+
+// // left triangle COORDINATES:
+// let leftTriangleCoordinatesArray = []
+// for (let firstIndex = 0; firstIndex < (currentExperiment.graphSize - 1); firstIndex++) {
+//     let maxSecondIndex = firstIndex + 1
+//     for (let secondIndex = 0; secondIndex < maxSecondIndex; secondIndex++) {
+//         // calculating starting points of fillRect for each square:
+//         let xStart = xStartingPointLeft + (squareSideDimensionLogical * secondIndex)
+//         let yStart = (yStartingPoint + (squareSideDimensionLogical * (firstIndex + 1))) + squareSideDimensionLogical   //leaving 1 squareSideDimension of additional space for diagonal
+//         // pushing starting points of squares into array:
+//         leftTriangleCoordinatesArray.push([xStart, yStart, squareSideDimensionLogical]);
+//     }
+// }
+
+// // right triangle COORDINATES:
+// let rightTriangleCoordinatesArray = []
+// for (let firstIndex = 0; firstIndex < (currentExperiment.graphSize - 1); firstIndex++) {
+//     let maxSecondIndex = firstIndex + 1
+//     for (let secondIndex = 0; secondIndex < maxSecondIndex; secondIndex++) {
+//         // calculating starting points of fillRect for each square:
+//         let xStart = (xStartingPointLeft + (squareSideDimensionLogical * (firstIndex + 1))) + squareSideDimensionLogical //leaving 1 squareSideDimension of additional space for diagonal
+//         let yStart = yStartingPoint + (squareSideDimensionLogical * secondIndex)
+//         // pushing starting points of squares into array:
+//         rightTriangleCoordinatesArray.push([xStart, yStart, squareSideDimensionLogical]);
+//     }
+// }
+// // adding coordinates to currentExperiment object
+// currentExperiment.stimuliCoordinates = {};
+// currentExperiment.stimuliCoordinates.leftTriangle = leftTriangleCoordinatesArray
+// currentExperiment.stimuliCoordinates.rightTriangle = rightTriangleCoordinatesArray

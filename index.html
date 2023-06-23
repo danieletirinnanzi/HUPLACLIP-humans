@@ -149,8 +149,8 @@
         /* initializing jspsych */
         var jsPsych = initJsPsych({
 
-            // maximum width of experiment pages
-            experiment_width: currentExperiment.canvasDimensions[1],
+            // maximum width of experiment pages (logical coordinates)
+            experiment_width: screen.width,
 
             // Audio will be played through HTML5, not through WebAudio API
             use_webaudio: false,
@@ -468,11 +468,18 @@
 
             // function that generates the stimuli:
             function drawCanvas(c) {
+
+                // calling resizing canvas function:
+                resizeCanvas(c)
+
                 // addressing canvas
                 let ctx = c.getContext("2d");
 
+                // disable smoothing:
+                ctx.imageSmoothingEnabled = false
+
                 // for each presentation, shuffling the standard order of the nodes:
-                let currentTrialOrder = shuffleNodes(currentExperiment.standardOrderOfNodes.slice()).slice(0, currentExperiment.windowSize);
+                let currentTrialOrder = shuffleNodes(currentExperiment.standardOrderOfNodes.slice()).slice(0, currentExperiment.graphSize);
 
                 // accessing the array of the trials completed up to now (used to draw the feedback):
                 let currentTrialsArray = jsPsych.data.get().trials;
@@ -494,6 +501,7 @@
                     resolve();
                 });
 
+                /*
                 let drawFeedbackPromise = new Promise((resolve) => {
                     drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray);
                     resolve();
@@ -503,14 +511,15 @@
                     drawInstructionsReminder(ctx);
                     resolve();
                 });
+                */
 
                 // - executing all the promises in parallel and storing variables:
                 return Promise.all([
                     drawStimulusLeftPromise,
                     drawStimulusRightPromise,
                     drawDiagonalPromise,
-                    drawFeedbackPromise,
-                    drawInstructionsReminderPromise
+                    //drawFeedbackPromise,
+                    //drawInstructionsReminderPromise
                 ]).then(() => {
                     // - order of the nodes (changes from trial to trial and is read in "my-plugin-canvas-keyboard-response.js")
                     jsPsych.data.presentedOrder = currentTrialOrder;
@@ -522,8 +531,8 @@
                         jsPsych.data.correctResponse = "arrowleft";
                     }
                 });
-            }
 
+            }
 
             return drawCanvas
 
@@ -539,7 +548,7 @@
                 // defining the current trial
                 let currentTrial = {
                     type: jsPsychCanvasKeyboardResponse,
-                    canvas_size: [currentExperiment.canvasDimensions[0], currentExperiment.canvasDimensions[1]], // [height,width]
+                    canvas_size: [currentExperiment.canvasDimensions[0], currentExperiment.canvasDimensions[1]], // LOGICAL COORDINATES [height,width]
                     choices: [' ', 'ArrowLeft', 'ArrowRight'],
                     response_ends_trial: true,
                     timeline: [],
@@ -552,6 +561,7 @@
                         clique_size: currentExperiment.arrayOfCliqueSizes[presentationIndex],
                         graph_size: currentExperiment.graphSize,
                     },
+
                     on_start: function (currentTrial) {
                         // - when trial starts, graphs have been read:
                         currentTrial.data.graphs_names = [currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0][currentExperiment.graphSize].graph_name, currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1][currentExperiment.graphSize].graph_name]
@@ -561,6 +571,7 @@
                         if (currentData.trials.filter(element => element.block_index == blockIndex && element.presentation_index == presentationIndex).length == currentExperiment.maximumNumberOfShuffles)
                             currentTrial.choices = ['ArrowLeft', 'ArrowRight']
                     },
+
                     on_finish: function (data) {
                         // providing audio feedback based on last response (shuffle, correct answer, wrong answer) (ALTERNATIVE: using JSPsych audioKeboard plugin (https://groups.google.com/g/jspsych/c/y0qYDhKVOXw) ):
                         let lastTrial = jsPsych.data.get().last(1).values()[0]
