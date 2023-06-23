@@ -19,6 +19,7 @@
     <script type="text/javascript" src="jspsych/dist/plugin-survey-html-form.js"></script>
     <script type="text/javascript" src="jspsych/dist/plugin-html-keyboard-response.js"></script>
     <script type="text/javascript" src="jspsych/dist/plugin-preload.js"></script>
+    <script type="text/javascript" src="jspsych/dist/plugin-audio-keyboard-response.js"></script>
     <!-- Customized plugin -->
     <script type="text/javascript" src="jspsych/dist/my-plugin-canvas-keyboard-response.js"></script>
     <!-- Compressing and de-compressing json files -->
@@ -155,6 +156,9 @@
             // Audio will be played through HTML5, not through WebAudio API
             use_webaudio: false,
 
+            // preloading files that can be automatically detected from the timeline:
+            auto_preload: true,
+
             on_finish: function (data) {
                 // displaying data:
                 jsPsych.data.displayData();
@@ -165,9 +169,16 @@
             }
         });
 
-
         /* create timeline */
         let timeline = [];
+
+
+        // PRELOADING feedback audio files:
+        let preloadAudioFiles = {
+            type: jsPsychPreload,
+            audio: ['audio_feedback/shuffles/shuffle01.mp3', 'audio_feedback/right/coin01.mp3', 'audio_feedback/wrong/error01.mp3'],
+        }
+        timeline.push(preloadAudioFiles)
 
 
         /* init connection with pavlovia.org */
@@ -482,7 +493,7 @@
                 let currentTrialOrder = shuffleNodes(currentExperiment.standardOrderOfNodes.slice()).slice(0, currentExperiment.graphSize);
 
                 // accessing the array of the trials completed up to now (used to draw the feedback):
-                let currentTrialsArray = jsPsych.data.get().trials;
+                let currentTrialsArray = jsPsych.data.get().filter({ trial_type: "canvas-keyboard-response" }).trials;
 
                 // DRAWING ON CANVAS:
                 // - wrapping each function call in a promise
@@ -537,6 +548,26 @@
         }
 
 
+        // Creating feedback audio trials (will be added to timeline after each trial):
+        var feedbackAudio = {
+            type: jsPsychAudioKeyboardResponse,
+            stimulus: function () {
+                // defining stimulus based on last response (shuffle, correct answer, wrong answer)
+                let lastTrial = jsPsych.data.get().filter({ trial_type: "canvas-keyboard-response" }).last(1).values()[0]
+                if (lastTrial.response == " ")
+                    return 'audio_feedback/shuffles/shuffle01.mp3';
+                else
+                    if (lastTrial.accuracy)
+                        return 'audio_feedback/right/coin01.mp3'
+                    else
+                        return 'audio_feedback/wrong/error01.mp3'
+            },
+            choices: "NO_KEYS",
+            trial_ends_after_audio: true,
+            response_allowed_while_playing: false,
+        };
+
+
         // creating the blocks of the experiment
         for (let blockIndex = 0; blockIndex < currentExperiment.numberOfBlocks; blockIndex++) {
 
@@ -564,43 +595,39 @@
                         // - when trial starts, graphs have been read:
                         currentTrial.data.graphs_names = [currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0][currentExperiment.graphSize].graph_name, currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1][currentExperiment.graphSize].graph_name]
                         // - accessing the data stored up to now (it will increase progressively):
-                        let currentData = jsPsych.data.get()
+                        let currentData = jsPsych.data.get().filter({ trial_type: "canvas-keyboard-response" })
                         // - if no more shuffles are available, only allowing final answers (arrow presses):
                         if (currentData.trials.filter(element => element.block_index == blockIndex && element.presentation_index == presentationIndex).length == currentExperiment.maximumNumberOfShuffles)
                             currentTrial.choices = ['ArrowLeft', 'ArrowRight']
                     },
 
+                    // LEFT FOR CONTROL, TO BE REMOVED:
                     on_finish: function (data) {
-                        // providing audio feedback based on last response (shuffle, correct answer, wrong answer) (ALTERNATIVE: using JSPsych audioKeboard plugin (https://groups.google.com/g/jspsych/c/y0qYDhKVOXw) ):
-                        let lastTrial = jsPsych.data.get().last(1).values()[0]
-                        let audioFilePath = ''
-                        if (lastTrial.response == " ")
-                            audioFilePath = 'audio_feedback/shuffles/shuffle01.mp3'
-                        else
-                            // if final answer, play sound based on correct / wrong answer
-                            if (lastTrial.accuracy)
-                                audioFilePath = 'audio_feedback/right/coin01.mp3'
-                            else
-                                audioFilePath = 'audio_feedback/wrong/error01.mp3'
-                        let feedbackAudio = new Audio(audioFilePath);
-                        feedbackAudio.play();
+
+                        let currentData = jsPsych.data.get().filter({ trial_type: "canvas-keyboard-response" })
+                        console.log(currentData)
+
                     },
                 }
 
-                // adding the stimuli to the timeline of the trial
+                // adding the stimuli and the audio feedback to the timeline of the trial
                 // NB: shuffling of nodes is done inside draw function
                 currentTrial.timeline.push({ stimulus: generateDrawCanvas(blockIndex, presentationIndex) })
+                currentTrial.timeline.push(feedbackAudio)
 
                 // repeating the trial until a final answer (left/right arrow press) is given:
                 let loop_node = {
                     timeline: [currentTrial],
                     loop_function: function () {
-                        // accessing the data stored up to now (it will increase progressively):
-                        let currentData = jsPsych.data.get()
+                        // isolating the canvas keyboard responses stored up to now (they will increase progressively):
+                        let currentData = jsPsych.data.get().filter({ trial_type: "canvas-keyboard-response" })
+                        //currentData.trials.filter(element => element.)
                         if (currentData.last(1).values()[0].response == " ") {
                             // if last response was a spacebar press, repeat the trial
+                            console.log("shuffle pressed, repeating trial")
                             return true
                         } else if (currentData.last(1).values()[0].response == 0 || currentData.last(1).values()[0].response == 1) {
+                            console.log("final response, going on")
                             // if last response was on left/right arrow, moving to next trial
                             return false
                         }
@@ -624,7 +651,7 @@
                         key_forward: " ",
                         on_start: function (final_page) {
                             // accessing the array of all the trials completed up to now:
-                            let currentTrialsArray = jsPsych.data.get().trials
+                            let currentTrialsArray = jsPsych.data.get().filter({ trial_type: "canvas-keyboard-response" }).trials
                             let arrayOfResponsesLastBlock = []  //to compute block score
                             let arrayOfResponses = []   //to compute total score
                             currentTrialsArray.forEach(element => {
@@ -672,7 +699,7 @@
                         key_forward: " ",
                         on_start: function (move_to_next_block) {
                             // accessing the array of the trials completed up to now:
-                            let currentTrialsArray = jsPsych.data.get().trials
+                            let currentTrialsArray = jsPsych.data.get().filter({ trial_type: "canvas-keyboard-response" }).trials
                             let arrayOfResponsesPerBlock = []
                             currentTrialsArray.forEach(element => {
                                 // creating array of final responses for current block:

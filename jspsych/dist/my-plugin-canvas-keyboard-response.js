@@ -114,7 +114,7 @@ var jsPsychCanvasKeyboardResponse = (function (jspsych) {
                         trial_data.accuracy = false
                 }
                 // clear the display
-                display_element.innerHTML = "";
+                //display_element.innerHTML = ""; // commented out so that canvas does not disappear during audio feedback
                 // move on to the next trial
                 this.jsPsych.finishTrial(trial_data);
             };

@@ -3,7 +3,7 @@
 let currentExperiment = {
     // experiment parameters:
     numberOfBlocks: 1,
-    numberOfPresentationsPerBlock: 30, // single presentation = single couple of graphs, presented once and reordered through space bar presses)
+    numberOfPresentationsPerBlock: 10, // single presentation = single couple of graphs, presented once and reordered through space bar presses)
     numberOfGraphsPerCliqueSize: 2, // number of graphs for each clique size in each block
     maximumNumberOfShuffles: 10, // maximum number of randomizations allowed for a single couple of matrices 
     canvasDimensions: [screen.height, screen.width], // [height,width]
