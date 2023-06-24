@@ -580,7 +580,8 @@
                     canvas_size: [currentExperiment.canvasDimensions[0], currentExperiment.canvasDimensions[1]], // LOGICAL COORDINATES [height,width]
                     choices: [' ', 'ArrowLeft', 'ArrowRight'],
                     response_ends_trial: true,
-                    timeline: [],
+                    // adding the stimuli and the audio feedback to the timeline of the trial
+                    timeline: [{ stimulus: generateDrawCanvas(blockIndex, presentationIndex) }, feedbackAudio],     // NB: shuffling of nodes is done inside draw function
                     data: {
                         // storing variables that do not change between trials relative to the same couple of graphs
                         // experiment parameters:
@@ -609,11 +610,6 @@
 
                     },
                 }
-
-                // adding the stimuli and the audio feedback to the timeline of the trial
-                // NB: shuffling of nodes is done inside draw function
-                currentTrial.timeline.push({ stimulus: generateDrawCanvas(blockIndex, presentationIndex) })
-                currentTrial.timeline.push(feedbackAudio)
 
                 // repeating the trial until a final answer (left/right arrow press) is given:
                 let loop_node = {
