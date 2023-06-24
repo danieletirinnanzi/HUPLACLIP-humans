@@ -138,13 +138,14 @@
 
             function drawStimuli(c) {
 
+                // calling resizing canvas function:
+                resizeCanvas(c)
+
                 // addressing canvas
                 let ctx = c.getContext("2d");
 
-                // printing the useful variable in the console, so that it is possible to make some checks:
-                console.log(shuffledOrderOfNodes)
-                console.log(graphsToDraw)
-                console.log("presentation number: " + (presentationIndex + 1))
+                // disable smoothing:
+                ctx.imageSmoothingEnabled = false
 
                 // - square side dimension (scales with screen resolution)
                 let squareSideDimension = Math.floor((currentExperiment.canvasDimensions[0] / shuffledOrderOfNodes.length)) // rounding it to the closest lower integer to avoid aliasing (1.6px becomes 1px; 3.9px becomes 3px)
@@ -156,154 +157,163 @@
                 // - calculating starting points on y axis:
                 let yStartingPoint = topAndBottomMargin  //NB: starting to draw not from top of window, but leaving 5px above and below the squares
 
-                // Drawing stimulus on LEFT SIDE (graph with clique):  
-                for (let firstIndex = 0; firstIndex < ((shuffledOrderOfNodes.length) - 1); firstIndex++) {
-                    for (let secondIndex = 0; secondIndex < firstIndex + 1; secondIndex++) {
-                        // Determining whether the two nodes are associated:
-                        let currentAssociation = "absent" // will be changed to "present" if association is present in the considered couple of nodes and to "clique" if the considered couple of nodes are part of the clique 
+                // Drawing stimulus on LEFT SIDE (graph with clique):
+                if (presentationIndex != 1) {
+                    for (let firstIndex = 0; firstIndex < ((shuffledOrderOfNodes.length) - 1); firstIndex++) {
+                        for (let secondIndex = 0; secondIndex < firstIndex + 1; secondIndex++) {
+                            // Determining whether the two nodes are associated:
+                            let currentAssociation = "absent" // will be changed to "present" if association is present in the considered couple of nodes and to "clique" if the considered couple of nodes are part of the clique 
 
-                        // dealing with associations for node "0":
-                        if (shuffledOrderOfNodes[firstIndex + 1] == 0) {
-                            //first node was zero, reading 0th column of element
-                            if (graphsToDraw[0][(shuffledOrderOfNodes[secondIndex])][0] == 1)
-                                currentAssociation = "present"
-                            else if (graphsToDraw[0][(shuffledOrderOfNodes[secondIndex])][0] == 2)
-                                currentAssociation = "clique"
-                        } else if (shuffledOrderOfNodes[secondIndex] == 0) {
-                            //second node was zero, reading 0th column of element
-                            if (graphsToDraw[0][(shuffledOrderOfNodes[firstIndex + 1])][0] == 1)
-                                currentAssociation = "present"
-                            else if (graphsToDraw[0][(shuffledOrderOfNodes[firstIndex + 1])][0] == 2)
-                                currentAssociation = "clique"
-                        } else {
-                            // when dealing with non-zero nodes, always reading the value from bigger node (constraint because of triangular matrix)
-                            if (shuffledOrderOfNodes[firstIndex + 1] < shuffledOrderOfNodes[secondIndex]) {
-                                //second element is bigger
-                                if (graphsToDraw[0][shuffledOrderOfNodes[secondIndex]][shuffledOrderOfNodes[firstIndex + 1]] == 1)
+                            // dealing with associations for node "0":
+                            if (shuffledOrderOfNodes[firstIndex + 1] == 0) {
+                                //first node was zero, reading 0th column of element
+                                if (graphsToDraw[0][(shuffledOrderOfNodes[secondIndex])][0] == 1)
                                     currentAssociation = "present"
-                                else if (graphsToDraw[0][shuffledOrderOfNodes[secondIndex]][shuffledOrderOfNodes[firstIndex + 1]] == 2)
+                                else if (graphsToDraw[0][(shuffledOrderOfNodes[secondIndex])][0] == 2)
+                                    currentAssociation = "clique"
+                            } else if (shuffledOrderOfNodes[secondIndex] == 0) {
+                                //second node was zero, reading 0th column of element
+                                if (graphsToDraw[0][(shuffledOrderOfNodes[firstIndex + 1])][0] == 1)
+                                    currentAssociation = "present"
+                                else if (graphsToDraw[0][(shuffledOrderOfNodes[firstIndex + 1])][0] == 2)
                                     currentAssociation = "clique"
                             } else {
-                                //second element is smaller
-                                if (graphsToDraw[0][shuffledOrderOfNodes[firstIndex + 1]][shuffledOrderOfNodes[secondIndex]] == 1)
-                                    currentAssociation = "present"
-                                else if (graphsToDraw[0][shuffledOrderOfNodes[firstIndex + 1]][shuffledOrderOfNodes[secondIndex]] == 2)
-                                    currentAssociation = "clique"
+                                // when dealing with non-zero nodes, always reading the value from bigger node (constraint because of triangular matrix)
+                                if (shuffledOrderOfNodes[firstIndex + 1] < shuffledOrderOfNodes[secondIndex]) {
+                                    //second element is bigger
+                                    if (graphsToDraw[0][shuffledOrderOfNodes[secondIndex]][shuffledOrderOfNodes[firstIndex + 1]] == 1)
+                                        currentAssociation = "present"
+                                    else if (graphsToDraw[0][shuffledOrderOfNodes[secondIndex]][shuffledOrderOfNodes[firstIndex + 1]] == 2)
+                                        currentAssociation = "clique"
+                                } else {
+                                    //second element is smaller
+                                    if (graphsToDraw[0][shuffledOrderOfNodes[firstIndex + 1]][shuffledOrderOfNodes[secondIndex]] == 1)
+                                        currentAssociation = "present"
+                                    else if (graphsToDraw[0][shuffledOrderOfNodes[firstIndex + 1]][shuffledOrderOfNodes[secondIndex]] == 2)
+                                        currentAssociation = "clique"
+                                }
                             }
-                        }
 
-                        //filling the square:
-                        // COLOR OF THE CLIQUE
-                        if (currentAssociation == "clique") {
-                            // defining color of nodes that are part of the clique (if present)
-                            if (presentationIndex < 2) {
-                                // RED if first/second visualization
-                                ctx.fillStyle = "#ff0000";
+                            //filling the square:
+                            // COLOR OF THE CLIQUE
+                            if (currentAssociation == "clique") {
+                                // defining color of nodes that are part of the clique (if present)
+                                if (presentationIndex <= 3) {
+                                    // RED if first/second visualization
+                                    ctx.fillStyle = "#ff0000";
+                                } else {
+                                    // BLACK if third visualization
+                                    ctx.fillStyle = "#000000";
+                                }
+                            }
+                            // COLOR OF THE OTHER TILES
+                            else if (currentAssociation == "present") {
+                                // black if nodes are associated
+                                ctx.fillStyle = "#000000"
                             } else {
-                                // BLACK if third visualization
-                                ctx.fillStyle = "#000000";
+                                // white if nodes are unassociated
+                                ctx.fillStyle = "#FFFFFF"
                             }
-                        }
-                        // COLOR OF THE OTHER TILES
-                        else if (currentAssociation == "present") {
-                            // black if nodes are associated
-                            ctx.fillStyle = "#000000"
-                        } else {
-                            // white if nodes are unassociated
-                            ctx.fillStyle = "#FFFFFF"
-                        }
 
-                        // drawing the square
-                        ctx.fillRect(
-                            xStartingPointLeft + (squareSideDimension * secondIndex),
-                            yStartingPoint + (squareSideDimension * (firstIndex + 1)),
-                            squareSideDimension,
-                            squareSideDimension
-                        );
+                            // drawing the square
+                            ctx.fillRect(
+                                currentExperiment.fixedDrawingParameters[0] + (currentExperiment.fixedDrawingParameters[2] * secondIndex),
+                                currentExperiment.fixedDrawingParameters[1] + (currentExperiment.fixedDrawingParameters[2] * (firstIndex + 1)),
+                                currentExperiment.fixedDrawingParameters[2],
+                                currentExperiment.fixedDrawingParameters[2]
+                            );
 
-                        // filling the square:
-                        ctx.fill();
+                            // filling the square:
+                            ctx.fill();
+                        }
                     }
+                    if (presentationIndex == 0)
+                        return
                 }
 
+
                 // Drawing stimulus on RIGHT SIDE (graph without clique):
-                for (let firstIndex = 0; firstIndex < ((shuffledOrderOfNodes.length) - 1); firstIndex++) {
-                    for (let secondIndex = 0; secondIndex < firstIndex + 1; secondIndex++) {
-                        // Determining whether the two nodes are associated:
-                        let currentAssociation = "absent" // will be changed to "present" if association is present in the considered couple of nodes and to "clique" if the considered couple of nodes are part of the clique 
+                if (presentationIndex != 0) {
+                    for (let firstIndex = 0; firstIndex < ((shuffledOrderOfNodes.length) - 1); firstIndex++) {
+                        for (let secondIndex = 0; secondIndex < firstIndex + 1; secondIndex++) {
+                            // Determining whether the two nodes are associated:
+                            let currentAssociation = "absent" // will be changed to "present" if association is present in the considered couple of nodes and to "clique" if the considered couple of nodes are part of the clique 
 
-                        // dealing with associations for node "0":
-                        if (shuffledOrderOfNodes[firstIndex + 1] == 0) {
-                            //first node was zero, reading 0th column of element
-                            if (graphsToDraw[1][(shuffledOrderOfNodes[secondIndex])][0] == 1)
-                                currentAssociation = "present"
-                            else if (graphsToDraw[1][(shuffledOrderOfNodes[secondIndex])][0] == 2)
-                                currentAssociation = "clique"
-                        } else if (shuffledOrderOfNodes[secondIndex] == 0) {
-                            //second node was zero, reading 0th column of element
-                            if (graphsToDraw[1][(shuffledOrderOfNodes[firstIndex + 1])][0] == 1)
-                                currentAssociation = "present"
-                            else if (graphsToDraw[1][(shuffledOrderOfNodes[firstIndex + 1])][0] == 2)
-                                currentAssociation = "clique"
-                        } else {
-                            // when dealing with non-zero nodes, always reading the value from bigger node (constraint because of triangular matrix)
-                            if (shuffledOrderOfNodes[firstIndex + 1] < shuffledOrderOfNodes[secondIndex]) {
-                                //second element is bigger
-                                if (graphsToDraw[1][shuffledOrderOfNodes[secondIndex]][shuffledOrderOfNodes[firstIndex + 1]] == 1)
+                            // dealing with associations for node "0":
+                            if (shuffledOrderOfNodes[firstIndex + 1] == 0) {
+                                //first node was zero, reading 0th column of element
+                                if (graphsToDraw[1][(shuffledOrderOfNodes[secondIndex])][0] == 1)
                                     currentAssociation = "present"
-                                else if (graphsToDraw[1][shuffledOrderOfNodes[secondIndex]][shuffledOrderOfNodes[firstIndex + 1]] == 2)
+                                else if (graphsToDraw[1][(shuffledOrderOfNodes[secondIndex])][0] == 2)
+                                    currentAssociation = "clique"
+                            } else if (shuffledOrderOfNodes[secondIndex] == 0) {
+                                //second node was zero, reading 0th column of element
+                                if (graphsToDraw[1][(shuffledOrderOfNodes[firstIndex + 1])][0] == 1)
+                                    currentAssociation = "present"
+                                else if (graphsToDraw[1][(shuffledOrderOfNodes[firstIndex + 1])][0] == 2)
                                     currentAssociation = "clique"
                             } else {
-                                //second element is smaller
-                                if (graphsToDraw[1][shuffledOrderOfNodes[firstIndex + 1]][shuffledOrderOfNodes[secondIndex]] == 1)
-                                    currentAssociation = "present"
-                                else if (graphsToDraw[1][shuffledOrderOfNodes[firstIndex + 1]][shuffledOrderOfNodes[secondIndex]] == 2)
-                                    currentAssociation = "clique"
+                                // when dealing with non-zero nodes, always reading the value from bigger node (constraint because of triangular matrix)
+                                if (shuffledOrderOfNodes[firstIndex + 1] < shuffledOrderOfNodes[secondIndex]) {
+                                    //second element is bigger
+                                    if (graphsToDraw[1][shuffledOrderOfNodes[secondIndex]][shuffledOrderOfNodes[firstIndex + 1]] == 1)
+                                        currentAssociation = "present"
+                                    else if (graphsToDraw[1][shuffledOrderOfNodes[secondIndex]][shuffledOrderOfNodes[firstIndex + 1]] == 2)
+                                        currentAssociation = "clique"
+                                } else {
+                                    //second element is smaller
+                                    if (graphsToDraw[1][shuffledOrderOfNodes[firstIndex + 1]][shuffledOrderOfNodes[secondIndex]] == 1)
+                                        currentAssociation = "present"
+                                    else if (graphsToDraw[1][shuffledOrderOfNodes[firstIndex + 1]][shuffledOrderOfNodes[secondIndex]] == 2)
+                                        currentAssociation = "clique"
+                                }
                             }
-                        }
 
-                        //filling the square:
-                        // COLOR OF THE CLIQUE
-                        if (currentAssociation == "clique") {
-                            // defining color of nodes that are part of the clique (if present)
-                            if (presentationIndex < 2) {
-                                // RED if first/second visualization
-                                ctx.fillStyle = "#ff0000";
+                            //filling the square:
+                            // COLOR OF THE CLIQUE
+                            if (currentAssociation == "clique") {
+                                // defining color of nodes that are part of the clique (if present)
+                                if (presentationIndex <= 3) {
+                                    // RED if first/second visualization
+                                    ctx.fillStyle = "#ff0000";
+                                } else {
+                                    // BLACK if third visualization
+                                    ctx.fillStyle = "#000000";
+                                }
+                            }
+                            // COLOR OF THE OTHER TILES
+                            else if (currentAssociation == "present") {
+                                // black if nodes are associated
+                                ctx.fillStyle = "#000000"
                             } else {
-                                // BLACK if third visualization
-                                ctx.fillStyle = "#000000";
+                                // white if nodes are unassociated
+                                ctx.fillStyle = "#FFFFFF"
                             }
-                        }
-                        // COLOR OF THE OTHER TILES
-                        else if (currentAssociation == "present") {
-                            // black if nodes are associated
-                            ctx.fillStyle = "#000000"
-                        } else {
-                            // white if nodes are unassociated
-                            ctx.fillStyle = "#FFFFFF"
-                        }
 
-                        // drawing the square
-                        ctx.fillRect(
-                            xStartingPointLeft + (squareSideDimension * (firstIndex + 1)),
-                            yStartingPoint + (squareSideDimension * secondIndex),
-                            squareSideDimension,
-                            squareSideDimension
-                        );
+                            // drawing the square
+                            ctx.fillRect(
+                                currentExperiment.fixedDrawingParameters[0] + (currentExperiment.fixedDrawingParameters[2] * (firstIndex + 1)),
+                                currentExperiment.fixedDrawingParameters[1] + (currentExperiment.fixedDrawingParameters[2] * secondIndex),
+                                currentExperiment.fixedDrawingParameters[2],
+                                currentExperiment.fixedDrawingParameters[2]
+                            );
 
-                        // filling the square:
-                        ctx.fill();
+                            // filling the square:
+                            ctx.fill();
+                        }
                     }
                 }
 
                 // drawing diagonal
-                for (let index = 0; index < (shuffledOrderOfNodes.length); index++) {
-                    // filling square in red
-                    ctx.fillStyle = "#ff0000";
-                    // drawing square of diagonal (x, y, width, height)
-                    ctx.fillRect(xStartingPointLeft + (squareSideDimension * index), yStartingPoint + (squareSideDimension * index), squareSideDimension, squareSideDimension)
+                if (presentationIndex > 1) {
+                    for (let index = 0; index < (shuffledOrderOfNodes.length); index++) {
+                        // filling square in red
+                        ctx.fillStyle = "#ff0000";
+                        // drawing square of diagonal (x, y, width, height)
+                        ctx.fillRect(currentExperiment.fixedDrawingParameters[0] + (currentExperiment.fixedDrawingParameters[2] * index), currentExperiment.fixedDrawingParameters[1] + (currentExperiment.fixedDrawingParameters[2] * index), currentExperiment.fixedDrawingParameters[2] * 2, currentExperiment.fixedDrawingParameters[2] * 2)
 
-                    ctx.fill();
+                        ctx.fill();
+                    }
                 }
 
             }
@@ -319,13 +329,36 @@
             standardOrderOfNodes.push(index)
         }
 
+        /* FUNCTION TO RESIZE THE CANVAS (called before drawing, a new canvas is re-created at every trial) */
+        // from: https://stackoverflow.com/questions/47696956/display-pixel-perfect-canvas-on-all-devices 
+
+        const px = v => `${v}px`;
+
+        function resizeCanvas(canvas) {
+            // how many devicePixels per pixel in the canvas we want
+            // you can set this to 1 if you always want 1 device pixel to 1 canvas pixel
+            const pixelSize = Math.max(1, devicePixelRatio) | 0;
+
+            const rect = canvas.parentElement.getBoundingClientRect();
+            const deviceWidth = rect.width * devicePixelRatio | 0;
+            const deviceHeight = rect.height * devicePixelRatio | 0;
+            const pixelsAcross = deviceWidth / pixelSize | 0;
+            const pixelsDown = deviceHeight / pixelSize | 0;
+            const devicePixelsAcross = pixelsAcross * pixelSize;
+            const devicePixelsDown = pixelsDown * pixelSize;
+            canvas.style.width = px(devicePixelsAcross / devicePixelRatio);
+            canvas.style.height = px(devicePixelsDown / devicePixelRatio);
+            canvas.width = pixelsAcross;
+            canvas.height = pixelsDown;
+        }
+
         // calling function to generate the two graphs (left side - right side):
         let graphsToDraw = generateGraphs(numberOfNodes, cliqueSize)
         // calling function to shuffle the nodes:
         let shuffledOrderOfNodes = shuffleNodes(standardOrderOfNodes.slice())
 
-        // creating array of the order of nodes for the three visualizations (GROUPED - SHUFFLED - SHUFFLED (same as previous) ):
-        let orderOfNodesArray = [standardOrderOfNodes, shuffledOrderOfNodes, shuffledOrderOfNodes]
+        // creating array of the order of nodes for the three visualizations (GROUPEDleft - GROUPEDright - GROUPEDboth - SHUFFLEDboth (clique red) - SHUFFLEDboth (BW) ):
+        let orderOfNodesArray = [standardOrderOfNodes, standardOrderOfNodes, standardOrderOfNodes, shuffledOrderOfNodes, shuffledOrderOfNodes]
 
 
         /* ACTUAL JSPSYCH SCRIPT: */
@@ -337,21 +370,38 @@
         timeline.push(enter_fullscreen)
 
         // CREATING OBJECT FOR CURRENT EXPERIMENT:
-        // defining canvas dimensions (sizes of canvas = sizes of whole window):
-        let canvasHeight = window.screen.height;  //height is the dimension that regulates the size of the stimuli (on which the "step" is calculated)
-        let canvasWidth = window.screen.width;
+        let physicalScreenHeight = screen.height * window.devicePixelRatio;  //height is the dimension that regulates the size of the stimuli (on which the "singleSquareSide" is calculated)
+        let physicalScreenWidth = screen.width * window.devicePixelRatio;
+        console.log(physicalScreenHeight / numberOfNodes)
+        let squareSideDimensionPhysical = Math.floor((physicalScreenHeight / (numberOfNodes)))
+        console.log("the physical single square dimension is: " + squareSideDimensionPhysical)
+        // - top and bottom margin (centering the square in the available space)
+        let topAndBottomMarginPhysical = ((physicalScreenHeight - (squareSideDimensionPhysical * numberOfNodes)) / 2)
+        // - calculating LOGICAL starting point on x axis:
+        let xStartingPointLeft = ((physicalScreenWidth / 2) - ((physicalScreenHeight - topAndBottomMarginPhysical * 2) / 2))
+        // - calculating LOGICAL starting point on y axis:
+        let yStartingPoint = topAndBottomMarginPhysical  //NB: starting to draw not from top of window, but leaving margin above and below the square
         let currentExperiment = {
-            canvasDimensions: [canvasHeight, canvasWidth], // [height,width]
+            canvasDimensions: [window.screen.height, window.screen.width], // [height,width]
         }
+        // storing the LOGICAL starting points and the square size in currentExperiment object (used to draw red diagonal):
+        currentExperiment.fixedDrawingParameters = [xStartingPointLeft, yStartingPoint, squareSideDimensionPhysical]
 
         // creating the trials for the experiment
-        for (let presentationIndex = 0; presentationIndex < 3; presentationIndex++) {
+        for (let presentationIndex = 0; presentationIndex < orderOfNodesArray.length; presentationIndex++) {
             // defining the current trial
             let currentTrial = {
                 type: jsPsychCanvasKeyboardResponse,
                 canvas_size: [currentExperiment.canvasDimensions[0], currentExperiment.canvasDimensions[1]], // [height,width]
                 response_ends_trial: true,
                 timeline: [],
+                choices: [" "],
+                on_start: function () {
+                    // Select the element with class "jspsych-display-element"
+                    var displayElement = document.querySelector('.jspsych-display-element');
+                    // Add the style attribute with overflow:hidden to prevent subject from scrolling during experiment
+                    displayElement.style.overflow = 'hidden';
+                }
             }
 
             // adding the stimulus to the timeline of the trial
