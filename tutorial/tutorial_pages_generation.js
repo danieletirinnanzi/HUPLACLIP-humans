@@ -39,55 +39,47 @@ const instructionsObject = {
     26: ["...we obtain another different triangle (remember that you can flick through the images using the arrows).", "26_swapped_triangular_chessboard_N20_1_secondSwap"],
     27: ["Switching the two rows and columns transforms the initial triangle.", "27_20nodes_triangular_secondSwap"],
 
-    // horizontal - vertical transition 
-    // first switch 
-    28: ["The same triangle can also be represented vertically.", "28_vertical_standard_triangular_chessboard_N20_1_firstSwap"],
-    29: ["We can transform a vertical triangle similarly: if we switch these two rows and columns...", "29_vertical_highlighted_triangular_chessboard_N20_1_firstSwap"],
-    30: ["...we obtain a different triangle (remember that you can flick through the images using the arrows).", "30_vertical_swapped_triangular_chessboard_N20_1_firstSwap"],
-    31: ["Switching two rows and columns transforms the initial triangle.", "31_20nodes_vertical_firstSwap"],
-    // second switch:     
-    32: ["Let's consider now a flipped version of the initial vertical triangle.", "32_vertical_standard_triangular_chessboard_N20_1_secondSwap"],
-    33: ["Again, if we switch two rows and columns...", "33_vertical_highlighted_triangular_chessboard_N20_1_secondSwap"],
-    34: ["...we obtain a different triangle (remember that you can flick through the images using the arrows).", "34_vertical_swapped_triangular_chessboard_N20_1_secondSwap"],
-    35: ["Also in this case, switching two rows and columns transforms the initial triangle.", "35_20nodes_vertical_secondSwap"],
-
     // spreading clique (color coded)    
     // N20_K14 (regular checkerboard - progression)
-    36: ["Now let's imagine we have a triangular chessboard where some tiles are colored in red.", "36_N20_K14_regular_1standard"],
-    37: ["If we switch two rows and columns as we have seen before, some red tiles change their location in the triangle.", "37_N20_K14_regular_swap1"],
-    38: ["If we make another switch, some other tiles change their location in the triangle.", "38_N20_K14_regular_swap2"],
-    39: ["With a third switch, they keep moving.", "39_N20_K14_regular_swap3"],
-    40: ["If we perform many switches, the red tiles spread inside the triangle, and they look like this.", "40_N20_K14_regular_visualization5_shuffled"],
-    41: ["Repeating switches of rows and columns shuffles the initial triangle.<br>A <b>shuffle</b> is the transformation from a standard triangle to its shuffled version, obtained by repeating switches of rows and columns.", "41_N20_K14_progression"],
+    28: ["Now let's imagine we have a triangular chessboard where some tiles are colored in red.", "28_N20_K14_regular_progression_standard"],
+    29: ["If we switch two rows and columns as we have seen before, some red tiles change their location in the triangle.", "29_N20_K14_regular_progression_swap1"],
+    30: ["If we make another switch, some other tiles change their location in the triangle.", "30_N20_K14_regular_progression_swap2"],
+    31: ["With a third switch, they keep moving.", "31_N20_K14_regular_progression_swap3"],
+    32: ["If we perform many switches, the red tiles spread inside the triangle, and they look like this.", "32_N20_K14_regular_progression_shuffled"],
+    33: ["Repeating switches of rows and columns shuffles the initial triangle.<br>A <b>shuffle</b> is the transformation from a standard triangle to its shuffled version, obtained by repeating switches of rows and columns.", "33_N20_K14_regular_progression_arrows"],
     // N20_K14 (irregular chessboard)
-    42: ["It is also possible to shuffle triangles where the black and white tiles are not regular.", "42_N20_K14_irregular_standard"],
-    43: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "43_N20_K14_irregular_shuffled"],
-    44: ["Also in this case, a <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating switches of rows and columns.", "44_N20_K14_sidebyside"],
+    34: ["It is also possible to shuffle triangles where the black and white tiles are not regular.", "34_N20_K14_irregular_grouped"],
+    35: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "35_N20_K14_irregular_shuffled"],
+    36: ["Also in this case, a <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), obtained by repeating switches of rows and columns.", "36_N20_K14_sidebyside"],
     // N80_K30
-    45: ["Let's see an example of a <b>shuffle</b> in a triangle that has more tiles.", "45_N80_K30_grouped"],
-    46: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "46_N80_K30_shuffled"],
-    47: ["Again, a <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), as shown before.", "47_N80_K30_sidebyside"],
+    37: ["Let's see an example of a <b>shuffle</b> in a triangle that has more tiles.", "37_N80_K30_grouped"],
+    38: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "38_N80_K30_shuffled"],
+    39: ["Again, a <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), as shown before.", "39_N80_K30_sidebyside"],
     // N160_K70
-    48: ["Let's see an example of a <b>shuffle</b> in a triangle having even more tiles.", "48_N160_K70_grouped"],
-    49: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "49_N160_K70_shuffled"],
-    50: ["Again, a <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), as shown before.", "50_N160_K70_sidebyside"],
-    // N300_K120
-    51: ["Let's see one last example of a <b>shuffle</b> in a triangle having even more tiles. Triangles in the experiment will look like this.", "51_N300_K120_grouped"],
-    52: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "52_N300_K120_shuffled"],
-    53: ["Again, a <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), as shown before.", "53_N300_K120_sidebyside"],
-    // single - paired stimuli transition (N=300):
-    // N300_K160
-    54: ["During the experiment, you will see two triangles next to each other:<br>one on the <b>left</b>...", "54_N300_K160_grouped_red_1"],
-    55: ["...and one on the <b>right</b>.<br>One of the triangles contains some red tiles: in this case, the <b>left</b> one does.", "55_N300_K160_grouped_red"],
-    56: ["Let's <b>shuffle</b> both triangles: <br>as we have seen before, the red tiles spread inside the left one.", "56_N300_K160_shuffled_red"],
-    57: ["Now let's change the color of the <b>red tiles to black</b>: this is what you will see during the experiment.<br>Your task is to indicate which of the two triangles contained a group of red tiles before the shuffle and the color change.", "57_N300_K160_shuffled_black"],
-    58: ["In this case, the correct answer is <b>left</b>. <br>Move on to see another example.", "58_N300_K160_correct_response"],
-    // N300_K110    
-    59: ["During the experiment, you will see two triangles:<br>one on the <b>left</b>...", "59_N300_K110_grouped_red_1"],
-    60: ["...and one on the <b>right</b>.<br>In this case, the <b>right</b> triangle contains the red tiles, while the left one does not.", "60_N300_K110_grouped_red"],
-    61: ["As we did before, let's <b>shuffle</b> the two triangles: <br> the red tiles spread inside the right one.", "61_N300_K110_shuffled_red"],
-    62: ["If we now turn the <b>red tiles to black</b>, we see the stimuli as they will appear during the experiment.<br>Which of the two triangles contained the group of red tiles before the shuffle and the color change?", "62_N300_K110_shuffled_black"],
-    63: ["In this case, the right one did, so the correct answer is <b>right</b>. <br> Move on to end the instructions phase: if you do so, <b>it will not be possible to go back to the instructions</b>.", "63_N300_K110_correct_response"],
+    40: ["Let's see an example of a <b>shuffle</b> in a triangle having even more tiles.", "40_N160_K70_grouped"],
+    41: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "41_N160_K70_shuffled"],
+    42: ["Again, a <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), as shown before.", "42_N160_K70_sidebyside"],
+    // N350_K120
+    43: ["Let's see an example of a <b>shuffle</b> in a triangle having even more tiles.", "43_N350_K120_grouped"],
+    44: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "44_N350_K120_shuffled"],
+    45: ["Again, a <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), as shown before.", "45_N350_K120_sidebyside"],
+    // N470_K130
+    46: ["Let's see one last example of a <b>shuffle</b> in a triangle having even more tiles. Triangles in the experiment might have more tiles or less tiles than this one.", "46_N470_K130_grouped"],
+    47: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "47_N470_K130_shuffled"],
+    48: ["Again, a <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), as shown before.", "48_N470_K130_sidebyside"],
+    // single - paired stimuli transition (N=470):
+    // N470_K200
+    49: ["During the experiment, you will see two triangles next to each other:<br>one on the <b>left</b>...", "49_N470_K200_grouped_red_1"],
+    50: ["...and one on the <b>right</b>.<br>One of the triangles contains some red tiles: in this case, the <b>left</b> one does.", "50_N470_K200_grouped_red_2"],
+    51: ["Let's <b>shuffle</b> both triangles: <br>as we have seen before, the red tiles spread inside the left one.", "51_N470_K200_shuffled_red"],
+    52: ["Now let's change the color of the <b>red tiles to black</b>: this is what you will see during the experiment.<br>Your task is to indicate which of the two triangles contained a group of red tiles before the shuffle and the color change.", "52_N470_K200_shuffled_BW"],
+    53: ["In this case, the correct answer is <b>left</b>. <br>Move on to see another example.", "53_N470_K200_shuffled_BW_correct_response"],
+    // N470_K150    
+    54: ["During the experiment, you will see two triangles:<br>one on the <b>left</b>...", "54_N470_K150_grouped_red_1"],
+    55: ["...and one on the <b>right</b>.<br>In this case, the <b>right</b> triangle contains the red tiles, while the left one does not.", "55_N470_K150_grouped_red_2"],
+    56: ["As we did before, let's <b>shuffle</b> the two triangles: <br> the red tiles spread inside the right one.", "56_N470_K150_shuffled_red"],
+    57: ["If we now turn the <b>red tiles to black</b>, we see the stimuli as they will appear during the experiment.<br>Which of the two triangles contained the group of red tiles before the shuffle and the color change?", "57_N470_K150_shuffled_BW"],
+    58: ["In this case, the right one did, so the correct answer is <b>right</b>. <br> Move on to end the instructions phase: if you do so, <b>it will not be possible to go back to the instructions</b>.", "58_N470_K150_shuffled_BW_correct_response"],
 }
 
 
@@ -109,10 +101,10 @@ function generateInstructionsPages() {
     `
     instructionsPagesArray.push(firstHTML)
 
-    // from second instruction page on (adding max-width property to avoid large images to exit the screen):
+    // from second instruction page on:
     for (let index = 1; index < Object.keys(instructionsObject).length; index++) {
         let singleHTML = `<font size="+2"><b> INSTRUCTIONS </b></font><br><br>
-        <img src="tutorial/instructions_images/${instructionsObject[index + 1][1]}.PNG" alt="Could not upload image" max-width: "${currentExperiment.canvasDimensions[1]}" height="${currentExperiment.canvasDimensions[0] / 2}" ><br><br>
+        <img src="tutorial/instructions_images/${instructionsObject[index + 1][1]}.PNG" alt="Could not upload image" height="${currentExperiment.canvasDimensions[0] / 2}" ><br><br>
         ${instructionsObject[index + 1][0]}<br><br>
         <i><b>< Press left arrow to go back <br></b></i>
         <i><b>Press right arrow to go forward ></b></i>
