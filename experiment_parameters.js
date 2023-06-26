@@ -2,7 +2,7 @@
 // CREATING OBJECT FOR CURRENT EXPERIMENT:
 let currentExperiment = {
     // experiment parameters:
-    numberOfBlocks: 6,
+    numberOfBlocks: 1,
     numberOfPresentationsPerBlock: 30, // single presentation = single couple of graphs, presented once and reordered through space bar presses)
     numberOfGraphsPerCliqueSize: 2, // number of graphs for each clique size in each block
     maximumNumberOfShuffles: 10, // maximum number of randomizations allowed for a single couple of matrices 

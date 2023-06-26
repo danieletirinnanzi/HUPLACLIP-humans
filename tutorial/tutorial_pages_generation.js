@@ -56,7 +56,7 @@ const instructionsObject = {
     38: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "38_N80_K30_shuffled"],
     39: ["Again, a <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), as shown before.", "39_N80_K30_sidebyside"],
     // N160_K70
-    40: ["Let's see one last example of a <b>shuffle</b> in a triangle having even more tiles. Triangles in the experiment might have many more tiles than this one.", "40_N160_K70_grouped"],
+    40: ["Let's see one last example of a <b>shuffle</b> in a triangle having even more tiles. Triangles in the experiment will have more tiles than this one.", "40_N160_K70_grouped"],
     41: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "41_N160_K70_shuffled"],
     42: ["Again, a <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), as shown before.", "42_N160_K70_sidebyside"],
     // single - paired stimuli transition (N=470):
