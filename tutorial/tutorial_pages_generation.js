@@ -56,30 +56,22 @@ const instructionsObject = {
     38: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "38_N80_K30_shuffled"],
     39: ["Again, a <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), as shown before.", "39_N80_K30_sidebyside"],
     // N160_K70
-    40: ["Let's see an example of a <b>shuffle</b> in a triangle having even more tiles.", "40_N160_K70_grouped"],
+    40: ["Let's see one last example of a <b>shuffle</b> in a triangle having even more tiles. Triangles in the experiment might have many more tiles than this one.", "40_N160_K70_grouped"],
     41: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "41_N160_K70_shuffled"],
     42: ["Again, a <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), as shown before.", "42_N160_K70_sidebyside"],
-    // N350_K120
-    43: ["Let's see an example of a <b>shuffle</b> in a triangle having even more tiles.", "43_N350_K120_grouped"],
-    44: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "44_N350_K120_shuffled"],
-    45: ["Again, a <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), as shown before.", "45_N350_K120_sidebyside"],
-    // N470_K130
-    46: ["Let's see one last example of a <b>shuffle</b> in a triangle having even more tiles. Triangles in the experiment might have more tiles or less tiles than this one.", "46_N470_K130_grouped"],
-    47: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "47_N470_K130_shuffled"],
-    48: ["Again, a <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), as shown before.", "48_N470_K130_sidebyside"],
     // single - paired stimuli transition (N=470):
-    // N470_K200
-    49: ["During the experiment, you will see two triangles next to each other:<br>one on the <b>left</b>...", "49_N470_K200_grouped_red_1"],
-    50: ["...and one on the <b>right</b>.<br>One of the triangles contains some red tiles: in this case, the <b>left</b> one does.", "50_N470_K200_grouped_red_2"],
-    51: ["Let's <b>shuffle</b> both triangles: <br>as we have seen before, the red tiles spread inside the left one.", "51_N470_K200_shuffled_red"],
-    52: ["Now let's change the color of the <b>red tiles to black</b>: this is what you will see during the experiment.<br>Your task is to indicate which of the two triangles contained a group of red tiles before the shuffle and the color change.", "52_N470_K200_shuffled_BW"],
-    53: ["In this case, the correct answer is <b>left</b>. <br>Move on to see another example.", "53_N470_K200_shuffled_BW_correct_response"],
-    // N470_K150    
-    54: ["During the experiment, you will see two triangles:<br>one on the <b>left</b>...", "54_N470_K150_grouped_red_1"],
-    55: ["...and one on the <b>right</b>.<br>In this case, the <b>right</b> triangle contains the red tiles, while the left one does not.", "55_N470_K150_grouped_red_2"],
-    56: ["As we did before, let's <b>shuffle</b> the two triangles: <br> the red tiles spread inside the right one.", "56_N470_K150_shuffled_red"],
-    57: ["If we now turn the <b>red tiles to black</b>, we see the stimuli as they will appear during the experiment.<br>Which of the two triangles contained the group of red tiles before the shuffle and the color change?", "57_N470_K150_shuffled_BW"],
-    58: ["In this case, the right one did, so the correct answer is <b>right</b>. <br> Move on to end the instructions phase: if you do so, <b>it will not be possible to go back to the instructions</b>.", "58_N470_K150_shuffled_BW_correct_response"],
+    // N160_K90
+    43: ["During the experiment, you will see two triangles next to each other:<br>one on the <b>left</b>...", "43_N160_K90_grouped_red_1"],
+    44: ["...and one on the <b>right</b>.<br>One of the triangles contains some red tiles: in this case, the <b>left</b> one does.", "44_N160_K90_grouped_red_2"],
+    45: ["Let's <b>shuffle</b> both triangles: <br>as we have seen before, the red tiles spread inside the left one.", "45_N160_K90_shuffled_red"],
+    46: ["Now let's change the color of the <b>red tiles to black</b>: this is what you will see during the experiment.<br>Your task is to indicate which of the two triangles contained a group of red tiles before the shuffle and the color change.", "46_N160_K90_shuffled_bw"],
+    47: ["In this case, the correct answer is <b>left</b>. <br>Move on to see another example.", "47_N160_K90_shuffled_bw_correct_response"],
+    // N160_K80    
+    48: ["During the experiment, you will see two triangles:<br>one on the <b>left</b>...", "48_N160_K80_grouped_red_1"],
+    49: ["...and one on the <b>right</b>.<br>In this case, the <b>right</b> triangle contains the red tiles, while the left one does not.", "49_N160_K80_grouped_red_2"],
+    50: ["As we did before, let's <b>shuffle</b> the two triangles: <br> the red tiles spread inside the right one.", "50_N160_K80_shuffled_red"],
+    51: ["If we now turn the <b>red tiles to black</b>, we see the stimuli as they will appear during the experiment.<br>Which of the two triangles contained the group of red tiles before the shuffle and the color change?", "51_N160_K80_shuffled_bw"],
+    52: ["In this case, the right one did, so the correct answer is <b>right</b>. <br> Move on to end the instructions phase: if you do so, <b>it will not be possible to go back to the instructions</b>.", "52_N160_K80_shuffled_bw_correct_response"],
 }
 
 
@@ -95,7 +87,7 @@ function generateInstructionsPages() {
 
     // first instruction page (index = 0): no 'press left arrow to go back' button
     let firstHTML = `<font size="+2"><b> INSTRUCTIONS </b></font><br><br>
-    <img src="tutorial/instructions_images/${instructionsObject[0 + 1][1]}.PNG" alt="Could not upload image" height="${currentExperiment.canvasDimensions[0] / 2}"><br><br>
+    <img src="tutorial/instructions_images/${instructionsObject[0 + 1][1]}.PNG" alt="Could not upload image" height="${currentExperiment.canvasDimensions[0] / 2.2}"><br><br>
     ${instructionsObject[0 + 1][0]}<br><br>
     <i><b>Press right arrow to go forward ></b></i>
     `
@@ -104,7 +96,7 @@ function generateInstructionsPages() {
     // from second instruction page on:
     for (let index = 1; index < Object.keys(instructionsObject).length; index++) {
         let singleHTML = `<font size="+2"><b> INSTRUCTIONS </b></font><br><br>
-        <img src="tutorial/instructions_images/${instructionsObject[index + 1][1]}.PNG" alt="Could not upload image" height="${currentExperiment.canvasDimensions[0] / 2}" ><br><br>
+        <img src="tutorial/instructions_images/${instructionsObject[index + 1][1]}.PNG" alt="Could not upload image" height="${currentExperiment.canvasDimensions[0] / 2.2}" ><br><br>
         ${instructionsObject[index + 1][0]}<br><br>
         <i><b>< Press left arrow to go back <br></b></i>
         <i><b>Press right arrow to go forward ></b></i>
