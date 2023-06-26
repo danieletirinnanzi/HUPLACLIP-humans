@@ -133,9 +133,8 @@
             return shuffledArray
         };
 
-
         /* FUNCTION TO DRAW STIMULI (left: standard; right: shuffled) ON CANVAS */
-        function generateDrawStimuli(graphsToDraw, shuffledOrderOfNodes, presentationIndex) {
+        function generateDrawStimuli(graphsToDraw, shuffledOrderOfNodes, presentationIndex, feedbackStringScore, movesLeftString) {
 
             function drawStimuli(c) {
 
@@ -309,6 +308,50 @@
                     ctx.fill();
                 }
 
+                // drawing shuffles and score:
+
+                // SHUFFLES LEFT (left side of screen):
+                //creating string to be displayed as feedback:
+                let feedbackStringMoves = "SHUFFLES LEFT: " + movesLeftString
+                // text on canvas (increasing red hue when the remaining randomizations decrease. No randomization requested -> black; no randomizations left -> red ):
+                if (movesLeftString == "2") {
+                    //BLACK (2 MOVES):
+                    ctx.fillStyle = `rgb(0,0,0)`;
+                } else if (movesLeftString == "1") {
+                    //MID-RED (1 MOVES):
+                    ctx.fillStyle = `rgb(120,0,0)`;
+                } else {
+                    //RED (0 MOVE):
+                    ctx.fillStyle = `rgb(250,0,0)`;
+                }
+                ctx.font = "bold 2rem system-ui";
+                ctx.fillText(feedbackStringMoves, 0, (physicalScreenHeight) / 7.5);
+
+
+                // TRIAL NUMBER (right side of screen):
+                //creating string to be displayed as feedback:
+                let feedbackStringTrials = "TRIAL: " + 1 + " / " + 1
+                // text on the canvas:
+                ctx.fillStyle = "black"
+                ctx.font = "bold 2rem system-ui";
+                ctx.fillText(feedbackStringTrials, (physicalScreenWidth - (physicalScreenWidth / 5)), (physicalScreenHeight) / 8.5);
+
+                // SCORE (right side of screen):
+                //rect (differentiating color (green / red) based on correctness / incorrectness of last response)
+                if (presentationIndex < 3)
+                    // if no response has been given, choosing a "neutral" color
+                    ctx.fillStyle = "orange";
+                if (presentationIndex == 3)
+                    ctx.fillStyle = "lawngreen";
+                if (presentationIndex == 4)
+                    ctx.fillStyle = "red";
+                ctx.fillRect((physicalScreenWidth - (physicalScreenWidth / 5)), (physicalScreenHeight) / 6.7, (physicalScreenWidth / 8.5), (physicalScreenHeight) / 14);
+                // text on the canvas:
+                ctx.fillStyle = "black"
+                ctx.font = "bold 2rem system-ui";
+                ctx.fillText(feedbackStringScore, (physicalScreenWidth - (physicalScreenWidth / 5.5)), (physicalScreenHeight) / 5);
+
+
             }
             return drawStimuli
         }
@@ -351,8 +394,9 @@
         let shuffledOrderOfNodes = shuffleNodes(standardOrderOfNodes.slice())
 
         // creating array of the order of nodes for the three visualizations (GROUPEDleft - GROUPEDright - GROUPEDboth - SHUFFLEDboth (clique red) - SHUFFLEDboth (BW) ):
-        let orderOfNodesArray = [shuffleNodes(standardOrderOfNodes.slice()), shuffleNodes(standardOrderOfNodes.slice()), shuffledOrderOfNodes, shuffledOrderOfNodes]
-
+        let orderOfNodesArray = [shuffleNodes(standardOrderOfNodes.slice()), shuffleNodes(standardOrderOfNodes.slice()), shuffledOrderOfNodes, shuffledOrderOfNodes, shuffledOrderOfNodes]
+        let feedbackStringScoreArray = ["SCORE: " + 0, "SCORE: " + 0, "SCORE: " + 0, "SCORE: " + 1, "SCORE: " + 0]
+        let movesLeftArray = [2, 1, 0, 2, 2]
 
         /* ACTUAL JSPSYCH SCRIPT: */
         /* entering fullscreen before experiment: */
@@ -365,8 +409,7 @@
         // CREATING OBJECT FOR CURRENT EXPERIMENT:
         let physicalScreenHeight = screen.height * window.devicePixelRatio;  //height is the dimension that regulates the size of the stimuli (on which the "singleSquareSide" is calculated)
         let physicalScreenWidth = screen.width * window.devicePixelRatio;
-        console.log(physicalScreenHeight / numberOfNodes)
-        let squareSideDimensionPhysical = Math.floor((physicalScreenHeight / (standardOrderOfNodes.length + 2)))
+        let squareSideDimensionPhysical = Math.floor(physicalScreenHeight / (standardOrderOfNodes.length + 2))
         console.log("the physical single square dimension is: " + squareSideDimensionPhysical)
         // - top and bottom margin (centering the square in the available space)
         let topAndBottomMarginPhysical = ((physicalScreenHeight - (squareSideDimensionPhysical * numberOfNodes)) / 2)
@@ -399,7 +442,7 @@
 
             // adding the stimulus to the timeline of the trial
             // NB: shuffling of nodes is done inside draw function
-            currentTrial.timeline.push({ stimulus: generateDrawStimuli(graphsToDraw, orderOfNodesArray[presentationIndex], presentationIndex) })
+            currentTrial.timeline.push({ stimulus: generateDrawStimuli(graphsToDraw, orderOfNodesArray[presentationIndex], presentationIndex, feedbackStringScoreArray[presentationIndex], movesLeftArray[presentationIndex]) })
 
             // adding the trial to the timeline
             timeline.push(currentTrial)

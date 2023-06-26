@@ -2,8 +2,8 @@
 // CREATING OBJECT FOR CURRENT EXPERIMENT:
 let currentExperiment = {
     // experiment parameters:
-    numberOfBlocks: 1,
-    numberOfPresentationsPerBlock: 10, // single presentation = single couple of graphs, presented once and reordered through space bar presses)
+    numberOfBlocks: 6,
+    numberOfPresentationsPerBlock: 30, // single presentation = single couple of graphs, presented once and reordered through space bar presses)
     numberOfGraphsPerCliqueSize: 2, // number of graphs for each clique size in each block
     maximumNumberOfShuffles: 10, // maximum number of randomizations allowed for a single couple of matrices 
     canvasDimensions: [screen.height, screen.width], // [height,width]
@@ -49,10 +49,8 @@ let squareSideDimensionPhysical = Math.floor(physicalScreenHeight / numberOfSqua
 console.log("the physical single square dimension is: " + squareSideDimensionPhysical)
 // - top and bottom margin (centering the square in the available space)
 let topAndBottomMarginPhysical = Math.floor((physicalScreenHeight - (squareSideDimensionPhysical * numberOfSquares)) / 2)
-console.log("top and bottom margin: " + topAndBottomMarginPhysical)
 // - calculating starting point on x axis:
 let xStartingPointLeft = (physicalScreenWidth / 2) - ((physicalScreenHeight - (topAndBottomMarginPhysical * 2)) / 2)
-console.log("xstart:" + xStartingPointLeft)
 // - calculating starting point on y axis:
 let yStartingPoint = topAndBottomMarginPhysical  //NB: starting to draw not from top of window, but leaving margin above and below the square
 // storing the starting points and the square size in currentExperiment object (used to draw red diagonal):
