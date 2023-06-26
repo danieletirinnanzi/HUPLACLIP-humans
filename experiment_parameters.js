@@ -41,19 +41,21 @@ currentExperiment.uniqueCliqueSizes = currentExperiment.arrayOfCliqueSizes.filte
 // - COORDINATES OF LEFT AND RIGHT TRIANGLES
 
 // PHYSICAL  COORDINATES:
-// calculating drawing parameters (LOGICAL COORDINATES):
+// calculating drawing parameters:
+// - number of squares to be drawn in the two directions (2 squares are for the diagonal):
+let numberOfSquares = currentExperiment.graphSize + 2
 // - square side dimension (scales with screen resolution)
-let squareSideDimensionPhysical = Math.floor((physicalScreenHeight / (currentExperiment.graphSize + 2)))
-let squareSideDimensionLogical = squareSideDimensionPhysical * logicalPhysicalFraction
+let squareSideDimensionPhysical = Math.floor(physicalScreenHeight / numberOfSquares)
 console.log("the physical single square dimension is: " + squareSideDimensionPhysical)
-console.log("the corresponding logical dimension is: " + squareSideDimensionLogical)
 // - top and bottom margin (centering the square in the available space)
-let topAndBottomMarginPhysical = ((physicalScreenHeight - (squareSideDimensionPhysical * currentExperiment.graphSize)) / 2)
-// - calculating LOGICAL starting point on x axis:
-let xStartingPointLeft = ((physicalScreenWidth / 2) - ((physicalScreenHeight - topAndBottomMarginPhysical * 2) / 2))
-// - calculating LOGICAL starting point on y axis:
+let topAndBottomMarginPhysical = Math.floor((physicalScreenHeight - (squareSideDimensionPhysical * numberOfSquares)) / 2)
+console.log("top and bottom margin: " + topAndBottomMarginPhysical)
+// - calculating starting point on x axis:
+let xStartingPointLeft = (physicalScreenWidth / 2) - ((physicalScreenHeight - (topAndBottomMarginPhysical * 2)) / 2)
+console.log("xstart:" + xStartingPointLeft)
+// - calculating starting point on y axis:
 let yStartingPoint = topAndBottomMarginPhysical  //NB: starting to draw not from top of window, but leaving margin above and below the square
-// storing the LOGICAL starting points and the square size in currentExperiment object (used to draw red diagonal):
+// storing the starting points and the square size in currentExperiment object (used to draw red diagonal):
 currentExperiment.fixedDrawingParameters = [xStartingPointLeft, yStartingPoint, squareSideDimensionPhysical]
 
 // left triangle COORDINATES:
@@ -61,9 +63,9 @@ let leftTriangleCoordinatesArray = []
 for (let firstIndex = 0; firstIndex < (currentExperiment.graphSize - 1); firstIndex++) {
     let maxSecondIndex = firstIndex + 1
     for (let secondIndex = 0; secondIndex < maxSecondIndex; secondIndex++) {
-        // calculating starting points of fillRect for each square:
+        // calculating starting points of fillRect for each square (starting from xStartingPoint, then moving it down 2 squares to leave space for diagonal)
         let xStart = xStartingPointLeft + (squareSideDimensionPhysical * secondIndex)
-        let yStart = (yStartingPoint + (squareSideDimensionPhysical * (firstIndex + 1))) + squareSideDimensionPhysical   //leaving 1 squareSideDimension of additional space for diagonal
+        let yStart = (yStartingPoint + (squareSideDimensionPhysical * (firstIndex))) + 2 * squareSideDimensionPhysical   //leaving 2 squareSideDimension of additional space for diagonal
         // pushing starting points of squares into array:
         leftTriangleCoordinatesArray.push([xStart, yStart, squareSideDimensionPhysical]);
     }
@@ -74,8 +76,8 @@ let rightTriangleCoordinatesArray = []
 for (let firstIndex = 0; firstIndex < (currentExperiment.graphSize - 1); firstIndex++) {
     let maxSecondIndex = firstIndex + 1
     for (let secondIndex = 0; secondIndex < maxSecondIndex; secondIndex++) {
-        // calculating starting points of fillRect for each square:
-        let xStart = (xStartingPointLeft + (squareSideDimensionPhysical * (firstIndex + 1))) + squareSideDimensionPhysical //leaving 1 squareSideDimension of additional space for diagonal
+        // calculating starting points of fillRect for each square (starting from xStartingPoint, then moving it right 2 squares to leave space for diagonal):
+        let xStart = (xStartingPointLeft + (squareSideDimensionPhysical * (firstIndex))) + 2 * squareSideDimensionPhysical //leaving 2 squareSideDimension of additional space for diagonal
         let yStart = yStartingPoint + (squareSideDimensionPhysical * secondIndex)
         // pushing starting points of squares into array:
         rightTriangleCoordinatesArray.push([xStart, yStart, squareSideDimensionPhysical]);

@@ -89,7 +89,7 @@ function drawDiagonal(ctx) {
     for (let index = 0; index < (currentExperiment.graphSize); index++) {
         // setting color to red:
         ctx.fillStyle = "#ff0000";
-        // drawing square of diagonal (x, y, width, height)
+        // drawing square of diagonal (x, y, width, height) -> 2x2 dimension of diagonal is regulated in (width, height) terms (the red squares forming the diagonal partially overlap)
         ctx.fillRect(currentExperiment.fixedDrawingParameters[0] + (currentExperiment.fixedDrawingParameters[2] * index), currentExperiment.fixedDrawingParameters[1] + (currentExperiment.fixedDrawingParameters[2] * index), currentExperiment.fixedDrawingParameters[2] * 2, currentExperiment.fixedDrawingParameters[2] * 2)
         ctx.fill();
     }

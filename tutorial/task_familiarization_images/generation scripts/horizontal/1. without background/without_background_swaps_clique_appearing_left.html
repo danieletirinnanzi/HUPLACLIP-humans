@@ -57,32 +57,6 @@
 
             // array that contains the two graphs to draw:
             let coupleOfGraphs = []
-
-            // Generating graph without clique:
-            //empty object (the properties will be the nodes and the values will be the arrays that indicate the existing connections)
-            let graphWithoutClique = {};
-            // defining the values of the triangular adjacency matrix:
-            for (let rowIndex = 1; rowIndex < numberOfNodes; rowIndex++) {
-                //defining empty array that will contain the connections for the current row
-                let currentRowAssociations = [];
-                for (let columnIndex = 0; columnIndex < rowIndex; columnIndex++) {
-                    //if the current two nodes are not part of the clique, associating them with probability 0.5
-                    let randomValue = Math.random();
-                    // calculating the correct probability of association:
-                    // increasing the value of p so that the two graphs will have the same average degree (pCorr = p + (K*(K-1)/N*(N-1)) * (1-p) )
-                    let correctedProbabilityForGraphWithoutClique = 0.5 + (((cliqueSize * (cliqueSize - 1)) / (numberOfNodes * (numberOfNodes - 1))) * (1 - 0.5))
-                    if (randomValue < correctedProbabilityForGraphWithoutClique) {
-                        currentRowAssociations.push(1);
-                    } else {
-                        currentRowAssociations.push(0);
-                    }
-                }
-                //adding to the object the property (the connections of the current node in the triangular matrix)
-                graphWithoutClique[rowIndex] = currentRowAssociations;
-            }
-            // adding graph without clique to the array containing the two graphs:
-            coupleOfGraphs.push(graphWithoutClique)
-
             // Generating graph with clique:
             //empty object (the properties will be the nodes and the values will be the arrays that indicate the existing connections)
             let graphWithClique = {};
@@ -111,6 +85,31 @@
             }
             // adding graph with clique to the array containing the two graphs:
             coupleOfGraphs.push(graphWithClique)
+
+            // Generating graph without clique:
+            //empty object (the properties will be the nodes and the values will be the arrays that indicate the existing connections)
+            let graphWithoutClique = {};
+            // defining the values of the triangular adjacency matrix:
+            for (let rowIndex = 1; rowIndex < numberOfNodes; rowIndex++) {
+                //defining empty array that will contain the connections for the current row
+                let currentRowAssociations = [];
+                for (let columnIndex = 0; columnIndex < rowIndex; columnIndex++) {
+                    //if the current two nodes are not part of the clique, associating them with probability 0.5
+                    let randomValue = Math.random();
+                    // calculating the correct probability of association:
+                    // increasing the value of p so that the two graphs will have the same average degree (pCorr = p + (K*(K-1)/N*(N-1)) * (1-p) )
+                    let correctedProbabilityForGraphWithoutClique = 0.5 + (((cliqueSize * (cliqueSize - 1)) / (numberOfNodes * (numberOfNodes - 1))) * (1 - 0.5))
+                    if (randomValue < correctedProbabilityForGraphWithoutClique) {
+                        currentRowAssociations.push(1);
+                    } else {
+                        currentRowAssociations.push(0);
+                    }
+                }
+                //adding to the object the property (the connections of the current node in the triangular matrix)
+                graphWithoutClique[rowIndex] = currentRowAssociations;
+            }
+            // adding graph without clique to the array containing the two graphs:
+            coupleOfGraphs.push(graphWithoutClique)
 
             return coupleOfGraphs
 
@@ -149,7 +148,7 @@
                 ctx.imageSmoothingEnabled = false
 
                 // - square side dimension (scales with screen resolution)
-                let squareSideDimension = Math.floor((currentExperiment.canvasDimensions[0] / shuffledOrderOfNodes.length)) // rounding it to the closest lower integer to avoid aliasing (1.6px becomes 1px; 3.9px becomes 3px)
+                let squareSideDimension = Math.floor((currentExperiment.canvasDimensions[0] / shuffledOrderOfNodes.length + 2)) // rounding it to the closest lower integer to avoid aliasing (1.6px becomes 1px; 3.9px becomes 3px)
                 console.log(presentationIndex)
                 // - top and bottom margin (centering the square in the available space)
                 let topAndBottomMargin = (currentExperiment.canvasDimensions[0] - (squareSideDimension * shuffledOrderOfNodes.length)) / 2
@@ -218,7 +217,7 @@
                         // drawing the square
                         ctx.fillRect(
                             currentExperiment.fixedDrawingParameters[0] + (currentExperiment.fixedDrawingParameters[2] * secondIndex),
-                            currentExperiment.fixedDrawingParameters[1] + (currentExperiment.fixedDrawingParameters[2] * (firstIndex + 1)),
+                            (currentExperiment.fixedDrawingParameters[1] + (currentExperiment.fixedDrawingParameters[2] * (firstIndex))) + 2 * currentExperiment.fixedDrawingParameters[2],
                             currentExperiment.fixedDrawingParameters[2],
                             currentExperiment.fixedDrawingParameters[2]
                         );
@@ -288,7 +287,7 @@
 
                         // drawing the square
                         ctx.fillRect(
-                            currentExperiment.fixedDrawingParameters[0] + (currentExperiment.fixedDrawingParameters[2] * (firstIndex + 1)),
+                            (currentExperiment.fixedDrawingParameters[0] + (currentExperiment.fixedDrawingParameters[2] * (firstIndex))) + 2 * currentExperiment.fixedDrawingParameters[2],
                             currentExperiment.fixedDrawingParameters[1] + (currentExperiment.fixedDrawingParameters[2] * secondIndex),
                             currentExperiment.fixedDrawingParameters[2],
                             currentExperiment.fixedDrawingParameters[2]

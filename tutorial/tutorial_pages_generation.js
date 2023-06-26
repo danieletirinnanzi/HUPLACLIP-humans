@@ -65,13 +65,13 @@ const instructionsObject = {
     44: ["...and one on the <b>right</b>.<br>One of the triangles contains some red tiles: in this case, the <b>left</b> one does.", "44_N160_K90_grouped_red_2"],
     45: ["Let's <b>shuffle</b> both triangles: <br>as we have seen before, the red tiles spread inside the left one.", "45_N160_K90_shuffled_red"],
     46: ["Now let's change the color of the <b>red tiles to black</b>: this is what you will see during the experiment.<br>Your task is to indicate which of the two triangles contained a group of red tiles before the shuffle and the color change.", "46_N160_K90_shuffled_bw"],
-    47: ["In this case, the correct answer is <b>left</b>. <br>Move on to see another example.", "47_N160_K90_shuffled_bw_correct_response"],
+    47: ["In this case, the correct answer is <b>left</b>. <br>Move on to see another example.", "47_N160_K90_shuffled_bw_solution"],
     // N160_K80    
     48: ["During the experiment, you will see two triangles:<br>one on the <b>left</b>...", "48_N160_K80_grouped_red_1"],
     49: ["...and one on the <b>right</b>.<br>In this case, the <b>right</b> triangle contains the red tiles, while the left one does not.", "49_N160_K80_grouped_red_2"],
     50: ["As we did before, let's <b>shuffle</b> the two triangles: <br> the red tiles spread inside the right one.", "50_N160_K80_shuffled_red"],
     51: ["If we now turn the <b>red tiles to black</b>, we see the stimuli as they will appear during the experiment.<br>Which of the two triangles contained the group of red tiles before the shuffle and the color change?", "51_N160_K80_shuffled_bw"],
-    52: ["In this case, the right one did, so the correct answer is <b>right</b>. <br> Move on to end the instructions phase: if you do so, <b>it will not be possible to go back to the instructions</b>.", "52_N160_K80_shuffled_bw_correct_response"],
+    52: ["In this case, the right one did, so the correct answer is <b>right</b>. <br> Move on to end the instructions phase: if you do so, <b>it will not be possible to go back to the instructions</b>.", "52_N160_K80_shuffled_bw_solution"],
 }
 
 
