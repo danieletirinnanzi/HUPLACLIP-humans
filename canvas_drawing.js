@@ -121,9 +121,9 @@ function drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray) {
             // increasing the number of shuffles already performed
             shufflesPerformed += 1
 
-        // SCORE: isolating the trials for current block where arrow press was done (they have the "accuracy" property and are used to determine the number of completed trials and the score)
-        if (element.block_index == blockIndex && element.hasOwnProperty('accuracy'))
-            arrayOfResponses.push(element.accuracy)
+        // SCORE: isolating the trials for current block where arrow press was done (they have the "correct" property and are used to determine the number of completed trials and the score)
+        if (element.block_index == blockIndex && element.hasOwnProperty('correct'))
+            arrayOfResponses.push(element.correct)
 
     });
 

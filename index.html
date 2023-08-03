@@ -527,7 +527,7 @@
                 ]).then(() => {
                     // - order of the nodes (changes from trial to trial and is read in "my-plugin-canvas-keyboard-response.js")
                     jsPsych.data.presentedOrder = currentTrialOrder;
-                    // - correct answer (its value is read to compute the "accuracy" variable, does not change from trial to trial but is read to compute "accuracy" variable from plugin)
+                    // - correct answer (its value is read to compute the "correct" variable, does not change from trial to trial but is read to compute "correct" variable from plugin)
                     if (currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0][currentExperiment.graphSize].clique_array === "clique is absent") {
                         // if the first stimulus doesn't have the clique, then the graph with the clique (correct answer) is on the right side
                         jsPsych.data.correctResponse = "arrowright";
@@ -552,7 +552,7 @@
                 if (lastTrial.response == " ")
                     return 'audio_feedback/shuffles/shuffle01.mp3';
                 else
-                    if (lastTrial.accuracy)
+                    if (lastTrial.correct)
                         return 'audio_feedback/right/coin01.mp3'
                     else
                         return 'audio_feedback/wrong/error01.mp3'
@@ -647,11 +647,11 @@
                             let arrayOfResponses = []   //to compute total score
                             currentTrialsArray.forEach(element => {
                                 // creating array of final responses for current block:
-                                if (element.block_index == blockIndex && element.hasOwnProperty('accuracy'))
-                                    arrayOfResponsesLastBlock.push(element.accuracy)
+                                if (element.block_index == blockIndex && element.hasOwnProperty('correct'))
+                                    arrayOfResponsesLastBlock.push(element.correct)
                                 // creating array of all final responses:
-                                if (element.hasOwnProperty('accuracy'))
-                                    arrayOfResponses.push(element.accuracy)
+                                if (element.hasOwnProperty('correct'))
+                                    arrayOfResponses.push(element.correct)
                             })
                             // computing score:
                             // - last block score:
@@ -694,8 +694,8 @@
                             let arrayOfResponsesPerBlock = []
                             currentTrialsArray.forEach(element => {
                                 // creating array of final responses for current block:
-                                if (element.block_index == blockIndex && element.hasOwnProperty('accuracy'))
-                                    arrayOfResponsesPerBlock.push(element.accuracy)
+                                if (element.block_index == blockIndex && element.hasOwnProperty('correct'))
+                                    arrayOfResponsesPerBlock.push(element.correct)
                             })
                             // calculating accuracy for current block:
                             let numberOfCorrectResponsesPerBlock = arrayOfResponsesPerBlock.reduce((a, b) => a + b, 0)

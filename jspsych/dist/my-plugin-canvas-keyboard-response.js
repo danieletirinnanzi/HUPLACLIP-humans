@@ -94,7 +94,7 @@ var jsPsychCanvasKeyboardResponse = (function (jspsych) {
                 }
                 // MODIFIED MANUALLY (variables that change from trial to trial)
                 let currentTrialOrder = this.jsPsych.data.presentedOrder.slice()
-                let correctResponse = this.jsPsych.data.correctResponse     // does not change from trial to trial, but it is used to compute "accuracy"
+                let correctResponse = this.jsPsych.data.correctResponse     // does not change from trial to trial, but it is used to compute the variable "correct"
                 // gather the data to store for the trial
                 var trial_data = {
                     rt: response.rt,
@@ -107,11 +107,11 @@ var jsPsychCanvasKeyboardResponse = (function (jspsych) {
                     // - reading and adding couple of graphs to trial_data:
                     let graphsCouple = this.jsPsych.data.graphsCouple
                     trial_data.graphs_couple = graphsCouple
-                    // - determining accuracy of response and adding it to trial_data:
+                    // - determining accuracy of response and adding the variable "correct" to trial_data:
                     if (trial_data.response == trial_data.correct_response)
-                        trial_data.accuracy = true
+                        trial_data.correct = true
                     else
-                        trial_data.accuracy = false
+                        trial_data.correct = false
                 }
                 // clear the display
                 //display_element.innerHTML = ""; // commented out so that canvas does not disappear during audio feedback
