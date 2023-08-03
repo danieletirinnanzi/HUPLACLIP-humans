@@ -585,6 +585,8 @@
                         // graphs parameters:
                         clique_size: currentExperiment.arrayOfCliqueSizes[presentationIndex],
                         graph_size: currentExperiment.graphSize,
+                        // graphs couple:
+                        graphs_couple: [currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0][currentExperiment.graphSize].graph_name, currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1][currentExperiment.graphSize].graph_name]
                     },
 
                     on_start: function (currentTrial) {
