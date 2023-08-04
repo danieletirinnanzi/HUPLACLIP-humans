@@ -585,13 +585,12 @@
                         // graphs parameters:
                         clique_size: currentExperiment.arrayOfCliqueSizes[presentationIndex],
                         graph_size: currentExperiment.graphSize,
-                        // graphs couple:
-                        graphs_couple: [currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0][currentExperiment.graphSize].graph_name, currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1][currentExperiment.graphSize].graph_name]
+                        graphs_couple: []   //filled in on_start function
                     },
 
                     on_start: function (currentTrial) {
                         // - when trial starts, graphs have been read:
-                        currentTrial.data.graphs_names = [currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0][currentExperiment.graphSize].graph_name, currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1][currentExperiment.graphSize].graph_name]
+                        currentTrial.data.graphs_couple = [currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0][currentExperiment.graphSize].graph_name, currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1][currentExperiment.graphSize].graph_name]
                         // - accessing the data stored up to now (it will increase progressively):
                         let currentData = jsPsych.data.get().filter({ trial_type: "canvas-keyboard-response" })
                         // - if no more shuffles are available, only allowing final answers (arrow presses):
