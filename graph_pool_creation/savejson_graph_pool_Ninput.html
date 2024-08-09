@@ -154,12 +154,12 @@
             // graph pool parameters:
             graphSize: graphSize,
             probabilityOfAssociation: 0.5,
-            numberOfGraphsPerCliqueSize: 10,
+            numberOfGraphsPerCliqueSize: 100,
             cliqueSizeArray: cliqueSizeArray,
             standardOrderOfNodes: standardOrderOfNodes,
             // empty objects that will store the graphs:
             graphsWithClique: {},
-            graphsWithoutClique: {},
+            graphsWithOutClique: {},
         }
 
 
@@ -168,12 +168,15 @@
             // using values of array as keys for object:
             const cliqueSize = cliqueSizeArray[i].toString();
             // - graphs with the clique:
+            console.log("- with clique:")
             graphPoolObject.graphsWithClique[i] = generateGraphsWithClique(graphPoolObject.graphSize, graphPoolObject.cliqueSizeArray[i]);
             // - graphs without the clique:
-            graphPoolObject.graphsWithoutClique[i] = generateGraphsWithOutClique(graphPoolObject.graphSize, graphPoolObject.cliqueSizeArray[i]);
+            console.log("- without clique:")
+            graphPoolObject.graphsWithOutClique[i] = generateGraphsWithOutClique(graphPoolObject.graphSize, graphPoolObject.cliqueSizeArray[i]);
         }
 
-        console.log(graphPoolObject.graphsWithClique)
+        console.log("Graph pool object:")
+        console.log(graphPoolObject)
 
         /* SAVING GRAPHS AS SINGLE JSON FILES IF BUTTON IS PRESSED */
 

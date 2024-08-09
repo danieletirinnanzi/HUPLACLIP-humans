@@ -81,7 +81,7 @@ function generateGraphsWithOutClique(graphSize, cliqueSize) {
                 }
             }
             // adding to the matrix the name of the graph and indications about the absence of the clique:
-            singleGraph[graphPoolObject.graphSize] = { 'graph_name': `${(graphIndex + 1).toString().padStart(4, '0')}_N${graphPoolObject.graphSize}_K${cliqueSize.toString().padStart(4, '0')}_NOCLIQUE`, 'clique_size': cliqueSize, 'clique_array': "clique is absent" }
+            singleGraph[graphPoolObject.graphSize] = { 'graph_name': `${(graphIndex + 1).toString().padStart(4, '0')}_N${graphPoolObject.graphSize.toString().padStart(4, '0')}_K${cliqueSize.toString().padStart(4, '0')}_NOCLIQUE`, 'clique_size': cliqueSize, 'clique_array': "clique is absent" }
             //adding to the object the property (the connections of the current node in the triangular matrix)
             singleGraph[rowIndex] = currentRowAssociations;
         }
@@ -163,7 +163,7 @@ function generateGraphsWithClique(graphSize, cliqueSize) {
                 }
             }
             //adding to the matrix information about the clique: size and array of nodes that are part of it
-            singleGraph[graphPoolObject.graphSize] = { 'graph_name': `${(graphIndex + 1).toString().padStart(4, '0')}_N${graphPoolObject.graphSize}_K${cliqueSize.toString().padStart(4, '0')}_CLIQUE`, 'clique_size': cliqueArray.length, 'clique_array': cliqueArray }
+            singleGraph[graphPoolObject.graphSize] = { 'graph_name': `${(graphIndex + 1).toString().padStart(4, '0')}_N${graphPoolObject.graphSize.toString().padStart(4, '0')}_K${cliqueSize.toString().padStart(4, '0')}_CLIQUE`, 'clique_size': cliqueArray.length, 'clique_array': cliqueArray }
 
             //adding to the object the property (the connections of the current node in the triangular matrix)
             singleGraph[rowIndex] = currentRowAssociations;
