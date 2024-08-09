@@ -92,10 +92,10 @@
 
                     // GRAPH WITH CLIQUE, trial 1:
                     // - creating URL:
-                    let graphWithClique_trial1_url = `graph_pools/CLIQUE/${element.toString().padStart(4, '0')}/${graphsWithCliqueIndices[element][blockIndex * 2].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(4, '0')}_CLIQUE.json`
+                    let graphWithClique_trial1_url = `graph_pools/N${currentExperiment.graphSize}/CLIQUE/${element.toString().padStart(4, '0')}/${graphsWithCliqueIndices[element][blockIndex * 2].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(4, '0')}_CLIQUE.json`
                     // GRAPH WITHOUT CLIQUE, trial 1:
                     // - creating URL:            
-                    let graphWithoutClique_trial1_url = `graph_pools/NO_CLIQUE/${element.toString().padStart(4, '0')}/${graphsWithoutCliqueIndices[element][blockIndex * 2].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(4, '0')}_NOCLIQUE.json`
+                    let graphWithoutClique_trial1_url = `graph_pools/N${currentExperiment.graphSize}/NO_CLIQUE/${element.toString().padStart(4, '0')}/${graphsWithoutCliqueIndices[element][blockIndex * 2].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(4, '0')}_NOCLIQUE.json`
 
                     // Start reading the files in the background
                     const [graphWithClique1, graphWithoutClique1] = await Promise.all([
@@ -112,10 +112,10 @@
 
                     // GRAPH WITH CLIQUE, trial 2:
                     // - creating URL:
-                    let graphWithClique_trial2_url = `graph_pools/CLIQUE/${element.toString().padStart(4, '0')}/${graphsWithCliqueIndices[element][blockIndex * 2 + 1].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(4, '0')}_CLIQUE.json`
+                    let graphWithClique_trial2_url = `graph_pools/N${currentExperiment.graphSize}/CLIQUE/${element.toString().padStart(4, '0')}/${graphsWithCliqueIndices[element][blockIndex * 2 + 1].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(4, '0')}_CLIQUE.json`
                     // GRAPH WITHOUT CLIQUE, trial 2:
                     // - creating URL:            
-                    let graphWithoutClique_trial2_url = `graph_pools/NO_CLIQUE/${element.toString().padStart(4, '0')}/${graphsWithoutCliqueIndices[element][blockIndex * 2 + 1].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(4, '0')}_NOCLIQUE.json`
+                    let graphWithoutClique_trial2_url = `graph_pools/N${currentExperiment.graphSize}/NO_CLIQUE/${element.toString().padStart(4, '0')}/${graphsWithoutCliqueIndices[element][blockIndex * 2 + 1].toString().padStart(4, '0')}_N${currentExperiment.graphSize}_K${element.toString().padStart(4, '0')}_NOCLIQUE.json`
 
                     // Start reading the files in the background
                     const [graphWithClique2, graphWithoutClique2] = await Promise.all([

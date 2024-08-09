@@ -52,27 +52,3 @@ function extractIndices() {
     return graphsIndices
 
 }
-
-
-
-// FUNCTION THAT ASSOCIATES THE NODES THAT WILL BE PART OF THE CLIQUE (adapted from: https://stackoverflow.com/questions/19269545/how-to-get-a-number-of-random-elements-from-an-array)
-// (Note: called when generating graph pool with clique)
-function createClique(nodesArray, singleCliqueSize) {
-    /* INPUT:
-    - array that contains all the nodes in the graph
-    - size of the clique
-
-    OUTPUT:
-    - array of nodes that will be part of the clique
-    */
-    // RIVEDI E CAPISCI UN PO' MEGLIO / RISCRIVI?
-    let result = new Array(singleCliqueSize),
-        len = nodesArray.length,
-        taken = new Array(len);
-    while (singleCliqueSize--) {
-        let x = Math.floor(Math.random() * len);
-        result[singleCliqueSize] = nodesArray[x in taken ? taken[x] : x];
-        taken[x] = --len in taken ? taken[len] : len;
-    }
-    return result;
-}
