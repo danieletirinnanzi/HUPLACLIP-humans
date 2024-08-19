@@ -171,21 +171,14 @@
             console.log("- with clique:")
             graphPoolObject.graphsWithClique[i] = generateGraphsWithClique(graphPoolObject.graphSize, graphPoolObject.cliqueSizeArray[i]);
             // - graphs without the clique:
-            console.log("- without clique:")
-            graphPoolObject.graphsWithOutClique[i] = generateGraphsWithOutClique(graphPoolObject.graphSize, graphPoolObject.cliqueSizeArray[i]);
+            //console.log("- without clique:")
+            //graphPoolObject.graphsWithOutClique[i] = generateGraphsWithOutClique(graphPoolObject.graphSize, graphPoolObject.cliqueSizeArray[i]);
         }
 
         console.log("Graph pool object:")
         console.log(graphPoolObject)
 
         /* SAVING GRAPHS AS SINGLE JSON FILES IF BUTTON IS PRESSED */
-
-        /* KEEP ON FROM HERE:
-        - add graph size to name of downloaded file;
-        - make sure that order is respected and there is correspondence between name and size of graph + clique
-        */
-
-
         // transforming each graph into .json format to export it
         function CreateJSONGraphPoolZipFile(arrayOfGraphsToSave, index) {
             const zip = new JSZip();
