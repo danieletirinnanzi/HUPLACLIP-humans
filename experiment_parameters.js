@@ -2,13 +2,13 @@
 // CREATING OBJECT FOR CURRENT EXPERIMENT:
 let currentExperiment = {
     // experiment parameters:
-    numberOfBlocks: 1,
+    numberOfBlocks: 6,
     numberOfPresentationsPerBlock: 30, // single presentation = single couple of graphs, presented once and reordered through space bar presses)
     numberOfGraphsPerCliqueSize: 2, // number of graphs for each clique size in each block
     maximumNumberOfShuffles: 10, // maximum number of randomizations allowed for a single couple of matrices 
     canvasDimensions: [screen.height, screen.width], // [height,width]
     // graphs parameters:
-    graphSize: 150,
+    graphSize: 800, // TO BE CHANGED IN DIFFERENT EXPERIMENTS
     probabilityOfAssociation: 0.5
 }
 
@@ -57,7 +57,7 @@ switch (currentExperiment.graphSize) {
         currentExperiment.arrayOfCliqueSizes = [240, 240, 213, 213, 187, 187, 173, 173, 160, 160, 147, 147, 133, 133, 120, 120, 107, 107, 93, 93, 80, 80, 67, 67, 53, 53, 40, 40, 27, 27];
         break;
     case 1000:
-
+        currentExperiment.arrayOfCliqueSizes = [300, 300, 267, 267, 233, 233, 217, 217, 200, 200, 183, 183, 167, 167, 150, 150, 133, 133, 117, 117, 100, 100, 83, 83, 67, 67, 50, 50, 33, 33];
         break;
     default:
         alert("Invalid graph size. Accepted graph size values for human experiments are: 100, 150, 200, 300, 400, 480, 600, 800, 1000.");
@@ -67,7 +67,6 @@ switch (currentExperiment.graphSize) {
 
 // - UNIQUE CLIQUE SIZES:
 currentExperiment.uniqueCliqueSizes = currentExperiment.arrayOfCliqueSizes.filter((x, i, a) => a.indexOf(x) == i)
-
 
 
 // - COORDINATES OF LEFT AND RIGHT TRIANGLES
