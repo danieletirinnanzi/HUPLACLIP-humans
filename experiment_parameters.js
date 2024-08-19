@@ -8,7 +8,7 @@ let currentExperiment = {
     maximumNumberOfShuffles: 10, // maximum number of randomizations allowed for a single couple of matrices 
     canvasDimensions: [screen.height, screen.width], // [height,width]
     // graphs parameters:
-    graphSize: 1000,
+    graphSize: 100,
     probabilityOfAssociation: 0.5
 }
 
@@ -31,7 +31,39 @@ for (let index = 0; index < currentExperiment.graphSize; index++) {
 currentExperiment.standardOrderOfNodes = standardOrderOfNodes
 
 // - ARRAY OF CLIQUE SIZES (changes based on "currentExperiment.graphSize"):
-currentExperiment.arrayOfCliqueSizes = [300, 300, 267, 267, 233, 233, 217, 217, 200, 200, 183, 183, 167, 167, 150, 150, 133, 133, 117, 117, 100, 100, 83, 83, 67, 67, 50, 50, 33, 33];
+switch (currentExperiment.graphSize) {
+    case 100:
+        currentExperiment.arrayOfCliqueSizes = [30, 30, 27, 27, 23, 23, 22, 22, 20, 20, 18, 18, 17, 17, 15, 15, 13, 13, 12, 12, 10, 10, 8, 8, 7, 7, 5, 5, 3, 3];
+        break;
+    case 150:
+        currentExperiment.arrayOfCliqueSizes = [45, 45, 40, 40, 35, 35, 33, 33, 30, 30, 27, 27, 25, 25, 23, 23, 20, 20, 18, 18, 15, 15, 13, 13, 10, 10, 8, 8, 5, 5];
+        break;
+    case 200:
+
+        break;
+    case 300:
+
+        break;
+    case 400:
+
+        break;
+    case 480:
+
+        break;
+    case 600:
+
+        break;
+    case 800:
+
+        break;
+    case 1000:
+
+        break;
+    default:
+        alert("Invalid graph size. Accepted graph size values for human experiments are: 100, 150, 200, 300, 400, 480, 600, 800, 1000.");
+        break;
+}
+
 
 // - UNIQUE CLIQUE SIZES:
 currentExperiment.uniqueCliqueSizes = currentExperiment.arrayOfCliqueSizes.filter((x, i, a) => a.indexOf(x) == i)
