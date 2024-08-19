@@ -8,7 +8,7 @@ let currentExperiment = {
     maximumNumberOfShuffles: 10, // maximum number of randomizations allowed for a single couple of matrices 
     canvasDimensions: [screen.height, screen.width], // [height,width]
     // graphs parameters:
-    graphSize: 100,
+    graphSize: 150,
     probabilityOfAssociation: 0.5
 }
 
@@ -39,7 +39,7 @@ switch (currentExperiment.graphSize) {
         currentExperiment.arrayOfCliqueSizes = [45, 45, 40, 40, 35, 35, 33, 33, 30, 30, 27, 27, 25, 25, 23, 23, 20, 20, 18, 18, 15, 15, 13, 13, 10, 10, 8, 8, 5, 5];
         break;
     case 200:
-
+        currentExperiment.arrayOfCliqueSizes = [60, 60, 53, 53, 47, 47, 43, 43, 40, 40, 37, 37, 33, 33, 30, 30, 27, 27, 23, 23, 20, 20, 17, 17, 13, 13, 10, 10, 7, 7];
         break;
     case 300:
 
