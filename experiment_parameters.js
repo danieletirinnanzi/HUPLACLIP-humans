@@ -51,7 +51,7 @@ switch (currentExperiment.graphSize) {
         currentExperiment.arrayOfCliqueSizes = [144, 144, 128, 128, 112, 112, 104, 104, 96, 96, 88, 88, 80, 80, 72, 72, 64, 64, 56, 56, 48, 48, 40, 40, 32, 32, 24, 24, 16, 16];
         break;
     case 600:
-
+        currentExperiment.arrayOfCliqueSizes = [180, 180, 160, 160, 140, 140, 130, 130, 120, 120, 110, 110, 100, 100, 90, 90, 80, 80, 70, 70, 60, 60, 50, 50, 40, 40, 30, 30, 20, 20];
         break;
     case 800:
 
