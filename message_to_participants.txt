@@ -1,0 +1,17 @@
+This time you will complete two experiments. If you already did my previous experiment, these two are the very similar to the one you performed last time, only the stimuli will be represented differently on the screen, as you will read in the tutorial.
+Only a few things before you start:
+- open both links with a browser different from Safari;
+- make sure your eyes are not further than 50cm from the screen;
+- if you can, raise the volume of your device: the experiment includes audio feedback;
+- you can do the experiments in the order that you prefer;
+- remember that there is no time limit for completing each experiment;
+- once you have completed each experiment, please send the output file here.
+
+FIRST LINK:
+https://run.pavlovia.org/danieletirinnanzi/huplaclip_300/?__pilotToken=3c59dc048e8850243be8079a5c74d079&__oauthToken=011d09d12f1b5d96ccba2020a32daad7db375c3b0d11f43c8e3f6fe0e50de3cb
+
+SECOND LINK (in this experiment, it might take a moment for the stimulus to change once you press a key: please be patient):
+https://run.pavlovia.org/danieletirinnanzi/huplaclip_1000/?__pilotToken=3c59dc048e8850243be8079a5c74d079&__oauthToken=011d09d12f1b5d96ccba2020a32daad7db375c3b0d11f43c8e3f6fe0e50de3cb
+
+In case you encountered any problems or you think you are not seeing the stimuli properly, don't hesitate to tell me!
+Thank you for your time!!

@@ -8,7 +8,7 @@ let currentExperiment = {
     maximumNumberOfShuffles: 10, // maximum number of randomizations allowed for a single couple of matrices 
     canvasDimensions: [screen.height, screen.width], // [height,width]
     // graphs parameters:
-    graphSize: 800, // TO BE CHANGED IN DIFFERENT EXPERIMENTS
+    graphSize: 1000, // TO BE CHANGED IN DIFFERENT EXPERIMENTS
     probabilityOfAssociation: 0.5
 }
 
