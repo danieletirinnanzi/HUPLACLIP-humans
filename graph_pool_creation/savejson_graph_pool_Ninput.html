@@ -70,7 +70,7 @@
                     15</button>
             </div>
         </div>
-        <div style="flex: 1;">
+        <!-- <div style="flex: 1;">
             <h1>CLIQUE</h1>
             <h2>Create a number of single graphs WITH the clique, of the given clique size, and saving them to local
                 computer using <i>FileSaver</i> JavaScript Library.</h2>
@@ -121,7 +121,7 @@
                     onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithClique[14], 14);">Button
                     15</button>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <script>
@@ -171,9 +171,11 @@
             console.log("Generating graphs for clique = " + cliqueSizeArray[i])
             // using values of array as keys for object:
             const cliqueSize = cliqueSizeArray[i].toString();
+
             // - graphs with the clique:
-            console.log("- with clique:")
-            graphPoolObject.graphsWithClique[i] = generateGraphsWithClique(graphPoolObject.graphSize, graphPoolObject.cliqueSizeArray[i]);
+            //            console.log("- with clique:")
+            //            graphPoolObject.graphsWithClique[i] = generateGraphsWithClique(graphPoolObject.graphSize, graphPoolObject.cliqueSizeArray[i]);
+
             // - graphs without the clique:
             console.log("- without clique:")
             graphPoolObject.graphsWithOutClique[i] = generateGraphsWithOutClique(graphPoolObject.graphSize, graphPoolObject.cliqueSizeArray[i]);
