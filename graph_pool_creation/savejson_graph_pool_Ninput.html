@@ -127,7 +127,7 @@
     <script>
 
         // Requesting graph size to user:
-        let graphSize = prompt("Insert the GRAPH SIZE for which you want to generate the graphs")
+        let graphSize = Number(prompt("Insert the GRAPH SIZE for which you want to generate the graphs"));
 
         // Checking that Graph size is an accepted value:
         if (isNaN(graphSize) || ![100, 150, 200, 300, 400, 480, 600, 800, 1000].includes(Number(graphSize))) {
@@ -157,6 +157,10 @@
             numberOfGraphsPerCliqueSize: 100,
             cliqueSizeArray: cliqueSizeArray,
             standardOrderOfNodes: standardOrderOfNodes,
+            // p_correction_type:
+            // - p_increase (old correction): increasing the p value of the graph without the clique so that the average degree is matched between the two graphs
+            // - p_reduce (new correction): reducing the p value of the graph where the clique will be added     
+            pCorrectionType: 'p_reduce',    // 'p_increase' or 'p_reduce'
             // empty objects that will store the graphs:
             graphsWithClique: {},
             graphsWithOutClique: {},

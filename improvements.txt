@@ -1,3 +1,15 @@
+IMPLEMENTATION:
+- File saving:
+    - format: csv (BUT responses to surveys are saved as strings -> problems accessing graphs names?) / json (TO TRY)
+    - quotes in output files: check how they are saved (use single quotes instead of double?)
+- Vertical resolutions -> change to >1000? Check with different devices (check that resize of canvas and positioning of stimuli works also when browser zoom is not 100%)
+- Occasional problems (potential issue for scalability of experiment):
+    - csv file formatting issues
+    - "out of memory" when opening N1000 link, it crashes (the computer only has 500MB of free memory) -> do a check of available memory before starting?
+    - "zero rt" issue -> only happened for one subject, but try to solve it (NOT STORING ANSWER UNTIL CANVAS IS SHOWN, or checking for zero rts when trial is completed)
+
+-----------------
+
 COMMENTS FROM PARTICIPANTS:
 - N1000 -> slow generation of stimuli induces errors (Nawal);
 - Anna and Nawal -> blurry instruction and task familiarization images (device specs: Anna (1960x1080), Nawal (1960x1080) ). Possibility of doing these phases already with the canvas, so that it adapts to the screen;
@@ -8,26 +20,6 @@ COMMENTS FROM PARTICIPANTS:
 * perceived the N1000 task as way easier than the N300 one
 * conspiracists tend to better find visual associations (literature)
 
-----------
-
-IMPLEMENTATION:
--(v) Add more accepted vertical resolutions (1050,1152,1200,1344,1392,1400,1800,1824,1964) -> change to >1000? Check that resize of canvas and positioning of stimuli works also when browser zoom is not 100%. Fai provare a soggetti con risoluzioni molto alte per vedere se è ok e consistent;
--(v) data saving:
-* remove "graphs_couple" (right now it outputs an empty variable)
-* variable "accuracy" has to be named "correct"
-* too many quotes in the files -> check how they are saved (use single quotes in all the file??)
-* responses to survey are strings and not objects!! Try also to access the graphs names and check that everything is working ok (possible solution: save in json format?)
--(v) add new experiment structure image and uncomment in experiment scripts
-STILL TO DO:
-- CSV FORMATTING PROBLEM (potential issue for scalability of experiment) -> ask Lollo Nesi and Ben if they were using a specific browser -> csv file formatting issues
-- Lollo Nesi -> "out of memory" when opening second link (only one having it), it crashes (the computer has 500MB of free memory) -> do a check of available memory before starting??
-- "zero rt" issue -> only happened for subject 5 (who was he/she?), but try to solve it (NOT STORING ANSWER UNTIL CANVAS IS SHOWN, or checking for zero rts when trial is completed)
-- check that experiment name is present in output file
-
------------------
-
 POSTER FEEDBACK:
-- Gaia Tavoni --> how are the statistical and computational limits calculated? What do they mean? Speculation (don't know if it is true) -> I think below the statistical limit the size of the clique you are planting is on average smaller than the size of the one you are planting, and this is what makes the taks impossible.
-- Guys from Physics --> all problems have these phases? I was not able to elaborate or discuss the more theoretical aspects (np/np hard - np complete ecc)
+- Tavoni --> how are the statistical and computational limits calculated? What do they mean?
 - Acerbi --> we are talking about the gap in the title but we are not really addressing it
-- Types and families of DDNs that were tested?
