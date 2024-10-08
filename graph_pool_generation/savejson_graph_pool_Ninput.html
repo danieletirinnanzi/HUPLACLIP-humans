@@ -18,7 +18,7 @@
 <body>
 
     <div style="display: flex;">
-        <!-- <div style="flex: 1;">
+        <div style="flex: 1;">
             <h1>NO CLIQUE</h1>
             <h2>Create a number of single graphs WITHOUT the clique, of the given clique size, and saving them to local
                 computer using <i>FileSaver</i> JavaScript Library.</h2>
@@ -69,7 +69,7 @@
                     onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithOutClique[14], 14);">Button
                     15</button>
             </div>
-        </div> -->
+        </div>
         <div style="flex: 1;">
             <h1>CLIQUE</h1>
             <h2>Create a number of single graphs WITH the clique, of the given clique size, and saving them to local
@@ -177,8 +177,8 @@
             graphPoolObject.graphsWithClique[i] = generateGraphsWithClique(graphPoolObject.graphSize, graphPoolObject.cliqueSizeArray[i]);
 
             // - graphs without the clique:
-            //console.log("- without clique:")
-            //graphPoolObject.graphsWithOutClique[i] = generateGraphsWithOutClique(graphPoolObject.graphSize, graphPoolObject.cliqueSizeArray[i]);
+            console.log("- without clique:")
+            graphPoolObject.graphsWithOutClique[i] = generateGraphsWithOutClique(graphPoolObject.graphSize, graphPoolObject.cliqueSizeArray[i]);
         }
 
         console.log("Graph pool object:")
