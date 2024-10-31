@@ -1,7 +1,6 @@
 # HUPLACLIP-humans
 
 This repository contians a JSPsych implementation of the **Planted Clique Problem**, a theoretical computer science task focused on detecting hidden cliques within graphs. The primary aim is to characterize under which conditions humans typically succeed or fail at the task, and to compare that with the predictions of the theory where the problem originated and was studied.
-This project involves both SISSA and ICTP. 
 
 ## Repository Structure
 
