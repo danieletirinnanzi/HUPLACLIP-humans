@@ -1,0 +1,10 @@
+The images that differ between the two types of correction are:
+
+INSTRUCTIONS:
+- images 37-52 (included)
+- generation_scripts:
+    - 7 clique with color coding/
+    - 8 paired stimuli (one with red clique, one without)
+
+TASK FAMILIARIZATION IMAGES:
+- all, both in part 1 and 2

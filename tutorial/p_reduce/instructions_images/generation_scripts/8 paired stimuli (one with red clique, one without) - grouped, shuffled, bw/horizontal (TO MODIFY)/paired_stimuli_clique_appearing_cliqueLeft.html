@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Paired stimuli with color coding (3 VIEWS: RED&GROUPED CLIQUE - RED&SHUFFLED CLIQUE - CORRESPONDING B/W) -
+        Clique left </title>
+    <!-- Standard scripts -->
+    <script src="jspsych/dist/jspsych.js"></script>
+    <!-- Plugins (modified) -->
+    <script src="jspsych/dist/plugin-canvas-keyboard-response.js"></script>
+    <script src="jspsych/dist/plugin-fullscreen.js"></script>
+    <!-- STANDARD INSTRUCTIONS: <script src="jspsych/dist/plugin-instructions.js"></script> -->
+    <!-- Styling -->
+    <link href="jspsych/dist/jspsych.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <script>
+
+        /* initialize jsPsych */
+        var jsPsych = initJsPsych({
+            on_finish: function () {
+                console.log("experiment is over")
+                jsPsych.data.displayData();
+            }
+        });
+
+        /* create timeline */
+        var timeline = [];
+
+
+        //FUNCTION THAT GENERATES THE TWO GRAPHS THAT WILL BE DISPLAYED
+        function generateGraphs(numberOfNodes, cliqueSize) {
+            /* INPUT: none ("currentExperiment" is global and can be accessed from inside functions)
+    
+            OUTPUT:
+            - couple of graphs that will be displayed. The clique will include the first (cliqueSize-1) nodes of the graph.
+            */
+
+            /* Visual representation of a single triangular matrix object (example: N=5. NB: number of nodes start from zero):
+            0|    -
+            1|   1 -
+            2|   0 1 -
+            3|   1 0 0 -
+            4|   0 0 1 0 -
+                ___________
+                 0 1 2 3 4  
+    
+                Corresponding object:
+                { 
+                    1: [1],
+                    2: [0 1],
+                    3: [1 0 0],
+                    4: [0 0 1 0]
+                }
+            */
+
+            // array that contains the two graphs to draw:
+            let coupleOfGraphs = []
+            // Generating graph with clique:
+            //empty object (the properties will be the nodes and the values will be the arrays that indicate the existing connections)
+            let graphWithClique = {};
+            // defining the values of the triangular adjacency matrix:
+            for (let rowIndex = 1; rowIndex < numberOfNodes; rowIndex++) {
+                //defining empty array that will contain the connections for the current row
+                let currentRowAssociations = [];
+                for (let columnIndex = 0; columnIndex < rowIndex; columnIndex++) {
+                    if (rowIndex < cliqueSize && columnIndex < cliqueSize) {
+                        //if current two nodes are part of the clique, inserting 2 in the matrix:
+                        currentRowAssociations.push(2)
+                    }
+                    //if the current two nodes are not part of the clique, associating them with probability 0.5
+                    else {
+                        let randomValue = Math.random();
+                        if (randomValue < 0.5) {
+                            currentRowAssociations.push(1);
+                        } else {
+                            currentRowAssociations.push(0);
+                        }
+                    }
+                }
+
+                //adding to the object the property (the connections of the current node in the triangular matrix)
+                graphWithClique[rowIndex] = currentRowAssociations;
+            }
+            // adding graph with clique to the array containing the two graphs:
+            coupleOfGraphs.push(graphWithClique)
+
+            // Generating graph without clique:
+            //empty object (the properties will be the nodes and the values will be the arrays that indicate the existing connections)
+            let graphWithoutClique = {};
+            // defining the values of the triangular adjacency matrix:
+            for (let rowIndex = 1; rowIndex < numberOfNodes; rowIndex++) {
+                //defining empty array that will contain the connections for the current row
+                let currentRowAssociations = [];
+                for (let columnIndex = 0; columnIndex < rowIndex; columnIndex++) {
+                    //if the current two nodes are not part of the clique, associating them with probability 0.5
+                    let randomValue = Math.random();
+                    // calculating the correct probability of association:
+                    // increasing the value of p so that the two graphs will have the same average degree (pCorr = p + (K*(K-1)/N*(N-1)) * (1-p) )
+                    let correctedProbabilityForGraphWithoutClique = 0.5 + (((cliqueSize * (cliqueSize - 1)) / (numberOfNodes * (numberOfNodes - 1))) * (1 - 0.5))
+                    if (randomValue < correctedProbabilityForGraphWithoutClique) {
+                        currentRowAssociations.push(1);
+                    } else {
+                        currentRowAssociations.push(0);
+                    }
+                }
+                //adding to the object the property (the connections of the current node in the triangular matrix)
+                graphWithoutClique[rowIndex] = currentRowAssociations;
+            }
+            // adding graph without clique to the array containing the two graphs:
+            coupleOfGraphs.push(graphWithoutClique)
+
+            return coupleOfGraphs
+
+        }
+
+
+        // FUNCTION THAT SHUFFLES THE NODES OF THE ARRAY, PASSED IN STANDARD ORDER (from: https://javascript.info/task/shuffle.  Fisher-Yates shuffle (walk the array in the reverse order and swap each element with a random one before it )
+        function shuffleNodes(nodesArray) {
+            /* INPUT:
+            - array that contains all the nodes in the graph
+        
+            OUTPUT:
+            - array that contains the nodes but shuffled
+            */
+            let shuffledArray = nodesArray
+            for (let i = nodesArray.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+                [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];  // same can be written as: let t = nodesArray[i]; nodesArray[i] = nodesArray[j]; nodesArray[j] = t
+            }
+            return shuffledArray
+        };
+
+
+        /* FUNCTION TO DRAW STIMULI (left: standard; right: shuffled) ON CANVAS */
+        function generateDrawStimuli(graphsToDraw, shuffledOrderOfNodes, presentationIndex) {
+
+            function drawStimuli(c) {
+
+                // calling resizing canvas function:
+                resizeCanvas(c)
+
+                // addressing canvas
+                let ctx = c.getContext("2d");
+
+                // disable smoothing:
+                ctx.imageSmoothingEnabled = false
+
+                // - square side dimension (scales with screen resolution)
+                let squareSideDimension = Math.floor((currentExperiment.canvasDimensions[0] / shuffledOrderOfNodes.length + 2)) // rounding it to the closest lower integer to avoid aliasing (1.6px becomes 1px; 3.9px becomes 3px)
+                console.log(squareSideDimension)
+                // - top and bottom margin (centering the square in the available space)
+                let topAndBottomMargin = (currentExperiment.canvasDimensions[0] - (squareSideDimension * shuffledOrderOfNodes.length)) / 2
+                // - calculating starting point on x axis:
+                let xStartingPointLeft = (currentExperiment.canvasDimensions[1] / 2) - ((currentExperiment.canvasDimensions[0] - topAndBottomMargin * 2) / 2)
+                // - calculating starting points on y axis:
+                let yStartingPoint = topAndBottomMargin  //NB: starting to draw not from top of window, but leaving 5px above and below the squares
+
+                // Drawing stimulus on LEFT SIDE (graph with clique):
+                if (presentationIndex != 1) {
+                    for (let firstIndex = 0; firstIndex < ((shuffledOrderOfNodes.length) - 1); firstIndex++) {
+                        for (let secondIndex = 0; secondIndex < firstIndex + 1; secondIndex++) {
+                            // Determining whether the two nodes are associated:
+                            let currentAssociation = "absent" // will be changed to "present" if association is present in the considered couple of nodes and to "clique" if the considered couple of nodes are part of the clique 
+
+                            // dealing with associations for node "0":
+                            if (shuffledOrderOfNodes[firstIndex + 1] == 0) {
+                                //first node was zero, reading 0th column of element
+                                if (graphsToDraw[0][(shuffledOrderOfNodes[secondIndex])][0] == 1)
+                                    currentAssociation = "present"
+                                else if (graphsToDraw[0][(shuffledOrderOfNodes[secondIndex])][0] == 2)
+                                    currentAssociation = "clique"
+                            } else if (shuffledOrderOfNodes[secondIndex] == 0) {
+                                //second node was zero, reading 0th column of element
+                                if (graphsToDraw[0][(shuffledOrderOfNodes[firstIndex + 1])][0] == 1)
+                                    currentAssociation = "present"
+                                else if (graphsToDraw[0][(shuffledOrderOfNodes[firstIndex + 1])][0] == 2)
+                                    currentAssociation = "clique"
+                            } else {
+                                // when dealing with non-zero nodes, always reading the value from bigger node (constraint because of triangular matrix)
+                                if (shuffledOrderOfNodes[firstIndex + 1] < shuffledOrderOfNodes[secondIndex]) {
+                                    //second element is bigger
+                                    if (graphsToDraw[0][shuffledOrderOfNodes[secondIndex]][shuffledOrderOfNodes[firstIndex + 1]] == 1)
+                                        currentAssociation = "present"
+                                    else if (graphsToDraw[0][shuffledOrderOfNodes[secondIndex]][shuffledOrderOfNodes[firstIndex + 1]] == 2)
+                                        currentAssociation = "clique"
+                                } else {
+                                    //second element is smaller
+                                    if (graphsToDraw[0][shuffledOrderOfNodes[firstIndex + 1]][shuffledOrderOfNodes[secondIndex]] == 1)
+                                        currentAssociation = "present"
+                                    else if (graphsToDraw[0][shuffledOrderOfNodes[firstIndex + 1]][shuffledOrderOfNodes[secondIndex]] == 2)
+                                        currentAssociation = "clique"
+                                }
+                            }
+
+                            //filling the square:
+                            // COLOR OF THE CLIQUE
+                            if (currentAssociation == "clique") {
+                                // defining color of nodes that are part of the clique (if present)
+                                if (presentationIndex <= 3) {
+                                    // RED if first/second visualization
+                                    ctx.fillStyle = "#ff0000";
+                                } else {
+                                    // BLACK if third visualization
+                                    ctx.fillStyle = "#000000";
+                                }
+                            }
+                            // COLOR OF THE OTHER TILES
+                            else if (currentAssociation == "present") {
+                                // black if nodes are associated
+                                ctx.fillStyle = "#000000"
+                            } else {
+                                // white if nodes are unassociated
+                                ctx.fillStyle = "#FFFFFF"
+                            }
+
+                            // drawing the square
+                            ctx.fillRect(
+                                currentExperiment.fixedDrawingParameters[0] + (currentExperiment.fixedDrawingParameters[2] * secondIndex),
+                                (currentExperiment.fixedDrawingParameters[1] + (currentExperiment.fixedDrawingParameters[2] * (firstIndex))) + 2 * currentExperiment.fixedDrawingParameters[2],
+                                currentExperiment.fixedDrawingParameters[2],
+                                currentExperiment.fixedDrawingParameters[2]
+                            );
+
+                            // filling the square:
+                            ctx.fill();
+                        }
+                    }
+                    if (presentationIndex == 0)
+                        return
+                }
+
+
+                // Drawing stimulus on RIGHT SIDE (graph without clique):
+                if (presentationIndex != 0) {
+                    for (let firstIndex = 0; firstIndex < ((shuffledOrderOfNodes.length) - 1); firstIndex++) {
+                        for (let secondIndex = 0; secondIndex < firstIndex + 1; secondIndex++) {
+                            // Determining whether the two nodes are associated:
+                            let currentAssociation = "absent" // will be changed to "present" if association is present in the considered couple of nodes and to "clique" if the considered couple of nodes are part of the clique 
+
+                            // dealing with associations for node "0":
+                            if (shuffledOrderOfNodes[firstIndex + 1] == 0) {
+                                //first node was zero, reading 0th column of element
+                                if (graphsToDraw[1][(shuffledOrderOfNodes[secondIndex])][0] == 1)
+                                    currentAssociation = "present"
+                                else if (graphsToDraw[1][(shuffledOrderOfNodes[secondIndex])][0] == 2)
+                                    currentAssociation = "clique"
+                            } else if (shuffledOrderOfNodes[secondIndex] == 0) {
+                                //second node was zero, reading 0th column of element
+                                if (graphsToDraw[1][(shuffledOrderOfNodes[firstIndex + 1])][0] == 1)
+                                    currentAssociation = "present"
+                                else if (graphsToDraw[1][(shuffledOrderOfNodes[firstIndex + 1])][0] == 2)
+                                    currentAssociation = "clique"
+                            } else {
+                                // when dealing with non-zero nodes, always reading the value from bigger node (constraint because of triangular matrix)
+                                if (shuffledOrderOfNodes[firstIndex + 1] < shuffledOrderOfNodes[secondIndex]) {
+                                    //second element is bigger
+                                    if (graphsToDraw[1][shuffledOrderOfNodes[secondIndex]][shuffledOrderOfNodes[firstIndex + 1]] == 1)
+                                        currentAssociation = "present"
+                                    else if (graphsToDraw[1][shuffledOrderOfNodes[secondIndex]][shuffledOrderOfNodes[firstIndex + 1]] == 2)
+                                        currentAssociation = "clique"
+                                } else {
+                                    //second element is smaller
+                                    if (graphsToDraw[1][shuffledOrderOfNodes[firstIndex + 1]][shuffledOrderOfNodes[secondIndex]] == 1)
+                                        currentAssociation = "present"
+                                    else if (graphsToDraw[1][shuffledOrderOfNodes[firstIndex + 1]][shuffledOrderOfNodes[secondIndex]] == 2)
+                                        currentAssociation = "clique"
+                                }
+                            }
+
+                            //filling the square:
+                            // COLOR OF THE CLIQUE
+                            if (currentAssociation == "clique") {
+                                // defining color of nodes that are part of the clique (if present)
+                                if (presentationIndex <= 3) {
+                                    // RED if first/second visualization
+                                    ctx.fillStyle = "#ff0000";
+                                } else {
+                                    // BLACK if third visualization
+                                    ctx.fillStyle = "#000000";
+                                }
+                            }
+                            // COLOR OF THE OTHER TILES
+                            else if (currentAssociation == "present") {
+                                // black if nodes are associated
+                                ctx.fillStyle = "#000000"
+                            } else {
+                                // white if nodes are unassociated
+                                ctx.fillStyle = "#FFFFFF"
+                            }
+
+                            // drawing the square
+                            ctx.fillRect(
+                                (currentExperiment.fixedDrawingParameters[0] + (currentExperiment.fixedDrawingParameters[2] * (firstIndex))) + 2 * currentExperiment.fixedDrawingParameters[2],
+                                currentExperiment.fixedDrawingParameters[1] + (currentExperiment.fixedDrawingParameters[2] * secondIndex),
+                                currentExperiment.fixedDrawingParameters[2],
+                                currentExperiment.fixedDrawingParameters[2]
+                            );
+
+                            // filling the square:
+                            ctx.fill();
+                        }
+                    }
+                }
+
+                // drawing diagonal
+                if (presentationIndex > 1) {
+                    for (let index = 0; index < (shuffledOrderOfNodes.length); index++) {
+                        // filling square in red
+                        ctx.fillStyle = "#ff0000";
+                        // drawing square of diagonal (x, y, width, height)
+                        ctx.fillRect(currentExperiment.fixedDrawingParameters[0] + (currentExperiment.fixedDrawingParameters[2] * index), currentExperiment.fixedDrawingParameters[1] + (currentExperiment.fixedDrawingParameters[2] * index), currentExperiment.fixedDrawingParameters[2] * 2, currentExperiment.fixedDrawingParameters[2] * 2)
+
+                        ctx.fill();
+                    }
+                }
+
+            }
+            return drawStimuli
+        }
+
+        //calling function to draw the stimulus:
+        let numberOfNodes = prompt("Insert number of nodes: ");
+        let cliqueSize = prompt("Insert clique size: ");
+        //creating array that contains the indices of all the nodes of the graph in the standard order
+        let standardOrderOfNodes = new Array();
+        for (let index = 0; index < numberOfNodes; index++) {
+            standardOrderOfNodes.push(index)
+        }
+
+        /* FUNCTION TO RESIZE THE CANVAS (called before drawing, a new canvas is re-created at every trial) */
+        // from: https://stackoverflow.com/questions/47696956/display-pixel-perfect-canvas-on-all-devices 
+
+        const px = v => `${v}px`;
+
+        function resizeCanvas(canvas) {
+            // how many devicePixels per pixel in the canvas we want
+            // you can set this to 1 if you always want 1 device pixel to 1 canvas pixel
+            const pixelSize = Math.max(1, devicePixelRatio) | 0;
+
+            const rect = canvas.parentElement.getBoundingClientRect();
+            const deviceWidth = rect.width * devicePixelRatio | 0;
+            const deviceHeight = rect.height * devicePixelRatio | 0;
+            const pixelsAcross = deviceWidth / pixelSize | 0;
+            const pixelsDown = deviceHeight / pixelSize | 0;
+            const devicePixelsAcross = pixelsAcross * pixelSize;
+            const devicePixelsDown = pixelsDown * pixelSize;
+            canvas.style.width = px(devicePixelsAcross / devicePixelRatio);
+            canvas.style.height = px(devicePixelsDown / devicePixelRatio);
+            canvas.width = pixelsAcross;
+            canvas.height = pixelsDown;
+        }
+
+        // calling function to generate the two graphs (left side - right side):
+        let graphsToDraw = generateGraphs(numberOfNodes, cliqueSize)
+        // calling function to shuffle the nodes:
+        let shuffledOrderOfNodes = shuffleNodes(standardOrderOfNodes.slice())
+
+        // creating array of the order of nodes for the three visualizations (GROUPEDleft - GROUPEDright - GROUPEDboth - SHUFFLEDboth (clique red) - SHUFFLEDboth (BW) ):
+        let orderOfNodesArray = [standardOrderOfNodes, standardOrderOfNodes, standardOrderOfNodes, shuffledOrderOfNodes, shuffledOrderOfNodes]
+
+
+        /* ACTUAL JSPSYCH SCRIPT: */
+        /* entering fullscreen before experiment: */
+        var enter_fullscreen = {
+            type: jsPsychFullscreen,
+            fullscreen_mode: true
+        }
+        timeline.push(enter_fullscreen)
+
+        // CREATING OBJECT FOR CURRENT EXPERIMENT:
+        let physicalScreenHeight = screen.height * window.devicePixelRatio;  //height is the dimension that regulates the size of the stimuli (on which the "singleSquareSide" is calculated)
+        let physicalScreenWidth = screen.width * window.devicePixelRatio;
+        console.log(physicalScreenHeight / numberOfNodes)
+        let squareSideDimensionPhysical = Math.floor((physicalScreenHeight / (numberOfNodes)))
+        console.log("the physical single square dimension is: " + squareSideDimensionPhysical)
+        // - top and bottom margin (centering the square in the available space)
+        let topAndBottomMarginPhysical = ((physicalScreenHeight - (squareSideDimensionPhysical * numberOfNodes)) / 2)
+        // - calculating LOGICAL starting point on x axis:
+        let xStartingPointLeft = ((physicalScreenWidth / 2) - ((physicalScreenHeight - topAndBottomMarginPhysical * 2) / 2))
+        // - calculating LOGICAL starting point on y axis:
+        let yStartingPoint = topAndBottomMarginPhysical  //NB: starting to draw not from top of window, but leaving margin above and below the square
+        let currentExperiment = {
+            canvasDimensions: [window.screen.height, window.screen.width], // [height,width]
+        }
+        // storing the LOGICAL starting points and the square size in currentExperiment object (used to draw red diagonal):
+        currentExperiment.fixedDrawingParameters = [xStartingPointLeft, yStartingPoint, squareSideDimensionPhysical]
+
+        // creating the trials for the experiment
+        for (let presentationIndex = 0; presentationIndex < orderOfNodesArray.length; presentationIndex++) {
+            // defining the current trial
+            let currentTrial = {
+                type: jsPsychCanvasKeyboardResponse,
+                canvas_size: [currentExperiment.canvasDimensions[0], currentExperiment.canvasDimensions[1]], // [height,width]
+                response_ends_trial: true,
+                timeline: [],
+                choices: [" "],
+                on_start: function () {
+                    // Select the element with class "jspsych-display-element"
+                    var displayElement = document.querySelector('.jspsych-display-element');
+                    // Add the style attribute with overflow:hidden to prevent subject from scrolling during experiment
+                    displayElement.style.overflow = 'hidden';
+                }
+            }
+
+            // adding the stimulus to the timeline of the trial
+            // NB: shuffling of nodes is done inside draw function
+            currentTrial.timeline.push({ stimulus: generateDrawStimuli(graphsToDraw, orderOfNodesArray[presentationIndex], presentationIndex) })
+
+            // adding the trial to the timeline
+            timeline.push(currentTrial)
+        }
+
+        /* exiting fullscreen after experiment: */
+        var exit_fullscreen = {
+            type: jsPsychFullscreen,
+            fullscreen_mode: false,
+            delay_after: 0
+        }
+        timeline.push(exit_fullscreen)
+
+        /* start the experiment */
+        jsPsych.run(timeline);
+
+
+    </script>
+
+</body>
+
+</html>

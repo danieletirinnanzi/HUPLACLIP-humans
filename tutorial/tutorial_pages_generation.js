@@ -87,7 +87,7 @@ function generateInstructionsPages() {
 
     // first instruction page (index = 0): no 'press left arrow to go back' button
     let firstHTML = `<font size="+2"><b> INSTRUCTIONS </b></font><br><br>
-    <img src="tutorial/instructions_images/${instructionsObject[0 + 1][1]}.PNG" alt="Could not upload image" height="${currentExperiment.canvasDimensions[0] / 2.2}"><br><br>
+    <img src="tutorial/${currentExperiment.pCorrectionType}/instructions_images/${instructionsObject[0 + 1][1]}.PNG" alt="Could not upload image" height="${currentExperiment.canvasDimensions[0] / 2.2}"><br><br>
     ${instructionsObject[0 + 1][0]}<br><br>
     <i><b>Press right arrow to go forward ></b></i>
     `
@@ -96,7 +96,7 @@ function generateInstructionsPages() {
     // from second instruction page on:
     for (let index = 1; index < Object.keys(instructionsObject).length; index++) {
         let singleHTML = `<font size="+2"><b> INSTRUCTIONS </b></font><br><br>
-        <img src="tutorial/instructions_images/${instructionsObject[index + 1][1]}.PNG" alt="Could not upload image" height="${currentExperiment.canvasDimensions[0] / 2.2}" ><br><br>
+        <img src="tutorial/${currentExperiment.pCorrectionType}/instructions_images/${instructionsObject[index + 1][1]}.PNG" alt="Could not upload image" height="${currentExperiment.canvasDimensions[0] / 2.2}" ><br><br>
         ${instructionsObject[index + 1][0]}<br><br>
         <i><b>< Press left arrow to go back <br></b></i>
         <i><b>Press right arrow to go forward ></b></i>
@@ -237,7 +237,7 @@ function generateBlockOfFamiliarizationTrials(part, index, taskFamiliarizationOb
     // creating the trials and adding them to the array
     let visualization_1_trial = {
         type: jsPsychImageKeyboardResponse,
-        stimulus: `tutorial/task_familiarization_images/part ${part}/${taskFamiliarizationObject[index + 1][1]}.PNG`,
+        stimulus: `tutorial/${currentExperiment.pCorrectionType}/task_familiarization_images/part ${part}/${taskFamiliarizationObject[index + 1][1]}.PNG`,
         prompt: `<br><br> ${taskFamiliarizationObject[index + 1][0]}`,
         choices: [' '],
         stimulus_height: currentExperiment.canvasDimensions[0] / 1.5,
@@ -246,7 +246,7 @@ function generateBlockOfFamiliarizationTrials(part, index, taskFamiliarizationOb
 
     let visualization_2_trial = {
         type: jsPsychImageKeyboardResponse,
-        stimulus: `tutorial/task_familiarization_images/part ${part}/${taskFamiliarizationObject[index + 2][1]}.PNG`,
+        stimulus: `tutorial/${currentExperiment.pCorrectionType}/task_familiarization_images/part ${part}/${taskFamiliarizationObject[index + 2][1]}.PNG`,
         prompt: `<br><br> ${taskFamiliarizationObject[index + 2][0]}`,
         choices: [' '],
         stimulus_height: currentExperiment.canvasDimensions[0] / 1.5,
@@ -255,7 +255,7 @@ function generateBlockOfFamiliarizationTrials(part, index, taskFamiliarizationOb
 
     let choice_trial = {
         type: jsPsychImageKeyboardResponse,
-        stimulus: `tutorial/task_familiarization_images/part ${part}/${taskFamiliarizationObject[index + 3][1]}.PNG`,
+        stimulus: `tutorial/${currentExperiment.pCorrectionType}/task_familiarization_images/part ${part}/${taskFamiliarizationObject[index + 3][1]}.PNG`,
         prompt: `<br><br> ${taskFamiliarizationObject[index + 3][0]}`,
         choices: ['ArrowLeft', 'ArrowRight'],
         stimulus_height: currentExperiment.canvasDimensions[0] / 1.5,
@@ -291,12 +291,12 @@ function createArrayOfFilePaths(objectToScan, phaseIndex) {
                 switch (phaseIndex) {
                     case 0:
                         //instructions images
-                        filepathsArray.push(`tutorial/instructions_images/${element}.PNG`)
+                        filepathsArray.push(`tutorial/${currentExperiment.pCorrectionType}/instructions_images/${element}.PNG`)
                         break;
                     case 1:
                     case 2:
                         //familiarization 1 / 2
-                        filepathsArray.push(`tutorial/task_familiarization_images/part ${phaseIndex}/${element}.PNG`)
+                        filepathsArray.push(`tutorial/${currentExperiment.pCorrectionType}/task_familiarization_images/part ${phaseIndex}/${element}.PNG`)
                         break;
                 }
 
