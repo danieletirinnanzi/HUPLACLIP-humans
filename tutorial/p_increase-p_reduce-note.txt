@@ -6,5 +6,6 @@ INSTRUCTIONS:
     - 7 clique with color coding/
     - 8 paired stimuli (one with red clique, one without)
 
-TASK FAMILIARIZATION IMAGES:
-- all, both in part 1 and 2
+TASK FAMILIARIZATION:
+- all images (parts 1-2)
+- all generation scripts (parts 1-2)

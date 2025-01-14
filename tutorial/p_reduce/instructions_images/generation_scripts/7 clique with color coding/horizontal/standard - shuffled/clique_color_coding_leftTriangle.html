@@ -3,7 +3,7 @@
 
 <head>
     <title>Paired stimuli with color coding (3 VIEWS: RED&GROUPED CLIQUE - RED&SHUFFLED CLIQUE -
-        Right side stimulus only </title>
+        Left side stimulus only </title>
     <!-- Standard scripts -->
     <script src="jspsych/dist/jspsych.js"></script>
     <!-- Plugins (modified) -->
@@ -104,7 +104,7 @@
         };
 
 
-        /* FUNCTION TO DRAW STIMULI (left: standard; right: shuffled) ON CANVAS */
+        /* FUNCTION TO DRAW STIMULI ON CANVAS */
         function generateDrawStimuli(graphToDraw, shuffledOrderOfNodes, presentationIndex) {
 
             function drawStimuli(c) {
@@ -175,11 +175,10 @@
 
                         // drawing the square
                         ctx.fillRect(
-                            currentExperiment.fixedDrawingParameters[0] + (currentExperiment.fixedDrawingParameters[2] * (firstIndex + 1)),
-                            currentExperiment.fixedDrawingParameters[1] + (currentExperiment.fixedDrawingParameters[2] * secondIndex),
+                            currentExperiment.fixedDrawingParameters[0] + (currentExperiment.fixedDrawingParameters[2] * secondIndex),
+                            currentExperiment.fixedDrawingParameters[1] + (currentExperiment.fixedDrawingParameters[2] * (firstIndex + 1)),
                             currentExperiment.fixedDrawingParameters[2],
                             currentExperiment.fixedDrawingParameters[2]
-
                         );
 
                         // filling the square:
@@ -215,6 +214,15 @@
             standardOrderOfNodes.push(index)
         }
 
+        // calling function to generate the graph:
+        let graphToDraw = generateGraph(numberOfNodes, cliqueSize, probabilityForCurrentCliqueSize)
+        // calling function to shuffle the nodes:
+        let shuffledOrderOfNodes = shuffleNodes(standardOrderOfNodes.slice())
+
+        // creating array of the order of nodes for the three visualizations (GROUPED - SHUFFLED - SHUFFLED (same as previous) ):
+        let orderOfNodesArray = [standardOrderOfNodes, shuffledOrderOfNodes]
+
+
         /* FUNCTION TO RESIZE THE CANVAS (called before drawing, a new canvas is re-created at every trial) */
         // from: https://stackoverflow.com/questions/47696956/display-pixel-perfect-canvas-on-all-devices 
 
@@ -238,15 +246,6 @@
             canvas.height = pixelsDown;
         }
 
-        // calling function to generate the graph:
-        let graphToDraw = generateGraph(numberOfNodes, cliqueSize, probabilityForCurrentCliqueSize)
-        // calling function to shuffle the nodes:
-        let shuffledOrderOfNodes = shuffleNodes(standardOrderOfNodes.slice())
-
-        // creating array of the order of nodes for the three visualizations (GROUPED - SHUFFLED - SHUFFLED (same as previous) ):
-        let orderOfNodesArray = [standardOrderOfNodes, shuffledOrderOfNodes]
-
-
         /* ACTUAL JSPSYCH SCRIPT: */
         /* entering fullscreen before experiment: */
         var enter_fullscreen = {
@@ -254,6 +253,7 @@
             fullscreen_mode: true
         }
         timeline.push(enter_fullscreen)
+
 
         // CREATING OBJECT FOR CURRENT EXPERIMENT:
         let physicalScreenHeight = screen.height * window.devicePixelRatio;  //height is the dimension that regulates the size of the stimuli (on which the "singleSquareSide" is calculated)

@@ -3,7 +3,7 @@
 
 <head>
     <title>Paired stimuli with color coding (3 VIEWS: RED&GROUPED CLIQUE - RED&SHUFFLED CLIQUE - CORRESPONDING B/W) -
-        Clique left </title>
+        Clique left (P-REDUCE correction) </title>
     <!-- Standard scripts -->
     <script src="jspsych/dist/jspsych.js"></script>
     <!-- Plugins (modified) -->
@@ -30,7 +30,7 @@
 
 
         //FUNCTION THAT GENERATES THE TWO GRAPHS THAT WILL BE DISPLAYED
-        function generateGraphs(numberOfNodes, cliqueSize) {
+        function generateGraphs(numberOfNodes, cliqueSize, probabilityForCurrentCliqueSize) {
             /* INPUT: none ("currentExperiment" is global and can be accessed from inside functions)
     
             OUTPUT:
@@ -57,9 +57,12 @@
 
             // array that contains the two graphs to draw:
             let coupleOfGraphs = []
+
             // Generating graph with clique:
             //empty object (the properties will be the nodes and the values will be the arrays that indicate the existing connections)
             let graphWithClique = {};
+            // in the p_reduce correction, the p is corrected in the graph with the clique
+            let probabilityForGraphWithClique = probabilityForCurrentCliqueSize
             // defining the values of the triangular adjacency matrix:
             for (let rowIndex = 1; rowIndex < numberOfNodes; rowIndex++) {
                 //defining empty array that will contain the connections for the current row
@@ -69,10 +72,10 @@
                         //if current two nodes are part of the clique, inserting 2 in the matrix:
                         currentRowAssociations.push(2)
                     }
-                    //if the current two nodes are not part of the clique, associating them with probability 0.5
+                    //if the current two nodes are not part of the clique, associating them with probability "probabilityForGraphWithClique"
                     else {
                         let randomValue = Math.random();
-                        if (randomValue < 0.5) {
+                        if (randomValue < probabilityForGraphWithClique) {
                             currentRowAssociations.push(1);
                         } else {
                             currentRowAssociations.push(0);
@@ -89,6 +92,8 @@
             // Generating graph without clique:
             //empty object (the properties will be the nodes and the values will be the arrays that indicate the existing connections)
             let graphWithoutClique = {};
+            // in the p_reduce correction, the correction is applied to the graph with the clique, so the graph without clique is generated with probability 0.5
+            let probabilityForGraphWithoutClique = 0.5
             // defining the values of the triangular adjacency matrix:
             for (let rowIndex = 1; rowIndex < numberOfNodes; rowIndex++) {
                 //defining empty array that will contain the connections for the current row
@@ -96,10 +101,8 @@
                 for (let columnIndex = 0; columnIndex < rowIndex; columnIndex++) {
                     //if the current two nodes are not part of the clique, associating them with probability 0.5
                     let randomValue = Math.random();
-                    // calculating the correct probability of association:
-                    // increasing the value of p so that the two graphs will have the same average degree (pCorr = p + (K*(K-1)/N*(N-1)) * (1-p) )
-                    let correctedProbabilityForGraphWithoutClique = 0.5 + (((cliqueSize * (cliqueSize - 1)) / (numberOfNodes * (numberOfNodes - 1))) * (1 - 0.5))
-                    if (randomValue < correctedProbabilityForGraphWithoutClique) {
+                    // defining the presence or absence of the connection between the two nodes
+                    if (randomValue < probabilityForGraphWithoutClique) {
                         currentRowAssociations.push(1);
                     } else {
                         currentRowAssociations.push(0);
@@ -321,13 +324,37 @@
         }
 
         //calling function to draw the stimulus:
-        let numberOfNodes = prompt("Insert number of nodes: ");
-        let cliqueSize = prompt("Insert clique size: ");
+        let numberOfNodes = parseInt(prompt("Insert number of nodes: "));
+        let cliqueSize = parseInt(prompt("Insert clique size: "));
+        let probabilityOfAssociation = 0.5;
+
+        // - making sure that the "p_reduce" corrected probability of association will be positive for requested clique size
+        if (cliqueSize > (1 + Math.sqrt(1 + 4 * probabilityOfAssociation * numberOfNodes * (numberOfNodes - 1))) / 2) {
+            let cliqueLimit = Math.floor((1 + Math.sqrt(1 + 4 * probabilityOfAssociation * numberOfNodes * (numberOfNodes - 1))) / 2);
+            alert(`Clique size ${cliqueSize} in a graph of size ${numberOfNodes} leads to a negative corrected probability of association between nodes. Please choose a clique size smaller than ${cliqueLimit}`);
+        }
+        // - defining the corrected probability of association for the graph with the clique
+        probabilityForCurrentCliqueSize = (
+            probabilityOfAssociation * numberOfNodes * (numberOfNodes - 1)
+            - cliqueSize * (cliqueSize - 1)
+        ) / ((numberOfNodes - cliqueSize) * (numberOfNodes + cliqueSize - 1))
+
+        console.log('probabilityForCurrentCliqueSize:', probabilityForCurrentCliqueSize, 'Type:', typeof probabilityForCurrentCliqueSize);
+
         //creating array that contains the indices of all the nodes of the graph in the standard order
         let standardOrderOfNodes = new Array();
         for (let index = 0; index < numberOfNodes; index++) {
             standardOrderOfNodes.push(index)
         }
+
+        // calling function to generate the two graphs (left side - right side):
+        let graphsToDraw = generateGraphs(numberOfNodes, cliqueSize, probabilityForCurrentCliqueSize)
+        // calling function to shuffle the nodes:
+        let shuffledOrderOfNodes = shuffleNodes(standardOrderOfNodes.slice())
+
+        // creating array of the order of nodes for the three visualizations (GROUPEDleft - GROUPEDright - GROUPEDboth - SHUFFLEDboth (clique red) - SHUFFLEDboth (BW) ):
+        let orderOfNodesArray = [standardOrderOfNodes, standardOrderOfNodes, standardOrderOfNodes, shuffledOrderOfNodes, shuffledOrderOfNodes]
+
 
         /* FUNCTION TO RESIZE THE CANVAS (called before drawing, a new canvas is re-created at every trial) */
         // from: https://stackoverflow.com/questions/47696956/display-pixel-perfect-canvas-on-all-devices 
@@ -351,15 +378,6 @@
             canvas.width = pixelsAcross;
             canvas.height = pixelsDown;
         }
-
-        // calling function to generate the two graphs (left side - right side):
-        let graphsToDraw = generateGraphs(numberOfNodes, cliqueSize)
-        // calling function to shuffle the nodes:
-        let shuffledOrderOfNodes = shuffleNodes(standardOrderOfNodes.slice())
-
-        // creating array of the order of nodes for the three visualizations (GROUPEDleft - GROUPEDright - GROUPEDboth - SHUFFLEDboth (clique red) - SHUFFLEDboth (BW) ):
-        let orderOfNodesArray = [standardOrderOfNodes, standardOrderOfNodes, standardOrderOfNodes, shuffledOrderOfNodes, shuffledOrderOfNodes]
-
 
         /* ACTUAL JSPSYCH SCRIPT: */
         /* entering fullscreen before experiment: */

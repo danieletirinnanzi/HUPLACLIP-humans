@@ -2,8 +2,8 @@
 <html>
 
 <head>
-    <title>Paired stimuli with color coding (3 VIEWS: RED&GROUPED CLIQUE - RED&SHUFFLED CLIQUE - CORRESPONDING B/W) -
-        Clique left </title>
+    <title>Paired stimuli with color coding (3 VIEWS: RED&GROUPED CLIQUE - RED&SHUFFLED CLIQUE -
+        Right side stimulus only </title>
     <!-- Standard scripts -->
     <script src="jspsych/dist/jspsych.js"></script>
     <!-- Plugins (modified) -->
@@ -30,7 +30,7 @@
 
 
         //FUNCTION THAT GENERATES THE GRAPH THAT WILL BE DISPLAYED
-        function generateGraph(numberOfNodes, cliqueSize) {
+        function generateGraph(numberOfNodes, cliqueSize, probabilityForCurrentCliqueSize) {
             /* INPUT: none ("currentExperiment" is global and can be accessed from inside functions)
     
             OUTPUT:
@@ -67,10 +67,10 @@
                         //if current two nodes are part of the clique, inserting 2 in the matrix:
                         currentRowAssociations.push(2)
                     }
-                    //if the current two nodes are not part of the clique, associating them with probability 0.5
+                    //if the current two nodes are not part of the clique, associating them with corrected probability
                     else {
                         let randomValue = Math.random();
-                        if (randomValue < 0.5) {
+                        if (randomValue < probabilityForCurrentCliqueSize) {
                             currentRowAssociations.push(1);
                         } else {
                             currentRowAssociations.push(0);
@@ -104,7 +104,7 @@
         };
 
 
-        /* FUNCTION TO DRAW STIMULI (left: standard; right: shuffled) ON CANVAS */
+        /* FUNCTION TO DRAW STIMULI ON CANVAS */
         function generateDrawStimuli(graphToDraw, shuffledOrderOfNodes, presentationIndex) {
 
             function drawStimuli(c) {
@@ -123,7 +123,7 @@
                 console.log(graphToDraw)
                 console.log("presentation number: " + (presentationIndex + 1))
 
-                // Drawing stimulus on LEFT SIDE:  
+                // Drawing stimulus on RIGHT SIDE:  
                 for (let firstIndex = 0; firstIndex < ((shuffledOrderOfNodes.length) - 1); firstIndex++) {
                     for (let secondIndex = 0; secondIndex < firstIndex + 1; secondIndex++) {
                         // Determining whether the two nodes are associated:
@@ -175,10 +175,11 @@
 
                         // drawing the square
                         ctx.fillRect(
-                            currentExperiment.fixedDrawingParameters[0] + (currentExperiment.fixedDrawingParameters[2] * secondIndex),
-                            currentExperiment.fixedDrawingParameters[1] + (currentExperiment.fixedDrawingParameters[2] * (firstIndex + 1)),
+                            currentExperiment.fixedDrawingParameters[0] + (currentExperiment.fixedDrawingParameters[2] * (firstIndex + 1)),
+                            currentExperiment.fixedDrawingParameters[1] + (currentExperiment.fixedDrawingParameters[2] * secondIndex),
                             currentExperiment.fixedDrawingParameters[2],
                             currentExperiment.fixedDrawingParameters[2]
+
                         );
 
                         // filling the square:
@@ -191,30 +192,37 @@
         }
 
         //calling function to draw the stimulus:
-        let numberOfNodes = prompt("Insert number of nodes: ");
-        let cliqueSize = prompt("Insert clique size: ");
+        let numberOfNodes = parseInt(prompt("Insert number of nodes: "));
+        let cliqueSize = parseInt(prompt("Insert clique size: "));
+        let probabilityOfAssociation = 0.5;
+
+        // - making sure that the "p_reduce" corrected probability of association will be positive for requested clique size
+        if (cliqueSize > (1 + Math.sqrt(1 + 4 * probabilityOfAssociation * numberOfNodes * (numberOfNodes - 1))) / 2) {
+            let cliqueLimit = Math.floor((1 + Math.sqrt(1 + 4 * probabilityOfAssociation * numberOfNodes * (numberOfNodes - 1))) / 2);
+            alert(`Clique size ${cliqueSize} in a graph of size ${numberOfNodes} leads to a negative corrected probability of association between nodes. Please choose a clique size smaller than ${cliqueLimit}`);
+        }
+        // - defining the corrected probability of association for the graph with the clique
+        probabilityForCurrentCliqueSize = (
+            probabilityOfAssociation * numberOfNodes * (numberOfNodes - 1)
+            - cliqueSize * (cliqueSize - 1)
+        ) / ((numberOfNodes - cliqueSize) * (numberOfNodes + cliqueSize - 1))
+
+        console.log('probabilityForCurrentCliqueSize:', probabilityForCurrentCliqueSize, 'Type:', typeof probabilityForCurrentCliqueSize);
+
         //creating array that contains the indices of all the nodes of the graph in the standard order
         let standardOrderOfNodes = new Array();
         for (let index = 0; index < numberOfNodes; index++) {
             standardOrderOfNodes.push(index)
         }
 
-        // calling function to generate the two graphs (left side - right side):
-        let graphToDraw = generateGraph(numberOfNodes, cliqueSize)
+        // calling function to generate the graph:
+        let graphToDraw = generateGraph(numberOfNodes, cliqueSize, probabilityForCurrentCliqueSize)
         // calling function to shuffle the nodes:
         let shuffledOrderOfNodes = shuffleNodes(standardOrderOfNodes.slice())
 
         // creating array of the order of nodes for the three visualizations (GROUPED - SHUFFLED - SHUFFLED (same as previous) ):
         let orderOfNodesArray = [standardOrderOfNodes, shuffledOrderOfNodes]
 
-
-        /* ACTUAL JSPSYCH SCRIPT: */
-        /* entering fullscreen before experiment: */
-        var enter_fullscreen = {
-            type: jsPsychFullscreen,
-            fullscreen_mode: true
-        }
-        timeline.push(enter_fullscreen)
 
         /* FUNCTION TO RESIZE THE CANVAS (called before drawing, a new canvas is re-created at every trial) */
         // from: https://stackoverflow.com/questions/47696956/display-pixel-perfect-canvas-on-all-devices 
@@ -238,6 +246,14 @@
             canvas.width = pixelsAcross;
             canvas.height = pixelsDown;
         }
+
+        /* ACTUAL JSPSYCH SCRIPT: */
+        /* entering fullscreen before experiment: */
+        var enter_fullscreen = {
+            type: jsPsychFullscreen,
+            fullscreen_mode: true
+        }
+        timeline.push(enter_fullscreen)
 
         // CREATING OBJECT FOR CURRENT EXPERIMENT:
         let physicalScreenHeight = screen.height * window.devicePixelRatio;  //height is the dimension that regulates the size of the stimuli (on which the "singleSquareSide" is calculated)
