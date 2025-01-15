@@ -169,9 +169,9 @@ let taskFamiliarizationObject_part2 = {
 
     // with background information
     // N160_K80
-    1: ["During the real experiment, you will see: the remaining <b>shuffles</b> on the top-left; the <b>trial counter</b> and your <b>score</b> on the top-right.<br> By pressing <b>space</b>, you use one shuffle.", "01_160_80_cliqueLeft_withFeedback_1"],
-    2: ["<b>Shuffles</b> will help you in the task, but will be limited. When you run out of them, you will be forced to give an answer.<br> Press <b>space</b> again to use the last shuffle of the trial.", "02_160_80_cliqueLeft_withFeedback_1"],
-    3: ["To indicate which of the triangles had the group of tiles,<br> Press the <b>left</b> or <b>right</b> arrow.", "03_160_80_cliqueLeft_withFeedback_3"],
+    1: ["During the real experiment, you will see: the remaining <b>shuffles</b> on the top-left; the <b>trial counter</b> and your <b>score</b> on the top-right.<br> By pressing <b>space</b>, you use one shuffle.", "01_N160_K80_cliqueLeft_withFeedback_1"],
+    2: ["<b>Shuffles</b> will help you in the task, but will be limited. When you run out of them, you will be forced to give an answer.<br> Press <b>space</b> again to use the last shuffle of the trial.", "02_N160_K80_cliqueLeft_withFeedback_2"],
+    3: ["To indicate which of the triangles had the group of tiles,<br> Press the <b>left</b> or <b>right</b> arrow.", "03_N160_K80_cliqueLeft_withFeedback_3"],
     4: ["ArrowLeft", // correct answer: ArrowLeft
         //PROMPT:
         //correct answer
@@ -180,14 +180,14 @@ let taskFamiliarizationObject_part2 = {
         "As you can see, the <b>left</b> triangle contained the red tiles. When your answer is <b>wrong</b>, the score does not increase and turns red.<br> Press <b>space</b> to start a new example.",
         //IMAGE:
         //correct answer
-        "04_160_80_cliqueLeft_withFeedback_correct",
+        "04_N160_K80_cliqueLeft_withFeedback_correct",
         //wrong answer
-        "04_160_80_cliqueLeft_withFeedback_wrong",
+        "04_N160_K80_cliqueLeft_withFeedback_wrong",
     ],
     // N160_K55
-    5: ["Let's re-set the remaining <b>shuffles</b> and the <b>score</b> to their initial values and colors.<br> As we said, by pressing <b>space</b>, you use one shuffle.", "05_160_55_cliqueRight_withFeedback_1"],
-    6: ["Now you only have <b>2 shuffles per trial</b>, but in the real experiment you will have <b>10</b>.<br> Press <b>space</b> again to use the last shuffle of the trial.", "06_160_55_cliqueRight_withFeedback_2"],
-    7: ["When you have taken a decision, indicate which triangle contained the red tiles.<br> Press the <b>left</b> or <b>right</b> arrow to do so.", "07_160_55_cliqueRight_withFeedback_3"],
+    5: ["Let's re-set the remaining <b>shuffles</b> and the <b>score</b> to their initial values and colors.<br> As we said, by pressing <b>space</b>, you use one shuffle.", "05_N160_K55_cliqueRight_withFeedback_1"],
+    6: ["Now you only have <b>2 shuffles per trial</b>, but in the real experiment you will have <b>10</b>.<br> Press <b>space</b> again to use the last shuffle of the trial.", "06_N160_K55_cliqueRight_withFeedback_2"],
+    7: ["When you have taken a decision, indicate which triangle contained the red tiles.<br> Press the <b>left</b> or <b>right</b> arrow to do so.", "07_N160_K55_cliqueRight_withFeedback_3"],
     8: ["ArrowRight", // correct answer: ArrowRight
         //PROMPT:
         //correct answer
@@ -196,14 +196,14 @@ let taskFamiliarizationObject_part2 = {
         "In this case, the <b>right</b> triangle contained the red tiles. When your answer is <b>wrong</b>, the score does not increase turns red.<br> Press <b>space</b> to start the last example.",
         //IMAGE:
         //correct answer
-        "08_160_55_cliqueRight_withFeedback_correct",
+        "08_N160_K55_cliqueRight_withFeedback_correct",
         //wrong answer
-        "08_160_55_cliqueRight_withFeedback_wrong",
+        "08_N160_K55_cliqueRight_withFeedback_wrong",
     ],
     // N160_K70
-    9: ["This is the last example. Same as before: <b>shuffles</b> on the top left, <b>trial counter</b> and <b>score</b> on the top right.<br> Press <b>space</b> to use one shuffle.", "09_160_70_cliqueLeft_withFeedback_1"],
-    10: ["As you <b>shuffle</b> the triangles, try to identify which one had the group of red tiles.<br> Press <b>space</b> again to use the last shuffle of the trial.", "10_160_70_cliqueLeft_withFeedback_2"],
-    11: ["When you are ready to indicate which of the triangles had the group of tiles,<br> Press the <b>left</b> or <b>right</b> arrow.", "11_160_70_cliqueLeft_withFeedback_3"],
+    9: ["This is the last example. Same as before: <b>shuffles</b> on the top left, <b>trial counter</b> and <b>score</b> on the top right.<br> Press <b>space</b> to use one shuffle.", "09_N160_K70_cliqueLeft_withFeedback_1"],
+    10: ["As you <b>shuffle</b> the triangles, try to identify which one had the group of red tiles.<br> Press <b>space</b> again to use the last shuffle of the trial.", "10_N160_K70_cliqueLeft_withFeedback_2"],
+    11: ["When you are ready to indicate which of the triangles had the group of tiles,<br> Press the <b>left</b> or <b>right</b> arrow.", "11_N160_K70_cliqueLeft_withFeedback_3"],
     12: ["ArrowLeft", // correct answer: ArrowLeft
         //PROMPT:
         //correct answer
@@ -212,9 +212,9 @@ let taskFamiliarizationObject_part2 = {
         "In this case, the <b>left</b> triangle contained the red tiles. When your answer is <b>wrong</b>, the score does not increase and turns red.<br> Press <b>space</b> to end the trial run of the experiment.",
         //IMAGE:
         //correct answer
-        "12_160_70_cliqueLeft_withFeedback_correct",
+        "12_N160_K70_cliqueLeft_withFeedback_correct",
         //wrong answer
-        "12_160_70_cliqueLeft_withFeedback_wrong",
+        "12_N160_K70_cliqueLeft_withFeedback_wrong",
     ]
 }
 

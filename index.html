@@ -258,7 +258,7 @@
             // creating the feedback trial and adding it to the array
             let feedback_trial = {
                 type: jsPsychImageKeyboardResponse,
-                stimulus: `tutorial/task_familiarization_images/part 1/${taskFamiliarizationObject_part1[index + 4][3]}.PNG`,
+                stimulus: `tutorial/${currentExperiment.pCorrectionType}/task_familiarization_images/part 1/${taskFamiliarizationObject_part1[index + 4][3]}.PNG`,
                 prompt: "", //defined below based on correctness of choice
                 choices: [' '],
                 stimulus_height: currentExperiment.canvasDimensions[0] / 1.5,
@@ -319,10 +319,10 @@
                         let second_to_last_trial = jsPsych.data.get().last(1).values()[0];
                         // changing prompt according to correctness of last choice:
                         if (second_to_last_trial.response == taskFamiliarizationObject_part2[index + 4][0].toLowerCase()) {
-                            currentFeedbackTrial.stimulus = `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index + 4][3]}.PNG`;
+                            currentFeedbackTrial.stimulus = `tutorial/${currentExperiment.pCorrectionType}/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index + 4][3]}.PNG`;
                             currentFeedbackTrial.prompt = `<br><br> ${taskFamiliarizationObject_part2[index + 4][1]}`;
                         } else {
-                            currentFeedbackTrial.stimulus = `tutorial/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index + 4][4]}.PNG`;
+                            currentFeedbackTrial.stimulus = `tutorial/${currentExperiment.pCorrectionType}/task_familiarization_images/part 2/${taskFamiliarizationObject_part2[index + 4][4]}.PNG`;
                             currentFeedbackTrial.prompt = `<br><br> ${taskFamiliarizationObject_part2[index + 4][2]}`;
                         }
                     };
