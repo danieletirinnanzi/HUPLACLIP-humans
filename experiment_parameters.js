@@ -13,9 +13,6 @@ let currentExperiment = {
     pCorrectionType: "p_reduce", // "p_increase" or "p_reduce"
 }
 
-// DEBUG
-console.log(currentExperiment)
-
 // controlling that the number of presentations is even, so that is possible to have two trials for each value of K
 if (currentExperiment.numberOfPresentationsPerBlock % 2 != 0)
     alert("number of presentations for each trial must be even")

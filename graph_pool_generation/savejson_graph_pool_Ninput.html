@@ -172,13 +172,14 @@
             // using values of array as keys for object:
             const cliqueSize = cliqueSizeArray[i].toString();
 
+            // - graphs without the clique:
+            console.log("- without clique:")
+            graphPoolObject.graphsWithOutClique[i] = generateGraphsWithOutClique(graphPoolObject.graphSize, graphPoolObject.cliqueSizeArray[i]);
+
             // - graphs with the clique:
             console.log("- with clique:")
             graphPoolObject.graphsWithClique[i] = generateGraphsWithClique(graphPoolObject.graphSize, graphPoolObject.cliqueSizeArray[i]);
 
-            // - graphs without the clique:
-            console.log("- without clique:")
-            graphPoolObject.graphsWithOutClique[i] = generateGraphsWithOutClique(graphPoolObject.graphSize, graphPoolObject.cliqueSizeArray[i]);
         }
 
         console.log("Graph pool object:")
