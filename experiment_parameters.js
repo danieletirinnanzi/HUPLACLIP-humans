@@ -2,7 +2,7 @@
 // CREATING OBJECT FOR CURRENT EXPERIMENT:
 let currentExperiment = {
     // experiment parameters:
-    numberOfBlocks: 6,
+    numberOfBlocks: 1,  //TODO: change to 6
     numberOfPresentationsPerBlock: 30, // single presentation = single couple of graphs, presented once and reordered through space bar presses)
     numberOfGraphsPerCliqueSize: 2, // number of graphs for each clique size in each block
     maximumNumberOfShuffles: 10, // maximum number of randomizations allowed for a single couple of matrices 
@@ -70,6 +70,11 @@ currentExperiment.uniqueCliqueSizes = currentExperiment.arrayOfCliqueSizes.filte
 // - COORDINATES OF LEFT AND RIGHT TRIANGLES
 
 // PHYSICAL  COORDINATES:
+// NOTE: the device requirements are checked in index.html (lines 184-243) 
+// - calculating dimensions of the whole screen (sizes of canvas = sizes of whole screen):
+let physicalScreenHeight = screen.height * window.devicePixelRatio;  //height is the dimension that regulates the size of the stimuli (on which the "singleSquareSide" is calculated)
+let physicalScreenWidth = screen.width * window.devicePixelRatio;
+let logicalPhysicalFraction = 1 / window.devicePixelRatio
 // calculating drawing parameters:
 // - number of squares to be drawn in the two directions (2 squares are for the diagonal):
 let numberOfSquares = currentExperiment.graphSize + 2

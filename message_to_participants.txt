@@ -1,3 +1,4 @@
+PILOT (no Pavlovia/Prolific integration):
 This time you will complete two experiments. If you already did my previous experiment, these two are the very similar to the one you performed last time, only the stimuli will be represented differently on the screen, as you will read in the tutorial.
 Only a few things before you start:
 - open both links with a browser different from Safari;
@@ -15,3 +16,37 @@ https://run.pavlovia.org/danieletirinnanzi/huplaclip_1000/?__pilotToken=3c59dc04
 
 In case you encountered any problems or you think you are not seeing the stimuli properly, don't hesitate to tell me!
 Thank you for your time!!
+
+------------------------------------------------
+
+PROLIFIC:
+- Study description:
+In this study, we are measuring the sensitivity of humans in visual regularity detection.
+
+You will be first instructed to recognize a visual regularity in a stimulus, and in the task you will indicate which one of two stimuli has this regularity by pressing the left and right arrows.
+
+The study consists of 6 blocks of 30 trials each, and takes about 30 minutes.
+
+Before starting the experiment, please note the following:
+* From the device settings, go to "Display" or "Display settings" and check that the vertical resolution (second number in "Width x Height" format) of your device is larger than 1000 pixels. Accepted vertical resolutions values for this experiment are: 1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1800, 1824, 1964;
+* From the browser's settings, make sure your browser's zoom is set to 100%;
+* Use a browser different from Safari to open the experiment link;
+* The experiment includes audio feedback: increase the volume of your device.
+
+In case of doubts, issues or general feedback on the experiment, please write an email to dtirinna@sissa.it.
+
+Thank you for your time and interest!
+
+TODO:
+Filter out participants (perform the filtering at the beginning of the experiment) if they:
+- do not consent to the study (create loop or present a "Finish experiment" page)
+- are not >18
+- do not have a compatible device 
+
+USEFUL LINKS:
+Loading resources (could be outdated: https://pavlovia.org/docs/experiments/resources )
+JSPsych integration with Prolific ( https://www.jspsych.org/v7/overview/prolific/ )
+Prolific/Pavlovia integration ( https://researcher-help.prolific.com/en/article/a39cac )
+Screening participants based on device ( https://researcher-help.prolific.com/en/article/4ae222 ) + custom screening with different completion codes ( https://researcher-help.prolific.com/en/article/6bad1f )
+Participants that took the study with an incompatible device (https://researcher-help.prolific.com/en/article/b3bc18)
+Franco OCCABS exp (https://gitlab.pavlovia.org/frinaldi/occabs/-/blob/master/index.html + Prolific study: https://app.prolific.com/researcher/workspaces/studies/6627e11c1336a7f1aec891b0 )
