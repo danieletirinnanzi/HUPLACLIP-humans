@@ -183,19 +183,69 @@
 
         /* CHECKING DEVICE/BROWSER REQUIREMENTS */
 
-        // TODO: ADD LINK TO PROLIFIC IN THE RETURN TO PROLIFIC LINKS
+        //NOTE: logic (it should be working on Safari as well)
+        // 1. browser-check 1 -> checking if full-screen is supported and if the device is not mobile;
+        // 2. calling function to retrieve vertical resolution of device, checking its validity and storing it in the currentExperiment object;
 
-        // - vertical resolution requirement:
+        // TODO: 
+        // - check that it works on Safari as well
+        // - ADD LINK TO PROLIFIC IN THE RETURN TO PROLIFIC LINKS
+
+        // 1. browser-check 1 (checking that full-screen is supported and that device is not mobile)        
+        var browser_check = {
+            type: jsPsychBrowserCheck,
+            inclusion_function: (data) => {               
+                return data.mobile === false && data.fullscreen === true;
+                },
+            exclusion_message: (data) => {
+                if(data.mobile){
+                    return `<p>You must use a <b>desktop/laptop computer</b> to participate in this experiment.</p><br>
+                            Click the button below to be redirected to Prolific:
+                            <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://google.com'">Return to Prolific</button>
+                            <br> <br>
+                            <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>
+                            `;
+                } else if(data.fullscreen === false){
+                    return `<p>Your current browser does not support Fullscreen, please <b>open the experiment with a different browser</b>.</p><br>
+                            Click the button below to be redirected to Prolific:
+                            <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://google.com'">Return to Prolific</button>
+                            <br> <br>
+                            <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>
+                            `;
+                }
+            },
+        }
+        timeline.push(browser_check) 
+
+        // 2. function to retrieve vertical resolution of device, checking its validity and storing it in the currentExperiment object;
         var device_check = {
             type: jsPsychCallFunction,
             func: function () {
-                // calculating dimensions of the whole screen (sizes of canvas = sizes of whole screen):
-                let physicalScreenHeight = screen.height * window.devicePixelRatio;  //height is the dimension that regulates the size of the stimuli (on which the "singleSquareSide" is calculated)
-                let physicalScreenWidth = screen.width * window.devicePixelRatio;
-                let logicalPhysicalFraction = 1 / window.devicePixelRatio;
+                // - calling function to retrieve the physical screen dimensions
+                let physicalScreenDimensions = getTrueScreenDimensions();
+                
+                // TO REMOVE
+                console.log("True Physical Screen Width:", physicalScreenDimensions.width);
+                console.log("True Physical Screen Height:", physicalScreenDimensions.height);
+
+                // NOTE: the list of vertical resolutions is needed because if the browser's zoom is not set to 100%, the retrieved resolution might be different from the physical one
                 let validVerticalResolutions = [1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1536, 1600, 1664, 1800, 1824, 1864, 1920, 1964, 2160, 2234, 2304, 2400, 2520, 2880, 3384];
+                
                 // checking if the vertical resolution is valid
-                if (!validVerticalResolutions.includes(physicalScreenHeight)) {
+                if (validVerticalResolutions.includes(physicalScreenDimensions.height)) {
+                    // valid resolution -> storing it in the currentExperiment object
+                    currentExperiment.screenWidth = physicalScreenDimensions.width;
+                    currentExperiment.screenHeight = physicalScreenDimensions.height;
+                    //- calling function to calculate drawing parameters and storing them in the currentExperiment object:
+                    currentExperiment.fixedDrawingParameters = calculateFixedDrawingParameters(physicalScreenDimensions.width, physicalScreenDimensions.height, currentExperiment.graphSize);
+                    //- calling function to calculate coordinates of left and right triangles and storing them in the currentExperiment object:
+                    let leftAndRightTriangleCoordinates = calculateTrianglesCoordinates(currentExperiment.fixedDrawingParameters, currentExperiment.graphSize);
+                    currentExperiment.stimuliCoordinates = {};
+                    currentExperiment.stimuliCoordinates.leftTriangle = leftAndRightTriangleCoordinates[0];
+                    currentExperiment.stimuliCoordinates.rightTriangle = leftAndRightTriangleCoordinates[1];             
+                    return; // Stop further execution
+                } else {
+                    // invalid resolution -> redirect to Prolific
                     document.body.innerHTML = `
                     <div style="text-align: left; margin-top: 50px;">
                         <p>If you are reading this message, make sure to:
@@ -213,46 +263,11 @@
                         <br>
                         <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>
                     </div>
-                `;                    
-                    return; // Stop further execution
+                `;                       
                 }
-
             }
         }
         timeline.push(device_check)
-        
-        // - browser requirements:        
-        var browser_check = {
-            type: jsPsychBrowserCheck,
-            inclusion_function: (data) => {
-                return data.browser !== 'safari' && data.mobile === false && data.fullscreen === true;
-                },
-            exclusion_message: (data) => {
-                if(data.mobile){
-                    return `<p>You must use a <b>desktop/laptop computer</b> to participate in this experiment.</p><br>
-                            Click the button below to be redirected to Prolific:
-                            <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://google.com'">Return to Prolific</button>
-                            <br> <br>
-                            <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>
-                            `;
-                } else if(data.browser === 'safari'){
-                    return `<p>You must use a <b>browser other than Safari</b> to participate in this experiment.</p><br>
-                            Click the button below to be redirected to Prolific:
-                            <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://google.com'">Return to Prolific</button>
-                            <br> <br>
-                            <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>
-                            `;
-                } else if(data.fullscreen === false){
-                    return `<p>Your current browser does not support Fullscreen, please <b>open the experiment with a different browser</b>.</p><br>
-                            Click the button below to be redirected to Prolific:
-                            <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://google.com'">Return to Prolific</button>
-                            <br> <br>
-                            <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>
-                            `;
-                }
-            },
-        }
-        timeline.push(browser_check)        
 
         // PRELOADING feedback audio files:
         let preloadAudioFiles = {
@@ -284,7 +299,7 @@
         timeline.push(introduction)
 
 
-        /* CONSENT FORM (for Prolific integration, new version) */
+        /* CONSENT FORM (for Prolific integration, new version) 
         // standard consent form
         var consent1 = {
             type: jsPsychHtmlKeyboardResponse,
@@ -353,7 +368,7 @@
         };  
         timeline.push(loop_consent)
 
-        /* COLLECTING DEMOGRAPHIC DATA: */
+        /* COLLECTING DEMOGRAPHIC DATA: 
         var demographic_survey = {
             type: jsPsychSurveyHtmlForm,
             preamble: '<p>Please answer the following questions:</p>',
@@ -377,7 +392,7 @@
         };
         timeline.push(demographic_survey)        
 
-        /* INSTRUCTIONS */
+        /* INSTRUCTIONS 
         // PRELOADING instructions images:
         // calling function to create filepaths for all instructions images
         let instructions_ImagesArray = createArrayOfFilePaths(instructionsObject, 0)
@@ -398,7 +413,7 @@
 
 
 
-        /* AGREEMENT TO MOVE TO TASK FAMILIARIZATION */
+        /* AGREEMENT TO MOVE TO TASK FAMILIARIZATION 
         let move_to_familiarization_form = {
             type: jsPsychInstructions,
             pages: [`<p> Now it's your turn! <br>
@@ -411,7 +426,7 @@
 
 
 
-        /* TASK FAMILIARIZATION */
+        /* TASK FAMILIARIZATION 
         // PART 1: WITHOUT BACKGROUND INFORMATION
         // PRELOADING images:
         // calling function to create filepaths for all images
@@ -511,7 +526,7 @@
             });
         }
 
-        /* EXPERIMENT STRUCTURE IMAGE */
+        /* EXPERIMENT STRUCTURE IMAGE 
         // PRELOADING experiment structure image:
         // adding preload plugin to timeline
         let preloadExpStructureImage = {
@@ -524,7 +539,7 @@
         let experiment_structure_image = {
             type: jsPsychInstructions,
             pages: [`<font size="+2"><b> EXPERIMENT STRUCTURE</b></font><br>
-                    <img src="tutorial/experiment_structure_images/HUPLACLIP-structure.PNG" alt="Could not upload image" height="${currentExperiment.canvasDimensions[0] / 1.5}"><br><br>
+                    <img src="tutorial/experiment_structure_images/HUPLACLIP-structure.PNG" alt="Could not upload image" height="${currentExperiment.canvasDimensions[0] / 2}"><br><br>
                     The experiment is divided in <b>6 blocks</b> of <b>30 trials</b> each. The difficulty of the task will gradually increase as you progress through each block. 
                     There is no penalty in using shuffles, and you will have <b>10 shuffles for each trial</b>. 
                     Remember that you can use them, especially in harder trials. There is no time limit for completing the task.<br>
@@ -581,7 +596,7 @@
         };
         timeline.push(if_node);
 
-        /* entering fullscreen before experiment: */
+        /* ENTERING FULLSCREEN (and disabling scrolling) */
         var enter_fullscreen = {
             type: jsPsychFullscreen,
             fullscreen_mode: true,
@@ -593,7 +608,7 @@
                 displayElement.style.overflow = 'hidden';
             }
         }
-        timeline.push(enter_fullscreen)
+        timeline.push(enter_fullscreen)        
 
         /* ACTUAL EXPERIMENT: */
 
@@ -862,7 +877,7 @@
 
         }
 
-        /* exiting fullscreen after experiment: */
+        /* EXITING FULLSCREEN (and re-enabling scrolling) */
         var exit_fullscreen = {
             type: jsPsychFullscreen,
             fullscreen_mode: false,

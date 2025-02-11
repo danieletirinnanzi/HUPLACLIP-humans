@@ -13,6 +13,8 @@ let currentExperiment = {
     pCorrectionType: "p_reduce", // "p_increase" or "p_reduce"
 }
 
+console.log("currentExperiment: ", currentExperiment)
+
 // controlling that the number of presentations is even, so that is possible to have two trials for each value of K
 if (currentExperiment.numberOfPresentationsPerBlock % 2 != 0)
     alert("number of presentations for each trial must be even")
@@ -65,57 +67,3 @@ switch (currentExperiment.graphSize) {
 
 // - UNIQUE CLIQUE SIZES:
 currentExperiment.uniqueCliqueSizes = currentExperiment.arrayOfCliqueSizes.filter((x, i, a) => a.indexOf(x) == i)
-
-
-// - COORDINATES OF LEFT AND RIGHT TRIANGLES
-
-// PHYSICAL  COORDINATES:
-// NOTE: the device requirements are checked in index.html (lines 184-243) 
-// - calculating dimensions of the whole screen (sizes of canvas = sizes of whole screen):
-let physicalScreenHeight = screen.height * window.devicePixelRatio;  //height is the dimension that regulates the size of the stimuli (on which the "singleSquareSide" is calculated)
-let physicalScreenWidth = screen.width * window.devicePixelRatio;
-let logicalPhysicalFraction = 1 / window.devicePixelRatio
-// calculating drawing parameters:
-// - number of squares to be drawn in the two directions (2 squares are for the diagonal):
-let numberOfSquares = currentExperiment.graphSize + 2
-// - square side dimension (scales with screen resolution)
-let squareSideDimensionPhysical = Math.floor(physicalScreenHeight / numberOfSquares)
-console.log("the physical single square dimension is: " + squareSideDimensionPhysical)
-// - top and bottom margin (centering the square in the available space)
-let topAndBottomMarginPhysical = Math.floor((physicalScreenHeight - (squareSideDimensionPhysical * numberOfSquares)) / 2)
-// - calculating starting point on x axis:
-let xStartingPointLeft = (physicalScreenWidth / 2) - ((physicalScreenHeight - (topAndBottomMarginPhysical * 2)) / 2)
-// - calculating starting point on y axis:
-let yStartingPoint = topAndBottomMarginPhysical  //NB: starting to draw not from top of window, but leaving margin above and below the square
-// storing the starting points and the square size in currentExperiment object (used to draw red diagonal):
-currentExperiment.fixedDrawingParameters = [xStartingPointLeft, yStartingPoint, squareSideDimensionPhysical]
-
-// left triangle COORDINATES:
-let leftTriangleCoordinatesArray = []
-for (let firstIndex = 0; firstIndex < (currentExperiment.graphSize - 1); firstIndex++) {
-    let maxSecondIndex = firstIndex + 1
-    for (let secondIndex = 0; secondIndex < maxSecondIndex; secondIndex++) {
-        // calculating starting points of fillRect for each square (starting from xStartingPoint, then moving it down 2 squares to leave space for diagonal)
-        let xStart = xStartingPointLeft + (squareSideDimensionPhysical * secondIndex)
-        let yStart = (yStartingPoint + (squareSideDimensionPhysical * (firstIndex))) + 2 * squareSideDimensionPhysical   //leaving 2 squareSideDimension of additional space for diagonal
-        // pushing starting points of squares into array:
-        leftTriangleCoordinatesArray.push([xStart, yStart, squareSideDimensionPhysical]);
-    }
-}
-
-// right triangle COORDINATES:
-let rightTriangleCoordinatesArray = []
-for (let firstIndex = 0; firstIndex < (currentExperiment.graphSize - 1); firstIndex++) {
-    let maxSecondIndex = firstIndex + 1
-    for (let secondIndex = 0; secondIndex < maxSecondIndex; secondIndex++) {
-        // calculating starting points of fillRect for each square (starting from xStartingPoint, then moving it right 2 squares to leave space for diagonal):
-        let xStart = (xStartingPointLeft + (squareSideDimensionPhysical * (firstIndex))) + 2 * squareSideDimensionPhysical //leaving 2 squareSideDimension of additional space for diagonal
-        let yStart = yStartingPoint + (squareSideDimensionPhysical * secondIndex)
-        // pushing starting points of squares into array:
-        rightTriangleCoordinatesArray.push([xStart, yStart, squareSideDimensionPhysical]);
-    }
-}
-// adding coordinates to currentExperiment object
-currentExperiment.stimuliCoordinates = {};
-currentExperiment.stimuliCoordinates.leftTriangle = leftTriangleCoordinatesArray
-currentExperiment.stimuliCoordinates.rightTriangle = rightTriangleCoordinatesArray
