@@ -320,16 +320,14 @@ function drawInstructionsReminder(ctx) {
 }
 
 
-/* FUNCTIONS TO RESIZE THE CANVAS (called before drawing, a new canvas is re-created at every trial) */
-// - Main method: using WebGL;
-// - Fallback method: using devicePixelRatio;
+/* FUNCTION TO RESIZE THE CANVAS (called before drawing, a new canvas is re-created at every trial) */
 // from: https://stackoverflow.com/questions/47696956/display-pixel-perfect-canvas-on-all-devices 
 
 // Helper function to convert a numeric value to a pixel string (e.g., 100 -> "100px")
 const px = v => `${v}px`;
 
-// Resizing canvas using devicePixelRatio
-function resizeCanvas(canvas) {
+// Resizing canvas using devicePixelRatio:
+function resizeCanvas_DPR(canvas) {
     // Determine the scaling factor based on the device's pixel ratio.
     // This ensures sharp rendering on high-DPI (Retina) displays.
     // If devicePixelRatio < 1, we default to 1 to avoid downscaling issues.
