@@ -1,41 +1,3 @@
-/* FUNCTION TO RETRIEVE TRUE SCREEN HEIGHT using WebGL */
-function getTrueScreenDimensions() {
-    /* INPUT: none
-
-    OUTPUT:
-    - the true physical screen height and width (in pixels) of the device on which the experiment is run
-    */
-
-    // Create an invisible <canvas> element
-    let canvas = document.createElement("canvas");
-
-    // Try to get a WebGL rendering context from the canvas
-    let gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-
-    if (gl) {
-        // WebGL successfully initialized, attempt to get GPU info
-        let debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
-
-        // Retrieve the GPU renderer name (optional, but useful for debugging)
-        let renderer = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "Unknown";
-        console.log("GPU Renderer:", renderer);
-
-        // Return the true physical screen width and height using devicePixelRatio
-        return {
-            width: window.screen.width * window.devicePixelRatio,
-            height: window.screen.height * window.devicePixelRatio
-        };
-    } else {
-        // Fallback: if WebGL is unavailable, use the standard screen.width/height * devicePixelRatio
-        console.warn("WebGL not supported. Falling back to screen dimensions * devicePixelRatio.");
-        return {
-            width: window.screen.width * window.devicePixelRatio,
-            height: window.screen.height * window.devicePixelRatio
-        };
-    }
-}
-
-
 /* FUNCTION TO CALCULATE fixedDrawingParameters (based on screen height and width) */
 function calculateFixedDrawingParameters(width, height, graphSize) {
     /* INPUT:     
@@ -321,40 +283,56 @@ function drawInstructionsReminder(ctx) {
 
 
 /* FUNCTION TO RESIZE THE CANVAS (called before drawing, a new canvas is re-created at every trial) */
-// from: https://stackoverflow.com/questions/47696956/display-pixel-perfect-canvas-on-all-devices 
+// from: https://stackoverflow.com/questions/47696956/display-pixel-perfect-canvas-on-all-devices -> last code snippet reported
 
 // Helper function to convert a numeric value to a pixel string (e.g., 100 -> "100px")
 const px = v => `${v}px`;
 
 // Resizing canvas using devicePixelRatio:
-function resizeCanvas_DPR(canvas) {
+function resizeCanvas(canvas) {
     // Determine the scaling factor based on the device's pixel ratio.
     // This ensures sharp rendering on high-DPI (Retina) displays.
     // If devicePixelRatio < 1, we default to 1 to avoid downscaling issues.
-    const pixelSize = Math.max(1, devicePixelRatio) | 0;
+    const pixelSize = Math.max(1, window.devicePixelRatio) | 0;
 
-    // Get the dimensions of the canvas's parent element in CSS pixels.
+    console.log("the pixel size is: " + pixelSize)
+
+    // Get the dimensions of the canvas's parent element in CSS (logical) pixels.
     const rect = canvas.parentElement.getBoundingClientRect();
 
-    // Convert the CSS dimensions to device pixels by multiplying with devicePixelRatio.
-    const deviceWidth = rect.width * devicePixelRatio | 0;
-    const deviceHeight = rect.height * devicePixelRatio | 0;
+    console.log("the rect is: " + rect.width + " " + rect.height)
 
-    // Calculate the number of logical pixels the canvas should have.
+    // Convert the CSS (logical) dimensions to device (physical) pixels by multiplying with devicePixelRatio (rounding down).
+    const deviceWidth = rect.width * window.devicePixelRatio | 0;
+    const deviceHeight = rect.height * window.devicePixelRatio | 0;
+
+    console.log("the device width and height are: " + deviceWidth + " " + deviceHeight)
+
+    // Calculate the number of logical pixels the canvas should have (rounding down).
     const pixelsAcross = deviceWidth / pixelSize | 0;
     const pixelsDown = deviceHeight / pixelSize | 0;
 
-    // Convert back to device pixels to ensure alignment with screen rendering.
-    const devicePixelsAcross = pixelsAcross * pixelSize;
-    const devicePixelsDown = pixelsDown * pixelSize;
+    console.log("the pixels across and down are: " + pixelsAcross + " " + pixelsDown)
+
+    // Convert back to physical pixels to ensure alignment with screen rendering.
+    const physicalPixelsAcross = pixelsAcross * pixelSize;
+    const physicalPixelsDown = pixelsDown * pixelSize;
+
+    console.log("the physical pixels across and down are: " + physicalPixelsAcross + " " + physicalPixelsDown)
 
     // Set the canvas element's CSS size (display size) to match the parent element,
     // compensating for devicePixelRatio to ensure proper scaling.
-    canvas.style.width = px(devicePixelsAcross / devicePixelRatio);
-    canvas.style.height = px(devicePixelsDown / devicePixelRatio);
+    canvas.style.width = px(rect.width);
+    canvas.style.height = px(rect.height);
 
-    // Set the actual canvas resolution to match the calculated logical pixels.
+    console.log("the canvas style width and height are: " + canvas.style.width + " " + canvas.style.height)
+
+    // Set the actual canvas resolution to match the calculated device pixels.
     // This ensures the canvas is drawn at the correct resolution internally.
-    canvas.width = pixelsAcross;
-    canvas.height = pixelsDown;
+    canvas.width = deviceWidth;
+    canvas.height = deviceHeight;
+
+    // Optionally, you can scale the context to ensure proper rendering.
+    const ctx = canvas.getContext('2d');
+    ctx.scale(window.devicepixelRatio, window.devicepixelRatio);
 }

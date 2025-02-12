@@ -222,7 +222,10 @@
             type: jsPsychCallFunction,
             func: function () {
                 // - calling function to retrieve the physical screen dimensions
-                let physicalScreenDimensions = getTrueScreenDimensions();
+                let physicalScreenDimensions = {
+                    width: window.screen.width * window.devicePixelRatio | 0,
+                    height: window.screen.height * window.devicePixelRatio | 0
+                };
                 
                 // TO REMOVE
                 console.log("True Physical Screen Width:", physicalScreenDimensions.width);
@@ -627,7 +630,7 @@
             function drawCanvas(c) {
 
                 // calling resizing canvas function:
-                resizeCanvas_DPR(c)
+                resizeCanvas(c);
 
                 // addressing canvas
                 let ctx = c.getContext("2d");
