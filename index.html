@@ -195,7 +195,8 @@
         var browser_check = {
             type: jsPsychBrowserCheck,
             inclusion_function: (data) => {               
-                return data.mobile === false && data.fullscreen === true;
+                //return data.mobile === false && data.fullscreen === true; 
+                return data.fullscreen === true;
                 },
             exclusion_message: (data) => {
                 if(data.mobile){
@@ -234,8 +235,14 @@
                 // NOTE: the list of vertical resolutions is needed because if the browser's zoom is not set to 100%, the retrieved resolution might be different from the physical one
                 let validVerticalResolutions = [1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1536, 1600, 1664, 1800, 1824, 1864, 1920, 1964, 2160, 2234, 2304, 2400, 2520, 2880, 3384];
                 
+                // - if dimension of single square is < 1 pixel, asking user to set zoom to 100%
+                // number of squares to be drawn in the two directions (2 squares are for the diagonal):
+                let numberOfSquares = currentExperiment.graphSize + 2
+                // resulting square side dimension
+                let squareSideDimensionPhysical = Math.floor(physicalScreenDimensions.height / numberOfSquares)                
+
                 // checking if the vertical resolution is valid
-                if (validVerticalResolutions.includes(physicalScreenDimensions.height)) {
+                if (validVerticalResolutions.includes(physicalScreenDimensions.height) && squareSideDimensionPhysical >= 1) {
                     // valid resolution -> storing it in the currentExperiment object
                     currentExperiment.screenWidth = physicalScreenDimensions.width;
                     currentExperiment.screenHeight = physicalScreenDimensions.height;
@@ -254,10 +261,10 @@
                         <p>If you are reading this message, make sure to:
 
                             <ul>
-                                <li><b>Set your browser zoom to 100%</b> (you can change it in the browser options or by pressing "Ctrl +" / "Ctrl -" (Windows) or "⌥ ⌘ =" / "⌥ ⌘ -" (Mac) ) and click on the "Reload Page" button below.The page will reload and this page should not be shown anymore.</p></li>
+                                <li><b>Set your browser zoom to 100%</b> (you can change it in the browser options or by pressing "Ctrl +" / "Ctrl -" (Windows) or "⌥ ⌘ =" / "⌥ ⌘ -" (Mac) ) and click on the "Reload Page" button below. The page will reload and this page should not be shown anymore.</p></li>
                                 <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.reload()">Reload Page</button><br><br>
 
-                                <li>If this message does not disappear, you <b>might be using an incompatible device</b>: a resolution of at least <b>1024 pixels</b> is required to run the experiment (you can check the resolution of your device in the device settings). If your current device does not meet this requirement, please open the experiment on a device with a higher vertical resolution.<br>
+                                <li>If you have set you browser zoom to 100% but this message does not disappear, you <b>might be using an incompatible device</b>. The vertical resolution of your device appears to be <b>${physicalScreenDimensions.width}x${physicalScreenDimensions.height}</b>, but a vertical resolution of at least <b>1024 pixels</b> is required to run the experiment (you can check the resolution of your device in the device settings). If your current device does not meet this requirement, please open the experiment on a device with a higher vertical resolution.<br>
                                     Click the button below to be redirected to Prolific:</li>
                                 <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://google.com'">Return to Prolific</button>
                             </ul>
@@ -302,7 +309,7 @@
         timeline.push(introduction)
 
 
-        /* CONSENT FORM (for Prolific integration, new version) */
+        /* CONSENT FORM (for Prolific integration, new version) 
         // standard consent form
         var consent1 = {
             type: jsPsychHtmlKeyboardResponse,
@@ -371,7 +378,7 @@
         };  
         timeline.push(loop_consent)
 
-        /* COLLECTING DEMOGRAPHIC DATA: */
+        /* COLLECTING DEMOGRAPHIC DATA: 
         var demographic_survey = {
             type: jsPsychSurveyHtmlForm,
             preamble: '<p>Please answer the following questions:</p>',
@@ -416,7 +423,7 @@
 
 
 
-        /* AGREEMENT TO MOVE TO TASK FAMILIARIZATION */
+        /* AGREEMENT TO MOVE TO TASK FAMILIARIZATION 
         let move_to_familiarization_form = {
             type: jsPsychInstructions,
             pages: [`<p> Now it's your turn! <br>
@@ -429,7 +436,7 @@
 
 
 
-        /* TASK FAMILIARIZATION */
+        /* TASK FAMILIARIZATION 
         // PART 1: WITHOUT BACKGROUND INFORMATION
         // PRELOADING images:
         // calling function to create filepaths for all images

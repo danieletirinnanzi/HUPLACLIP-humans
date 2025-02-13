@@ -101,17 +101,18 @@ function generateInstructionsPages() {
         <i><b>< Press left arrow to go back <br></b></i>
         <i><b>Press right arrow to go forward ></b></i>
         `
-        instructionsPagesArray.push(singleHTML)
 
         // instruction page with single switch progression: this image wider than it is high, so presenting it on the full horizontal width of the canvas
-        if (index === 33) {
+        if (index === 32) {
             singleHTML = `<font size="+2"><b> INSTRUCTIONS </b></font><br><br>
-            <img src="tutorial/${currentExperiment.pCorrectionType}/instructions_images/${instructionsObject[index + 1][1]}.PNG" alt="Could not upload image" width="${currentExperiment.canvasDimensions[1] / 1.2}" ><br><br>
+            <img src="tutorial/${currentExperiment.pCorrectionType}/instructions_images/${instructionsObject[index + 1][1]}.PNG" alt="Could not upload image" width="${window.innerWidth / 1.2}" ><br><br>
             ${instructionsObject[index + 1][0]}<br><br>
             <i><b>< Press left arrow to go back <br></b></i>
             <i><b>Press right arrow to go forward ></b></i>
             `;
         }
+
+        instructionsPagesArray.push(singleHTML)
     }
 
     return instructionsPagesArray
