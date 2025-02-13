@@ -56,7 +56,7 @@ const instructionsObject = {
     38: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "38_N80_K30_shuffled"],
     39: ["Again, a <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), as shown before.", "39_N80_K30_sidebyside"],
     // N160_K70
-    40: ["Let's see one last example of a <b>shuffle</b> in a triangle having even more tiles. Triangles in the experiment will have more tiles than this one.", "40_N160_K70_grouped"],
+    40: ["Let's see one last example of a <b>shuffle</b> in a triangle having even more tiles. Triangles in the experiment could have more or less tiles than this one.", "40_N160_K70_grouped"],
     41: ["This is how a shuffle of the previous triangle looks like (remember that you can flick through the images using the arrows).", "41_N160_K70_shuffled"],
     42: ["Again, a <b>shuffle</b> is the transformation from an ordered triangle (left) to an unordered one (right), as shown before.", "42_N160_K70_sidebyside"],
     // single - paired stimuli transition (N=470):
@@ -87,7 +87,7 @@ function generateInstructionsPages() {
 
     // first instruction page (index = 0): no 'press left arrow to go back' button
     let firstHTML = `<font size="+2"><b> INSTRUCTIONS </b></font><br><br>
-    <img src="tutorial/${currentExperiment.pCorrectionType}/instructions_images/${instructionsObject[0 + 1][1]}.PNG" alt="Could not upload image" height="${currentExperiment.canvasDimensions[0] / 2.2}"><br><br>
+    <img src="tutorial/${currentExperiment.pCorrectionType}/instructions_images/${instructionsObject[0 + 1][1]}.PNG" alt="Could not upload image" height="${window.innerHeight / 2.2}"><br><br>
     ${instructionsObject[0 + 1][0]}<br><br>
     <i><b>Press right arrow to go forward ></b></i>
     `
@@ -96,13 +96,13 @@ function generateInstructionsPages() {
     // from second instruction page on:
     for (let index = 1; index < Object.keys(instructionsObject).length; index++) {
         let singleHTML = `<font size="+2"><b> INSTRUCTIONS </b></font><br><br>
-        <img src="tutorial/${currentExperiment.pCorrectionType}/instructions_images/${instructionsObject[index + 1][1]}.PNG" alt="Could not upload image" height="${currentExperiment.canvasDimensions[0] / 2.2}" ><br><br>
+        <img src="tutorial/${currentExperiment.pCorrectionType}/instructions_images/${instructionsObject[index + 1][1]}.PNG" alt="Could not upload image" height="${window.innerHeight / 2.2}" ><br><br>
         ${instructionsObject[index + 1][0]}<br><br>
         <i><b>< Press left arrow to go back <br></b></i>
         <i><b>Press right arrow to go forward ></b></i>
         `
 
-        // instruction page with single switch progression: this image wider than it is high, so presenting it on the full horizontal width of the canvas
+        // instruction page with single switch progression: this image wider than it is high, so setting its dimension relative to the window width
         if (index === 32) {
             singleHTML = `<font size="+2"><b> INSTRUCTIONS </b></font><br><br>
             <img src="tutorial/${currentExperiment.pCorrectionType}/instructions_images/${instructionsObject[index + 1][1]}.PNG" alt="Could not upload image" width="${window.innerWidth / 1.2}" ><br><br>
@@ -251,7 +251,7 @@ function generateBlockOfFamiliarizationTrials(part, index, taskFamiliarizationOb
         stimulus: `tutorial/${currentExperiment.pCorrectionType}/task_familiarization_images/part ${part}/${taskFamiliarizationObject[index + 1][1]}.PNG`,
         prompt: `<br><br> ${taskFamiliarizationObject[index + 1][0]}`,
         choices: [' '],
-        stimulus_height: currentExperiment.canvasDimensions[0] / 1.5,
+        stimulus_height: window.innerHeight / 1.5,
     };
     currentBlockOfTrialsArray.push(visualization_1_trial)
 
@@ -260,7 +260,7 @@ function generateBlockOfFamiliarizationTrials(part, index, taskFamiliarizationOb
         stimulus: `tutorial/${currentExperiment.pCorrectionType}/task_familiarization_images/part ${part}/${taskFamiliarizationObject[index + 2][1]}.PNG`,
         prompt: `<br><br> ${taskFamiliarizationObject[index + 2][0]}`,
         choices: [' '],
-        stimulus_height: currentExperiment.canvasDimensions[0] / 1.5,
+        stimulus_height: window.innerHeight / 1.5,
     };
     currentBlockOfTrialsArray.push(visualization_2_trial)
 
@@ -269,7 +269,7 @@ function generateBlockOfFamiliarizationTrials(part, index, taskFamiliarizationOb
         stimulus: `tutorial/${currentExperiment.pCorrectionType}/task_familiarization_images/part ${part}/${taskFamiliarizationObject[index + 3][1]}.PNG`,
         prompt: `<br><br> ${taskFamiliarizationObject[index + 3][0]}`,
         choices: ['ArrowLeft', 'ArrowRight'],
-        stimulus_height: currentExperiment.canvasDimensions[0] / 1.5,
+        stimulus_height: window.innerHeight / 1.5,
     };
     currentBlockOfTrialsArray.push(choice_trial)
 

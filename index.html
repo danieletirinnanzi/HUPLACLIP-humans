@@ -195,8 +195,7 @@
         var browser_check = {
             type: jsPsychBrowserCheck,
             inclusion_function: (data) => {               
-                //return data.mobile === false && data.fullscreen === true; 
-                return data.fullscreen === true;
+                return data.mobile === false && data.fullscreen === true; 
                 },
             exclusion_message: (data) => {
                 if(data.mobile){
@@ -309,7 +308,7 @@
         timeline.push(introduction)
 
 
-        /* CONSENT FORM (for Prolific integration, new version) 
+        /* CONSENT FORM (for Prolific integration, new version) */
         // standard consent form
         var consent1 = {
             type: jsPsychHtmlKeyboardResponse,
@@ -378,7 +377,7 @@
         };  
         timeline.push(loop_consent)
 
-        /* COLLECTING DEMOGRAPHIC DATA: 
+        /* COLLECTING DEMOGRAPHIC DATA: */
         var demographic_survey = {
             type: jsPsychSurveyHtmlForm,
             preamble: '<p>Please answer the following questions:</p>',
@@ -423,7 +422,7 @@
 
 
 
-        /* AGREEMENT TO MOVE TO TASK FAMILIARIZATION 
+        /* AGREEMENT TO MOVE TO TASK FAMILIARIZATION */
         let move_to_familiarization_form = {
             type: jsPsychInstructions,
             pages: [`<p> Now it's your turn! <br>
@@ -436,7 +435,7 @@
 
 
 
-        /* TASK FAMILIARIZATION 
+        /* TASK FAMILIARIZATION */
         // PART 1: WITHOUT BACKGROUND INFORMATION
         // PRELOADING images:
         // calling function to create filepaths for all images
@@ -461,7 +460,7 @@
                 stimulus: `tutorial/${currentExperiment.pCorrectionType}/task_familiarization_images/part 1/${taskFamiliarizationObject_part1[index + 4][3]}.PNG`,
                 prompt: "", //defined below based on correctness of choice
                 choices: [' '],
-                stimulus_height: currentExperiment.canvasDimensions[0] / 1.5,
+                stimulus_height: window.innerHeight / 1.5,
                 // using a closure (a function that has access to the variables defined in its outer function) to be able to access "index" from inside the on_start function
                 on_start: (function (index) {
                     return function (currentFeedbackTrial) {
@@ -511,7 +510,7 @@
                 prompt: "", //defined below based on correctness of choice
                 choices: [' '],
                 // stimulus_width: (SPECIFY IF NECESSARY)
-                stimulus_height: currentExperiment.canvasDimensions[0] / 1.5,
+                stimulus_height: window.innerHeight / 1.5,
                 // using a closure (a function that has access to the variables defined in its outer function) to be able to access "index" from inside the on_start function
                 on_start: (function (index) {
                     return function (currentFeedbackTrial) {
@@ -549,7 +548,7 @@
         let experiment_structure_image = {
             type: jsPsychInstructions,
             pages: [`<font size="+2"><b> EXPERIMENT STRUCTURE</b></font><br>
-                    <img src="tutorial/experiment_structure_images/HUPLACLIP-structure.PNG" alt="Could not upload image" height="${currentExperiment.canvasDimensions[0] / 2}"><br><br>
+                    <img src="tutorial/experiment_structure_images/HUPLACLIP-structure.PNG" alt="Could not upload image" height="${window.innerHeight / 2}"><br><br>
                     The experiment is divided in <b>6 blocks</b> of <b>30 trials</b> each. The difficulty of the task will gradually increase as you progress through each block. 
                     There is no penalty in using shuffles, and you will have <b>10 shuffles for each trial</b>. 
                     Remember that you can use them, especially in harder trials. There is no time limit for completing the task.<br>

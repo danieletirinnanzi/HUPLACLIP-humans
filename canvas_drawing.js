@@ -295,29 +295,34 @@ function resizeCanvas(canvas) {
     // If devicePixelRatio < 1, we default to 1 to avoid downscaling issues.
     const pixelSize = Math.max(1, window.devicePixelRatio) | 0;
 
+    // TO REMOVE
     console.log("the pixel size is: " + pixelSize)
 
     // Get the dimensions of the canvas's parent element in CSS (logical) pixels.
     const rect = canvas.parentElement.getBoundingClientRect();
 
+    // TO REMOVE
     console.log("the rect is: " + rect.width + " " + rect.height)
 
     // Convert the CSS (logical) dimensions to device (physical) pixels by multiplying with devicePixelRatio (rounding down).
     const deviceWidth = rect.width * window.devicePixelRatio | 0;
     const deviceHeight = rect.height * window.devicePixelRatio | 0;
 
+    // TO REMOVE    
     console.log("the device width and height are: " + deviceWidth + " " + deviceHeight)
 
     // Calculate the number of logical pixels the canvas should have (rounding down).
     const pixelsAcross = deviceWidth / pixelSize | 0;
     const pixelsDown = deviceHeight / pixelSize | 0;
 
+    // TO REMOVE    
     console.log("the pixels across and down are: " + pixelsAcross + " " + pixelsDown)
 
     // Convert back to physical pixels to ensure alignment with screen rendering.
     const physicalPixelsAcross = pixelsAcross * pixelSize;
     const physicalPixelsDown = pixelsDown * pixelSize;
 
+    // TO REMOVE    
     console.log("the physical pixels across and down are: " + physicalPixelsAcross + " " + physicalPixelsDown)
 
     // Set the canvas element's CSS size (display size) to match the parent element,
@@ -325,6 +330,7 @@ function resizeCanvas(canvas) {
     canvas.style.width = px(rect.width);
     canvas.style.height = px(rect.height);
 
+    // TO REMOVE    
     console.log("the canvas style width and height are: " + canvas.style.width + " " + canvas.style.height)
 
     // Set the actual canvas resolution to match the calculated device pixels.
