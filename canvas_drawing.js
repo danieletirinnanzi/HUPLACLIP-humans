@@ -24,23 +24,25 @@ function calculateFixedDrawingParameters(width, height, graphSize) {
     let xStartingPointLeft = (width / 2) - ((height - (topAndBottomMarginPhysical * 2)) / 2)
     // - calculating starting point on y axis:
     let yStartingPoint = topAndBottomMarginPhysical  //NB: starting to draw not from top of window, but leaving margin above and below the square
-    
+    // - calculating end point on x axis (only used to position the feedback text):
+    let xEndingPoint = xStartingPointLeft + (squareSideDimensionPhysical * numberOfSquares)
+
     // returning array with fixed drawing parameters
-    return [xStartingPointLeft, yStartingPoint, squareSideDimensionPhysical]
+    return [xStartingPointLeft, yStartingPoint, squareSideDimensionPhysical, xEndingPoint]
     
 }
 
 /* FUNCTION TO CALCULATE THE COORDINATES OF LEFT AND RIGHT TRIANGLE */
 function calculateTrianglesCoordinates(fixedDrawingParameters, graphSize) {
     /* INPUT:     
-    - fixedDrawingParameters (array containing the starting x coordinate, starting y coordinate, and the physical dimension of a single square)
+    - fixedDrawingParameters (array containing the starting x coordinate, starting y coordinate, the physical dimension of a single square and the ending x coordinate)
     - graphSize (size of the graph to be drawn)
 
     OUTPUT:
     - array containing the coordinates of the left and right triangles
     */
 
-    // unpacking fixedDrawingParameters
+    // unpacking relevant fixedDrawingParameters
     let xStartingPointLeft = fixedDrawingParameters[0]
     let yStartingPoint = fixedDrawingParameters[1]
     let squareSideDimensionPhysical = fixedDrawingParameters[2]
@@ -214,7 +216,7 @@ function drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray) {
     // text on canvas (increasing red hue when the remaining shuffles decrease. No randomization requested -> black; no shuffles left -> red ):
     ctx.fillStyle = `rgb(${255 - Math.floor(255 / currentExperiment.maximumNumberOfShuffles) * remainingShuffles},0,0)`;
     ctx.font = "bold 2rem system-ui";
-    ctx.fillText(feedbackStringShuffle, 0, (currentExperiment.screenHeight) / 7.5);
+    ctx.fillText(feedbackStringShuffle, 0, (currentExperiment.screenHeight) / 7.5, currentExperiment.fixedDrawingParameters[0]);
 
     // TRIAL NUMBER (right side of screen):
     let numberOfFinalResponses = arrayOfResponses.length + 1
@@ -223,8 +225,13 @@ function drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray) {
     // text on the canvas:
     ctx.fillStyle = "black"
     ctx.font = "bold 2rem system-ui";
-    ctx.fillText(feedbackStringTrials, (currentExperiment.screenWidth - (currentExperiment.screenWidth / 5)), (currentExperiment.screenHeight) / 8.5);
-
+    // if the screen has a width/height ratio close to 1, the text on the right side of the screen might overlap with the stimuli, adding check:
+    if ((currentExperiment.screenWidth - (currentExperiment.screenWidth / 5)) < currentExperiment.fixedDrawingParameters[3])
+        // in this case, choosing end of stimulus as starting point for the text
+        ctx.fillText(feedbackStringTrials, currentExperiment.fixedDrawingParameters[3], (currentExperiment.screenHeight) / 7.5, ctx.canvas.width -  currentExperiment.fixedDrawingParameters[3]);
+    else
+        // otherwise, choosing the right side of the screen
+        ctx.fillText(feedbackStringTrials, (currentExperiment.screenWidth - (currentExperiment.screenWidth / 5)), (currentExperiment.screenHeight) / 7.5, ctx.canvas.width -  (currentExperiment.screenWidth - (currentExperiment.screenWidth / 5)));
     // SCORE (right side of screen):
     let numberOfCorrectResponses = arrayOfResponses.reduce((a, b) => a + b, 0)
     //creating string to be displayed as feedback:
@@ -238,11 +245,23 @@ function drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray) {
             ctx.fillStyle = "lawngreen";
         else
             ctx.fillStyle = "red";
-    ctx.fillRect((currentExperiment.screenWidth - (currentExperiment.screenWidth / 5)), (currentExperiment.screenHeight) / 6.7, (currentExperiment.screenWidth / 8.5), (currentExperiment.screenHeight) / 14);
+    // if the screen has a width/height ratio close to 1, the text on the right side of the screen might overlap with the stimuli, adding check:
+    if ((currentExperiment.screenWidth - (currentExperiment.screenWidth / 5)) < currentExperiment.fixedDrawingParameters[3])
+        // in this case, choosing end of stimulus as starting point for the text
+        ctx.fillRect(currentExperiment.fixedDrawingParameters[3], (currentExperiment.screenHeight) / 6.7, ctx.canvas.width - currentExperiment.fixedDrawingParameters[3], (currentExperiment.screenHeight) / 14);
+    else
+        // otherwise, choosing the right side of the screen    
+        ctx.fillRect((currentExperiment.screenWidth - (currentExperiment.screenWidth / 5)), (currentExperiment.screenHeight) / 6.7, ctx.canvas.width - (currentExperiment.screenWidth - (currentExperiment.screenWidth / 5)), (currentExperiment.screenHeight) / 14);
     // text on the canvas:
     ctx.fillStyle = "black"
     ctx.font = "bold 2rem system-ui";
-    ctx.fillText(feedbackStringScore, (currentExperiment.screenWidth - (currentExperiment.screenWidth / 5.5)), (currentExperiment.screenHeight) / 5);
+    // if the screen has a width/height ratio close to 1, the text on the right side of the screen might overlap with the stimuli, adding check:
+    if ((currentExperiment.screenWidth - (currentExperiment.screenWidth / 5.5)) < currentExperiment.fixedDrawingParameters[3])
+        // in this case, choosing end of stimulus as starting point for the text
+        ctx.fillText(feedbackStringScore, currentExperiment.fixedDrawingParameters[3], (currentExperiment.screenHeight) / 5, ctx.canvas.width - currentExperiment.fixedDrawingParameters[3]);
+    else
+        // otherwise, choosing the right side of the screen
+        ctx.fillText(feedbackStringScore, (currentExperiment.screenWidth - (currentExperiment.screenWidth / 5.5)), (currentExperiment.screenHeight) / 5, ctx.canvas.width -  (currentExperiment.screenWidth - (currentExperiment.screenWidth / 5.5)));
 }
 
 
@@ -261,24 +280,24 @@ function drawInstructionsReminder(ctx) {
     let reminderString_arrows_label = "LEFT / RIGHT ARROW"
     // text specs (not bold)
     ctx.font = "italic bold 1.3rem system-ui";
-    ctx.fillText(reminderString_arrows_label, 0, (currentExperiment.screenHeight) / 4.5);
+    ctx.fillText(reminderString_arrows_label, 0, (currentExperiment.screenHeight) / 4.5, currentExperiment.fixedDrawingParameters[0]);
     // description string:
     let reminderString_arrows_description = "To choose the triangle with the hidden red tiles."
     // text specs (not bold)
     ctx.font = "1.1rem system-ui";
-    ctx.fillText(reminderString_arrows_description, 0, (currentExperiment.screenHeight) / 4.1);
+    ctx.fillText(reminderString_arrows_description, 0, (currentExperiment.screenHeight) / 4.1, currentExperiment.fixedDrawingParameters[0]);
 
     // SPACE:
     // key label:
     let reminderString_space_label = "SPACE"
     // text specs (not bold)
     ctx.font = "italic small-caps bold 1.3rem system-ui";
-    ctx.fillText(reminderString_space_label, 0, (currentExperiment.screenHeight) / 3.5);
+    ctx.fillText(reminderString_space_label, 0, (currentExperiment.screenHeight) / 3.5, currentExperiment.fixedDrawingParameters[0]);
     // description string:
     let reminderString_space_description = "To shuffle the triangles."
     // text specs (not bold)
     ctx.font = "1.1rem system-ui";
-    ctx.fillText(reminderString_space_description, 0, (currentExperiment.screenHeight) / 3.25);
+    ctx.fillText(reminderString_space_description, 0, (currentExperiment.screenHeight) / 3.25, currentExperiment.fixedDrawingParameters[0]);
 }
 
 
