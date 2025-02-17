@@ -231,8 +231,28 @@
                 console.log("True Physical Screen Width:", physicalScreenDimensions.width);
                 console.log("True Physical Screen Height:", physicalScreenDimensions.height);
 
+                // - defining valid vertical resolutions based on the graph size:
                 // NOTE: the list of vertical resolutions is needed because if the browser's zoom is not set to 100%, the retrieved resolution might be different from the physical one
-                let validVerticalResolutions = [1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1536, 1600, 1664, 1800, 1824, 1864, 1920, 1964, 2160, 2234, 2304, 2400, 2520, 2880, 3384];
+                switch (currentExperiment.graphSize) {
+                    case 100:
+                    case 150:
+                    case 200:
+                    case 300:
+                    case 400:
+                    case 480:
+                    case 600:
+                        var validVerticalResolutions = [720, 768, 864, 900, 1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1536, 1600, 1664, 1800, 1824, 1864, 1920, 1964, 2160, 2234, 2304, 2400, 2520, 2880, 3384];
+                        break;
+                    case 800:
+                        var validVerticalResolutions = [864, 900, 1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1536, 1600, 1664, 1800, 1824, 1864, 1920, 1964, 2160, 2234, 2304, 2400, 2520, 2880, 3384];
+                        break;
+                    case 1000:
+                        var validVerticalResolutions = [1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1536, 1600, 1664, 1800, 1824, 1864, 1920, 1964, 2160, 2234, 2304, 2400, 2520, 2880, 3384];
+                        break;
+                    default:
+                        alert("Invalid graph size. Accepted graph size values for human experiments are: 100, 150, 200, 300, 400, 480, 600, 800, 1000.");
+                        break;
+                }                
                 
                 // - if dimension of single square is < 1 pixel, asking user to set zoom to 100%
                 // number of squares to be drawn in the two directions (2 squares are for the diagonal):
@@ -263,7 +283,7 @@
                                 <li><b>Set your browser zoom to 100%</b> (you can change it in the browser options or by pressing "Ctrl +" / "Ctrl -" (Windows) or "⌥ ⌘ =" / "⌥ ⌘ -" (Mac) ) and click on the "Reload Page" button below. The page will reload and this page should not be shown anymore.</p></li>
                                 <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.reload()">Reload Page</button><br><br>
 
-                                <li>If you have set you browser zoom to 100% but this message does not disappear, you <b>might be using an incompatible device</b>. The vertical resolution of your device appears to be <b>${physicalScreenDimensions.width}x${physicalScreenDimensions.height}</b>, but a vertical resolution of at least <b>1024 pixels</b> is required to run the experiment (you can check the resolution of your device in the device settings). If your current device does not meet this requirement, please open the experiment on a device with a higher vertical resolution.<br>
+                                <li>If you have set you browser zoom to 100% but this message does not disappear, you <b>might be using an incompatible device</b>. A vertical resolution of at least <b>${validVerticalResolutions[0]}</b> is required to run the experiment (you can check the resolution of your device in the device settings). If your current device does not meet this requirement, please open the experiment on a device with a higher vertical resolution.<br>
                                     Click the button below to be redirected to Prolific:</li>
                                 <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://google.com'">Return to Prolific</button>
                             </ul>
