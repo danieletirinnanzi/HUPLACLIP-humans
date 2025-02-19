@@ -262,7 +262,7 @@ This markdown explains the visual rendering logic of the HUPLACLIP-human experim
 
 ## Canvas resizing steps:
 If the device is accepted, the following logic is used to ensure that physical pixels are used to represent the stimuli on screen and avoid interpolation and blurring:
-1. **Starting canvas dimensions**: the starting canvas dimensions are set in experiment_parameters.js (line 9). These dimensions are just used as initial dimensions for the canvas where the two stimuli will be drawn during the experiment.
+1. **Starting canvas dimensions**: the starting canvas dimensions are set in `experiment_parameters.js` (line 9). These dimensions are just used as initial dimensions for the canvas where the two stimuli will be drawn during the experiment.
 	- `experiment_parameters.js` (line 9)
 	```javascript
 	
@@ -328,7 +328,7 @@ If the device is accepted, the following logic is used to ensure that physical p
 	// ...
 	
 	```
-3. **Canvas resizing**: in jsPsych canvas-keyboard-response (https://www.jspsych.org/v7/plugins/canvas-keyboard-response/), a new canvas is created at every stimulus presentation. The function that triggers drawing on the canvas is `generateDrawCanvas` (step 1). Before drawing the stimuli, the `resizeCanvas` function is called, that uses the `devicePixelRatio` to adjust the canvas dimensions and scaling the context accordingly.
+3. **Canvas resizing**: in jsPsych canvas-keyboard-response (https://www.jspsych.org/v7/plugins/canvas-keyboard-response/), a new canvas is created at every stimulus presentation. The function that triggers drawing on the canvas is `generateDrawCanvas` (see second code snippet of step 1). Before drawing the stimuli, the `resizeCanvas` function is called, that uses the `devicePixelRatio` to adjust the canvas dimensions and scaling the context accordingly.
 	- `canvas_drawing.js` (lines 310-338)
 	```javascript
 	
@@ -394,7 +394,7 @@ If the device is accepted, the following logic is used to ensure that physical p
 
 ## Tests on different browsers and devices:
 The logic described above is robust across the devices and browsers reported in the following table.
-In the cases where an X is reported, the zoom browser values at which the rendering is not correct are reported in the parentheses, together with the retrieved vertical resolution. This value is accepted according to the logic explained above, but the canvas is drawn "outside" of the available space on the screen.
+In the cases where an X is reported, the zoom browser values at which the rendering is not correct are reported in the parentheses, together with the retrieved vertical resolution. This value is accepted according to the logic explained above, but the canvas is drawn "outside" of the available space on screen.
 As it is visible, the visualization is correct if the browser zoom is between 50% and 150% (excluded). Safari support hasn't been tested yet.
 
 | **Screen dimensions** | **Device-pixel-ratio** |                                                   **Chrome**                                                   |                                                    **Edge**                                                    | **Firefox** | **Notes on device**                               |
