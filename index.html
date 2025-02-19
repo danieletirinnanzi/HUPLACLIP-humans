@@ -238,6 +238,7 @@
                 };
 
                 console.log(devicePixelRatio)
+                console.log(window.devicePixelRatio)
 
                 //TODO (optional): add additional warning for cases where devicePixelRatio is integer and > 2 (zoom 200% for instance)  
                 
@@ -274,8 +275,8 @@
                 // resulting square side dimension
                 let squareSideDimensionPhysical = Math.floor(physicalScreenDimensions.height / numberOfSquares)                
 
-                // checking if the vertical resolution is valid, if the square side dimension is >= 1 pixel and if devicePixelRatio is an integer
-                if (validVerticalResolutions.includes(physicalScreenDimensions.height) && squareSideDimensionPhysical >= 1 && Number.isInteger(window.devicePixelRatio)) {
+                // checking if the vertical resolution is valid, if the square side dimension is >= 1 pixel and if devicePixelRatio is an integer (only devicePixelRatio = 1.25 is accepted)
+                if (validVerticalResolutions.includes(physicalScreenDimensions.height) && squareSideDimensionPhysical >= 1 && (Number.isInteger(window.devicePixelRatio) || window.devicePixelRatio === 1.25)) {
                     // valid resolution -> storing it in the currentExperiment object
                     currentExperiment.screenWidth = physicalScreenDimensions.width;
                     currentExperiment.screenHeight = physicalScreenDimensions.height;
