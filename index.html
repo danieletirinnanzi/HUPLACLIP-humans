@@ -188,17 +188,27 @@
         // 2. calling function to retrieve vertical resolution of device, checking its validity and storing it in the currentExperiment object;
 
         // TODO: 
-        // - check that it works on Safari as well
         // - ADD LINK TO PROLIFIC IN THE RETURN TO PROLIFIC LINKS
 
-        // 1. browser-check 1 (checking that full-screen is supported and that device is not mobile)        
+        // 1. browser-check 1 (checking that browser is an accepted one, full-screen is supported, and device is not mobile)        
         var browser_check = {
             type: jsPsychBrowserCheck,
-            inclusion_function: (data) => {               
-                return data.mobile === false && data.fullscreen === true; 
+            inclusion_function: (data) => {       
+                console.log("Browser is: " + data.browser)
+                let acceptedBrowsers = ['chrome', 'firefox', 'edge', 'edge-chromium', 'edge-ios']        
+                return acceptedBrowsers.includes(data.browser) === true && data.mobile === false;
+                console.log(data.browser)
+                return data.fullscreen === true 
                 },
             exclusion_message: (data) => {
-                if(data.mobile){
+                if(data.browser !== 'chrome' && data.browser !== 'firefox' && data.browser !== 'edge' && data.browser !== 'edge-chromium' && data.browser !== 'edge-ios') {
+                    return `<p>Your current browser is not supported. Please use <b>Chrome</b>, <b>Firefox</b> or <b>Edge</b> to participate in this experiment.</p><br>
+                            Click the button below to be redirected to Prolific:
+                            <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://google.com'">Return to Prolific</button>
+                            <br> <br>
+                            <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>
+                        `;
+                } else if(data.mobile){
                     return `<p>You must use a <b>desktop/laptop computer</b> to participate in this experiment.</p><br>
                             Click the button below to be redirected to Prolific:
                             <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://google.com'">Return to Prolific</button>
@@ -226,6 +236,10 @@
                     width: window.screen.width * window.devicePixelRatio | 0,
                     height: window.screen.height * window.devicePixelRatio | 0
                 };
+
+                console.log(devicePixelRatio)
+
+                //TODO (optional): add additional warning for cases where devicePixelRatio is integer and > 2 (zoom 200% for instance)  
                 
                 // TO REMOVE
                 console.log("True Physical Screen Width:", physicalScreenDimensions.width);
@@ -241,13 +255,13 @@
                     case 400:
                     case 480:
                     case 600:
-                        var validVerticalResolutions = [720, 768, 864, 900, 1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1536, 1600, 1664, 1800, 1824, 1864, 1920, 1964, 2160, 2234, 2304, 2400, 2520, 2880, 3384];
+                        var validVerticalResolutions = [720, 768, 864, 900, 1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1504, 1536, 1600, 1664, 1800, 1824, 1864, 1920, 1964, 2160, 2234, 2304, 2400, 2520, 2880, 3200, 3328, 3384, 3600, 3840, 4000, 4320, 4468, 5760];
                         break;
                     case 800:
-                        var validVerticalResolutions = [864, 900, 1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1536, 1600, 1664, 1800, 1824, 1864, 1920, 1964, 2160, 2234, 2304, 2400, 2520, 2880, 3384];
+                        var validVerticalResolutions = [864, 900, 1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1504, 1536, 1600, 1664, 1800, 1824, 1864, 1920, 1964, 2160, 2234, 2304, 2400, 2520, 2880, 3200, 3328, 3384, 3600, 3840, 4000, 4320, 4468, 5760];
                         break;
                     case 1000:
-                        var validVerticalResolutions = [1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1536, 1600, 1664, 1800, 1824, 1864, 1920, 1964, 2160, 2234, 2304, 2400, 2520, 2880, 3384];
+                        var validVerticalResolutions = [1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1504, 1536, 1600, 1664, 1800, 1824, 1864, 1920, 1964, 2160, 2234, 2304, 2400, 2520, 2880, 3200, 3328, 3384, 3600, 3840, 4000, 4320, 4468, 5760];
                         break;
                     default:
                         alert("Invalid graph size. Accepted graph size values for human experiments are: 100, 150, 200, 300, 400, 480, 600, 800, 1000.");
@@ -260,8 +274,8 @@
                 // resulting square side dimension
                 let squareSideDimensionPhysical = Math.floor(physicalScreenDimensions.height / numberOfSquares)                
 
-                // checking if the vertical resolution is valid
-                if (validVerticalResolutions.includes(physicalScreenDimensions.height) && squareSideDimensionPhysical >= 1) {
+                // checking if the vertical resolution is valid, if the square side dimension is >= 1 pixel and if devicePixelRatio is an integer
+                if (validVerticalResolutions.includes(physicalScreenDimensions.height) && squareSideDimensionPhysical >= 1 && Number.isInteger(window.devicePixelRatio)) {
                     // valid resolution -> storing it in the currentExperiment object
                     currentExperiment.screenWidth = physicalScreenDimensions.width;
                     currentExperiment.screenHeight = physicalScreenDimensions.height;
