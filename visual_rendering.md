@@ -95,169 +95,91 @@ This markdown explains the visual rendering logic of the HUPLACLIP-human experim
 	When a device is not accepted, the user is asked to set the browser zoom to 100% and reload the page. If the user is using a device that is not supported, is redirected to Prolific.
 	- `index.html` (lines 231-313):
 	```javascript
-	
+	// ...	
 	var device_check = {
-	
-	    type: jsPsychCallFunction,
-	
-	    func: function () {
-	
-	        // - calling function to retrieve the physical screen dimensions
-	
-	        let physicalScreenDimensions = {
-	
-	            width: window.screen.width * window.devicePixelRatio | 0,
-	
-	            height: window.screen.height * window.devicePixelRatio | 0
-	
-	        };
-	
-	  
-	
-	        console.log(devicePixelRatio)
-	
-	  
-	
-	        //TODO (optional): add additional warning for cases where devicePixelRatio is integer and > 2 (zoom 200% for instance)  
-	
-	        // TO REMOVE
-	
-	        console.log("True Physical Screen Width:", physicalScreenDimensions.width);
-	
-	        console.log("True Physical Screen Height:", physicalScreenDimensions.height);
-	
-	  
-	
-	        // - defining valid vertical resolutions based on the graph size:
-	
-	        // NOTE: the list of vertical resolutions is needed because if the browser's zoom is not set to 100%, the retrieved resolution might be different from the physical one
-	
-	        switch (currentExperiment.graphSize) {
-	
-	            case 100:
-	
-	            case 150:
-	
-	            case 200:
-	
-	            case 300:
-	
-	            case 400:
-	
-	            case 480:
-	
-	            case 600:
-	
-	                var validVerticalResolutions = [720, 768, 864, 900, 1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1504, 1536, 1600, 1664, 1800, 1824, 1864, 1920, 1964, 2160, 2234, 2304, 2400, 2520, 2880, 3200, 3328, 3384, 3600, 3840, 4000, 4320, 4468, 5760];
-	
-	                break;
-	
-	            case 800:
-	
-	                var validVerticalResolutions = [864, 900, 1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1504, 1536, 1600, 1664, 1800, 1824, 1864, 1920, 1964, 2160, 2234, 2304, 2400, 2520, 2880, 3200, 3328, 3384, 3600, 3840, 4000, 4320, 4468, 5760];
-	
-	                break;
-	
-	            case 1000:
-	
-	                var validVerticalResolutions = [1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1504, 1536, 1600, 1664, 1800, 1824, 1864, 1920, 1964, 2160, 2234, 2304, 2400, 2520, 2880, 3200, 3328, 3384, 3600, 3840, 4000, 4320, 4468, 5760];
-	
-	                break;
-	
-	            default:
-	
-	                alert("Invalid graph size. Accepted graph size values for human experiments are: 100, 150, 200, 300, 400, 480, 600, 800, 1000.");
-	
-	                break;
-	
-	        }                
-	
-	        // - if dimension of single square is < 1 pixel, asking user to set zoom to 100%
-	
-	        // number of squares to be drawn in the two directions (2 squares are for the diagonal):
-	
-	        let numberOfSquares = currentExperiment.graphSize + 2
-	
-	        // resulting square side dimension
-	
-	        let squareSideDimensionPhysical = Math.floor(physicalScreenDimensions.height / numberOfSquares)                
-	
-	  
-	
-	        // checking if the vertical resolution is valid, if the square side dimension is >= 1 pixel and if devicePixelRatio is an integer
-	
-	        if (validVerticalResolutions.includes(physicalScreenDimensions.height) && squareSideDimensionPhysical >= 1 && Number.isInteger(window.devicePixelRatio)) {
-	
-	            // valid resolution -> storing it in the currentExperiment object
-	
-	            currentExperiment.screenWidth = physicalScreenDimensions.width;
-	
-	            currentExperiment.screenHeight = physicalScreenDimensions.height;
-	
-	            //- calling function to calculate drawing parameters and storing them in the currentExperiment object:
-	
-	            currentExperiment.fixedDrawingParameters = calculateFixedDrawingParameters(physicalScreenDimensions.width, physicalScreenDimensions.height, currentExperiment.graphSize);
-	
-	            //- calling function to calculate coordinates of left and right triangles and storing them in the currentExperiment object:
-	
-	            let leftAndRightTriangleCoordinates = calculateTrianglesCoordinates(currentExperiment.fixedDrawingParameters, currentExperiment.graphSize);
-	
-	            currentExperiment.stimuliCoordinates = {};
-	
-	            currentExperiment.stimuliCoordinates.leftTriangle = leftAndRightTriangleCoordinates[0];
-	
-	            currentExperiment.stimuliCoordinates.rightTriangle = leftAndRightTriangleCoordinates[1];            
-	
-	            return; // Stop further execution
-	
-	        } else {
-	
-	            // invalid resolution -> redirect to Prolific
-	
-	            document.body.innerHTML = `
-	
-	            <div style="text-align: left; margin-top: 50px;">
-	
-	                <p>If you are reading this message, make sure to:
-	
-	  
-	
-	                    <ul>
-	
-	                        <li><b>Set your browser zoom to 100%</b> (you can change it in the browser options or by pressing "Ctrl +" / "Ctrl -" (Windows) or "⌥ ⌘ =" / "⌥ ⌘ -" (Mac) ) and click on the "Reload Page" button below. The page will reload and this page should not be shown anymore.</p></li>
-	
-	                        <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.reload()">Reload Page</button><br><br>
-	
-	  
-	
-	                        <li>If you have set you browser zoom to 100% but this message does not disappear, you <b>might be using an incompatible device</b>. A vertical resolution of at least <b>${validVerticalResolutions[0]}</b> is required to run the experiment (you can check the resolution of your device in the device settings). If your current device does not meet this requirement, please open the experiment on a device with a higher vertical resolution.<br>
-	
-	                            Click the button below to be redirected to Prolific:</li>
-	
-	                        <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://google.com'">Return to Prolific</button>
-	
-	                    </ul>
-	
-	  
-	
-	                <p><strong></strong></p>
-	
-	                <br>
-	
-	                <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>
-	
-	            </div>
-	
-	        `;                      
-	
-	        }
-	
-	    }
-	
+		type: jsPsychCallFunction,
+		func: function () {
+			// - calling function to retrieve the physical screen dimensions
+			let physicalScreenDimensions = {
+				width: window.screen.width * window.devicePixelRatio | 0,
+				height: window.screen.height * window.devicePixelRatio | 0
+			};
+
+			console.log(devicePixelRatio)
+
+			//TODO (optional): add additional warning for cases where devicePixelRatio is integer and > 2 (zoom 200% for instance)  
+			
+			// TO REMOVE
+			console.log("True Physical Screen Width:", physicalScreenDimensions.width);
+			console.log("True Physical Screen Height:", physicalScreenDimensions.height);
+
+			// - defining valid vertical resolutions based on the graph size:
+			// NOTE: the list of vertical resolutions is needed because if the browser's zoom is not set to 100%, the retrieved resolution might be different from the physical one
+			switch (currentExperiment.graphSize) {
+				case 100:
+				case 150:
+				case 200:
+				case 300:
+				case 400:
+				case 480:
+				case 600:
+					var validVerticalResolutions = [720, 768, 864, 900, 1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1504, 1536, 1600, 1664, 1800, 1824, 1864, 1920, 1964, 2160, 2234, 2304, 2400, 2520, 2880, 3200, 3328, 3384, 3600, 3840, 4000, 4320, 4468, 5760];
+					break;
+				case 800:
+					var validVerticalResolutions = [864, 900, 1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1504, 1536, 1600, 1664, 1800, 1824, 1864, 1920, 1964, 2160, 2234, 2304, 2400, 2520, 2880, 3200, 3328, 3384, 3600, 3840, 4000, 4320, 4468, 5760];
+					break;
+				case 1000:
+					var validVerticalResolutions = [1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1504, 1536, 1600, 1664, 1800, 1824, 1864, 1920, 1964, 2160, 2234, 2304, 2400, 2520, 2880, 3200, 3328, 3384, 3600, 3840, 4000, 4320, 4468, 5760];
+					break;
+				default:
+					alert("Invalid graph size. Accepted graph size values for human experiments are: 100, 150, 200, 300, 400, 480, 600, 800, 1000.");
+					break;
+			}                
+			
+			// - if dimension of single square is < 1 pixel, asking user to set zoom to 100%
+			// number of squares to be drawn in the two directions (2 squares are for the diagonal):
+			let numberOfSquares = currentExperiment.graphSize + 2
+			// resulting square side dimension
+			let squareSideDimensionPhysical = Math.floor(physicalScreenDimensions.height / numberOfSquares)                
+
+			// checking if the vertical resolution is valid, if the square side dimension is >= 1 pixel and if devicePixelRatio is an integer (only devicePixelRatio = 1.25 is accepted)
+			if (validVerticalResolutions.includes(physicalScreenDimensions.height) && squareSideDimensionPhysical >= 1 && (Number.isInteger(window.devicePixelRatio) || window.devicePixelRatio === 1.25)) {
+				// valid resolution -> storing it in the currentExperiment object
+				currentExperiment.screenWidth = physicalScreenDimensions.width;
+				currentExperiment.screenHeight = physicalScreenDimensions.height;
+				//- calling function to calculate drawing parameters and storing them in the currentExperiment object:
+				currentExperiment.fixedDrawingParameters = calculateFixedDrawingParameters(physicalScreenDimensions.width, physicalScreenDimensions.height, currentExperiment.graphSize);
+				//- calling function to calculate coordinates of left and right triangles and storing them in the currentExperiment object:
+				let leftAndRightTriangleCoordinates = calculateTrianglesCoordinates(currentExperiment.fixedDrawingParameters, currentExperiment.graphSize);
+				currentExperiment.stimuliCoordinates = {};
+				currentExperiment.stimuliCoordinates.leftTriangle = leftAndRightTriangleCoordinates[0];
+				currentExperiment.stimuliCoordinates.rightTriangle = leftAndRightTriangleCoordinates[1];             
+				return; // Stop further execution
+			} else {
+				// invalid resolution -> redirect to Prolific
+				document.body.innerHTML = `
+				<div style="text-align: left; margin-top: 50px;">
+					<p>If you are reading this message, make sure to:
+
+						<ul>
+							<li><b>Set your browser zoom to 100%</b> (you can change it in the browser options or by pressing "Ctrl +" / "Ctrl -" (Windows) or "⌥ ⌘ =" / "⌥ ⌘ -" (Mac) ) and click on the "Reload Page" button below. The page will reload and this page should not be shown anymore.</p></li>
+							<button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.reload()">Reload Page</button><br><br>
+
+							<li>If you have set you browser zoom to 100% but this message does not disappear, you <b>might be using an incompatible device</b>. A vertical resolution of at least <b>${validVerticalResolutions[0]}</b> is required to run the experiment (you can check the resolution of your device in the device settings). If your current device does not meet this requirement, please open the experiment on a device with a higher vertical resolution.<br>
+								Click the button below to be redirected to Prolific:</li>
+							<button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://google.com'">Return to Prolific</button>
+						</ul>
+
+					<p><strong></strong></p>
+					<br>
+					<p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>
+				</div>
+			`;                       
+			}
+		}
 	}
-	
 	timeline.push(device_check)
-	
+	// ...	
 	```
 
 ## Canvas resizing steps:
