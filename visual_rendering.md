@@ -84,11 +84,14 @@ This markdown explains the visual rendering logic of the HUPLACLIP-human experim
 	The function that is called:
 	- calculates the physical screen dimensions multiplying the `window.screen.width/height` by `window.devicePixelRatio`.
 	- calculates the resulting dimension of the single square on the screen.
+	  
 	A device is accepted if:
 	- the physical height of the screen is sufficient to perform the experiment at the current N value;
 	- the dimension of the single square is at least 1 pixel;
 	- `window.devicePixelRatio` is an integer value. When the browser's zoom is not set to 100%, this value is fractional, and the retrieved dimensions of the screen are incorrect.
+	  
 	When a device is accepted, the drawing coordinates are calculated and stored in the `currentExperiment` object;
+	
 	When a device is not accepted, the user is asked to set the browser zoom to 100% and reload the page. If the user is using a device that is not supported, is redirected to Prolific.
 	- `index.html` (lines 231-313):
 	```javascript
@@ -325,7 +328,7 @@ If the device is accepted, the following logic is used to ensure that physical p
 	// ...
 	
 	```
-3. **Canvas resizing**: in jsPsych canvas-keyboard-response (https://www.jspsych.org/v7/plugins/canvas-keyboard-response/), a new canvas is created at every stimulus presentation. The function that triggers drawing on the canvas is `generateDrawCanvas` (step 1). Before drawing the stimuli, the `resizeCanvas` function is called, that uses the devicePixelRatio to adjust the canvas dimensions and scaling the context accordingly.
+3. **Canvas resizing**: in jsPsych canvas-keyboard-response (https://www.jspsych.org/v7/plugins/canvas-keyboard-response/), a new canvas is created at every stimulus presentation. The function that triggers drawing on the canvas is `generateDrawCanvas` (step 1). Before drawing the stimuli, the `resizeCanvas` function is called, that uses the `devicePixelRatio` to adjust the canvas dimensions and scaling the context accordingly.
 	- `canvas_drawing.js` (lines 310-338)
 	```javascript
 	
