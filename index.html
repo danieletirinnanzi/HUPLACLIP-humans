@@ -202,21 +202,24 @@
                 },
             exclusion_message: (data) => {
                 if(data.browser !== 'chrome' && data.browser !== 'firefox' && data.browser !== 'edge' && data.browser !== 'edge-chromium' && data.browser !== 'edge-ios') {
-                    return `<p>Your current browser is not supported. Please use <b>Chrome</b>, <b>Firefox</b> or <b>Edge</b> to participate in this experiment.</p><br>
+                    return `<p style="color: red"><strong>WARNING: INCOMPATIBLE BROWSER DETECTED!</strong></p>
+                            <p>Your current browser is not supported. Please use <b>Chrome</b>, <b>Firefox</b> or <b>Edge</b> to participate in this experiment.</p><br>
                             Click the button below to be redirected to Prolific:
                             <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://google.com'">Return to Prolific</button>
                             <br> <br>
                             <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>
                         `;
                 } else if(data.mobile){
-                    return `<p>You must use a <b>desktop/laptop computer</b> to participate in this experiment.</p><br>
+                    return `<p style="color: red"><strong>WARNING: INCOMPATIBLE DEVICE DETECTED!</strong></p>
+                            <p>You must use a <b>desktop/laptop computer</b> to participate in this experiment.</p><br>
                             Click the button below to be redirected to Prolific:
                             <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://google.com'">Return to Prolific</button>
                             <br> <br>
                             <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>
                             `;
                 } else if(data.fullscreen === false){
-                    return `<p>Your current browser does not support Fullscreen, please <b>open the experiment with a different browser</b>.</p><br>
+                    return `<p style="color: red"><strong>WARNING: FULLSCREEN ERROR DETECTED!</strong></p>
+                            <p>Your current browser does not support Fullscreen, please <b>open the experiment with a different browser</b>.</p><br>
                             Click the button below to be redirected to Prolific:
                             <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://google.com'">Return to Prolific</button>
                             <br> <br>
@@ -238,8 +241,6 @@
                 };
 
                 console.log(devicePixelRatio)
-
-                //TODO (optional): add additional warning for cases where devicePixelRatio is integer and > 2 (zoom 200% for instance)  
                 
                 // TO REMOVE
                 console.log("True Physical Screen Width:", physicalScreenDimensions.width);
@@ -290,19 +291,19 @@
                 } else {
                     // invalid resolution -> redirect to Prolific
                     document.body.innerHTML = `
-                    <div style="text-align: left; margin-top: 50px;">
-                        <p>If you are reading this message, make sure to:
-
+                    <div style="text-align: left; padding: 20px;">
+                        <p style="color: red"><strong>WARNING: SCREEN RESOLUTION ISSUE DETECTED!</strong></p>
+                        
+                        <p>If you are seeing this message, make sure to:
                             <ul>
-                                <li><b>Set your browser zoom to 100%</b> (you can change it in the browser options or by pressing "Ctrl +" / "Ctrl -" (Windows) or "⌥ ⌘ =" / "⌥ ⌘ -" (Mac) ) and click on the "Reload Page" button below. The page will reload and this page should not be shown anymore.</p></li>
+                                <li><b>Set your browser zoom to 100%</b> (you can change it in the browser options or by pressing "Ctrl +" / "Ctrl -" (Windows) or "⌥ ⌘ =" / "⌥ ⌘ -" (Mac) ) and click on the "Reload Page" button below. The page will reload and this message should not be shown anymore.</li>
                                 <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.reload()">Reload Page</button><br><br>
 
-                                <li>If you have set you browser zoom to 100% but this message does not disappear, you <b>might be using an incompatible device</b>. A vertical resolution of at least <b>${validVerticalResolutions[0]}</b> is required to run the experiment (you can check the resolution of your device in the device settings). If your current device does not meet this requirement, please open the experiment on a device with a higher vertical resolution.<br>
-                                    Click the button below to be redirected to Prolific:</li>
+                                <li>If you have set your browser zoom to 100% but this message does not disappear, you <b>might be using an incompatible device</b>. A vertical resolution of at least <b>${validVerticalResolutions[0]}</b> is required to run the experiment (you can check the resolution of your device in the device settings). If your current device does not meet this requirement, please open the experiment on a device with a higher vertical resolution.<br> Click the button below to be redirected to Prolific:</li>
                                 <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://google.com'">Return to Prolific</button>
                             </ul>
+                        </p>                            
 
-                        <p><strong></strong></p>
                         <br>
                         <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>
                     </div>
