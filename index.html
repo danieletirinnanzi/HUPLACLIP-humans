@@ -4,7 +4,6 @@
 <head>
     <title>HUPLACLIP experiment</title>
     <!-- My scripts -->
-    <!-- <script type="text/javascript" src="device_requirements.js"></script> -->
     <script type="text/javascript" src="graphs_functions.js"></script>
     <script type="text/javascript" src="introduction_pages_generation.js"></script>
     <script type="text/javascript" src="tutorial/tutorial_pages_generation.js"></script>
@@ -190,29 +189,36 @@
         // TODO: 
         // - ADD LINK TO PROLIFIC IN THE RETURN TO PROLIFIC LINKS
 
-        // 1. browser-check 1 (checking that browser is an accepted one, full-screen is supported, and device is not mobile)        
+        // defining boolean variable to check if the device is a tablet
+        const userAgent = navigator.userAgent.toLowerCase();
+        const isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent);        
+        
+        // TO REMOVE        
+        console.log("Is tablet: ", isTablet);
+        
+        // 1. browser-check 1 (checking that browser is an accepted one, full-screen is supported, and device is not mobile)                
         var browser_check = {
             type: jsPsychBrowserCheck,
             inclusion_function: (data) => {       
-                console.log("Browser is: " + data.browser)
-                let acceptedBrowsers = ['chrome', 'firefox', 'edge', 'edge-chromium', 'edge-ios']        
-                return acceptedBrowsers.includes(data.browser) === true && data.mobile === false;
-                console.log(data.browser)
-                return data.fullscreen === true 
-                },
+                let acceptedBrowsers = ['chrome', 'firefox', 'edge', 'edge-chromium', 'edge-ios']
+                console.log("Retrieved browser: ", data.browser)
+                console.log("Is mobile: ", data.mobile)
+                // returning true if the browser is an accepted one, full-screen is supported, and device is not mobile/tablet
+                return acceptedBrowsers.includes(data.browser) && data.mobile === false && !isTablet && data.fullscreen === true;
+            },
             exclusion_message: (data) => {
                 if(data.browser !== 'chrome' && data.browser !== 'firefox' && data.browser !== 'edge' && data.browser !== 'edge-chromium' && data.browser !== 'edge-ios') {
                     return `<p style="color: red"><strong>WARNING: INCOMPATIBLE BROWSER DETECTED!</strong></p>
                             <p>Your current browser is not supported. Please use <b>Chrome</b>, <b>Firefox</b> or <b>Edge</b> to participate in this experiment.</p><br>
-                            Click the button below to be redirected to Prolific:
+                            Click the button below to be redirected to Prolific:<br>
                             <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://google.com'">Return to Prolific</button>
                             <br> <br>
                             <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>
                         `;
-                } else if(data.mobile){
+                } else if(data.mobile || isTablet){
                     return `<p style="color: red"><strong>WARNING: INCOMPATIBLE DEVICE DETECTED!</strong></p>
                             <p>You must use a <b>desktop/laptop computer</b> to participate in this experiment.</p><br>
-                            Click the button below to be redirected to Prolific:
+                            Click the button below to be redirected to Prolific:<br>
                             <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://google.com'">Return to Prolific</button>
                             <br> <br>
                             <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>
@@ -220,7 +226,7 @@
                 } else if(data.fullscreen === false){
                     return `<p style="color: red"><strong>WARNING: FULLSCREEN ERROR DETECTED!</strong></p>
                             <p>Your current browser does not support Fullscreen, please <b>open the experiment with a different browser</b>.</p><br>
-                            Click the button below to be redirected to Prolific:
+                            Click the button below to be redirected to Prolific:<br>
                             <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://google.com'">Return to Prolific</button>
                             <br> <br>
                             <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>
@@ -233,20 +239,21 @@
         // 2. function to retrieve vertical resolution of device, checking its validity and storing it in the currentExperiment object;
         var device_check = {
             type: jsPsychCallFunction,
-            func: function () {
-                // - calling function to retrieve the physical screen dimensions
+            func: function (data) {
+                // - retrieving the physical screen dimensions using the devicePixelRatio -> has to be an accepted one, and devicePixelRatio has to be an integer (only devicePixelRatio = 1.25 is accepted)
                 let physicalScreenDimensions = {
                     width: window.screen.width * window.devicePixelRatio | 0,
                     height: window.screen.height * window.devicePixelRatio | 0
                 };
 
-                console.log(devicePixelRatio)
+                // TO REMOVE      
+                console.log("Device Pixel Ratio is: ", devicePixelRatio)
                 
                 // TO REMOVE
-                console.log("True Physical Screen Width:", physicalScreenDimensions.width);
-                console.log("True Physical Screen Height:", physicalScreenDimensions.height);
+                console.log("True Physical Screen Width: ", physicalScreenDimensions.width);
+                console.log("True Physical Screen Height: ", physicalScreenDimensions.height);
 
-                // - defining valid vertical resolutions based on the graph size:
+                // - defining valid vertical resolutions based on the graph size -> used to evaluate the validity of the retrieved resolution
                 // NOTE: the list of vertical resolutions is needed because if the browser's zoom is not set to 100%, the retrieved resolution might be different from the physical one
                 switch (currentExperiment.graphSize) {
                     case 100:
@@ -265,51 +272,91 @@
                         var validVerticalResolutions = [1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1504, 1536, 1600, 1664, 1800, 1824, 1864, 1920, 1964, 2160, 2234, 2304, 2400, 2520, 2880, 3200, 3328, 3384, 3600, 3840, 4000, 4320, 4468, 5760];
                         break;
                     default:
-                        alert("Invalid graph size. Accepted graph size values for human experiments are: 100, 150, 200, 300, 400, 480, 600, 800, 1000.");
+                        alert(`Invalid graph size, check the "experiment_parameters.js" file (line 11). Graph size is set to ${currentExperiment.graphSize}, while allowed graph size values for human experiments are: 100, 150, 200, 300, 400, 480, 600, 800, 1000.`);
                         break;
                 }                
                 
-                // - if dimension of single square is < 1 pixel, asking user to set zoom to 100%
-                // number of squares to be drawn in the two directions (2 squares are for the diagonal):
-                let numberOfSquares = currentExperiment.graphSize + 2
-                // resulting square side dimension
-                let squareSideDimensionPhysical = Math.floor(physicalScreenDimensions.height / numberOfSquares)                
+                // - calculating the dimension of the single square -> has to be >= 1 pixel, and is used to calculate the proportion of vertical dimension occupied by the stimuli
+                let numberOfSquares = currentExperiment.graphSize + 2   // number of squares to be drawn in the two directions (2 squares are for the diagonal):
+                let squareSideDimensionPhysical = Math.floor(physicalScreenDimensions.height / numberOfSquares) // resulting square side dimension           
 
-                // checking if the vertical resolution is valid, if the square side dimension is >= 1 pixel and if devicePixelRatio is an integer (only devicePixelRatio = 1.25 is accepted)
-                if (validVerticalResolutions.includes(physicalScreenDimensions.height) && squareSideDimensionPhysical >= 1 && (Number.isInteger(window.devicePixelRatio) || window.devicePixelRatio === 1.25)) {
-                    // valid resolution -> storing it in the currentExperiment object
+                // - calculating the proportion of vertical dimension that is occupied by the stimuli -> has to be >= 75%
+                let stimuliVerticalDimension = numberOfSquares * squareSideDimensionPhysical
+                let stimuliVerticalPercentage = stimuliVerticalDimension / physicalScreenDimensions.height      
+                stimuliVerticalPercentage = Math.round(stimuliVerticalPercentage * 100) / 100;  // rounding to 2 decimal values
+
+                // TO REMOVE
+                console.log("Square side dimension physical ", squareSideDimensionPhysical)
+                console.log("Stimuli vertical dimension: ", stimuliVerticalDimension)
+                console.log("Stimuli vertical percentage: ", stimuliVerticalPercentage)
+
+                // checking that all conditions are met: vertical resolution is valid; square side dimension is >= 1 pixel; devicePixelRatio is an integer (only devicePixelRatio = 1.25 is accepted); stimuli occupy at least 75% of the vertical dimension of the screen
+                if (validVerticalResolutions.includes(physicalScreenDimensions.height) && squareSideDimensionPhysical >= 1 && (Number.isInteger(window.devicePixelRatio) || window.devicePixelRatio === 1.25) && stimuliVerticalPercentage >= 0.75) {
+                    // valid resolution -> storing display variables in "currentExperiment" object:
                     currentExperiment.screenWidth = physicalScreenDimensions.width;
                     currentExperiment.screenHeight = physicalScreenDimensions.height;
-                    //- calling function to calculate drawing parameters and storing them in the currentExperiment object:
+                    currentExperiment.stimuliVerticalPercentage = stimuliVerticalPercentage;
+
+                    // calling function to calculate drawing parameters and storing them in the currentExperiment object:
                     currentExperiment.fixedDrawingParameters = calculateFixedDrawingParameters(physicalScreenDimensions.width, physicalScreenDimensions.height, currentExperiment.graphSize);
-                    //- calling function to calculate coordinates of left and right triangles and storing them in the currentExperiment object:
+                    
+                    // calling function to calculate coordinates of left and right triangles and storing them in the currentExperiment object:
                     let leftAndRightTriangleCoordinates = calculateTrianglesCoordinates(currentExperiment.fixedDrawingParameters, currentExperiment.graphSize);
                     currentExperiment.stimuliCoordinates = {};
                     currentExperiment.stimuliCoordinates.leftTriangle = leftAndRightTriangleCoordinates[0];
-                    currentExperiment.stimuliCoordinates.rightTriangle = leftAndRightTriangleCoordinates[1];             
+                    currentExperiment.stimuliCoordinates.rightTriangle = leftAndRightTriangleCoordinates[1];  
+                                    
                     return; // Stop further execution
                 } else {
-                    // invalid resolution -> redirect to Prolific
+                    // invalid resolution -> redirect to Prolific, differentiating message based on the detected issue
+                    let title;
+                    let message;
+                    if (stimuliVerticalPercentage < 0.75 && validVerticalResolutions.includes(physicalScreenDimensions.height) ) {
+                        title = "WARNING: STIMULUS RENDERING ISSUE DETECTED!";
+                        message = `If you have set your browser zoom to 100% but this message does not disappear, the <b>visual rendering of the experiment on your current device is suboptimal</b>.
+                                    Please open the experiment on a different device.`;
+                    } else {
+                        // if vertical resolution is not accepted || square side dimension is < 1 pixel || devicePixelRatio is not an integer (only devicePixelRatio = 1.25 is accepted)
+                        title = "WARNING: SCREEN RESOLUTION ISSUE DETECTED!";
+                        message = `If you have set your browser zoom to 100% but this message does not disappear, you <b>might be using an incompatible device</b>.
+                                    A vertical resolution of at least <b>${validVerticalResolutions[0]}</b> is required to run the experiment (you can check the resolution of your device in the device settings).
+                                    If your current device does not meet this requirement, please open the experiment on a device with a higher vertical resolution.`;
+                    }
                     document.body.innerHTML = `
                     <div style="text-align: left; padding: 20px;">
-                        <p style="color: red"><strong>WARNING: SCREEN RESOLUTION ISSUE DETECTED!</strong></p>
-                        
-                        <p>If you are seeing this message, make sure to:
-                            <ul>
-                                <li><b>Set your browser zoom to 100%</b> (you can change it in the browser options or by pressing "Ctrl +" / "Ctrl -" (Windows) or "⌥ ⌘ =" / "⌥ ⌘ -" (Mac) ) and click on the "Reload Page" button below. The page will reload and this message should not be shown anymore.</li>
-                                <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.reload()">Reload Page</button><br><br>
-
-                                <li>If you have set your browser zoom to 100% but this message does not disappear, you <b>might be using an incompatible device</b>. A vertical resolution of at least <b>${validVerticalResolutions[0]}</b> is required to run the experiment (you can check the resolution of your device in the device settings). If your current device does not meet this requirement, please open the experiment on a device with a higher vertical resolution.<br> Click the button below to be redirected to Prolific:</li>
-                                <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://google.com'">Return to Prolific</button>
-                            </ul>
-                        </p>                            
-
-                        <br>
+                        <p style="color: red"><strong>${title}</strong></p>                        
+                            <p>If you are seeing this message, make sure to:
+                                <ul>
+                                    <li><b>Set your browser zoom to 100%</b> (you can change it in the browser options or by pressing "Ctrl +" / "Ctrl -" (Windows) or "⌥ ⌘ =" / "⌥ ⌘ -" (Mac) ) and click on the "Reload Page" button below. The page will reload and this message should not be shown anymore.</li>
+                                    <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.reload()">Reload Page</button><br><br>                        
+                                    <li>${message}<br> Click the button below to be redirected to Prolific:</li>
+                                    <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://google.com'">Return to Prolific</button>
+                                </ul>
+                            </p>                               
+                            <br>
                         <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>
                     </div>
                 `;                       
+                return // Stop further execution
+                }             
+            },
+            on_finish: function (data) {
+                // if current device is accepted, storing display variables in "data" object of current trial:
+                if (currentExperiment.screenWidth && currentExperiment.screenHeight && currentExperiment.fixedDrawingParameters) {
+                    data.screenWidth = currentExperiment.screenWidth;
+                    data.screenHeight = currentExperiment.screenHeight;
+                    data.stimuliVerticalPercentage = currentExperiment.stimuliVerticalPercentage;
+                } else {
+                    // if current device is not accepted, storing display variables in "data" object of current trial:
+                    data.screenWidth = "UNSUPPORTED DEVICE, EXPERIMENT STOPPED";
+                    data.screenHeight = "UNSUPPORTED DEVICE, EXPERIMENT STOPPED";
+                    data.stimuliVerticalPercentage = "UNSUPPORTED DEVICE, EXPERIMENT STOPPED";
                 }
-            }
+            
+
+                // TO REMOVE
+                console.log(data)
+            } 
         }
         timeline.push(device_check)
 
@@ -931,7 +978,7 @@
                 var displayElement = document.querySelector('.jspsych-display-element');
                 // Remove the style attribute with overflow:hidden to allow scrolling
                 displayElement.style.overflow = 'auto';
-            }            
+            }          
         }
         timeline.push(exit_fullscreen)
 
