@@ -11,6 +11,7 @@ let currentExperiment = {
     graphSize: 1000, // TO BE CHANGED IN DIFFERENT EXPERIMENTS
     probabilityOfAssociation: 0.5,
     pCorrectionType: "p_reduce", // "p_increase" or "p_reduce"
+    stimuliVerticalProportionThreshold: 0.70, // minimum proportion of the screen height that the stimuli should occupy
 }
 
 // controlling that the number of presentations is even, so that is possible to have two trials for each value of K

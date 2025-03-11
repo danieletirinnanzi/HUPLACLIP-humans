@@ -183,7 +183,7 @@
         /* CHECKING DEVICE/BROWSER REQUIREMENTS */
 
         //NOTE: logic (it should be working on Safari as well)
-        // 1. browser-check 1 -> checking if full-screen is supported and if the device is not mobile;
+        // 1. browser-check 1 -> checking if full-screen is supported and if the device is not mobile/tablet;
         // 2. calling function to retrieve vertical resolution of device, checking its validity and storing it in the currentExperiment object;
 
         // TODO: 
@@ -282,20 +282,20 @@
 
                 // - calculating the proportion of vertical dimension that is occupied by the stimuli -> has to be >= 75%
                 let stimuliVerticalDimension = numberOfSquares * squareSideDimensionPhysical
-                let stimuliVerticalPercentage = stimuliVerticalDimension / physicalScreenDimensions.height      
-                stimuliVerticalPercentage = Math.round(stimuliVerticalPercentage * 100) / 100;  // rounding to 2 decimal values
+                let stimuliVerticalProportion = stimuliVerticalDimension / physicalScreenDimensions.height      
+                stimuliVerticalProportion = Math.round(stimuliVerticalProportion * 100) / 100;  // rounding to 2 decimal values
 
                 // TO REMOVE
                 console.log("Square side dimension physical ", squareSideDimensionPhysical)
                 console.log("Stimuli vertical dimension: ", stimuliVerticalDimension)
-                console.log("Stimuli vertical percentage: ", stimuliVerticalPercentage)
+                console.log("Stimuli vertical proportion: ", stimuliVerticalProportion)
 
                 // checking that all conditions are met: vertical resolution is valid; square side dimension is >= 1 pixel; devicePixelRatio is an integer (only devicePixelRatio = 1.25 is accepted); stimuli occupy at least 75% of the vertical dimension of the screen
-                if (validVerticalResolutions.includes(physicalScreenDimensions.height) && squareSideDimensionPhysical >= 1 && (Number.isInteger(window.devicePixelRatio) || window.devicePixelRatio === 1.25) && stimuliVerticalPercentage >= 0.75) {
+                if (validVerticalResolutions.includes(physicalScreenDimensions.height) && squareSideDimensionPhysical >= 1 && (Number.isInteger(window.devicePixelRatio) || window.devicePixelRatio === 1.25) && stimuliVerticalProportion >= currentExperiment.stimuliVerticalProportionThreshold) {
                     // valid resolution -> storing display variables in "currentExperiment" object:
                     currentExperiment.screenWidth = physicalScreenDimensions.width;
                     currentExperiment.screenHeight = physicalScreenDimensions.height;
-                    currentExperiment.stimuliVerticalPercentage = stimuliVerticalPercentage;
+                    currentExperiment.stimuliVerticalProportion = stimuliVerticalProportion;
 
                     // calling function to calculate drawing parameters and storing them in the currentExperiment object:
                     currentExperiment.fixedDrawingParameters = calculateFixedDrawingParameters(physicalScreenDimensions.width, physicalScreenDimensions.height, currentExperiment.graphSize);
@@ -311,7 +311,7 @@
                     // invalid resolution -> redirect to Prolific, differentiating message based on the detected issue
                     let title;
                     let message;
-                    if (stimuliVerticalPercentage < 0.75 && validVerticalResolutions.includes(physicalScreenDimensions.height) ) {
+                    if (stimuliVerticalProportion < currentExperiment.stimuliVerticalProportionThreshold && validVerticalResolutions.includes(physicalScreenDimensions.height) ) {
                         title = "WARNING: STIMULUS RENDERING ISSUE DETECTED!";
                         message = `If you have set your browser zoom to 100% but this message does not disappear, the <b>visual rendering of the experiment on your current device is suboptimal</b>.
                                     Please open the experiment on a different device.`;
@@ -345,12 +345,12 @@
                 if (currentExperiment.screenWidth && currentExperiment.screenHeight && currentExperiment.fixedDrawingParameters) {
                     data.screenWidth = currentExperiment.screenWidth;
                     data.screenHeight = currentExperiment.screenHeight;
-                    data.stimuliVerticalPercentage = currentExperiment.stimuliVerticalPercentage;
+                    data.stimuliVerticalProportion = currentExperiment.stimuliVerticalProportion;
                 } else {
                     // if current device is not accepted, storing display variables in "data" object of current trial:
                     data.screenWidth = "UNSUPPORTED DEVICE, EXPERIMENT STOPPED";
                     data.screenHeight = "UNSUPPORTED DEVICE, EXPERIMENT STOPPED";
-                    data.stimuliVerticalPercentage = "UNSUPPORTED DEVICE, EXPERIMENT STOPPED";
+                    data.stimuliVerticalProportion = "UNSUPPORTED DEVICE, EXPERIMENT STOPPED";
                 }
             
 
