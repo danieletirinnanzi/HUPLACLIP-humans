@@ -235,11 +235,17 @@ function drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray) {
     else
         // otherwise, place on the right relative to canvas width
         ctx.fillText(feedbackStringTrials, (ctx.canvas.width - (ctx.canvas.width / 5)), (ctx.canvas.height) / 7.5, ctx.canvas.width -  (ctx.canvas.width - (ctx.canvas.width / 5)));
+    
     // SCORE (right side of screen):
     let numberOfCorrectResponses = arrayOfResponses.reduce((a, b) => a + b, 0)
     //creating string to be displayed as feedback:
     let feedbackStringScore = "SCORE: " + numberOfCorrectResponses
-    //rect (differentiating color (green / red) based on correctness / incorrectness of last response)
+    // text on the canvas:
+    ctx.font = `bold ${Math.min(ctx.canvas.height, ctx.canvas.width) / 30}px system-ui`;
+    // measuring the width of the "SCORE: ..."" string to define the coordinates of the rectangle
+    let textWidth = ctx.measureText(feedbackStringScore).width    
+    // - drawing the rectangle:
+    //differentiating color (green / red) based on correctness / incorrectness of last response
     if (arrayOfResponses.length == 0)
         // if no response has been given, choosing a "neutral" color
         ctx.fillStyle = "orange";
@@ -251,20 +257,19 @@ function drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray) {
     // if the screen has a width/height ratio close to 1, the text on the right side of the screen might overlap with the stimuli, adding check:
     if ((ctx.canvas.width - (ctx.canvas.width / 5)) < currentExperiment.fixedDrawingParameters[3])
         // in this case, choosing end of stimulus (with margin) as starting point for the text
-        ctx.fillRect(currentExperiment.fixedDrawingParameters[3] + margin, (ctx.canvas.height) / 6.7, ctx.canvas.width - (currentExperiment.fixedDrawingParameters[3] + margin), (ctx.canvas.height) / 14);
+        ctx.fillRect(currentExperiment.fixedDrawingParameters[3] + margin, (ctx.canvas.height) / 6.7, textWidth, (ctx.canvas.height) / 14);
     else
         // otherwise, place on the right relative to canvas width (leaving a distance from the right side of the screen) 
-        ctx.fillRect((ctx.canvas.width - (ctx.canvas.width / 5)), (ctx.canvas.height) / 6.7, ctx.canvas.width - (ctx.canvas.width - (ctx.canvas.width / 5) + 4*margin), (ctx.canvas.height) / 14);
-    // text on the canvas:
-    ctx.fillStyle = "black"
-    ctx.font = `bold ${Math.min(ctx.canvas.height, ctx.canvas.width) / 30}px system-ui`;
+        ctx.fillRect((ctx.canvas.width - (ctx.canvas.width / 5)), (ctx.canvas.height) / 6.7, textWidth, (ctx.canvas.height) / 14);
+    // - writing the text on the rectangle:
+    ctx.fillStyle = "black"    
     // if the screen has a width/height ratio close to 1, the text on the right side of the screen might overlap with the stimuli, adding check:
-    if ((ctx.canvas.width - (ctx.canvas.width / 5.5)) < currentExperiment.fixedDrawingParameters[3])
+    if ((ctx.canvas.width - (ctx.canvas.width / 5)) < currentExperiment.fixedDrawingParameters[3])
         // in this case, choosing end of stimulus (with margin) as starting point for the text
-        ctx.fillText(feedbackStringScore, currentExperiment.fixedDrawingParameters[3] + 2*margin, (ctx.canvas.height) / 5, ctx.canvas.width -  (currentExperiment.fixedDrawingParameters[3] + 2*margin));
+        ctx.fillText(feedbackStringScore, currentExperiment.fixedDrawingParameters[3] + margin, (ctx.canvas.height) / 5, ctx.canvas.width -  (currentExperiment.fixedDrawingParameters[3] + margin));
     else
         // otherwise, place on the right relative to canvas width
-        ctx.fillText(feedbackStringScore, (ctx.canvas.width - (ctx.canvas.width / 5.5)), (ctx.canvas.height) / 5, ctx.canvas.width -  (ctx.canvas.width - (ctx.canvas.width / 5.5)));
+        ctx.fillText(feedbackStringScore, (ctx.canvas.width - (ctx.canvas.width / 5)), (ctx.canvas.height) / 5, ctx.canvas.width -  (ctx.canvas.width - (ctx.canvas.width / 5)));    
 }
 
 
@@ -275,7 +280,6 @@ function drawInstructionsReminder(ctx) {
 
     OUTPUT:
     - reminder of the keyboard actions that can be performed displayed on the screen
-    (NB: carefully control coordinates of the text on the screen)
     */
 
     // calculating margin to be left between stimulus and feedback text (both on the left and on the right side of the screen)
