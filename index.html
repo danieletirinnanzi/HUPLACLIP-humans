@@ -147,7 +147,7 @@
             currentExperiment.graphsToDisplay = graphsToDisplay
 
             // Printing the currentExperiment object to the console
-            console.log(currentExperiment)
+            //console.log(currentExperiment)
 
         }
 
@@ -194,15 +194,15 @@
         const isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent);        
         
         // TO REMOVE        
-        console.log("Is tablet: ", isTablet);
+        //console.log("Is tablet: ", isTablet);
         
         // 1. browser-check 1 (checking that browser is an accepted one, full-screen is supported, and device is not mobile)                
         var browser_check = {
             type: jsPsychBrowserCheck,
             inclusion_function: (data) => {       
                 let acceptedBrowsers = ['chrome', 'firefox', 'edge', 'edge-chromium', 'edge-ios']
-                console.log("Retrieved browser: ", data.browser)
-                console.log("Is mobile: ", data.mobile)
+                //console.log("Retrieved browser: ", data.browser)
+                //console.log("Is mobile: ", data.mobile)
                 // returning true if the browser is an accepted one, full-screen is supported, and device is not mobile/tablet
                 return acceptedBrowsers.includes(data.browser) && data.mobile === false && !isTablet && data.fullscreen === true;
             },
@@ -247,11 +247,11 @@
                 };
 
                 // TO REMOVE      
-                console.log("Device Pixel Ratio is: ", devicePixelRatio)
+                //console.log("Device Pixel Ratio is: ", devicePixelRatio)
                 
                 // TO REMOVE
-                console.log("True Physical Screen Width: ", physicalScreenDimensions.width);
-                console.log("True Physical Screen Height: ", physicalScreenDimensions.height);
+                //console.log("True Physical Screen Width: ", physicalScreenDimensions.width);
+                //console.log("True Physical Screen Height: ", physicalScreenDimensions.height);
 
                 // - defining valid vertical resolutions based on the graph size -> used to evaluate the validity of the retrieved resolution
                 // NOTE: the list of vertical resolutions is needed because if the browser's zoom is not set to 100%, the retrieved resolution might be different from the physical one
@@ -286,9 +286,9 @@
                 stimuliVerticalProportion = Math.round(stimuliVerticalProportion * 100) / 100;  // rounding to 2 decimal values
 
                 // TO REMOVE
-                console.log("Square side dimension physical ", squareSideDimensionPhysical)
-                console.log("Stimuli vertical dimension: ", stimuliVerticalDimension)
-                console.log("Stimuli vertical proportion: ", stimuliVerticalProportion)
+                //console.log("Square side dimension physical ", squareSideDimensionPhysical)
+                //console.log("Stimuli vertical dimension: ", stimuliVerticalDimension)
+                //console.log("Stimuli vertical proportion: ", stimuliVerticalProportion)
 
                 // checking that all conditions are met: vertical resolution is valid; square side dimension is >= 1 pixel; devicePixelRatio is an integer (only devicePixelRatio = 1.25 is accepted); stimuli occupy at least 75% of the vertical dimension of the screen
                 if (validVerticalResolutions.includes(physicalScreenDimensions.height) && squareSideDimensionPhysical >= 1 && (Number.isInteger(window.devicePixelRatio) || window.devicePixelRatio === 1.25) && stimuliVerticalProportion >= currentExperiment.stimuliVerticalProportionThreshold) {
@@ -352,9 +352,8 @@
                     data.screenHeight = "UNSUPPORTED DEVICE, EXPERIMENT STOPPED";
                     data.stimuliVerticalProportion = "UNSUPPORTED DEVICE, EXPERIMENT STOPPED";
                 }
-            
-
-                // TO REMOVE
+                
+                // Printing the data object to the console
                 console.log(data)
             } 
         }
@@ -839,13 +838,15 @@
                             currentTrial.choices = ['ArrowLeft', 'ArrowRight']
                     },
 
-                    // TODO: LEFT FOR CONTROL, TO BE REMOVED:
+                    // TODO: PRINT OF DATA AFTER EACH RESPONSE, FOR CONTROL
+                    /*
                     on_finish: function (data) {
 
                         let currentData = jsPsych.data.get().filter({ trial_type: "canvas-keyboard-response" })
                         console.log(currentData)
 
                     },
+                    */
                 }
 
                 // repeating the trial until a final answer (left/right arrow press) is given:
@@ -857,10 +858,10 @@
                         //currentData.trials.filter(element => element.)
                         if (currentData.last(1).values()[0].response == " ") {
                             // if last response was a spacebar press, repeat the trial
-                            console.log("shuffle pressed, repeating trial")
+                            //console.log("shuffle pressed, repeating trial")
                             return true
                         } else if (currentData.last(1).values()[0].response == 0 || currentData.last(1).values()[0].response == 1) {
-                            console.log("final response, going on")
+                            //console.log("final response, going on")
                             // if last response was on left/right arrow, moving to next trial
                             return false
                         }

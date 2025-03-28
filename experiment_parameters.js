@@ -2,7 +2,7 @@
 // CREATING OBJECT FOR CURRENT EXPERIMENT:
 let currentExperiment = {
     // experiment parameters:
-    numberOfBlocks: 1,  //TODO: change to 6
+    numberOfBlocks: 6, // number of blocks in the experiment
     numberOfPresentationsPerBlock: 30, // single presentation = single couple of graphs, presented once and reordered through space bar presses)
     numberOfGraphsPerCliqueSize: 2, // number of graphs for each clique size in each block
     maximumNumberOfShuffles: 10, // maximum number of randomizations allowed for a single couple of matrices 
@@ -11,7 +11,7 @@ let currentExperiment = {
     graphSize: 1000, // TO BE CHANGED IN DIFFERENT EXPERIMENTS
     probabilityOfAssociation: 0.5,
     pCorrectionType: "p_reduce", // "p_increase" or "p_reduce"
-    stimuliVerticalProportionThreshold: 0.70, // minimum proportion of the screen height that the stimuli should occupy
+    stimuliVerticalProportionThreshold: 0.56, // minimum proportion of the screen height that the stimuli should occupy
 }
 
 // controlling that the number of presentations is even, so that is possible to have two trials for each value of K

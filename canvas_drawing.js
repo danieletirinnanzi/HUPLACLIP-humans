@@ -16,7 +16,7 @@ function calculateFixedDrawingParameters(width, height, graphSize) {
     let squareSideDimensionPhysical = Math.floor(height / numberOfSquares)
     
     // TO REMOVE
-    console.log("the physical single square dimension is: " + squareSideDimensionPhysical)
+    //console.log("the physical single square dimension is: " + squareSideDimensionPhysical)
     
     // - top and bottom margin (centering the square in the available space)
     let topAndBottomMarginPhysical = Math.floor((height - (squareSideDimensionPhysical * numberOfSquares)) / 2)
