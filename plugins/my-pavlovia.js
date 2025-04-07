@@ -90,7 +90,7 @@ var jsPsychPavlovia = (function (jsPsych)
 		}
 
         //!!!!!! STO AGGIUNGENDO QUESTO
-        static defaultCompletedCallback(error)
+        static defaultCompletedCallback()
         {
             alert('data successfully submitted!');
         };
@@ -135,11 +135,14 @@ var jsPsychPavlovia = (function (jsPsych)
 				// warn the user when they attempt to close the tab or browser:
 				const _beforeunloadCallback = (event) =>
 				{
-					// preventDefault should ensure that the user gets prompted:
-					event.preventDefault();
-
-					// Chrome requires returnValue to be set:
-					event.returnValue = '';
+					// Aggiungo questo if per far comparire il pop-up solo quando viene chiusa la pagina
+					if (event.target === window) {
+						// preventDefault should ensure that the user gets prompted:
+						event.preventDefault();
+						
+						// Chrome requires returnValue to be set:
+						event.returnValue = '';
+					}
 				};
 				window.addEventListener('beforeunload', _beforeunloadCallback);
 
@@ -186,7 +189,7 @@ var jsPsychPavlovia = (function (jsPsych)
 				window.removeEventListener('beforeunload', PavloviaPlugin._beforeunloadCallback);
 
 				// tell the participant that the data is being uploaded:
-				const msg = "Please wait a moment while the data are uploaded to the pavlovia.org server...";
+				const msg = "Please wait a moment while the data are uploaded to the pavlovia.org server.\n After the data are uploaded, you will be redirected to Prolific.";
 				const displayElement = this._jsPsych.getDisplayElement();
 				displayElement.innerHTML = '<pre id="pavlovia-data-upload"></pre>';
 				document.getElementById('pavlovia-data-upload').textContent = msg;
@@ -318,6 +321,7 @@ var jsPsychPavlovia = (function (jsPsych)
 					});
 					const serverData = await serverResponse.json();
 
+
 					resolve({ ...response, config: serverData });
 				}
 				catch (error)
@@ -352,6 +356,7 @@ var jsPsychPavlovia = (function (jsPsych)
 			return new Promise(async (resolve, reject) =>
 			{
 				const url = `${PavloviaPlugin._config.pavlovia.URL}/api/v2/experiments/${PavloviaPlugin._config.gitlab.projectId}/sessions`;
+				// const url = `${PavloviaPlugin._config.pavlovia.URL}/api/v2/experiments/${PavloviaPlugin._config.experiment.fullpath}/sessions`; // modifica attuata da me
 				try
 				{
 					// query the pavlovia server:
@@ -479,7 +484,7 @@ var jsPsychPavlovia = (function (jsPsych)
 			const key = PavloviaPlugin._config.experiment.name + '_' + trial.participantId + '_' + 'SESSION' + '_' + dateString + '.csv';
 			const filteredData = trial.dataFilter(data);
 
-			if (PavloviaPlugin._config.experiment.status === 'RUNNING' && !PavloviaPlugin._serverMsg.has('__pilotToken'))
+			if (PavloviaPlugin._config.experiment.status === 'RUNNING' && !PavloviaPlugin._serverMsg.has('__pilotToken')) // Quando non c'è token dovrebbe andare a _offerDataForDownload
 			{
 				return await this._uploadData(key, filteredData, sync);
 			}

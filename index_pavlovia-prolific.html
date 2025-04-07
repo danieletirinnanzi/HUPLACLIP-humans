@@ -3,6 +3,8 @@
 
 <head>
     <title>HUPLACLIP experiment</title>
+    <meta charset="UTF-8">
+
     <!-- My scripts -->
     <script type="text/javascript" src="graphs_functions.js"></script>
     <script type="text/javascript" src="introduction_pages_generation.js"></script>
@@ -10,36 +12,31 @@
     <script type="text/javascript" src="experiment_parameters.js"></script>
     <script type="text/javascript" src="canvas_drawing.js"></script>
     <!-- Standard jspsych.js -->
-    <script type="text/javascript" src="plugins/standard_plugins/jspsych.js"></script>
+    <script type="text/javascript" src="lib/vendors/jspsych-7.1.2/jspsych.js"></script>
     <!-- Standard plugins -->
-    <script type="text/javascript" src="plugins/standard_plugins/plugin-instructions.js"></script>
-    <script type="text/javascript" src="plugins/standard_plugins/plugin-fullscreen.js"></script>
-    <script type="text/javascript" src="plugins/standard_plugins/plugin-image-keyboard-response.js"></script>
-    <script type="text/javascript" src="plugins/standard_plugins/plugin-survey-html-form.js"></script>
-    <script type="text/javascript" src="plugins/standard_plugins/plugin-html-keyboard-response.js"></script>
-    <script type="text/javascript" src="plugins/standard_plugins/plugin-preload.js"></script>
-    <script type="text/javascript" src="plugins/standard_plugins/plugin-audio-keyboard-response.js"></script>
-    <!-- Call function plugin (standard) -->
-    <script src="https://unpkg.com/@jspsych/plugin-call-function@1.1.3"></script>
-    <!-- Browser check plugin (standard) -->
-    <script src="https://unpkg.com/@jspsych/plugin-browser-check@1.0.3"></script>   
+    <script type="text/javascript" src="lib/vendors/jspsych-7.1.2/plugin-instructions.js"></script>
+    <script type="text/javascript" src="lib/vendors/jspsych-7.1.2/plugin-fullscreen.js"></script>
+    <script type="text/javascript" src="lib/vendors/jspsych-7.1.2/plugin-image-keyboard-response.js"></script>
+    <script type="text/javascript" src="lib/vendors/jspsych-7.1.2/plugin-preload.js"></script>
+    <script type="text/javascript" src="lib/vendors/jspsych-7.1.2/plugin-survey-html-form.js"></script>
+    <script type="text/javascript" src="lib/vendors/jspsych-7.1.2/plugin-html-keyboard-response.js"></script>
+    <script type="text/javascript" src="lib/vendors/jspsych-7.1.2/plugin-audio-keyboard-response.js"></script>
+    <script type="text/javascript" src="lib/vendors/jspsych-7.1.2/plugin-call-function.js"></script>
+    <script type="text/javascript" src="lib/vendors/jspsych-7.1.2/plugin-browser-check.js"></script>
     <!-- Customized plugin -->
-    <script type="text/javascript" src="plugins/my-plugin-canvas-keyboard-response.js"></script>  
+    <script type="text/javascript" src="plugins/my-plugin-canvas-keyboard-response.js"></script>        
     <!-- Compressing and de-compressing json files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.11/pako.min.js"></script>
-    <!-- Pavlovia connection (COMMENTED FOR OFFLINE VERSION)
-    STANDARD:
+    <!-- Pavlovia connection -->
     <script type="text/javascript" src="lib/jspsych-7-pavlovia-2022.1.1.js"></script>
-    CUSTOMIZED:
-    <script type="text/javascript" src="plugins/standard_plugins/my-pavlovia.js"></script>
-    -->
     <!-- Styling -->
-    <link href="plugins/standard_plugins/jspsych.css" rel="stylesheet" type="text/css" />
-</head>
+    <link rel="stylesheet" href="lib/vendors/jspsych-7.1.2/jspsych.css">
 
-<style>
-    /* styling can be modified here */
-</style>
+    <style>
+        /* styling can be modified here */
+    </style>
+
+</head>
 
 <body>
 
@@ -169,10 +166,12 @@
             on_finish: function (data) {
                 // displaying data:
                 jsPsych.data.displayData();
-                //local save (only for OFFLINE VERSION):
+                /* LOCAL SAVE DONE AUTOMATICALLY IN PILOT MODE
+                //local save:
                 let currentDate = new Date();
                 let fileName = `HUPLACLIP_pilot_${currentDate.getDate()}.${(currentDate.getMonth() + 1)}.${currentDate.getFullYear()}_${currentDate.getHours()}.${currentDate.getMinutes()}.${currentDate.getSeconds()}.csv`
                 jsPsych.data.get().localSave('csv', fileName);
+                */
             }
         });
 
@@ -228,7 +227,7 @@
                     return `<p style="color: red"><strong>WARNING: INCOMPATIBLE BROWSER DETECTED!</strong></p>
                             <p>Your current browser is not supported. Please use <b>Chrome</b>, <b>Firefox</b> or <b>Edge</b> to participate in this experiment.</p><br>
                             Click the button below to be redirected to Prolific:<br>
-                            <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://www.google.com/'">Return to Prolific</button>
+                            <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://app.prolific.com/submissions/complete?cc=CC1N7VA6'">Return to Prolific</button>
                             <br> <br>
                             <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>
                         `;
@@ -236,7 +235,7 @@
                     return `<p style="color: red"><strong>WARNING: INCOMPATIBLE DEVICE DETECTED!</strong></p>
                             <p>You must use a <b>desktop/laptop computer</b> to participate in this experiment.</p><br>
                             Click the button below to be redirected to Prolific:<br>
-                            <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://www.google.com/'">Return to Prolific</button>
+                            <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://app.prolific.com/submissions/complete?cc=CC1N7VA6'">Return to Prolific</button>
                             <br> <br>
                             <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>
                             `;
@@ -244,7 +243,7 @@
                     return `<p style="color: red"><strong>WARNING: FULLSCREEN ERROR DETECTED!</strong></p>
                             <p>Your current browser does not support Fullscreen, please <b>open the experiment with a different browser</b>.</p><br>
                             Click the button below to be redirected to Prolific:<br>
-                            <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://www.google.com/'">Return to Prolific</button>
+                            <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://app.prolific.com/submissions/complete?cc=CC1N7VA6'">Return to Prolific</button>
                             <br> <br>
                             <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>
                             `;
@@ -347,7 +346,7 @@
                                     <li><b>Set your browser zoom to 100%</b> (you can change it in the browser options or by pressing "Ctrl +" / "Ctrl -" (Windows) or "⌥ ⌘ =" / "⌥ ⌘ -" (Mac) ) and click on the "Reload Page" button below. The page will reload and this message should not be shown anymore.</li>
                                     <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.reload()">Reload Page</button><br><br>                        
                                     <li>${message}<br> Click the button below to be redirected to Prolific:</li>
-                                    <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://www.google.com/'">Return to Prolific</button>
+                                    <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://app.prolific.com/submissions/complete?cc=CZ5O550Q'">Return to Prolific</button>
                                 </ul>
                             </p>                               
                             <br>
@@ -435,7 +434,7 @@
             if (data.response == "y") {
             // subject refuses to go on, redirect to Prolific
             window.location.replace(
-                "https://www.google.com/" // "No consent" code
+                "https://app.prolific.com/submissions/complete?cc=C17Z2VAV" // "No consent" code
             );
             }
         },
@@ -999,9 +998,9 @@
                     document.body.innerHTML = `<p> Please wait. You will be redirected back to Prolific in a few moments. 
                     If you get a pop-up warning you "data may not be saved", you can click "leave", your data have already been saved.</p>`;
                     setTimeout(function () {
-                      location.href = `https://www.google.com/`;
+                      location.href = `https://app.prolific.com/submissions/complete?cc=CVRRPWX9`;
                       document.body.innerHTML =`<p>If you are not automatically redirected, please click here: 
-                      <a href="https://www.google.com/">https://www.google.com/</a></p>
+                      <a href="https://app.prolific.com/submissions/complete?cc=CVRRPWX9">https://app.prolific.com/submissions/complete?cc=CVRRPWX9</a></p>
                       <p>If you get a pop-up warning you "data may not be saved", you can click "leave", your data have already been saved.</p>`;
                     }, 5000);
                   }

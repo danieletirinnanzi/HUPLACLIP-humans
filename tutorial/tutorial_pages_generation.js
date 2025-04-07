@@ -41,7 +41,7 @@ const instructionsObject = {
 
     // spreading clique (color coded)    
     // N20_K14 (regular checkerboard - progression)
-    28: ["Now let's imagine we have a triangular chessboard where some tiles are colored in red.", "28_N20_K14_regular_progression_standard"],
+    28: ["Now let's imagine we have a triangular checkerboard where some tiles are colored in red.", "28_N20_K14_regular_progression_standard"],
     29: ["If we switch two rows and columns as we have seen before, some red tiles change their location in the triangle.", "29_N20_K14_regular_progression_swap1"],
     30: ["If we make another switch, some other tiles change their location in the triangle.", "30_N20_K14_regular_progression_swap2"],
     31: ["With a third switch, they keep moving.", "31_N20_K14_regular_progression_swap3"],
@@ -70,7 +70,7 @@ const instructionsObject = {
     48: ["During the experiment, you will see two triangles:<br>one on the <b>left</b>...", "48_N160_K80_grouped_red_1"],
     49: ["...and one on the <b>right</b>.<br>In this case, the <b>right</b> triangle contains the red tiles, while the left one does not.", "49_N160_K80_grouped_red_2"],
     50: ["As we did before, let's <b>shuffle</b> the two triangles: <br> the red tiles spread inside the right one.", "50_N160_K80_shuffled_red"],
-    51: ["If we now turn the <b>red tiles to black</b>, we see the stimuli as they will appear during the experiment.<br>Which of the two triangles contained the group of red tiles before the shuffle and the color change?", "51_N160_K80_shuffled_bw"],
+    51: ["If we now turn the <b>red tiles to black</b>, we see the triangles as they will appear during the experiment.<br>Which of the two triangles contained the group of red tiles before the shuffle and the color change?", "51_N160_K80_shuffled_bw"],
     52: ["In this case, the right one did, so the correct answer is <b>right</b>. <br> Move on to end the instructions phase: if you do so, <b>it will not be possible to go back to the instructions</b>.", "52_N160_K80_shuffled_bw_solution"],
 }
 

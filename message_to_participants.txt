@@ -19,29 +19,40 @@ Thank you for your time!!
 
 ------------------------------------------------
 
-PROLIFIC:
+PROLIFIC (setting-up your study):
 - Study description:
-In this study, we are measuring the sensitivity of humans in visual regularity detection.
+In this study, we are measuring the sensitivity of humans in visual regularity detection. You will be first instructed to recognize a visual regularity in a stimulus, and in the task you will indicate which one of two stimuli has this regularity by pressing the left and right arrows.
 
-You will be first instructed to recognize a visual regularity in a stimulus, and in the task you will indicate which one of two stimuli has this regularity by pressing the left and right arrows.
-
-The study consists of 6 blocks of 30 trials each, and takes about 30 minutes.
+The study consists of 6 blocks of 30 trials each, and takes around 45 minutes.
 
 Before starting the experiment, please note the following:
-* From the device settings, go to "Display" or "Display settings" and check that the vertical resolution (second number in "Width x Height" format) of your device is larger than 1000 pixels. Accepted vertical resolutions values for this experiment are: 1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1800, 1824, 1964;
-* From the browser's settings, make sure your browser's zoom is set to 100%;
-* Use a browser different from Safari to open the experiment link;
-* The experiment includes audio feedback: increase the volume of your device.
+
+
+
+
+
+A Desktop device is needed to perform the experiment;
+
+
+
+Use a browser different from Safari to open the experiment link;
+
+
+
+From the browser settings, make sure your browser's zoom is set to 100%;
+
+
+
+From the device settings, go to "Display" or "Display settings" and check that the vertical resolution (second number in "Width x Height" format) of your device is larger than 1000 pixels. Accepted vertical resolutions values for this experiment are: 1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1504, 1536, 1600, 1664, 1800, 1824, 1864, 1920, 1964, 2160, 2234, 2304, 2400, 2520, 2880, 3200, 3328, 3384, 3600, 3840, 4000, 4320, 4468, 5760;
+
+
+
+The experiment includes audio feedback: please raise the volume of your device.
 
 In case of doubts, issues or general feedback on the experiment, please write an email to dtirinna@sissa.it.
 
 Thank you for your time and interest!
 
-TODO:
-Filter out participants (perform the filtering at the beginning of the experiment) if they:
-- do not consent to the study (create loop or present a "Finish experiment" page)
-- are not >18
-- do not have a compatible device 
 
 USEFUL LINKS:
 Loading resources (could be outdated: https://pavlovia.org/docs/experiments/resources )
