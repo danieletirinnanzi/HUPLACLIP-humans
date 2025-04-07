@@ -363,11 +363,13 @@
                     data.screenWidth = currentExperiment.screenWidth;
                     data.screenHeight = currentExperiment.screenHeight;
                     data.stimuliVerticalProportion = currentExperiment.stimuliVerticalProportion;
+                    data.pCorrectionType = currentExperiment.pCorrectionType;
                 } else {
                     // if current device is not accepted, storing display variables in "data" object of current trial:
                     data.screenWidth = "UNSUPPORTED DEVICE, EXPERIMENT STOPPED";
                     data.screenHeight = "UNSUPPORTED DEVICE, EXPERIMENT STOPPED";
                     data.stimuliVerticalProportion = "UNSUPPORTED DEVICE, EXPERIMENT STOPPED";
+                    data.pCorrectionType = "UNSUPPORTED DEVICE, EXPERIMENT STOPPED";
                 }
                 
                 // Printing the data object to the console
