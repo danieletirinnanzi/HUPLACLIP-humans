@@ -302,6 +302,12 @@
                 let stimuliVerticalProportion = stimuliVerticalDimension / physicalScreenDimensions.height      
                 stimuliVerticalProportion = Math.round(stimuliVerticalProportion * 100) / 100;  // rounding to 2 decimal values
 
+                // - storing the values in the currentExperiment object:
+                currentExperiment.screenWidth = physicalScreenDimensions.width;
+                currentExperiment.screenHeight = physicalScreenDimensions.height;
+                currentExperiment.stimuliVerticalProportion = stimuliVerticalProportion; 
+                currentExperiment.validVerticalResolutions = validVerticalResolutions;               
+
                 // TO REMOVE
                 //console.log("Square side dimension physical ", squareSideDimensionPhysical)
                 //console.log("Stimuli vertical dimension: ", stimuliVerticalDimension)
@@ -309,12 +315,7 @@
 
                 // checking that all conditions are met: vertical resolution is valid; square side dimension is >= 1 pixel; devicePixelRatio is an integer (only devicePixelRatio = 1.25 is accepted); stimuli occupy at least 75% of the vertical dimension of the screen
                 if (validVerticalResolutions.includes(physicalScreenDimensions.height) && squareSideDimensionPhysical >= 1 && (Number.isInteger(window.devicePixelRatio) || window.devicePixelRatio === 1.25) && stimuliVerticalProportion >= currentExperiment.stimuliVerticalProportionThreshold) {
-                    // valid resolution -> storing display variables in "currentExperiment" object:
-                    currentExperiment.screenWidth = physicalScreenDimensions.width;
-                    currentExperiment.screenHeight = physicalScreenDimensions.height;
-                    currentExperiment.stimuliVerticalProportion = stimuliVerticalProportion;
-
-                    // calling function to calculate drawing parameters and storing them in the currentExperiment object:
+                    // valid resolution -> calling function to calculate drawing parameters and storing them in the currentExperiment object:
                     currentExperiment.fixedDrawingParameters = calculateFixedDrawingParameters(physicalScreenDimensions.width, physicalScreenDimensions.height, currentExperiment.graphSize);
                     
                     // calling function to calculate coordinates of left and right triangles and storing them in the currentExperiment object:
@@ -365,11 +366,33 @@
                     data.stimuliVerticalProportion = currentExperiment.stimuliVerticalProportion;
                     data.pCorrectionType = currentExperiment.pCorrectionType;
                 } else {
-                    // if current device is not accepted, storing display variables in "data" object of current trial:
-                    data.screenWidth = "UNSUPPORTED DEVICE, EXPERIMENT STOPPED";
-                    data.screenHeight = "UNSUPPORTED DEVICE, EXPERIMENT STOPPED";
-                    data.stimuliVerticalProportion = "UNSUPPORTED DEVICE, EXPERIMENT STOPPED";
-                    data.pCorrectionType = "UNSUPPORTED DEVICE, EXPERIMENT STOPPED";
+                    // re-computing the physical screen dimensions and square side dimension in case of device check failure
+                    let squareSideDimensionPhysical = Math.floor(currentExperiment.screenHeight / (currentExperiment.graphSize + 2)); // re-computing the square side dimension
+
+                    data.screenHeight = `DEVICE CHECK FAILED, height: ${currentExperiment.screenHeight}`;
+                    data.squareSideDimensionPhysical = `DEVICE CHECK FAILED, square side dimension: ${squareSideDimensionPhysical}`; // re-computing the square side dimension
+                    data.devicePixelRatio = `DEVICE CHECK FAILED, device pixel ratio: ${window.devicePixelRatio}`;
+                    data.stimuliVerticalProportion = `DEVICE CHECK FAILED, stimuli vertical proportion: ${currentExperiment.stimuliVerticalProportion}`;
+            
+                    // Initialize stopReason as an empty array
+                    data.stopReason = [];
+            
+                    // Check each condition and add the reason to the array if it fails
+                    if (!currentExperiment.validVerticalResolutions.includes(currentExperiment.screenHeight)) {
+                        data.stopReason.push(`height: ${currentExperiment.screenHeight} not in ${currentExperiment.validVerticalResolutions}`);
+                    }
+                    if (squareSideDimensionPhysical < 1) {
+                        data.stopReason.push(`square side dimension: ${squareSideDimensionPhysical} is less than 1`);
+                    }
+                    if (!Number.isInteger(window.devicePixelRatio) && window.devicePixelRatio !== 1.25) {
+                        data.stopReason.push(`device pixel ratio: ${window.devicePixelRatio} is not valid`);
+                    }
+                    if (currentExperiment.stimuliVerticalProportion < currentExperiment.stimuliVerticalProportionThreshold) {
+                        data.stopReason.push(`stimuli vertical proportion: ${currentExperiment.stimuliVerticalProportion} is less than threshold (${currentExperiment.stimuliVerticalProportionThreshold})`);
+                    }
+            
+                    // Join all reasons into a single string
+                    data.stopReason = `STOP REASONS: ${data.stopReason.join('; ')}`;
                 }
                 
                 // Printing the data object to the console
@@ -997,6 +1020,7 @@
             var pavlovia_finish = {
                 type: jsPsychPavlovia,
                 command: "finish",
+                participantId:  jsPsych.data.getURLVariable('PROLIFIC_PID'),                
                 on_finish: function (){
                     document.body.innerHTML = `<p> Please wait. You will be redirected back to Prolific in a few moments. 
                     If you get a pop-up warning you "data may not be saved", you can click "leave", your data have already been saved.</p>`;
@@ -1009,7 +1033,7 @@
                   }
             };
             timeline.push(pavlovia_finish);
-        }       
+        }           
 
         /* start the experiment */
         jsPsych.run(timeline);
