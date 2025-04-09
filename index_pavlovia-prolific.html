@@ -994,6 +994,7 @@
             var pavlovia_finish = {
                 type: jsPsychPavlovia,
                 command: "finish",
+                participantId:  ("PROLIFIC_PID" in jsPsych.data.urlVariables()) ? jsPsych.data.getURLVariable("PROLIFIC_PID") : "JSPYSCH-DEMO",                
                 on_finish: function (){
                     document.body.innerHTML = `<p> Please wait. You will be redirected back to Prolific in a few moments. 
                     If you get a pop-up warning you "data may not be saved", you can click "leave", your data have already been saved.</p>`;
