@@ -237,7 +237,10 @@
 
                 // Add stopReason to the jsPsych global data store
                 jsPsych.data.addProperties({ stopReason: data.stopReason });               
-        
+                
+                // Print the stopReason to the console
+                console.log("Browser_check stop reasons: ", data.stopReason);
+
                 // Return true if all conditions are met, otherwise false
                 return isAcceptedBrowser && isNotMobile && isFullscreenSupported;
             },
@@ -406,8 +409,8 @@
                     data.stopReason = `STOP REASONS: ${data.stopReason.join('; ')}`;
                 }
                 
-                // Printing the data object to the console
-                console.log(data)
+                // Printing the data object to the console:
+                console.log("Device_check data: ", data);
             } 
         }
         timeline.push(device_check)

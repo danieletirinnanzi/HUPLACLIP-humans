@@ -238,7 +238,10 @@
 
                 // Add stopReason to the jsPsych global data store
                 jsPsych.data.addProperties({ stopReason: data.stopReason });               
-        
+                
+                // Print the stopReason to the console
+                console.log("Browser_check stop reasons: ", data.stopReason);
+
                 // Return true if all conditions are met, otherwise false
                 return isAcceptedBrowser && isNotMobile && isFullscreenSupported;
             },
@@ -360,7 +363,7 @@
                                     <li><b>Set your browser zoom to 100%</b> (you can change it in the browser options or by pressing "Ctrl +" / "Ctrl -" (Windows) or "⌥ ⌘ =" / "⌥ ⌘ -" (Mac) ) and click on the "Reload Page" button below. The page will reload and this message should not be shown anymore.</li>
                                     <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.reload()">Reload Page</button><br><br>                        
                                     <li>${message}<br> Click the button below to be redirected to Prolific:</li>
-                                    <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://www.google.com/'">Return to Prolific</button>
+                                    <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://app.prolific.com/submissions/complete?cc=CZ5O550Q'">Return to Prolific</button>
                                 </ul>
                             </p>                               
                             <br>
@@ -407,8 +410,8 @@
                     data.stopReason = `STOP REASONS: ${data.stopReason.join('; ')}`;
                 }
                 
-                // Printing the data object to the console
-                console.log(data)
+                // Printing the data object to the console:
+                console.log("Device_check data: ", data);
             } 
         }
         timeline.push(device_check)
