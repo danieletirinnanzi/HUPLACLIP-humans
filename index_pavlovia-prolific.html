@@ -215,39 +215,51 @@
         // 1. browser-check 1 (checking that browser is an accepted one, full-screen is supported, and device is not mobile)                
         var browser_check = {
             type: jsPsychBrowserCheck,
-            inclusion_function: (data) => {       
-                let acceptedBrowsers = ['chrome', 'firefox', 'edge', 'edge-chromium', 'edge-ios']
-                //console.log("Retrieved browser: ", data.browser)
-                //console.log("Is mobile: ", data.mobile)
-                // returning true if the browser is an accepted one, full-screen is supported, and device is not mobile/tablet
-                return acceptedBrowsers.includes(data.browser) && data.mobile === false && !isTablet && data.fullscreen === true;
+            inclusion_function: (data) => {
+                let acceptedBrowsers = ['chrome', 'firefox', 'edge', 'edge-chromium', 'edge-ios'];
+                let isAcceptedBrowser = acceptedBrowsers.includes(data.browser);
+                let isNotMobile = data.mobile === false && !isTablet;
+                let isFullscreenSupported = data.fullscreen === true;
+        
+                // Initialize stopReason as an empty array
+                data.stopReason = [];
+        
+                // Check each condition and add the reason to the array if it fails
+                if (!isAcceptedBrowser) {
+                    data.stopReason.push(`Browser: ${data.browser} is not supported`);
+                }
+                if (!isNotMobile) {
+                    data.stopReason.push(`Device is mobile or tablet`);
+                }
+                if (!isFullscreenSupported) {
+                    data.stopReason.push(`Fullscreen is not supported`);
+                }
+
+                // Add stopReason to the jsPsych global data store
+                jsPsych.data.addProperties({ stopReason: data.stopReason });               
+        
+                // Return true if all conditions are met, otherwise false
+                return isAcceptedBrowser && isNotMobile && isFullscreenSupported;
             },
             exclusion_message: (data) => {
-                if(data.browser !== 'chrome' && data.browser !== 'firefox' && data.browser !== 'edge' && data.browser !== 'edge-chromium' && data.browser !== 'edge-ios') {
-                    return `<p style="color: red"><strong>WARNING: INCOMPATIBLE BROWSER DETECTED!</strong></p>
-                            <p>Your current browser is not supported. Please use <b>Chrome</b>, <b>Firefox</b> or <b>Edge</b> to participate in this experiment.</p><br>
-                            Click the button below to be redirected to Prolific:<br>
-                            <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://app.prolific.com/submissions/complete?cc=CC1N7VA6'">Return to Prolific</button>
-                            <br> <br>
-                            <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>
-                        `;
-                } else if(data.mobile || isTablet){
-                    return `<p style="color: red"><strong>WARNING: INCOMPATIBLE DEVICE DETECTED!</strong></p>
-                            <p>You must use a <b>desktop/laptop computer</b> to participate in this experiment.</p><br>
-                            Click the button below to be redirected to Prolific:<br>
-                            <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://app.prolific.com/submissions/complete?cc=CC1N7VA6'">Return to Prolific</button>
-                            <br> <br>
-                            <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>
-                            `;
-                } else if(data.fullscreen === false){
-                    return `<p style="color: red"><strong>WARNING: FULLSCREEN ERROR DETECTED!</strong></p>
-                            <p>Your current browser does not support Fullscreen, please <b>open the experiment with a different browser</b>.</p><br>
-                            Click the button below to be redirected to Prolific:<br>
-                            <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://app.prolific.com/submissions/complete?cc=CC1N7VA6'">Return to Prolific</button>
-                            <br> <br>
-                            <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>
-                            `;
-                }
+                // Join all reasons into a single string
+                let stopReasons = jsPsych.data.dataProperties.stopReason;
+        
+                // Generate a dynamic exclusion message based on the reasons
+                let message = `<p style="color: red"><strong>WARNING: DEVICE OR BROWSER ISSUE DETECTED!</strong></p>
+                               <p>The following issues were detected:</p>
+                               <ul>`;
+                stopReasons.forEach(reason => {
+                    message += `<li>${reason}</li>`;
+                });
+                message += `</ul>
+                            <p>Please address the issues above by changing device or browser and try again.</p>
+                            <p>Click the button below to be redirected to Prolific:</p>
+                            <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://www.google.com/'">Return to Prolific</button>
+                            <br><br>
+                            <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>`;
+        
+                return message;
             },
         }
         timeline.push(browser_check) 
