@@ -257,7 +257,8 @@
                 });
                 message += `</ul>
                             <p>Please address the issues above by changing device or browser and try again.</p>
-                            <p>Click the button below to be redirected to Prolific:</p>
+                            <p>If the present message does not disappear, you are <b>failing to meet some key requirements</b> and cannot complete the experiment.<br>
+                            Click the button below to <b>return your submission</b>:</p>
                             <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://app.prolific.com/submissions/complete?cc=CC1N7VA6'">Return to Prolific</button>
                             <br><br>
                             <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>`;
@@ -271,7 +272,7 @@
         var device_check = {
             type: jsPsychCallFunction,
             func: function (data) {
-                // - retrieving the physical screen dimensions using the devicePixelRatio -> has to be an accepted one, and devicePixelRatio has to be an integer (only devicePixelRatio = 1.25 is accepted)
+                // - retrieving the physical screen dimensions using the devicePixelRatio -> has to be an accepted one, and devicePixelRatio has to be an integer (only devicePixelRatio = [1.25, 1.50, 1.75] are accepted to account for Display scaling)
                 let physicalScreenDimensions = {
                     width: window.screen.width * window.devicePixelRatio | 0,
                     height: window.screen.height * window.devicePixelRatio | 0
@@ -327,8 +328,8 @@
                 //console.log("Stimuli vertical dimension: ", stimuliVerticalDimension)
                 //console.log("Stimuli vertical proportion: ", stimuliVerticalProportion)
 
-                // checking that all conditions are met: vertical resolution is valid; square side dimension is >= 1 pixel; devicePixelRatio is an integer (only devicePixelRatio = 1.25 is accepted); stimuli occupy at least 75% of the vertical dimension of the screen
-                if (validVerticalResolutions.includes(physicalScreenDimensions.height) && squareSideDimensionPhysical >= 1 && (Number.isInteger(window.devicePixelRatio) || window.devicePixelRatio === 1.25) && stimuliVerticalProportion >= currentExperiment.stimuliVerticalProportionThreshold) {
+                // checking that all conditions are met: vertical resolution is valid; square side dimension is >= 1 pixel; devicePixelRatio is an integer (devicePixelRatio = [1.25, 1.5, 1.75] are accepted to account for Display scaling values); stimuli occupy a minimum % of the vertical dimension of the screen
+                if (validVerticalResolutions.includes(physicalScreenDimensions.height) && squareSideDimensionPhysical >= 1 && (Number.isInteger(window.devicePixelRatio) || [1.25, 1.5, 1.75].includes(window.devicePixelRatio)) && stimuliVerticalProportion >= currentExperiment.stimuliVerticalProportionThreshold) {
                     // valid resolution -> calling function to calculate drawing parameters and storing them in the currentExperiment object:
                     currentExperiment.fixedDrawingParameters = calculateFixedDrawingParameters(physicalScreenDimensions.width, physicalScreenDimensions.height, currentExperiment.graphSize);
                     
@@ -346,22 +347,24 @@
                     if (stimuliVerticalProportion < currentExperiment.stimuliVerticalProportionThreshold && validVerticalResolutions.includes(physicalScreenDimensions.height) ) {
                         title = "WARNING: STIMULUS RENDERING ISSUE DETECTED!";
                         message = `If you have set your browser zoom to 100% but this message does not disappear, the <b>visual rendering of the experiment on your current device is suboptimal</b>.
-                                    Please open the experiment on a different device.`;
+                                    Try opening the experiment on a different device.`;
                     } else {
-                        // if vertical resolution is not accepted || square side dimension is < 1 pixel || devicePixelRatio is not an integer (only devicePixelRatio = 1.25 is accepted)
+                        // if vertical resolution is not accepted || square side dimension is < 1 pixel || devicePixelRatio is not an integer (only devicePixelRatio = [1.25, 1.50, 1.75] are accepted)
                         title = "WARNING: SCREEN RESOLUTION ISSUE DETECTED!";
                         message = `If you have set your browser zoom to 100% but this message does not disappear, you <b>might be using an incompatible device</b>.
                                     A vertical resolution of at least <b>${validVerticalResolutions[0]}</b> is required to run the experiment (you can check the resolution of your device in the device settings).
-                                    If your current device does not meet this requirement, please open the experiment on a device with a higher vertical resolution.`;
+                                    If your current device does not meet this requirement, try opening the experiment on a device with higher resolution.`;
                     }
                     document.body.innerHTML = `
                     <div style="text-align: left; padding: 20px;">
                         <p style="color: red"><strong>${title}</strong></p>                        
                             <p>If you are seeing this message, make sure to:
                                 <ul>
-                                    <li><b>Set your browser zoom to 100%</b> (you can change it in the browser options or by pressing "Ctrl +" / "Ctrl -" (Windows) or "⌥ ⌘ =" / "⌥ ⌘ -" (Mac) ) and click on the "Reload Page" button below. The page will reload and this message should not be shown anymore.</li>
+                                    <li><b>Set your browser zoom to 100%</b> (you can change it in the browser options or by pressing "Ctrl +" / "Ctrl -" (Windows) or "⌥ ⌘ =" / "⌥ ⌘ -" (Mac) ) and <b>click on the "Reload Page" button below</b>. The page will reload and this message should not be shown anymore.</li>
                                     <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.reload()">Reload Page</button><br><br>                        
-                                    <li>${message}<br> Click the button below to be redirected to Prolific:</li>
+                                    <li>${message}<br> 
+                                    <p>If the present message does not disappear, you are <b>failing to meet some key requirements</b> and cannot complete the experiment.<br>
+                                    Click the button below to <b>return your submission</b>:</p>         
                                     <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://app.prolific.com/submissions/complete?cc=CZ5O550Q'">Return to Prolific</button>
                                 </ul>
                             </p>                               
@@ -398,7 +401,7 @@
                     if (squareSideDimensionPhysical < 1) {
                         data.stopReason.push(`square side dimension: ${squareSideDimensionPhysical} is less than 1`);
                     }
-                    if (!Number.isInteger(window.devicePixelRatio) && window.devicePixelRatio !== 1.25) {
+                    if (!Number.isInteger(window.devicePixelRatio) && ![1.25, 1.5, 1.75].includes(window.devicePixelRatio)) {
                         data.stopReason.push(`device pixel ratio: ${window.devicePixelRatio} is not valid`);
                     }
                     if (currentExperiment.stimuliVerticalProportion < currentExperiment.stimuliVerticalProportionThreshold) {
