@@ -4,31 +4,29 @@
 <head>
     <title>Fake HUPLACLIP experiment, only to test graph pool</title>
     <!-- My scripts -->
-    <script type="text/javascript" src="../device_requirements.js"></script>
-    <script type="text/javascript" src="../graphs_functions.js"></script>
-    <script type="text/javascript" src="../introduction_pages_generation.js"></script>
-    <script type="text/javascript" src="../experiment_parameters.js"></script>
-    <script type="text/javascript" src="../canvas_drawing.js"></script>
+    <script type="text/javascript" src="../../graphs_functions.js"></script>
+    <script type="text/javascript" src="../../introduction_pages_generation.js"></script>
+    <script type="text/javascript" src="../../tutorial/tutorial_pages_generation.js"></script>
+    <script type="text/javascript" src="../../experiment_parameters.js"></script>
+    <script type="text/javascript" src="../../canvas_drawing.js"></script>
     <!-- Standard jspsych.js -->
-    <script type="text/javascript" src="../jspsych/dist/jspsych.js"></script>
+    <script type="text/javascript" src="../../plugins/standard_plugins/jspsych.js"></script>
     <!-- Standard plugins -->
-    <script type="text/javascript" src="../jspsych/dist/plugin-instructions.js"></script>
-    <script type="text/javascript" src="../jspsych/dist/plugin-fullscreen.js"></script>
-    <script type="text/javascript" src="../jspsych/dist/plugin-image-keyboard-response.js"></script>
-    <script type="text/javascript" src="../jspsych/dist/plugin-survey-html-form.js"></script>
-    <script type="text/javascript" src="../jspsych/dist/plugin-html-keyboard-response.js"></script>
-    <script type="text/javascript" src="../jspsych/dist/plugin-preload.js"></script>
-    <script type="text/javascript" src="../jspsych/dist/plugin-audio-keyboard-response.js"></script>
+    <script type="text/javascript" src="../../plugins/standard_plugins/plugin-instructions.js"></script>
+    <script type="text/javascript" src="../../plugins/standard_plugins/plugin-fullscreen.js"></script>
+    <script type="text/javascript" src="../../plugins/standard_plugins/plugin-image-keyboard-response.js"></script>
+    <script type="text/javascript" src="../../plugins/standard_plugins/plugin-survey-html-form.js"></script>
+    <script type="text/javascript" src="../../plugins/standard_plugins/plugin-html-keyboard-response.js"></script>
+    <script type="text/javascript" src="../../plugins/standard_plugins/plugin-preload.js"></script>
+    <script type="text/javascript" src="../../plugins/standard_plugins/plugin-audio-keyboard-response.js"></script>
+    <script type="text/javascript" src="../../plugins/standard_plugins/plugin-browser-check.js"></script>
+    <script type="text/javascript" src="../../plugins/standard_plugins/plugin-call-function.js"></script>
     <!-- Customized plugin -->
-    <script type="text/javascript" src="../jspsych/dist/my-plugin-canvas-keyboard-response.js"></script>
+    <script type="text/javascript" src="../../plugins/my-plugin-canvas-keyboard-response.js"></script> 
     <!-- Compressing and de-compressing json files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.11/pako.min.js"></script>
-    <!-- Pavlovia connection (COMMENTED FOR OFFLINE VERSION)
-    <script type="text/javascript" src="lib/vendors/jquery-2.2.0.min.js"></script>
-    <script type="text/javascript" src="jspsych/dist/my-pavlovia.js"></script>
-    -->
     <!-- Styling -->
-    <link href="../jspsych/dist/jspsych.css" rel="stylesheet" type="text/css" />
+    <link href="../../plugins/standard_plugins/jspsych.css" rel="stylesheet" type="text/css" />
 </head>
 
 <style>
@@ -91,10 +89,10 @@
 
                     // GRAPH WITH CLIQUE, trial 1:
                     // - creating URL:
-                    let graphWithClique_trial1_url = `../graph_pools/${currentExperiment.pCorrectionType}/N${currentExperiment.graphSize.toString().padStart(4, '0')}/CLIQUE/${element.toString().padStart(4, '0')}/${graphsWithCliqueIndices[element][blockIndex * 2].toString().padStart(4, '0')}_N${currentExperiment.graphSize.toString().padStart(4, '0')}_K${element.toString().padStart(4, '0')}_CLIQUE.json`
+                    let graphWithClique_trial1_url = `../../graph_pools/sqrt_grid/${currentExperiment.pCorrectionType}/N${currentExperiment.graphSize.toString().padStart(4, '0')}/CLIQUE/${element.toString().padStart(4, '0')}/${graphsWithCliqueIndices[element][blockIndex * 2].toString().padStart(4, '0')}_N${currentExperiment.graphSize.toString().padStart(4, '0')}_K${element.toString().padStart(4, '0')}_CLIQUE.json`
                     // GRAPH WITHOUT CLIQUE, trial 1:
                     // - creating URL:            
-                    let graphWithoutClique_trial1_url = `../graph_pools/${currentExperiment.pCorrectionType}/N${currentExperiment.graphSize.toString().padStart(4, '0')}/NO_CLIQUE/${element.toString().padStart(4, '0')}/${graphsWithoutCliqueIndices[element][blockIndex * 2].toString().padStart(4, '0')}_N${currentExperiment.graphSize.toString().padStart(4, '0')}_K${element.toString().padStart(4, '0')}_NOCLIQUE.json`
+                    let graphWithoutClique_trial1_url = `../../graph_pools/sqrt_grid/${currentExperiment.pCorrectionType}/N${currentExperiment.graphSize.toString().padStart(4, '0')}/NO_CLIQUE/${element.toString().padStart(4, '0')}/${graphsWithoutCliqueIndices[element][blockIndex * 2].toString().padStart(4, '0')}_N${currentExperiment.graphSize.toString().padStart(4, '0')}_K${element.toString().padStart(4, '0')}_NOCLIQUE.json`
 
                     // Start reading the files in the background
                     const [graphWithClique1, graphWithoutClique1] = await Promise.all([
@@ -111,10 +109,10 @@
 
                     // GRAPH WITH CLIQUE, trial 2:
                     // - creating URL:
-                    let graphWithClique_trial2_url = `../graph_pools/${currentExperiment.pCorrectionType}/N${currentExperiment.graphSize.toString().padStart(4, '0')}/CLIQUE/${element.toString().padStart(4, '0')}/${graphsWithCliqueIndices[element][blockIndex * 2 + 1].toString().padStart(4, '0')}_N${currentExperiment.graphSize.toString().padStart(4, '0')}_K${element.toString().padStart(4, '0')}_CLIQUE.json`
+                    let graphWithClique_trial2_url = `../../graph_pools/sqrt_grid/${currentExperiment.pCorrectionType}/N${currentExperiment.graphSize.toString().padStart(4, '0')}/CLIQUE/${element.toString().padStart(4, '0')}/${graphsWithCliqueIndices[element][blockIndex * 2 + 1].toString().padStart(4, '0')}_N${currentExperiment.graphSize.toString().padStart(4, '0')}_K${element.toString().padStart(4, '0')}_CLIQUE.json`
                     // GRAPH WITHOUT CLIQUE, trial 2:
                     // - creating URL:            
-                    let graphWithoutClique_trial2_url = `../graph_pools/${currentExperiment.pCorrectionType}/N${currentExperiment.graphSize.toString().padStart(4, '0')}/NO_CLIQUE/${element.toString().padStart(4, '0')}/${graphsWithoutCliqueIndices[element][blockIndex * 2 + 1].toString().padStart(4, '0')}_N${currentExperiment.graphSize.toString().padStart(4, '0')}_K${element.toString().padStart(4, '0')}_NOCLIQUE.json`
+                    let graphWithoutClique_trial2_url = `../../graph_pools/sqrt_grid/${currentExperiment.pCorrectionType}/N${currentExperiment.graphSize.toString().padStart(4, '0')}/NO_CLIQUE/${element.toString().padStart(4, '0')}/${graphsWithoutCliqueIndices[element][blockIndex * 2 + 1].toString().padStart(4, '0')}_N${currentExperiment.graphSize.toString().padStart(4, '0')}_K${element.toString().padStart(4, '0')}_NOCLIQUE.json`
 
                     // Start reading the files in the background
                     const [graphWithClique2, graphWithoutClique2] = await Promise.all([
@@ -136,12 +134,14 @@
 
                 console.log("finished reading graphs for block number: " + blockIndex)
 
-
             }
 
-            console.log("finished reading all graphs")
+            console.log("finished reading graphs")
             // adding array of graphs to display to currentExperiment object:
             currentExperiment.graphsToDisplay = graphsToDisplay
+
+            // Printing the currentExperiment object to the console
+            //console.log(currentExperiment)
 
         }
 
@@ -161,21 +161,262 @@
             on_finish: function (data) {
                 // displaying data:
                 jsPsych.data.displayData();
-                // local save:
+                /* LOCAL SAVE DONE AUTOMATICALLY IN PILOT MODE
+                //local save:
                 let currentDate = new Date();
                 let fileName = `HUPLACLIP_pilot_${currentDate.getDate()}.${(currentDate.getMonth() + 1)}.${currentDate.getFullYear()}_${currentDate.getHours()}.${currentDate.getMinutes()}.${currentDate.getSeconds()}.csv`
                 jsPsych.data.get().localSave('csv', fileName);
+                */
             }
         });
+
 
         /* create timeline */
         let timeline = [];
 
+        /* init connection with pavlovia.org */
+        if (document.location.hostname == "run.pavlovia.org"){
+
+            // capture info from Prolific URL variables and add them to the data:
+            var subject_id = jsPsych.data.getURLVariable('PROLIFIC_PID');
+            var study_id = jsPsych.data.getURLVariable('STUDY_ID');
+            var session_id = jsPsych.data.getURLVariable('SESSION_ID');
+            jsPsych.data.addProperties({
+                subject_id: subject_id,
+                study_id: study_id,
+                session_id: session_id
+            });            
+
+            var pavlovia_init = {
+                type: jsPsychPavlovia,
+                command: "init",              
+            };
+            timeline.push(pavlovia_init);
+          }           
+
+        /* CHECKING DEVICE/BROWSER REQUIREMENTS */
+
+        //NOTE: logic (it should be working on Safari as well)
+        // 1. browser-check 1 -> checking if full-screen is supported and if the device is not mobile/tablet;
+        // 2. calling function to retrieve vertical resolution of device, checking its validity and storing it in the currentExperiment object;
+
+        // defining boolean variable to check if the device is a tablet
+        const userAgent = navigator.userAgent.toLowerCase();
+        const isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent);        
+        
+        // TO REMOVE        
+        //console.log("Is tablet: ", isTablet);
+        
+        // 1. browser-check 1 (checking that browser is an accepted one, full-screen is supported, and device is not mobile)                
+        var browser_check = {
+            type: jsPsychBrowserCheck,
+            inclusion_function: (data) => {
+                let acceptedBrowsers = ['chrome', 'firefox', 'edge', 'edge-chromium', 'edge-ios'];
+                let isAcceptedBrowser = acceptedBrowsers.includes(data.browser);
+                let isNotMobile = data.mobile === false && !isTablet;
+                let isFullscreenSupported = data.fullscreen === true;
+        
+                // Initialize stopReason as an empty array
+                data.stopReason = [];
+        
+                // Check each condition and add the reason to the array if it fails
+                if (!isAcceptedBrowser) {
+                    data.stopReason.push(`Browser: ${data.browser} is not supported`);
+                }
+                if (!isNotMobile) {
+                    data.stopReason.push(`Device is mobile or tablet`);
+                }
+                if (!isFullscreenSupported) {
+                    data.stopReason.push(`Fullscreen is not supported`);
+                }
+
+                // Add stopReason to the jsPsych global data store
+                jsPsych.data.addProperties({ stopReason: data.stopReason });               
+                
+                // Print the stopReason to the console
+                console.log("Browser_check stop reasons: ", data.stopReason);
+
+                // Return true if all conditions are met, otherwise false
+                return isAcceptedBrowser && isNotMobile && isFullscreenSupported;
+            },
+            exclusion_message: (data) => {
+                // Join all reasons into a single string
+                let stopReasons = jsPsych.data.dataProperties.stopReason;
+        
+                // Generate a dynamic exclusion message based on the reasons
+                let message = `<p style="color: red"><strong>WARNING: DEVICE OR BROWSER ISSUE DETECTED!</strong></p>
+                               <p>The following issues were detected:</p>
+                               <ul>`;
+                stopReasons.forEach(reason => {
+                    message += `<li>${reason}</li>`;
+                });
+                message += `</ul>
+                            <p>Please address the issues above by changing device or browser and try again.</p>
+                            <p>If the present message does not disappear, you are <b>failing to meet some key requirements</b> and cannot complete the experiment.<br>
+                            Click the button below to <b>return your submission</b>:</p>
+                            <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://app.prolific.com/submissions/complete?cc=CC1N7VA6'">Return to Prolific</button>
+                            <br><br>
+                            <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>`;
+        
+                return message;
+            },
+        }
+        timeline.push(browser_check) 
+
+        // 2. function to retrieve vertical resolution of device, checking its validity and storing it in the currentExperiment object;
+        var device_check = {
+            type: jsPsychCallFunction,
+            func: function (data) {
+                // - retrieving the physical screen dimensions using the devicePixelRatio -> has to be an accepted one, and devicePixelRatio has to be an integer (only devicePixelRatio = [1.25, 1.50, 1.75] are accepted to account for Display scaling)
+                let physicalScreenDimensions = {
+                    width: window.screen.width * window.devicePixelRatio | 0,
+                    height: window.screen.height * window.devicePixelRatio | 0
+                };
+
+                // TO REMOVE      
+                //console.log("Device Pixel Ratio is: ", devicePixelRatio)
+                
+                // TO REMOVE
+                //console.log("True Physical Screen Width: ", physicalScreenDimensions.width);
+                //console.log("True Physical Screen Height: ", physicalScreenDimensions.height);
+
+                // - defining valid vertical resolutions based on the graph size -> used to evaluate the validity of the retrieved resolution
+                // NOTE: the list of vertical resolutions is needed because if the browser's zoom is not set to 100%, the retrieved resolution might be different from the physical one
+                switch (currentExperiment.graphSize) {
+                    case 100:
+                    case 150:
+                    case 200:
+                    case 300:
+                    case 400:
+                    case 480:
+                    case 600:
+                        var validVerticalResolutions = [720, 768, 864, 900, 1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1504, 1536, 1600, 1664, 1800, 1824, 1864, 1920, 1964, 2160, 2234, 2304, 2400, 2520, 2880, 3200, 3328, 3384, 3600, 3840, 4000, 4320, 4468, 5760];
+                        break;
+                    case 800:
+                        var validVerticalResolutions = [864, 900, 1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1504, 1536, 1600, 1664, 1800, 1824, 1864, 1920, 1964, 2160, 2234, 2304, 2400, 2520, 2880, 3200, 3328, 3384, 3600, 3840, 4000, 4320, 4468, 5760];
+                        break;
+                    case 1000:
+                        var validVerticalResolutions = [1024, 1050, 1080, 1152, 1200, 1344, 1392, 1400, 1440, 1504, 1536, 1600, 1664, 1800, 1824, 1864, 1920, 1964, 2160, 2234, 2304, 2400, 2520, 2880, 3200, 3328, 3384, 3600, 3840, 4000, 4320, 4468, 5760];
+                        break;
+                    default:
+                        alert(`Invalid graph size, check the "experiment_parameters.js" file (line 11). Graph size is set to ${currentExperiment.graphSize}, while allowed graph size values for human experiments are: 100, 150, 200, 300, 400, 480, 600, 800, 1000.`);
+                        break;
+                }                
+                
+                // - calculating the dimension of the single square -> has to be >= 1 pixel, and is used to calculate the proportion of vertical dimension occupied by the stimuli
+                let numberOfSquares = currentExperiment.graphSize + 2   // number of squares to be drawn in the two directions (2 squares are for the diagonal):
+                let squareSideDimensionPhysical = Math.floor(physicalScreenDimensions.height / numberOfSquares) // resulting square side dimension           
+
+                // - calculating the proportion of vertical dimension that is occupied by the stimuli -> has to be >= 75%
+                let stimuliVerticalDimension = numberOfSquares * squareSideDimensionPhysical
+                let stimuliVerticalProportion = stimuliVerticalDimension / physicalScreenDimensions.height      
+                stimuliVerticalProportion = Math.round(stimuliVerticalProportion * 100) / 100;  // rounding to 2 decimal values
+
+                // - storing the values in the currentExperiment object:
+                currentExperiment.screenWidth = physicalScreenDimensions.width;
+                currentExperiment.screenHeight = physicalScreenDimensions.height;
+                currentExperiment.stimuliVerticalProportion = stimuliVerticalProportion; 
+                currentExperiment.validVerticalResolutions = validVerticalResolutions;               
+
+                // TO REMOVE
+                //console.log("Square side dimension physical ", squareSideDimensionPhysical)
+                //console.log("Stimuli vertical dimension: ", stimuliVerticalDimension)
+                //console.log("Stimuli vertical proportion: ", stimuliVerticalProportion)
+
+                // checking that all conditions are met: vertical resolution is valid; square side dimension is >= 1 pixel; devicePixelRatio is an integer (devicePixelRatio = [1.25, 1.5, 1.75] are accepted to account for Display scaling values); stimuli occupy a minimum % of the vertical dimension of the screen
+                if (validVerticalResolutions.includes(physicalScreenDimensions.height) && squareSideDimensionPhysical >= 1 && (Number.isInteger(window.devicePixelRatio) || [1.25, 1.5, 1.75].includes(window.devicePixelRatio)) && stimuliVerticalProportion >= currentExperiment.stimuliVerticalProportionThreshold) {
+                    // valid resolution -> calling function to calculate drawing parameters and storing them in the currentExperiment object:
+                    currentExperiment.fixedDrawingParameters = calculateFixedDrawingParameters(physicalScreenDimensions.width, physicalScreenDimensions.height, currentExperiment.graphSize);
+                    
+                    // calling function to calculate coordinates of left and right triangles and storing them in the currentExperiment object:
+                    let leftAndRightTriangleCoordinates = calculateTrianglesCoordinates(currentExperiment.fixedDrawingParameters, currentExperiment.graphSize);
+                    currentExperiment.stimuliCoordinates = {};
+                    currentExperiment.stimuliCoordinates.leftTriangle = leftAndRightTriangleCoordinates[0];
+                    currentExperiment.stimuliCoordinates.rightTriangle = leftAndRightTriangleCoordinates[1];  
+                                    
+                    return; // Stop further execution
+                } else {
+                    // invalid resolution -> redirect to Prolific, differentiating message based on the detected issue
+                    let title;
+                    let message;
+                    if (stimuliVerticalProportion < currentExperiment.stimuliVerticalProportionThreshold && validVerticalResolutions.includes(physicalScreenDimensions.height) ) {
+                        title = "WARNING: STIMULUS RENDERING ISSUE DETECTED!";
+                        message = `If you have set your browser zoom to 100% but this message does not disappear, the <b>visual rendering of the experiment on your current device is suboptimal</b>.
+                                    Try opening the experiment on a different device.`;
+                    } else {
+                        // if vertical resolution is not accepted || square side dimension is < 1 pixel || devicePixelRatio is not an integer (only devicePixelRatio = [1.25, 1.50, 1.75] are accepted)
+                        title = "WARNING: SCREEN RESOLUTION ISSUE DETECTED!";
+                        message = `If you have set your browser zoom to 100% but this message does not disappear, you <b>might be using an incompatible device</b>.
+                                    A vertical resolution of at least <b>${validVerticalResolutions[0]}</b> is required to run the experiment (you can check the resolution of your device in the device settings).
+                                    If your current device does not meet this requirement, try opening the experiment on a device with higher resolution.`;
+                    }
+                    document.body.innerHTML = `
+                    <div style="text-align: left; padding: 20px;">
+                        <p style="color: red"><strong>${title}</strong></p>                        
+                            <p>If you are seeing this message, make sure to:
+                                <ul>
+                                    <li><b>Set your browser zoom to 100%</b> (you can change it in the browser options or by pressing "Ctrl +" / "Ctrl -" (Windows) or "⌥ ⌘ =" / "⌥ ⌘ -" (Mac) ) and <b>click on the "Reload Page" button below</b>. The page will reload and this message should not be shown anymore.</li>
+                                    <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.reload()">Reload Page</button><br><br>                        
+                                    <li>${message}<br> 
+                                    <p>If the present message does not disappear, you are <b>failing to meet some key requirements</b> and cannot complete the experiment.<br>
+                                    Click the button below to <b>return your submission</b>:</p>         
+                                    <button style="font-size: 18px; padding: 10px 20px;" onclick="window.location.href='https://app.prolific.com/submissions/complete?cc=CZ5O550Q'">Return to Prolific</button>
+                                </ul>
+                            </p>                               
+                            <br>
+                        <p style="font-size: 15px;">To report any issues, please contact the experimenter at <a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a></p>
+                    </div>
+                `;                       
+                return // Stop further execution
+                }             
+            },
+            on_finish: function (data) {
+                // if current device is accepted, storing display variables in "data" object of current trial:
+                if (currentExperiment.screenWidth && currentExperiment.screenHeight && currentExperiment.fixedDrawingParameters) {
+                    data.screenWidth = currentExperiment.screenWidth;
+                    data.screenHeight = currentExperiment.screenHeight;
+                    data.stimuliVerticalProportion = currentExperiment.stimuliVerticalProportion;
+                    data.pCorrectionType = currentExperiment.pCorrectionType;
+                } else {
+                    // re-computing the physical screen dimensions and square side dimension in case of device check failure
+                    let squareSideDimensionPhysical = Math.floor(currentExperiment.screenHeight / (currentExperiment.graphSize + 2)); // re-computing the square side dimension
+
+                    data.screenHeight = `DEVICE CHECK FAILED, height: ${currentExperiment.screenHeight}`;
+                    data.squareSideDimensionPhysical = `DEVICE CHECK FAILED, square side dimension: ${squareSideDimensionPhysical}`; // re-computing the square side dimension
+                    data.devicePixelRatio = `DEVICE CHECK FAILED, device pixel ratio: ${window.devicePixelRatio}`;
+                    data.stimuliVerticalProportion = `DEVICE CHECK FAILED, stimuli vertical proportion: ${currentExperiment.stimuliVerticalProportion}`;
+            
+                    // Initialize stopReason as an empty array
+                    data.stopReason = [];
+            
+                    // Check each condition and add the reason to the array if it fails
+                    if (!currentExperiment.validVerticalResolutions.includes(currentExperiment.screenHeight)) {
+                        data.stopReason.push(`height: ${currentExperiment.screenHeight} not in ${currentExperiment.validVerticalResolutions}`);
+                    }
+                    if (squareSideDimensionPhysical < 1) {
+                        data.stopReason.push(`square side dimension: ${squareSideDimensionPhysical} is less than 1`);
+                    }
+                    if (!Number.isInteger(window.devicePixelRatio) && ![1.25, 1.5, 1.75].includes(window.devicePixelRatio)) {
+                        data.stopReason.push(`device pixel ratio: ${window.devicePixelRatio} is not valid`);
+                    }
+                    if (currentExperiment.stimuliVerticalProportion < currentExperiment.stimuliVerticalProportionThreshold) {
+                        data.stopReason.push(`stimuli vertical proportion: ${currentExperiment.stimuliVerticalProportion} is less than threshold (${currentExperiment.stimuliVerticalProportionThreshold})`);
+                    }
+            
+                    // Join all reasons into a single string
+                    data.stopReason = `STOP REASONS: ${data.stopReason.join('; ')}`;
+                }
+                
+                // Printing the data object to the console:
+                console.log("Device_check data: ", data);
+            } 
+        }
+        timeline.push(device_check)
 
         // PRELOADING feedback audio files:
         let preloadAudioFiles = {
             type: jsPsychPreload,
-            audio: ['../audio_feedback/shuffles/shuffle01.mp3', '../audio_feedback/right/coin01.mp3', '../audio_feedback/wrong/error01.mp3'],
+            audio: ['../../audio_feedback/shuffles/shuffle01.mp3', '../../audio_feedback/right/coin01.mp3', '../../audio_feedback/wrong/error01.mp3'],
         }
         timeline.push(preloadAudioFiles)
 
@@ -257,7 +498,7 @@
             function drawCanvas(c) {
 
                 // calling resizing canvas function:
-                resizeCanvas(c)
+                resizeCanvas(c);
 
                 // addressing canvas
                 let ctx = c.getContext("2d");
@@ -331,12 +572,12 @@
                 // defining stimulus based on last response (shuffle, correct answer, wrong answer)
                 let lastTrial = jsPsych.data.get().filter({ trial_type: "canvas-keyboard-response" }).last(1).values()[0]
                 if (lastTrial.response == " ")
-                    return '../audio_feedback/shuffles/shuffle01.mp3';
+                    return '../../audio_feedback/shuffles/shuffle01.mp3';
                 else
                     if (lastTrial.correct)
-                        return '../audio_feedback/right/coin01.mp3'
+                        return '../../audio_feedback/right/coin01.mp3'
                     else
-                        return '../audio_feedback/wrong/error01.mp3'
+                        return '../../audio_feedback/wrong/error01.mp3'
             },
             choices: "NO_KEYS",
             trial_ends_after_audio: true,
@@ -366,12 +607,11 @@
                         // graphs parameters:
                         clique_size: currentExperiment.arrayOfCliqueSizes[presentationIndex],
                         graph_size: currentExperiment.graphSize,
-                        graphs_couple: []   //filled in on_start function
                     },
 
                     on_start: function (currentTrial) {
                         // - when trial starts, graphs have been read:
-                        currentTrial.data.graphs_couple = [currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0][currentExperiment.graphSize].graph_name, currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1][currentExperiment.graphSize].graph_name]
+                        currentTrial.data.graphs_names = [currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0][currentExperiment.graphSize].graph_name, currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1][currentExperiment.graphSize].graph_name]
                         // - accessing the data stored up to now (it will increase progressively):
                         let currentData = jsPsych.data.get().filter({ trial_type: "canvas-keyboard-response" })
                         // - if no more shuffles are available, only allowing final answers (arrow presses):
@@ -379,13 +619,15 @@
                             currentTrial.choices = ['ArrowLeft', 'ArrowRight']
                     },
 
-                    // LEFT FOR CONTROL, TO BE REMOVED:
+                    // TODO: PRINT OF DATA AFTER EACH RESPONSE, FOR CONTROL
+                    /*
                     on_finish: function (data) {
 
                         let currentData = jsPsych.data.get().filter({ trial_type: "canvas-keyboard-response" })
                         console.log(currentData)
 
                     },
+                    */
                 }
 
                 // repeating the trial until a final answer (left/right arrow press) is given:
@@ -397,10 +639,10 @@
                         //currentData.trials.filter(element => element.)
                         if (currentData.last(1).values()[0].response == " ") {
                             // if last response was a spacebar press, repeat the trial
-                            console.log("shuffle pressed, repeating trial")
+                            //console.log("shuffle pressed, repeating trial")
                             return true
                         } else if (currentData.last(1).values()[0].response == 0 || currentData.last(1).values()[0].response == 1) {
-                            console.log("final response, going on")
+                            //console.log("final response, going on")
                             // if last response was on left/right arrow, moving to next trial
                             return false
                         }
@@ -508,32 +750,40 @@
 
         }
 
-
-        /* exiting fullscreen after experiment: */
+        /* EXITING FULLSCREEN (and re-enabling scrolling) */
         var exit_fullscreen = {
             type: jsPsychFullscreen,
             fullscreen_mode: false,
-            delay_after: 0
+            delay_after: 0,
+            on_start: function () {
+                // Select the element with class "jspsych-display-element"
+                var displayElement = document.querySelector('.jspsych-display-element');
+                // Remove the style attribute with overflow:hidden to allow scrolling
+                displayElement.style.overflow = 'auto';
+            }          
         }
         timeline.push(exit_fullscreen)
 
-
         /* finish connection with pavlovia.org */
-        /*
-        var pavlovia_finish = {
-            type: jsPsychPavlovia,
-            command: "finish",
-            participantId: "JSPSYCH-DEMO",
- 
-            //NECESSARY WHEN ADDING PROLIFIC:
-            //completedCallback: function (){
-            //    window.location.replace('https://app.prolific.com/submissions/complete?cc=C180BZKR');
-            //},
- 
-        };
-        timeline.push(pavlovia_finish)
-        */
-
+        if (document.location.hostname == "run.pavlovia.org"){
+            /* finish connection with pavlovia.org */
+            var pavlovia_finish = {
+                type: jsPsychPavlovia,
+                command: "finish",
+                participantId:  jsPsych.data.getURLVariable('PROLIFIC_PID'),                
+                on_finish: function (){
+                    document.body.innerHTML = `<p> Please wait. You will be redirected back to Prolific in a few moments. 
+                    If you get a pop-up warning you "data may not be saved", you can click "leave", your data have already been saved.</p>`;
+                    setTimeout(function () {
+                      location.href = `https://app.prolific.com/submissions/complete?cc=CVRRPWX9`;
+                      document.body.innerHTML =`<p>If you are not automatically redirected, please click here: 
+                      <a href="https://app.prolific.com/submissions/complete?cc=CVRRPWX9">https://app.prolific.com/submissions/complete?cc=CVRRPWX9</a></p>
+                      <p>If you get a pop-up warning you "data may not be saved", you can click "leave", your data have already been saved.</p>`;
+                    }, 5000);
+                  }
+            };
+            timeline.push(pavlovia_finish);
+        }       
 
         /* start the experiment */
         jsPsych.run(timeline);
