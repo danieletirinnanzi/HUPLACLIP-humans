@@ -1,0 +1,262 @@
+<html>
+
+<head>
+    <!-- SCRIPTS -->
+    <!-- Reading graph pool generation script -->
+    <script src="graph_pool_Ninput_generation.js"></script>
+    <!-- Saving files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"
+        integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"> </script>
+    <!-- Zipping files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
+    <!-- Compressing json files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.11/pako.min.js"></script>
+
+</head>
+
+<body>
+
+    <div style="display: flex;">
+        <div style="flex: 1;">
+            <h1>NO CLIQUE</h1>
+            <h2>Create a number of single graphs WITHOUT the clique, of the given clique size, and saving them to local
+                computer using <i>FileSaver</i> JavaScript Library.</h2>
+            <div>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithOutClique[0], 0);">Button
+                    1</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithOutClique[1], 1);">Button
+                    2</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithOutClique[2], 2);">Button
+                    3</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithOutClique[3], 3);">Button
+                    4</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithOutClique[4], 4);">Button
+                    5</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithOutClique[5], 5);">Button
+                    6</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithOutClique[6], 6);">Button
+                    7</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithOutClique[7], 7);">Button
+                    8</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithOutClique[8], 8);">Button
+                    9</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithOutClique[9], 9);">Button
+                    10</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithOutClique[10], 10);">Button
+                    11</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithOutClique[11], 11);">Button
+                    12</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithOutClique[12], 12);">Button
+                    13</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithOutClique[13], 13);">Button
+                    14</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithOutClique[14], 14);">Button
+                    15</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithOutClique[15], 15);">Button
+                    16</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithOutClique[16], 16);">Button
+                    17</button>
+            </div>
+        </div>
+        <div style="flex: 1;">
+            <h1>CLIQUE</h1>
+            <h2>Create a number of single graphs WITH the clique, of the given clique size, and saving them to local
+                computer using <i>FileSaver</i> JavaScript Library.</h2>
+            <div>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithClique[0], 0);">Button
+                    1</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithClique[1], 1);">Button
+                    2</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithClique[2], 2);">Button
+                    3</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithClique[3], 3);">Button
+                    4</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithClique[4], 4);">Button
+                    5</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithClique[5], 5);">Button
+                    6</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithClique[6], 6);">Button
+                    7</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithClique[7], 7);">Button
+                    8</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithClique[8], 8);">Button
+                    9</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithClique[9], 9);">Button
+                    10</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithClique[10], 10);">Button
+                    11</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithClique[11], 11);">Button
+                    12</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithClique[12], 12);">Button
+                    13</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithClique[13], 13);">Button
+                    14</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithClique[14], 14);">Button
+                    15</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithClique[15], 15);">Button
+                    16</button>
+                <button type="button"
+                    onclick="CreateJSONGraphPoolZipFile(graphPoolObject.graphsWithClique[16], 16);">Button
+                    17</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        // Requesting graph size to user:
+        let graphSize = Number(prompt("Insert the GRAPH SIZE for which you want to generate the graphs"));
+
+        // Checking that Graph size is an accepted value:
+        if (isNaN(graphSize) || ![100, 150, 200, 300, 400, 480, 600, 800, 1000].includes(Number(graphSize))) {
+            alert("Invalid graph size. Accepted graph size values for human experiments are: 100, 150, 200, 300, 400, 480, 600, 800, 1000.");
+        }
+
+        // Defining clique size array following the sqrt grid (from file "new-Kgrid_definition.ipynb" in folder "HUPLACLIP-analysis")
+        if (graphSize == 100) {
+            cliqueSizeArray = [58, 52, 47, 44, 41, 38, 35, 33, 30, 28, 25, 23, 20, 18, 16, 11,  6]
+        } else if (graphSize == 150) {
+            cliqueSizeArray = [90, 82, 73, 68, 64, 60, 55, 51, 47, 43, 39, 36, 32, 28, 25, 17, 10]
+        } else if (graphSize == 200) {
+            cliqueSizeArray = [114, 103,  92,  86,  81,  75,  70,  64,  59,  54,  50,  45,  40, 36,  31,  22,  13]
+        } else if (graphSize == 300) {
+            cliqueSizeArray = [150, 136, 121, 114, 107,  99,  92,  85,  78,  72,  66,  59,  53, 47,  41,  29,  17]
+        } else if (graphSize ==400) {
+            cliqueSizeArray = [180, 162, 145, 136, 127, 118, 110, 101,  93,  86,  78,  71,  63, 56,  49,  34,  20]
+        } else if (graphSize == 480) {
+            cliqueSizeArray = [200, 181, 161, 151, 142, 132, 123, 113, 103,  95,  87,  79,  71, 63,  55,  38,  22]
+        } else if (graphSize == 600) {
+            cliqueSizeArray = [227, 205, 183, 172, 161, 150, 139, 128, 117, 108,  99,  89,  80, 71,  62,  43,  25]
+        } else if (graphSize == 800) {
+            cliqueSizeArray = [266, 240, 215, 201, 189, 176, 163, 150, 137, 127, 116, 105,  94, 83,  73,  51,  29]
+        } else if (graphSize ==1000) {
+            cliqueSizeArray = [300, 271, 242, 227, 213, 198, 184, 169, 155, 143, 131, 118, 106, 94,  82,  57,  33]
+        }
+
+        if (cliqueSizeArray.length != 17) {
+            alert("Invalid clique size array. The length of the clique size array should be 17.")
+        }
+        console.log("Clique size array: ")
+        console.log(cliqueSizeArray)
+
+        //- ARRAY OF NODES IN STANDARD ORDER (needed for generation of graphs with clique)
+        let standardOrderOfNodes = new Array();
+        for (let index = 0; index < graphSize; index++) {
+            standardOrderOfNodes.push(index)
+        }
+
+        // CREATING graphPoolObject:
+        const graphPoolObject = {
+            // graph pool parameters:
+            graphSize: graphSize,
+            probabilityOfAssociation: 0.5,
+            numberOfGraphsPerCliqueSize: 100,
+            cliqueSizeArray: cliqueSizeArray,
+            standardOrderOfNodes: standardOrderOfNodes,
+            // p_correction_type:
+            // - p_increase (old correction): increasing the p value of the graph without the clique so that the average degree is matched between the two graphs
+            // - p_reduce (new correction): reducing the p value of the graph where the clique will be added     
+            pCorrectionType: 'p_reduce',    // 'p_increase' or 'p_reduce'
+            // empty objects that will store the graphs:
+            graphsWithClique: {},
+            graphsWithOutClique: {},
+        }
+
+
+        for (let i = 0; i < cliqueSizeArray.length; i++) {
+            console.log("Generating graphs for clique = " + cliqueSizeArray[i])
+            // using values of array as keys for object:
+            const cliqueSize = cliqueSizeArray[i].toString();
+
+            // - graphs without the clique:
+            console.log("- without clique:")
+            graphPoolObject.graphsWithOutClique[i] = generateGraphsWithOutClique(graphPoolObject.graphSize, graphPoolObject.cliqueSizeArray[i]);
+
+            // - graphs with the clique:
+            console.log("- with clique:")
+            graphPoolObject.graphsWithClique[i] = generateGraphsWithClique(graphPoolObject.graphSize, graphPoolObject.cliqueSizeArray[i]);
+
+        }
+
+        console.log("Graph pool object:")
+        console.log(graphPoolObject)
+
+        /* SAVING GRAPHS AS SINGLE JSON FILES IF BUTTON IS PRESSED */
+        // transforming each graph into .json format to export it
+        function CreateJSONGraphPoolZipFile(arrayOfGraphsToSave, index) {
+            const zip = new JSZip();
+
+            // Get the clique size
+            let cliqueSize = cliqueSizeArray[index];
+
+            // Create a function to add the next file to the zip
+            function addNextFile(index) {
+                if (index >= arrayOfGraphsToSave.length) {
+                    // All files added, generate the zip
+                    zip.generateAsync({ type: "blob" }).then(function (content) {
+                        saveAs(content, `${cliqueSize.toString().padStart(4, '0')}`);
+                    });
+                    return;
+                }
+
+                // read single json file
+                const json = JSON.stringify(arrayOfGraphsToSave[index]);
+
+                // Compress the JSON data using pako
+                const compressedJson = pako.gzip(json);
+
+                // Convert the compressed data to a Uint8Array
+                const compressedData = new Uint8Array(compressedJson);
+
+                // Convert the Uint8Array to a Blob
+                const blob = new Blob([compressedData], { type: "application/octet-stream" });
+
+                // Add the file to the zip
+                zip.file(`${arrayOfGraphsToSave[index][graphSize].graph_name}.json`, blob);
+
+                // Add the next file
+                addNextFile(index + 1);
+            }
+
+            // Start adding the files
+            addNextFile(0);
+        }
+
+    </script>
+</body>
+
+</html>

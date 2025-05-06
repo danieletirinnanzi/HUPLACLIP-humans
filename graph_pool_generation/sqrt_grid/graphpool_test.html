@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Fake HUPLACLIP experiment, only to test graph pool</title>
+    <!-- My scripts -->
+    <script type="text/javascript" src="../device_requirements.js"></script>
+    <script type="text/javascript" src="../graphs_functions.js"></script>
+    <script type="text/javascript" src="../introduction_pages_generation.js"></script>
+    <script type="text/javascript" src="../experiment_parameters.js"></script>
+    <script type="text/javascript" src="../canvas_drawing.js"></script>
+    <!-- Standard jspsych.js -->
+    <script type="text/javascript" src="../jspsych/dist/jspsych.js"></script>
+    <!-- Standard plugins -->
+    <script type="text/javascript" src="../jspsych/dist/plugin-instructions.js"></script>
+    <script type="text/javascript" src="../jspsych/dist/plugin-fullscreen.js"></script>
+    <script type="text/javascript" src="../jspsych/dist/plugin-image-keyboard-response.js"></script>
+    <script type="text/javascript" src="../jspsych/dist/plugin-survey-html-form.js"></script>
+    <script type="text/javascript" src="../jspsych/dist/plugin-html-keyboard-response.js"></script>
+    <script type="text/javascript" src="../jspsych/dist/plugin-preload.js"></script>
+    <script type="text/javascript" src="../jspsych/dist/plugin-audio-keyboard-response.js"></script>
+    <!-- Customized plugin -->
+    <script type="text/javascript" src="../jspsych/dist/my-plugin-canvas-keyboard-response.js"></script>
+    <!-- Compressing and de-compressing json files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.11/pako.min.js"></script>
+    <!-- Pavlovia connection (COMMENTED FOR OFFLINE VERSION)
+    <script type="text/javascript" src="lib/vendors/jquery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="jspsych/dist/my-pavlovia.js"></script>
+    -->
+    <!-- Styling -->
+    <link href="../jspsych/dist/jspsych.css" rel="stylesheet" type="text/css" />
+</head>
+
+<style>
+    /* styling can be modified here */
+</style>
+
+<body>
+
+    <script type="module">
+
+        // Function to read a compressed file and return a Promise
+        function readCompressedGraphFile(url) {
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.responseType = 'arraybuffer';
+
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        // File successfully loaded
+                        const compressedData = new Uint8Array(xhr.response);
+
+                        // Decompress the data using pako
+                        const decompressedData = pako.inflate(compressedData, { to: 'string' });
+
+                        // Parse the decompressed JSON data
+                        const graph = JSON.parse(decompressedData);
+                        resolve(graph);
+                    } else {
+                        // File loading failed
+                        reject(new Error(`Failed to load file: ${url}`));
+                    }
+                };
+
+                xhr.onerror = function () {
+                    reject(new Error(`Failed to load file: ${url}`));
+                };
+
+                xhr.open('GET', url, true);
+                xhr.send();
+            });
+        }
+
+        // Async function to read the graph files
+        async function readGraphFiles() {
+
+            /* extract indices of graphs to display */
+            let graphsWithCliqueIndices = extractIndices()
+            let graphsWithoutCliqueIndices = extractIndices()
+
+            /* generating names of graphs to display and storing them in currentExperiment object  */
+            // empty array that will contain the couples of triangular matrices (objects) to be displayed
+            let graphsToDisplay = [];
+
+            // number of blocks:
+            for (let blockIndex = 0; blockIndex < currentExperiment.numberOfBlocks; blockIndex++) {
+
+                let graphsForCurrentBlock = []
+
+                for (const element of currentExperiment.uniqueCliqueSizes) {
+
+                    // GRAPH WITH CLIQUE, trial 1:
+                    // - creating URL:
+                    let graphWithClique_trial1_url = `../graph_pools/${currentExperiment.pCorrectionType}/N${currentExperiment.graphSize.toString().padStart(4, '0')}/CLIQUE/${element.toString().padStart(4, '0')}/${graphsWithCliqueIndices[element][blockIndex * 2].toString().padStart(4, '0')}_N${currentExperiment.graphSize.toString().padStart(4, '0')}_K${element.toString().padStart(4, '0')}_CLIQUE.json`
+                    // GRAPH WITHOUT CLIQUE, trial 1:
+                    // - creating URL:            
+                    let graphWithoutClique_trial1_url = `../graph_pools/${currentExperiment.pCorrectionType}/N${currentExperiment.graphSize.toString().padStart(4, '0')}/NO_CLIQUE/${element.toString().padStart(4, '0')}/${graphsWithoutCliqueIndices[element][blockIndex * 2].toString().padStart(4, '0')}_N${currentExperiment.graphSize.toString().padStart(4, '0')}_K${element.toString().padStart(4, '0')}_NOCLIQUE.json`
+
+                    // Start reading the files in the background
+                    const [graphWithClique1, graphWithoutClique1] = await Promise.all([
+                        readCompressedGraphFile(graphWithClique_trial1_url),
+                        readCompressedGraphFile(graphWithoutClique_trial1_url)
+                    ]);
+
+                    // Adding the two graphs to the array for the current trial (random choice of which one is the first in the couple) and pushing this array into the array relative to the current block
+                    if (Math.round(Math.random())) {
+                        graphsForCurrentBlock.push([graphWithClique1, graphWithoutClique1])
+                    } else {
+                        graphsForCurrentBlock.push([graphWithoutClique1, graphWithClique1])
+                    }
+
+                    // GRAPH WITH CLIQUE, trial 2:
+                    // - creating URL:
+                    let graphWithClique_trial2_url = `../graph_pools/${currentExperiment.pCorrectionType}/N${currentExperiment.graphSize.toString().padStart(4, '0')}/CLIQUE/${element.toString().padStart(4, '0')}/${graphsWithCliqueIndices[element][blockIndex * 2 + 1].toString().padStart(4, '0')}_N${currentExperiment.graphSize.toString().padStart(4, '0')}_K${element.toString().padStart(4, '0')}_CLIQUE.json`
+                    // GRAPH WITHOUT CLIQUE, trial 2:
+                    // - creating URL:            
+                    let graphWithoutClique_trial2_url = `../graph_pools/${currentExperiment.pCorrectionType}/N${currentExperiment.graphSize.toString().padStart(4, '0')}/NO_CLIQUE/${element.toString().padStart(4, '0')}/${graphsWithoutCliqueIndices[element][blockIndex * 2 + 1].toString().padStart(4, '0')}_N${currentExperiment.graphSize.toString().padStart(4, '0')}_K${element.toString().padStart(4, '0')}_NOCLIQUE.json`
+
+                    // Start reading the files in the background
+                    const [graphWithClique2, graphWithoutClique2] = await Promise.all([
+                        readCompressedGraphFile(graphWithClique_trial2_url),
+                        readCompressedGraphFile(graphWithoutClique_trial2_url)
+                    ]);
+
+
+                    // Adding the two graphs to the array for the current trial (random choice of which one is the first in the couple) and pushing this array into the array relative to the current block
+                    if (Math.round(Math.random())) {
+                        graphsForCurrentBlock.push([graphWithClique2, graphWithoutClique2])
+                    } else {
+                        graphsForCurrentBlock.push([graphWithoutClique2, graphWithClique2])
+                    }
+                }
+
+                // adding array of graphs for current block to array of all graphs
+                graphsToDisplay.push(graphsForCurrentBlock)
+
+                console.log("finished reading graphs for block number: " + blockIndex)
+
+
+            }
+
+            console.log("finished reading all graphs")
+            // adding array of graphs to display to currentExperiment object:
+            currentExperiment.graphsToDisplay = graphsToDisplay
+
+        }
+
+
+        /* initializing jspsych */
+        var jsPsych = initJsPsych({
+
+            // maximum width of experiment pages (logical coordinates)
+            experiment_width: screen.width,
+
+            // Audio will be played through HTML5, not through WebAudio API
+            use_webaudio: false,
+
+            // preloading files that can be automatically detected from the timeline:
+            auto_preload: true,
+
+            on_finish: function (data) {
+                // displaying data:
+                jsPsych.data.displayData();
+                // local save:
+                let currentDate = new Date();
+                let fileName = `HUPLACLIP_pilot_${currentDate.getDate()}.${(currentDate.getMonth() + 1)}.${currentDate.getFullYear()}_${currentDate.getHours()}.${currentDate.getMinutes()}.${currentDate.getSeconds()}.csv`
+                jsPsych.data.get().localSave('csv', fileName);
+            }
+        });
+
+        /* create timeline */
+        let timeline = [];
+
+
+        // PRELOADING feedback audio files:
+        let preloadAudioFiles = {
+            type: jsPsychPreload,
+            audio: ['../audio_feedback/shuffles/shuffle01.mp3', '../audio_feedback/right/coin01.mp3', '../audio_feedback/wrong/error01.mp3'],
+        }
+        timeline.push(preloadAudioFiles)
+
+        /* INTRODUCTIVE PAGES */
+        // showing informative pages about the study (informed consent, aim, privacy)
+        let introduction = {
+            type: jsPsychInstructions,
+            pages: generateIntroductionPages(),
+            key_forward: "ArrowRight",
+            // call the readGraphFiles function when introduction pages are read:
+            on_start: readGraphFiles
+        }
+        timeline.push(introduction)
+
+        /* CONTROLLING THAT FILES HAVE BEEN SUCCESSFULLY LOADED */
+        //NB: will only be visualized if graphs have not been loaded yet
+        // loading page:
+        var loading_page = {
+            type: jsPsychHtmlKeyboardResponse,
+            stimulus: 'Please wait while the experiment is loading...<br><br> (This could take a few minutes, if you are on a slow connection)',
+            trial_duration: 1000  //brief presentation (1") so that the loop condition is evaluated continuously
+        }
+        // loop node:
+        let loop_node = {
+            timeline: [loading_page],
+            loop_function: function () {
+                // while currentExperiment.graphsToDisplay has not been completely populated, present the loading page:
+                if (!(currentExperiment.hasOwnProperty('graphsToDisplay'))) {
+                    console.log("graphs still loading")
+                    return true
+                }
+                else {
+                    return false
+                }
+            }
+        }
+        // loading completed page:
+        var post_loading_page = {
+            type: jsPsychHtmlKeyboardResponse,
+            stimulus: 'Experiment has finished loading.<br><br>Press <b>any key</b> to start.',
+        }
+        // adding the loop node to the timeline only if currentExperiment.graphsToDisplay has not been completely populated (otherwise it is skipped)
+        var if_node = {
+            timeline: [loop_node, post_loading_page],
+            conditional_function: function () {
+                if (!(currentExperiment.hasOwnProperty('graphsToDisplay'))) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        };
+        timeline.push(if_node);
+
+
+        /* entering fullscreen before experiment: */
+        var enter_fullscreen = {
+            type: jsPsychFullscreen,
+            fullscreen_mode: true,
+            message: `<p>The experiment will switch to full screen mode when you press the button below</p><br>`
+        }
+        timeline.push(enter_fullscreen)
+
+
+        /* ACTUAL EXPERIMENT: */
+
+        /* DRAWING STIMULI: */
+        // FUNCTION THAT WILL DRAW THE STIMULI GIVEN THE CHOSEN ORDER OF THE NODES:
+        function generateDrawCanvas(blockIndex, presentationIndex) {
+            /* INPUT: 
+            - blockIndex (the number that identifies the current block)
+            - presentationIndex (the number that identifies the couple of graphs that is being displayed)
+ 
+            OUTPUT:
+            - display of the stimuli on the screen
+            */
+
+            // function that generates the stimuli:
+            function drawCanvas(c) {
+
+                // calling resizing canvas function:
+                resizeCanvas(c)
+
+                // addressing canvas
+                let ctx = c.getContext("2d");
+
+                // disable smoothing:
+                ctx.imageSmoothingEnabled = false
+
+                // for each presentation, shuffling the standard order of the nodes:
+                let currentTrialOrder = shuffleNodes(currentExperiment.standardOrderOfNodes.slice()).slice(0, currentExperiment.graphSize);
+
+                // accessing the array of the trials completed up to now (used to draw the feedback):
+                let currentTrialsArray = jsPsych.data.get().filter({ trial_type: "canvas-keyboard-response" }).trials;
+
+                // DRAWING ON CANVAS:
+                // - wrapping each function call in a promise
+                let drawStimulusLeftPromise = new Promise((resolve) => {
+                    drawStimulus("left", ctx, blockIndex, presentationIndex, currentTrialOrder);
+                    resolve();
+                });
+
+                let drawStimulusRightPromise = new Promise((resolve) => {
+                    drawStimulus("right", ctx, blockIndex, presentationIndex, currentTrialOrder);
+                    resolve();
+                });
+
+                let drawDiagonalPromise = new Promise((resolve) => {
+                    drawDiagonal(ctx);
+                    resolve();
+                });
+
+                let drawFeedbackPromise = new Promise((resolve) => {
+                    drawFeedback(ctx, blockIndex, presentationIndex, currentTrialsArray);
+                    resolve();
+                });
+
+                let drawInstructionsReminderPromise = new Promise((resolve) => {
+                    drawInstructionsReminder(ctx);
+                    resolve();
+                });
+
+                // - executing all the promises in parallel and storing variables:
+                return Promise.all([
+                    drawStimulusLeftPromise,
+                    drawStimulusRightPromise,
+                    drawDiagonalPromise,
+                    //drawFeedbackPromise,
+                    //drawInstructionsReminderPromise
+                ]).then(() => {
+                    // - order of the nodes (changes from trial to trial and is read in "my-plugin-canvas-keyboard-response.js")
+                    jsPsych.data.presentedOrder = currentTrialOrder;
+                    // - correct answer (its value is read to compute the "correct" variable, does not change from trial to trial but is read to compute "correct" variable from plugin)
+                    if (currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0][currentExperiment.graphSize].clique_array === "clique is absent") {
+                        // if the first stimulus doesn't have the clique, then the graph with the clique (correct answer) is on the right side
+                        jsPsych.data.correctResponse = "arrowright";
+                    } else {
+                        jsPsych.data.correctResponse = "arrowleft";
+                    }
+                });
+
+            }
+
+            return drawCanvas
+
+        }
+
+
+        // Creating feedback audio trials (will be added to timeline after each trial):
+        var feedbackAudio = {
+            type: jsPsychAudioKeyboardResponse,
+            stimulus: function () {
+                // defining stimulus based on last response (shuffle, correct answer, wrong answer)
+                let lastTrial = jsPsych.data.get().filter({ trial_type: "canvas-keyboard-response" }).last(1).values()[0]
+                if (lastTrial.response == " ")
+                    return '../audio_feedback/shuffles/shuffle01.mp3';
+                else
+                    if (lastTrial.correct)
+                        return '../audio_feedback/right/coin01.mp3'
+                    else
+                        return '../audio_feedback/wrong/error01.mp3'
+            },
+            choices: "NO_KEYS",
+            trial_ends_after_audio: true,
+            response_allowed_while_playing: false,
+        };
+
+
+        // creating the blocks of the experiment
+        for (let blockIndex = 0; blockIndex < currentExperiment.numberOfBlocks; blockIndex++) {
+
+            // creating the trials for the block
+            for (let presentationIndex = 0; presentationIndex < currentExperiment.numberOfPresentationsPerBlock; presentationIndex++) {
+
+                // defining the current trial
+                let currentTrial = {
+                    type: jsPsychCanvasKeyboardResponse,
+                    canvas_size: [currentExperiment.canvasDimensions[0], currentExperiment.canvasDimensions[1]], // LOGICAL COORDINATES [height,width]
+                    choices: [' ', 'ArrowLeft', 'ArrowRight'],
+                    response_ends_trial: true,
+                    // adding the stimuli and the audio feedback to the timeline of the trial
+                    timeline: [{ stimulus: generateDrawCanvas(blockIndex, presentationIndex) }, feedbackAudio],     // NB: shuffling of nodes is done inside draw function
+                    data: {
+                        // storing variables that do not change between trials relative to the same couple of graphs
+                        // experiment parameters:
+                        block_index: blockIndex,
+                        presentation_index: presentationIndex,
+                        // graphs parameters:
+                        clique_size: currentExperiment.arrayOfCliqueSizes[presentationIndex],
+                        graph_size: currentExperiment.graphSize,
+                        graphs_couple: []   //filled in on_start function
+                    },
+
+                    on_start: function (currentTrial) {
+                        // - when trial starts, graphs have been read:
+                        currentTrial.data.graphs_couple = [currentExperiment.graphsToDisplay[blockIndex][presentationIndex][0][currentExperiment.graphSize].graph_name, currentExperiment.graphsToDisplay[blockIndex][presentationIndex][1][currentExperiment.graphSize].graph_name]
+                        // - accessing the data stored up to now (it will increase progressively):
+                        let currentData = jsPsych.data.get().filter({ trial_type: "canvas-keyboard-response" })
+                        // - if no more shuffles are available, only allowing final answers (arrow presses):
+                        if (currentData.trials.filter(element => element.block_index == blockIndex && element.presentation_index == presentationIndex).length == currentExperiment.maximumNumberOfShuffles)
+                            currentTrial.choices = ['ArrowLeft', 'ArrowRight']
+                    },
+
+                    // LEFT FOR CONTROL, TO BE REMOVED:
+                    on_finish: function (data) {
+
+                        let currentData = jsPsych.data.get().filter({ trial_type: "canvas-keyboard-response" })
+                        console.log(currentData)
+
+                    },
+                }
+
+                // repeating the trial until a final answer (left/right arrow press) is given:
+                let loop_node = {
+                    timeline: [currentTrial],
+                    loop_function: function () {
+                        // isolating the canvas keyboard responses stored up to now (they will increase progressively):
+                        let currentData = jsPsych.data.get().filter({ trial_type: "canvas-keyboard-response" })
+                        //currentData.trials.filter(element => element.)
+                        if (currentData.last(1).values()[0].response == " ") {
+                            // if last response was a spacebar press, repeat the trial
+                            console.log("shuffle pressed, repeating trial")
+                            return true
+                        } else if (currentData.last(1).values()[0].response == 0 || currentData.last(1).values()[0].response == 1) {
+                            console.log("final response, going on")
+                            // if last response was on left/right arrow, moving to next trial
+                            return false
+                        }
+
+                    }
+                }
+
+                // adding the loop node to the timeline
+                timeline.push(loop_node)
+
+            }
+
+            // after each block, present break page
+            switch (blockIndex) {
+                // if last block just presented, final page will be different
+                case (currentExperiment.numberOfBlocks - 1):
+                    /* FINAL PAGE */
+                    let final_page = {
+                        type: jsPsychInstructions,
+                        pages: [], // defined inside on_start function (below)
+                        key_forward: " ",
+                        on_start: function (final_page) {
+                            // accessing the array of all the trials completed up to now:
+                            let currentTrialsArray = jsPsych.data.get().filter({ trial_type: "canvas-keyboard-response" }).trials
+                            let arrayOfResponsesLastBlock = []  //to compute block score
+                            let arrayOfResponses = []   //to compute total score
+                            currentTrialsArray.forEach(element => {
+                                // creating array of final responses for current block:
+                                if (element.block_index == blockIndex && element.hasOwnProperty('correct'))
+                                    arrayOfResponsesLastBlock.push(element.correct)
+                                // creating array of all final responses:
+                                if (element.hasOwnProperty('correct'))
+                                    arrayOfResponses.push(element.correct)
+                            })
+                            // computing score:
+                            // - last block score:
+                            let numberOfCorrectResponsesLastBlock = arrayOfResponsesLastBlock.reduce((a, b) => a + b, 0)
+                            let numberOfFinalResponsesLastBlock = arrayOfResponsesLastBlock.length
+                            // - total score:
+                            let numberOfCorrectResponses = arrayOfResponses.reduce((a, b) => a + b, 0)
+                            let numberOfFinalResponses = arrayOfResponses.length
+                            // last trial feedaback: changing background color of SCORE based on correctness of last response
+                            let scoreColor = "black"
+                            if (arrayOfResponsesLastBlock[arrayOfResponsesLastBlock.length - 1]) {
+                                scoreColor = "lawngreen"
+                            } else {
+                                scoreColor = "red"
+                            }
+                            final_page.pages = [
+                                `<p> 
+                                    <div style="font-weight:bold;font-family:system-ui;font-size:2rem;padding-left:1rem;padding-right:1rem;padding-top:1rem;padding-bottom:1rem;background-color:${scoreColor};color:black;display:inline-block;">SCORE: ${numberOfCorrectResponsesLastBlock} / ${numberOfFinalResponsesLastBlock}</div>
+                                <br><br><br>                             
+                                You completed all the <b> ${currentExperiment.numberOfBlocks}</b> blocks of the experiment. <br><br>
+                                    <div style="font-weight:bold;font-family:system-ui;font-size:2rem;padding-left:1rem;padding-right:1rem;padding-top:1rem;padding-bottom:1rem;background-color:gold;color:black;display:inline-block;">TOTAL SCORE: ${numberOfCorrectResponses} / ${numberOfFinalResponses}</div>
+                                <br><br>
+                                Thank you for your time.
+                                <br><br>
+                                Press <b>space</b> to exit.
+                                </p>`]
+                        }
+                    };
+                    timeline.push(final_page)
+                    break;
+                default:
+                    /* AGREEMENT TO MOVE TO NEXT BLOCK */
+                    let move_to_next_block = {
+                        type: jsPsychInstructions,
+                        pages: [], // defined inside on_start function (below)
+                        key_forward: " ",
+                        on_start: function (move_to_next_block) {
+                            // accessing the array of the trials completed up to now:
+                            let currentTrialsArray = jsPsych.data.get().filter({ trial_type: "canvas-keyboard-response" }).trials
+                            let arrayOfResponsesPerBlock = []
+                            currentTrialsArray.forEach(element => {
+                                // creating array of final responses for current block:
+                                if (element.block_index == blockIndex && element.hasOwnProperty('correct'))
+                                    arrayOfResponsesPerBlock.push(element.correct)
+                            })
+                            // calculating accuracy for current block:
+                            let numberOfCorrectResponsesPerBlock = arrayOfResponsesPerBlock.reduce((a, b) => a + b, 0)
+                            let numberOfFinalResponsesPerBlock = arrayOfResponsesPerBlock.length
+                            // last trial feedback: changing background color of SCORE based on correctness of last response
+                            let scoreColor = "black"
+                            if (arrayOfResponsesPerBlock[arrayOfResponsesPerBlock.length - 1]) {
+                                scoreColor = "lawngreen"
+                            } else {
+                                scoreColor = "red"
+                            }
+                            move_to_next_block.pages = [
+                                `<p> 
+                                    <div style="font-weight:bold;font-family:system-ui;font-size:2rem;padding-left:1rem;padding-right:1rem;padding-top:1rem;padding-bottom:1rem;background-color:${scoreColor};color:black;display:inline-block;">SCORE: ${numberOfCorrectResponsesPerBlock} / ${numberOfFinalResponsesPerBlock}</div>
+                                    <br><br>
+                                    So far, you have completed <b> ${(blockIndex + 1)} </b> out of <b>${currentExperiment.numberOfBlocks}</b> blocks. <br>
+                                    You still have <b> ${currentExperiment.numberOfBlocks - (blockIndex + 1)} </b> to go.
+                                    <br><br>
+                                    Remember: <br>
+                                    - Press <b> LEFT / RIGHT arrow </b> to choose the triangle with the hidden red tiles. <br>
+                                    - Press <b> SPACE </b> to shuffle the triangles. <br><br>
+                                    When you feel ready, press <b>space</b> to move to the next block.
+                                  </p>`]
+                        }
+                    };
+                    timeline.push(move_to_next_block)
+            }
+
+        }
+
+
+        /* exiting fullscreen after experiment: */
+        var exit_fullscreen = {
+            type: jsPsychFullscreen,
+            fullscreen_mode: false,
+            delay_after: 0
+        }
+        timeline.push(exit_fullscreen)
+
+
+        /* finish connection with pavlovia.org */
+        /*
+        var pavlovia_finish = {
+            type: jsPsychPavlovia,
+            command: "finish",
+            participantId: "JSPSYCH-DEMO",
+ 
+            //NECESSARY WHEN ADDING PROLIFIC:
+            //completedCallback: function (){
+            //    window.location.replace('https://app.prolific.com/submissions/complete?cc=C180BZKR');
+            //},
+ 
+        };
+        timeline.push(pavlovia_finish)
+        */
+
+
+        /* start the experiment */
+        jsPsych.run(timeline);
+
+    </script>
+
+</body>
+
+</html>
