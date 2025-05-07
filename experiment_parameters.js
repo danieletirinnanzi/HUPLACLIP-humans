@@ -9,7 +9,7 @@ let currentExperiment = {
     canvasDimensions: [screen.height, screen.width], // [height,width]
     KGridScaling: "sqrt_grid", // "linear_grid" (Thesis + Pilot1) or "sqrt_grid" (from Pilot2 onwards)
     // graphs parameters:
-    graphSize: 1000, // TO BE CHANGED IN DIFFERENT EXPERIMENTS
+    graphSize: 800, // TO BE CHANGED IN DIFFERENT EXPERIMENTS
     probabilityOfAssociation: 0.5,
     pCorrectionType: "p_reduce", // "p_increase" or "p_reduce"
     stimuliVerticalProportionThreshold: 0.56, // minimum proportion of the screen height that the stimuli should occupy
