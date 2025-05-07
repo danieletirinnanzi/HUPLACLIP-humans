@@ -2,14 +2,14 @@
 // CREATING OBJECT FOR CURRENT EXPERIMENT:
 let currentExperiment = {
     // experiment parameters:
-    numberOfBlocks: 1, // number of blocks in the experiment
+    numberOfBlocks: 6, // number of blocks in the experiment
     numberOfPresentationsPerBlock: 34, //30 for 'linear_grid', 34 for 'sqrt_grid' NOTE: single presentation = single couple of graphs, presented once and shuffled through space bar presses)
     numberOfGraphsPerCliqueSize: 2, // number of graphs for each clique size in each block
     maximumNumberOfShuffles: 10, // maximum number of randomizations allowed for a single couple of matrices 
     canvasDimensions: [screen.height, screen.width], // [height,width]
     KGridScaling: "sqrt_grid", // "linear_grid" (Thesis + Pilot1) or "sqrt_grid" (from Pilot2 onwards)
     // graphs parameters:
-    graphSize: 100, // TO BE CHANGED IN DIFFERENT EXPERIMENTS
+    graphSize: 1000, // TO BE CHANGED IN DIFFERENT EXPERIMENTS
     probabilityOfAssociation: 0.5,
     pCorrectionType: "p_reduce", // "p_increase" or "p_reduce"
     stimuliVerticalProportionThreshold: 0.56, // minimum proportion of the screen height that the stimuli should occupy
