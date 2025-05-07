@@ -8,7 +8,7 @@ let currentExperiment = {
     maximumNumberOfShuffles: 10, // maximum number of randomizations allowed for a single couple of matrices 
     canvasDimensions: [screen.height, screen.width], // [height,width]
     // graphs parameters:
-    graphSize: 800, // TO BE CHANGED IN DIFFERENT EXPERIMENTS
+    graphSize: 200, // TO BE CHANGED IN DIFFERENT EXPERIMENTS
     probabilityOfAssociation: 0.5,
     pCorrectionType: "p_reduce", // "p_increase" or "p_reduce"
     stimuliVerticalProportionThreshold: 0.56, // minimum proportion of the screen height that the stimuli should occupy

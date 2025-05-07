@@ -18,7 +18,7 @@ function generateIntroductionPages() {
     let page2 = `
     <b> Informative page and informed consent form to take part in the study: </b><br>
     <font size="-0.5">During the experiment, you will see images containing two stimuli, and you will have to choose one of them. In the following pages you will receive instructions on how to make a choice.
-    The experiment will approximately last 30 minutes.<br>
+    The experiment will approximately last 45 minutes.<br>
     Before freely deciding whether you want to take part in the sudy, CAREFULLY READ this informed consent form and get in touch with the experimenter 
     (<a href="mailto:dtirinna@sissa.it">dtirinna@sissa.it</a>) in case you have questions regarding the aims, the modalities of execution of the experiment and its potential risks.
     We would also like to remind you that this is a research project and that your participation is completely voluntary. You have the possibility to withdraw from the experiment at any moment, without having to provide any explanation.</font><br><br>
