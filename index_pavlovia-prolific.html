@@ -157,6 +157,9 @@
             // maximum width of experiment pages (logical coordinates)
             experiment_width: screen.width,
 
+            // Minimum valid reaction time (in ms) for keyboard responses
+            minimum_valid_rt: 10,            
+
             // Audio will be played through HTML5, not through WebAudio API
             use_webaudio: false,
 
@@ -954,16 +957,24 @@
                             } else {
                                 scoreColor = "red"
                             }
+                            // change final message if experiment is running on pavlovia.org:
+                            let message = `Press <b>space</b> to exit.`
+                            if (document.location.hostname == "run.pavlovia.org") {
+                                message = `
+                                <p style="color: red"><strong>DON'T CLOSE THIS WINDOW YET!</strong></p>
+                                After you press <b>space</b>, please <b>wait until you are redirected to Prolific</b>.<br>
+                                If you get a pop-up warning you "data may not be saved", you can click "leave", your data have already been saved.
+                                `
+                            }
                             final_page.pages = [
                                 `<p> 
                                     <div style="font-weight:bold;font-family:system-ui;font-size:2rem;padding-left:1rem;padding-right:1rem;padding-top:1rem;padding-bottom:1rem;background-color:${scoreColor};color:black;display:inline-block;">SCORE: ${numberOfCorrectResponsesLastBlock} / ${numberOfFinalResponsesLastBlock}</div>
                                 <br><br><br>                             
                                 You completed all the <b> ${currentExperiment.numberOfBlocks}</b> blocks of the experiment. <br><br>
                                     <div style="font-weight:bold;font-family:system-ui;font-size:2rem;padding-left:1rem;padding-right:1rem;padding-top:1rem;padding-bottom:1rem;background-color:gold;color:black;display:inline-block;">TOTAL SCORE: ${numberOfCorrectResponses} / ${numberOfFinalResponses}</div>
-                                <br><br>
+                                <br><br><br>
+                                ${message}<br><br>
                                 Thank you for your time.
-                                <br><br>
-                                Press <b>space</b> to exit.
                                 </p>`]
                         }
                     };
@@ -1042,7 +1053,7 @@
                       document.body.innerHTML =`<p>If you are not automatically redirected, please click here: 
                       <a href="https://app.prolific.com/submissions/complete?cc=CVRRPWX9">https://app.prolific.com/submissions/complete?cc=CVRRPWX9</a></p>
                       <p>If you get a pop-up warning you "data may not be saved", you can click "leave", your data have already been saved.</p>`;
-                    }, 5000);
+                    }, 10000);
                   }
             };
             timeline.push(pavlovia_finish);
