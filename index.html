@@ -418,7 +418,7 @@
         // PRELOADING feedback audio files:
         let preloadAudioFiles = {
             type: jsPsychPreload,
-            audio: ['audio_feedback/shuffles/shuffle01.mp3', 'audio_feedback/right/coin01.mp3', 'audio_feedback/wrong/error01.mp3'],
+            audio: ['audio_feedback/shuffles/shuffle.mp3', 'audio_feedback/right/right.mp3', 'audio_feedback/wrong/wrong.mp3'],
         }
         timeline.push(preloadAudioFiles)              
 
@@ -836,12 +836,12 @@
                 // defining stimulus based on last response (shuffle, correct answer, wrong answer)
                 let lastTrial = jsPsych.data.get().filter({ trial_type: "canvas-keyboard-response" }).last(1).values()[0]
                 if (lastTrial.response == " ")
-                    return 'audio_feedback/shuffles/shuffle01.mp3';
+                    return 'audio_feedback/shuffles/shuffle.mp3';
                 else
                     if (lastTrial.correct)
-                        return 'audio_feedback/right/coin01.mp3'
+                        return 'audio_feedback/right/right.mp3'
                     else
-                        return 'audio_feedback/wrong/error01.mp3'
+                        return 'audio_feedback/wrong/wrong.mp3'
             },
             choices: "NO_KEYS",
             trial_ends_after_audio: true,
