@@ -328,7 +328,7 @@
                 if (validVerticalResolutions.includes(physicalScreenDimensions.height) && squareSideDimensionPhysical >= 1 && (Number.isInteger(window.devicePixelRatio) || [1.25, 1.5, 1.75].includes(window.devicePixelRatio)) && stimuliVerticalProportion >= currentExperiment.stimuliVerticalProportionThreshold) {
                     // valid resolution -> calling function to calculate drawing parameters and storing them in the currentExperiment object:
                     currentExperiment.fixedDrawingParameters = calculateFixedDrawingParameters(physicalScreenDimensions.width, physicalScreenDimensions.height, currentExperiment.graphSize);
-                    
+
                     // calling function to calculate coordinates of left and right triangles and storing them in the currentExperiment object:
                     let leftAndRightTriangleCoordinates = calculateTrianglesCoordinates(currentExperiment.fixedDrawingParameters, currentExperiment.graphSize);
                     currentExperiment.stimuliCoordinates = {};
@@ -972,7 +972,7 @@
                                     <div style="font-weight:bold;font-family:system-ui;font-size:2rem;padding-left:1rem;padding-right:1rem;padding-top:1rem;padding-bottom:1rem;background-color:gold;color:black;display:inline-block;">TOTAL SCORE: ${numberOfCorrectResponses} / ${numberOfFinalResponses}</div>
                                 <br><br><br>
                                 ${message}<br><br>
-                                Thank you for your time.
+                                Thank you for your time.                         
                                 </p>`]
                         }
                     };
