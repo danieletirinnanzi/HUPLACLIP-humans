@@ -1,1 +1,1 @@
-Graph pool defined for N=1000 (same K range of linear grid) and scaled for other N values using the sqrt-like fit on Pilot1 data (04/2025), used for Pilot2 (05/2025) data.
+Graph pool defined for N=1000 (same K range of linear grid) and scaled for other N values using the sqrt-like fit on Pilot1 data (04/2025), used for Pilot2 (05/2025) data and following experiments.
