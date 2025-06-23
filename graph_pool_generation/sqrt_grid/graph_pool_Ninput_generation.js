@@ -1,22 +1,34 @@
-// FUNCTION THAT ASSOCIATES THE NODES THAT WILL BE PART OF THE CLIQUE (adapted from: https://stackoverflow.com/questions/19269545/how-to-get-a-number-of-random-elements-from-an-array)
-// (Note: called when generating graph pool with clique)
+// FUNCTION THAT ASSOCIATES THE NODES THAT WILL BE PART OF THE CLIQUE
 function createClique(nodesArray, singleCliqueSize) {
-    /* INPUT:
-    - array that contains all the nodes in the graph
-    - size of the clique
+    /*
+    Adapted from https://stackoverflow.com/a/19270021
+    
+    Description:
+    Called when generating graph pool with clique. Selects "singleCliqueSize" elements from "nodesArray" uniformly at random.
+    Uses a partial Fisher-Yates shuffle to avoid duplicates and maintain uniform probability.
+
+    INPUT:
+    - "nodesArray": array that contains all nodes in the graph
+    - "singleCliqueSize": number of nodes to select (size of the clique)
 
     OUTPUT:
-    - array of nodes that will be part of the clique
+    - array containing the nodes that will be part of the clique
     */
 
-    // RIVEDI E CAPISCI UN PO' MEGLIO / RISCRIVI?
-
-    let result = new Array(singleCliqueSize),
-        len = nodesArray.length,
-        taken = new Array(len);
+    // Initializations (three in one go):
+    let result = new Array(singleCliqueSize),   // empty array that will contain the nodes that will be part of the clique
+        len = nodesArray.length,    // initial length of the array, will be decremented as elements are selected
+        taken = new Array(len);     // empty array that will contain the indices of the nodes that have been already selected (sparse map, not all indices will be filled)
+    // Filling the "taken" array with "singleCliqueSize" elements (loop will run "singleCliqueSize" times, filling the "result" array from back to front):
     while (singleCliqueSize--) {
-        let x = Math.floor(Math.random() * len);
-        result[singleCliqueSize] = nodesArray[x in taken ? taken[x] : x];
+        let x = Math.floor(Math.random() * len);    // random index from 0 to len-1 (inclusive)
+        result[singleCliqueSize] = nodesArray[x in taken ? taken[x] : x];   // if the index is already taken, use the value from "taken", otherwise use the index itself ("result" array is filled from back to front)
+        // Shrink the pool and remap index x to avoid repeats:
+        // 1. Decrease 'len' to shrink the pool (removes the last available index).
+        // 2. Check if 'len' was previously used (i.e. remapped in 'taken').
+        //    - If yes, reuse its mapped value.
+        //    - If no, use 'len' itself as the replacement.        
+        // 3. Store this replacement in 'taken[x]' so that if x is picked again, we use the new (last) available value instead of a duplicate.
         taken[x] = --len in taken ? taken[len] : len;
     }
     return result;
@@ -67,7 +79,7 @@ function generateGraphsWithOutClique(graphSize, cliqueSize) {
         probabilityForCurrentCliqueSize = graphPoolObject.probabilityOfAssociation + (((cliqueSize * (cliqueSize - 1)) / (graphSize * (graphSize - 1))) * (1 - graphPoolObject.probabilityOfAssociation))
     }
     else if (graphPoolObject.pCorrectionType == 'p_reduce') {
-        // in p_decrease, the probability of association is decreased in the graph where the clique is added -> NOTHING IS DONE IN THE GRAPH WITHOUT CLIQUE
+        // in p_reduce, the probability of association is decreased in the graph where the clique is added -> NOTHING IS DONE IN THE GRAPH WITHOUT CLIQUE
         probabilityForCurrentCliqueSize = graphPoolObject.probabilityOfAssociation
     }
     else {
@@ -85,7 +97,7 @@ function generateGraphsWithOutClique(graphSize, cliqueSize) {
             //defining empty array that will contain the connections for the current row
             let currentRowAssociations = [];
             for (let columnIndex = 0; columnIndex < rowIndex; columnIndex++) {
-                let randomValue = Math.random(); //MORE CORRECT WAY OF GENERATING? NON-UNIFORM DISTRIBUTION?
+                let randomValue = Math.random();
                 if (randomValue < probabilityForCurrentCliqueSize) {
                     currentRowAssociations.push(1);
                 } else {
@@ -165,7 +177,7 @@ function generateGraphsWithClique(graphSize, cliqueSize) {
         console.log('graphSize:', graphSize, 'Type:', typeof graphSize);
         console.log('probabilityOfAssociation:', graphPoolObject.probabilityOfAssociation, 'Type:', typeof graphPoolObject.probabilityOfAssociation);
 
-        // in p_decrease, the probability of association is decreased in the graph with the clique (NOTHING IS DONE IN THE GRAPH WITHOUT CLIQUE)
+        // in p_reduce, the probability of association is decreased in the graph with the clique (NOTHING IS DONE IN THE GRAPH WITHOUT CLIQUE)
 
         // - making sure that the "p_reduce" corrected probability of association will be positive for requested clique size
         if (cliqueSize > (1 + Math.sqrt(1 + 4 * graphPoolObject.probabilityOfAssociation * graphSize * (graphSize - 1))) / 2) {
@@ -206,7 +218,7 @@ function generateGraphsWithClique(graphSize, cliqueSize) {
                 }
                 //if the current two nodes are not part of the clique, associating them with the defined probability
                 else {
-                    let randomValue = Math.random(); //MORE CORRECT WAY OF GENERATING? NON-UNIFORM DISTRIBUTION?
+                    let randomValue = Math.random();
                     if (randomValue < probabilityForCurrentCliqueSize) {
                         currentRowAssociations.push(1);
                     } else {
